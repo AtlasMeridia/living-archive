@@ -196,7 +196,7 @@ The following must be addressed for multi-generational durability:
 
 - Project page: https://atlas.kennypliu.com/tools
 - *Every Branch site: TBD*
-- *GitHub repo: TBD*
+- *GitHub repo: https://github.com/AtlasMeridia/every-branch-archive*
 - *Photo archive location: TBD*
 - *Genealogy database: TBD*
 
