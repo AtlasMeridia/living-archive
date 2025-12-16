@@ -1,0 +1,39 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Node modules (if applicable)
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Logs
+*.log
+logs/
+
+# Private/sensitive files
+private/
+*.credentials
+*.secret
+
+# Large media files (to be managed separately)
+# Uncomment if needed:
+# *.jpg
+# *.jpeg
+# *.png
+# *.tiff
+# *.pdf
