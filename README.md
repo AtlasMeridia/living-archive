@@ -15,7 +15,7 @@ Living Archive is not software. It's:
 
 People accumulate thousands of photos, hundreds of accounts, and decades of documents with no plan for organizing or transferring any of it. The "green box" concept from estate planning doesn't scale to digital life.
 
-**The reframe:** This isn't about preparing to die. It's about knowing where everything is. Organization now, transferability as a side effect.
+**The reframe:** This is less about preparing to die and more about knowing, clarity and optimization. Organization now, transferability as a side effect.
 
 ## The Approach
 

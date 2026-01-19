@@ -707,13 +707,30 @@ defaultContentLanguageInSubdir = true
 
 **Goal:** Parse and integrate traditional genealogy
 
+#### Data Layer vs AI Layer Philosophy
+
+The archive maintains two conceptual layers for document processing:
+
+| Layer | Purpose | Contents |
+|-------|---------|----------|
+| **Data Layer** | Source preservation | Original scans at full quality (PDF, TIFF). Never modified. |
+| **AI Layer** | Searchable/parsable | Extracted text, structured metadata, cross-references. |
+
+**Principle:** The data layer stays as close to original as possible—no lossy compression, no "cleaned up" scans. Use SOTA processing technology to populate the AI layer, which can be regenerated as better tools emerge.
+
+**Candidate OCR Tools:**
+- [dots.ocr](https://github.com/rednote-hilab/dots.ocr) — High-quality document OCR for PDFs
+
+#### Tasks
+
 - [ ] Receive 2026 red book reprint
-- [ ] Evaluate OCR vs manual transcription
-- [ ] Parse into zupu_entries table
+- [ ] Scan at archival quality → store in `documents/zupu/` (data layer)
+- [ ] Evaluate OCR tools (dots.ocr, etc.) vs manual transcription
+- [ ] Extract text → `zupu_entries` table (AI layer)
 - [ ] Add women omitted from traditional record
 - [ ] Cross-reference with photo identifications
 
-**Deliverable:** Complete digitized genealogy with women included
+**Deliverable:** Complete digitized genealogy with women included, source PDFs preserved
 
 ---
 

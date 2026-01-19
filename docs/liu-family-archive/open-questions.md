@@ -98,6 +98,11 @@ These can wait until later phases.
 | Manual transcription | Slower but accurate; good for handwritten sections |
 | Hybrid | OCR first pass, manual correction |
 
+**Candidate Tools:**
+- [dots.ocr](https://github.com/rednote-hilab/dots.ocr) — High-quality document OCR, potentially SOTA for PDFs
+
+**Architecture Note:** Keep scanned PDFs in original quality in the data layer. Use SOTA processing (like dots.ocr) to extract structured text into the AI layer. This separation preserves source fidelity while enabling searchable/parsable content.
+
 **Decide by:** After receiving the book (April 2026)
 
 ---
