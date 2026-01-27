@@ -34,7 +34,7 @@ AI changes what's possible. An agent can help inventory accounts, tag photos, ex
 
 ## Blog
 
-Read about the project and follow progress at: [atlas.kennypliu.com/living-archive](https://atlas.kennypliu.com/living-archive) *(coming soon)*
+Read about the project and follow progress at: [kennyliu.io/notes](https://kennyliu.io/notes) (tagged `living-archive`)
 
 ## Status
 
@@ -46,4 +46,4 @@ MIT
 
 ## Author
 
-Kenny Liu / [ATLAS Meridia LLC](https://atlas.kennypliu.com)
+Kenny Liu / [ATLAS Meridia LLC](https://atlasmeridian.com)

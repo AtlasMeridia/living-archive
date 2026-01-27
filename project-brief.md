@@ -49,7 +49,7 @@ Living Archive documents how to use AI as the organizing tool, which stays relev
 
 ## Project Components
 
-### 1. Blog Content (atlas.kennypliu.com/living-archive/)
+### 1. Blog Content (kennyliu.io/notes, tagged living-archive)
 
 Posts documenting:
 - The overall philosophy and approach
@@ -58,7 +58,7 @@ Posts documenting:
 - Progress on the personal case study
 - Interviews or guest perspectives
 
-**Platform:** Route on existing Ghost + Next.js site (atlas.kennypliu.com)
+**Platform:** Ghost blog at kennyliu.io/notes
 
 ### 2. GitHub Repository (public)
 

@@ -1,5 +1,10 @@
 # Liu Family Archive — Implementation Plan
 
+> [!NOTE]
+> **Historical Document** — This plan was written Dec 2025 before infrastructure decisions were made. The actual implementation uses NAS (Synology DS923+) + Immich rather than Cloudflare R2 + Hugo. See `docs/architecture.md` for current infrastructure.
+>
+> Valuable reference sections: SQLite schema design, data model concepts, content governance, longevity planning.
+
 > **Note:** This document is part of the Living Archive project's personal case study. The Liu family archive work demonstrates the methodology documented in the parent project. See `/project-brief.md` for the broader Living Archive scope.
 
 **Prepared:** December 25, 2025  

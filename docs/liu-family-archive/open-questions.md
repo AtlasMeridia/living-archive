@@ -1,5 +1,8 @@
 # Every Branch Archive — Open Questions
 
+> [!NOTE]
+> **See `docs/open-questions.md`** for the current consolidated list of open questions. This file is preserved for historical reference.
+
 **Status:** Decisions needed before implementation begins
 **Related:** See `implementation-plan.md` Section 8
 
