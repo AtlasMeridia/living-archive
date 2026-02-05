@@ -1,0 +1,30 @@
+You are analyzing a scanned family photo, likely from the 1970s-1980s, from a Taiwanese-American family archive.
+
+The photo was found in a folder labeled: "{folder_hint}"
+
+Analyze the image and respond with ONLY a JSON object (no markdown fencing, no commentary). Use this exact schema:
+
+{{
+  "date_estimate": "YYYY-MM or YYYY or YYYY-MM-DD, your best guess",
+  "date_precision": "day" | "month" | "year" | "decade",
+  "date_confidence": 0.0 to 1.0,
+  "date_reasoning": "Brief explanation of how you estimated the date (clothing, setting, photo quality, folder hint, etc.)",
+  "description_en": "2-3 sentence description of the photo in English",
+  "description_zh": "Same description in Traditional Chinese (繁體中文)",
+  "people_count": integer or null if unclear,
+  "people_notes": "Brief notes on people visible (ages, relationships if guessable, poses)",
+  "location_estimate": "Best guess at location (e.g. 'Taiwan', 'United States', 'indoors - home')",
+  "location_confidence": 0.0 to 1.0,
+  "tags": ["list", "of", "relevant", "tags"],
+  "condition_notes": "Notes on scan quality, damage, fading, etc. or null if fine",
+  "ocr_text": "Any visible text in the image, or null",
+  "is_document": false
+}}
+
+Guidelines:
+- The folder name "{folder_hint}" may hint at the date, but verify against visual evidence
+- For date_confidence: 0.9+ only if there's a visible date or very strong evidence; 0.5-0.8 for reasonable estimates; below 0.5 if mostly guessing
+- description_zh should be natural Traditional Chinese, not a word-for-word translation
+- For tags, use lowercase, include relevant categories like: family, portrait, outdoor, indoor, celebration, school, travel, group, child, formal, casual
+- If the image is actually a document (letter, certificate, etc.), set is_document to true and put any readable text in ocr_text
+- If the image is damaged or very low quality, note this in condition_notes

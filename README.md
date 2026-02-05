@@ -46,4 +46,4 @@ MIT
 
 ## Author
 
-Kenny Liu / [ATLAS Meridia LLC](https://atlasmeridian.com)
+Kenny Liu / ATLAS Meridia LLC

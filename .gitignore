@@ -30,6 +30,12 @@ private/
 *.credentials
 *.secret
 
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+
 # Large media files (to be managed separately)
 # Uncomment if needed:
 # *.jpg

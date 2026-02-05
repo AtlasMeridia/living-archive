@@ -13,26 +13,32 @@ Infrastructure documentation for the Living Archive project.
 ## Data Flow
 
 ```
-[Scanned Photos]
-    → NAS: /volume1/MNEME/05_PROJECTS/Living Archive Media/
-    → Immich (read-only external library)
-    → AI Layer: /volume1/MNEME/04_MEDIA/Photo/Family/_ai-layer/
-    → Immich API (date metadata sync)
-    → Family Access: archives.kennyliu.io (Cloudflare Tunnel)
+DATA LAYER (NAS, read-only)              AI LAYER (NAS, regeneratable)              PRESENTATION (Immich)
+/Living Archive/Media/              -->  /Living Archive/Media/_ai-layer/       --> Immich REST API
+  2009 Scanned Media/1978/                 runs/<run-id>/manifests/                  PUT /assets (dates, descriptions)
+  Source TIFFs, never modified              one JSON per photo, keyed by SHA-256     POST /albums (review buckets)
+```
 
-[Methodology Content]
-    → Obsidian: 10 AEON/RENDER/GHOST/drafts/
-    → Ghost API: kennyliu.io/notes (tagged living-archive)
+Inference runs on M3 Pro via Claude API (Sonnet). Results written to NAS. Then pushed to Immich.
+
+```
+[Scanned Photos]
+    → NAS: /volume1/MNEME/05_PROJECTS/Living Archive/Media/
+    → Immich (read-only external library, mounted at /external/photos)
+    → AI Layer: /volume1/MNEME/05_PROJECTS/Living Archive/Media/_ai-layer/
+    → Immich API (date/description metadata sync)
+    → Family Access: archives.kennyliu.io (Cloudflare Tunnel)
 ```
 
 ## Code vs Data Separation
 
 | What | Where | Why |
 |------|-------|-----|
-| Source photos | NAS `/volume1/MNEME/05_PROJECTS/Living Archive Media/` | Canonical, never modified |
-| AI manifests/outputs | NAS `_ai-layer/` | Regeneratable, lives with data |
-| Inference scripts | Repo `src/ai_layer/` | Version controlled, testable |
-| Methodology docs | Repo `docs/methodology/` | Public-facing content source |
+| Source photos | NAS `/volume1/MNEME/05_PROJECTS/Living Archive/Media/` | Canonical, never modified |
+| AI manifests/outputs | NAS `Media/_ai-layer/runs/<timestamp>/` | Regeneratable, lives with data |
+| Inference scripts | Repo `src/` | Version controlled |
+| Prompts | Repo `prompts/` | Version controlled, referenced by manifest |
+| Methodology docs | Repo `docs/` | Public-facing content source |
 | Working notes | Obsidian `10 AEON/MANIFOLD/Active/living-archive.md` | Transient state |
 
 ## Access Patterns
@@ -48,14 +54,18 @@ Infrastructure documentation for the Living Archive project.
 ## Key Paths Reference
 
 ```
-# NAS
-/volume1/MNEME/05_PROJECTS/Living Archive Media/   # Source photos
-/volume1/MNEME/04_MEDIA/Photo/Family/_ai-layer/    # AI inference layer
-/volume1/docker/immich/                            # Immich installation
+# NAS (Synology volume paths)
+/volume1/MNEME/05_PROJECTS/Living Archive/Media/                  # Source photos
+/volume1/MNEME/05_PROJECTS/Living Archive/Media/_ai-layer/        # AI inference layer
+/volume1/docker/immich/                                           # Immich installation
+
+# Mac (SMB mount)
+/Volumes/MNEME/05_PROJECTS/Living Archive/Media/                  # Mounted source
+/Volumes/MNEME/05_PROJECTS/Living Archive/Media/_ai-layer/        # Mounted AI layer
 
 # EllisAgent
 ~/Projects/living-archive/                         # This repo
-~/.config/living-archive/immich-api-key           # Credentials (not in repo)
+.env                                               # API keys (gitignored)
 
 # Obsidian (synced via Dropbox)
 10 AEON/MANIFOLD/Active/living-archive.md         # Working thread
@@ -77,6 +87,20 @@ These are captured in AutoMem but documented here for reference:
 
 4. **Quarterly reindex**: AI manifests are versioned per inference run. Plan to reindex as models improve.
 
+## Pipeline (implemented)
+
+Run via `python -m src.run_slice` from repo root.
+
+1. **Convert** — Read TIFFs from NAS, convert to JPEG (quality 85, max 2048px) in `private/slice_workspace/`, compute SHA-256 of originals
+2. **Analyze** — Send JPEGs to Claude Sonnet via vision API, parse structured JSON response (date, descriptions, tags, confidence)
+3. **Write Manifests** — Write per-photo JSON to `_ai-layer/runs/<timestamp>/manifests/<sha256-first12>.json`, crash-safe (one write per photo)
+4. **Push to Immich** — Match manifests to Immich assets by filename, update dateTimeOriginal + description, create "Needs Review" and "Low Confidence" albums by confidence threshold
+5. **Verify** — Re-hash source TIFFs to confirm they were not modified
+
+## Manifest Format
+
+Per-photo JSON keyed by SHA-256 of the original TIFF. Contains `analysis` (date estimate, bilingual descriptions, people/location notes, tags) and `inference` (model, prompt version, token counts, timestamp). See `prompts/photo_analysis_v1.txt` for the prompt template.
+
 ---
 
-*Last updated: 2026-01-26*
+*Last updated: 2026-02-05*
