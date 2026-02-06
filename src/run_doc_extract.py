@@ -29,13 +29,15 @@ from .doc_manifest import (
 )
 from .doc_scan import find_pdfs, get_page_count, scan_pdfs
 
+log = config.setup_logging()
+
 
 def get_or_create_run_id(resume: str | None = None) -> str:
     """Get a run ID — either resume an existing one or create new."""
     if resume:
         run_path = config.DOC_AI_LAYER_DIR / "runs" / resume
         if not run_path.exists():
-            print(f"ERROR: Run not found: {resume}")
+            log.error("ERROR: Run not found: %s", resume)
             sys.exit(1)
         return resume
     return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -46,34 +48,36 @@ def build_work_list(run_id: str) -> list[dict]:
 
     Returns list of dicts for unprocessed files, sorted by size (smallest first).
     """
-    print("Scanning source PDFs...")
+    log.info("Scanning source PDFs...")
     all_pdfs = scan_pdfs(config.DOC_SLICE_DIR)
-    print(f"  Found {len(all_pdfs)} PDFs total")
+    log.info("  Found %d PDFs total", len(all_pdfs))
 
     processed = get_processed_hashes(run_id)
-    print(f"  Already processed: {len(processed)}")
+    log.info("  Already processed: %d", len(processed))
 
     remaining = [p for p in all_pdfs if p["sha256"] not in processed]
     remaining.sort(key=lambda r: r["file_size_bytes"])
 
-    print(f"  Remaining: {len(remaining)}")
+    log.info("  Remaining: %d", len(remaining))
     return remaining
 
 
 def print_work_list(work: list[dict]) -> None:
     """Print the work list in a readable format."""
     if not work:
-        print("\nAll documents have been processed!")
+        log.info("")
+        log.info("All documents have been processed!")
         return
 
     total_size = sum(w["file_size_bytes"] for w in work)
     total_pages = sum(w["page_count"] for w in work)
 
-    print(f"\n{'='*60}")
-    print(f"Documents to process: {len(work)}")
-    print(f"Total size: {total_size / (1024**3):.2f} GB")
-    print(f"Total pages: {total_pages}")
-    print(f"{'='*60}")
+    log.info("")
+    log.info("=" * 60)
+    log.info("Documents to process: %d", len(work))
+    log.info("Total size: %.2f GB", total_size / (1024**3))
+    log.info("Total pages: %d", total_pages)
+    log.info("=" * 60)
 
     # Group by size category
     small = [w for w in work if w["file_size_bytes"] < 10 * 1024 * 1024]
@@ -81,22 +85,25 @@ def print_work_list(work: list[dict]) -> None:
     large = [w for w in work if w["file_size_bytes"] >= 100 * 1024 * 1024]
 
     if small:
-        print(f"\nSmall (<10MB): {len(small)} files")
+        log.info("")
+        log.info("Small (<10MB): %d files", len(small))
         for w in small:
             mb = w["file_size_bytes"] / (1024**2)
-            print(f"  {mb:6.1f} MB  ({w['page_count']:4d} pp)  {w['rel_path']}")
+            log.info("  %6.1f MB  (%4d pp)  %s", mb, w["page_count"], w["rel_path"])
 
     if medium:
-        print(f"\nMedium (10-100MB): {len(medium)} files")
+        log.info("")
+        log.info("Medium (10-100MB): %d files", len(medium))
         for w in medium:
             mb = w["file_size_bytes"] / (1024**2)
-            print(f"  {mb:6.1f} MB  ({w['page_count']:4d} pp)  {w['rel_path']}")
+            log.info("  %6.1f MB  (%4d pp)  %s", mb, w["page_count"], w["rel_path"])
 
     if large:
-        print(f"\nLarge (>100MB): {len(large)} files — process in page chunks")
+        log.info("")
+        log.info("Large (>100MB): %d files — process in page chunks", len(large))
         for w in large:
             mb = w["file_size_bytes"] / (1024**2)
-            print(f"  {mb:6.1f} MB  ({w['page_count']:4d} pp)  {w['rel_path']}")
+            log.info("  %6.1f MB  (%4d pp)  %s", mb, w["page_count"], w["rel_path"])
 
 
 def print_status(run_id: str) -> None:
@@ -106,9 +113,10 @@ def print_status(run_id: str) -> None:
 
     text_files = sorted(td.glob("*.txt")) if td.exists() else []
 
-    print(f"\nRun: {run_id}")
-    print(f"  Manifests: {len(manifests)}")
-    print(f"  Text files: {len(text_files)}")
+    log.info("")
+    log.info("Run: %s", run_id)
+    log.info("  Manifests: %d", len(manifests))
+    log.info("  Text files: %d", len(text_files))
 
     if manifests:
         total_pages = 0
@@ -119,10 +127,10 @@ def print_status(run_id: str) -> None:
             dt = data.get("analysis", {}).get("document_type", "unknown")
             doc_types[dt] = doc_types.get(dt, 0) + 1
 
-        print(f"  Total pages covered: {total_pages}")
-        print(f"  Document types:")
+        log.info("  Total pages covered: %d", total_pages)
+        log.info("  Document types:")
         for dt, count in sorted(doc_types.items(), key=lambda x: -x[1]):
-            print(f"    {count:3d}  {dt}")
+            log.info("    %3d  %s", count, dt)
 
 
 def print_extraction_instructions(work: list[dict], run_id: str) -> None:
@@ -130,32 +138,35 @@ def print_extraction_instructions(work: list[dict], run_id: str) -> None:
     if not work:
         return
 
-    print(f"\n{'='*60}")
-    print(f"EXTRACTION INSTRUCTIONS FOR CLAUDE CODE")
-    print(f"{'='*60}")
-    print(f"Run ID: {run_id}")
-    print(f"AI Layer: {config.DOC_AI_LAYER_DIR / 'runs' / run_id}")
-    print()
-    print("For each PDF below, Claude Code should:")
-    print("  1. Read the PDF with the Read tool (use pages param for large files)")
-    print("  2. Extract all text, preserving page structure")
-    print("  3. Analyze the document (type, dates, people, sensitivity)")
-    print("  4. Call write_extracted_text() and write_manifest()")
-    print()
-    print(f"Prompt template: {config.DOC_PROMPT_FILE}")
-    print()
+    log.info("")
+    log.info("=" * 60)
+    log.info("EXTRACTION INSTRUCTIONS FOR CLAUDE CODE")
+    log.info("=" * 60)
+    log.info("Run ID: %s", run_id)
+    log.info("AI Layer: %s", config.DOC_AI_LAYER_DIR / "runs" / run_id)
+    log.info("")
+    log.info("For each PDF below, Claude Code should:")
+    log.info("  1. Read the PDF with the Read tool (use pages param for large files)")
+    log.info("  2. Extract all text, preserving page structure")
+    log.info("  3. Analyze the document (type, dates, people, sensitivity)")
+    log.info("  4. Call write_extracted_text() and write_manifest()")
+    log.info("")
+    log.info("Prompt template: %s", config.DOC_PROMPT_FILE)
+    log.info("")
 
     # Print the first few as immediate targets
     batch = work[:5]
-    print(f"Start with these {len(batch)} documents:")
+    log.info("Start with these %d documents:", len(batch))
     for i, w in enumerate(batch, 1):
         mb = w["file_size_bytes"] / (1024**2)
-        print(f"\n  [{i}] {w['rel_path']}")
-        print(f"      Size: {mb:.1f} MB, Pages: {w['page_count']}, SHA: {w['sha256'][:12]}")
-        print(f"      Full path: {w['path']}")
+        log.info("")
+        log.info("  [%d] %s", i, w["rel_path"])
+        log.info("      Size: %.1f MB, Pages: %d, SHA: %s", mb, w["page_count"], w["sha256"][:12])
+        log.info("      Full path: %s", w["path"])
 
     if len(work) > 5:
-        print(f"\n  ... and {len(work) - 5} more (re-run to see updated list)")
+        log.info("")
+        log.info("  ... and %d more (re-run to see updated list)", len(work) - 5)
 
 
 def main():
@@ -170,14 +181,18 @@ def main():
                         help="Resume a specific run")
     args = parser.parse_args()
 
-    print(f"Living Archive — Document Extraction Pipeline")
-    print(f"  Source: {config.DOC_SLICE_DIR}")
-    print(f"  AI Layer: {config.DOC_AI_LAYER_DIR}")
-    print()
+    log.info("Living Archive — Document Extraction Pipeline")
+    log.info("  Source: %s", config.DOC_SLICE_DIR)
+    log.info("  AI Layer: %s", config.DOC_AI_LAYER_DIR)
+    log.info("")
 
+    errors = config.validate_doc_config()
     if not config.DOC_SLICE_DIR.exists():
-        print(f"ERROR: Source directory not found: {config.DOC_SLICE_DIR}")
-        print("Is the NAS mounted? Try: Cmd+K in Finder, smb://mneme.local/MNEME")
+        errors.append(f"Doc slice directory not found: {config.DOC_SLICE_DIR}")
+    if errors:
+        for err in errors:
+            log.error("CONFIG: %s", err)
+        log.error("Is the NAS mounted? Try: Cmd+K in Finder, smb://mneme.local/MNEME")
         sys.exit(1)
 
     if args.status:
@@ -185,7 +200,7 @@ def main():
             from .doc_scan import find_latest_run
             latest = find_latest_run()
             if not latest:
-                print("No runs found.")
+                log.info("No runs found.")
                 sys.exit(0)
             run_id = latest.name
         else:
@@ -200,7 +215,7 @@ def main():
         # Create the run directory
         run_path = config.DOC_AI_LAYER_DIR / "runs" / run_id
         run_path.mkdir(parents=True, exist_ok=True)
-        print(f"Created new run: {run_id}")
+        log.info("Created new run: %s", run_id)
     else:
         # Default: just show what needs to be done
         # Use latest run if it exists, otherwise show all as new
@@ -211,10 +226,10 @@ def main():
     work = build_work_list(run_id) if run_id != "preview" else []
     if run_id == "preview":
         # No existing run — show all PDFs
-        print("Scanning source PDFs...")
+        log.info("Scanning source PDFs...")
         all_pdfs = scan_pdfs(config.DOC_SLICE_DIR)
         work = sorted(all_pdfs, key=lambda r: r["file_size_bytes"])
-        print(f"  Found {len(work)} PDFs (no previous runs)")
+        log.info("  Found %d PDFs (no previous runs)", len(work))
 
     print_work_list(work)
 

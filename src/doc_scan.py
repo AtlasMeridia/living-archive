@@ -1,12 +1,15 @@
 """PDF discovery, SHA-256 hashing, page counting, and change detection."""
 
 import json
+import logging
 from pathlib import Path
 
 from pypdf import PdfReader
 
 from . import config
 from .convert import sha256_file
+
+log = logging.getLogger(__name__)
 
 
 def find_pdfs(directory: Path) -> list[Path]:
@@ -34,13 +37,13 @@ def scan_pdfs(directory: Path) -> list[dict]:
     results = []
     for pdf in pdfs:
         rel = pdf.relative_to(config.DOCUMENTS_ROOT)
-        print(f"  Scanning: {rel}")
+        log.info("  Scanning: %s", rel)
         sha = sha256_file(pdf)
         size = pdf.stat().st_size
         try:
             pages = get_page_count(pdf)
         except Exception as e:
-            print(f"    Warning: could not read page count: {e}")
+            log.warning("    Warning: could not read page count: %s", e)
             pages = 0
         results.append({
             "path": pdf,
@@ -109,44 +112,50 @@ def find_latest_run() -> Path | None:
 def main():
     """CLI entry point: scan PDFs and report."""
     import sys
+    from . import config as _cfg
+    _log = _cfg.setup_logging()
 
-    print(f"Document Scanner")
-    print(f"  Source: {config.DOC_SLICE_DIR}")
-    print()
+    _log.info("Document Scanner")
+    _log.info("  Source: %s", config.DOC_SLICE_DIR)
+    _log.info("")
 
     if not config.DOC_SLICE_DIR.exists():
-        print(f"ERROR: Directory not found: {config.DOC_SLICE_DIR}")
-        print("Is the NAS mounted? Try: Cmd+K in Finder, smb://mneme.local/MNEME")
+        _log.error("ERROR: Directory not found: %s", config.DOC_SLICE_DIR)
+        _log.error("Is the NAS mounted? Try: Cmd+K in Finder, smb://mneme.local/MNEME")
         sys.exit(1)
 
-    print("Scanning PDFs...")
+    _log.info("Scanning PDFs...")
     results = scan_pdfs(config.DOC_SLICE_DIR)
-    print(f"\nFound {len(results)} PDFs")
+    _log.info("")
+    _log.info("Found %d PDFs", len(results))
 
     total_size = sum(r["file_size_bytes"] for r in results)
     total_pages = sum(r["page_count"] for r in results)
-    print(f"  Total size: {total_size / (1024**3):.2f} GB")
-    print(f"  Total pages: {total_pages}")
+    _log.info("  Total size: %.2f GB", total_size / (1024**3))
+    _log.info("  Total pages: %d", total_pages)
 
     # Check for changes vs last run
     latest = find_latest_run()
     if latest:
-        print(f"\nComparing against last run: {latest.name}")
+        _log.info("")
+        _log.info("Comparing against last run: %s", latest.name)
         previous = load_previous_run(latest)
         changes = detect_changes(results, previous)
-        print(f"  New:       {len(changes['new'])}")
-        print(f"  Modified:  {len(changes['modified'])}")
-        print(f"  Unchanged: {len(changes['unchanged'])}")
-        print(f"  Deleted:   {len(changes['deleted'])}")
+        _log.info("  New:       %d", len(changes["new"]))
+        _log.info("  Modified:  %d", len(changes["modified"]))
+        _log.info("  Unchanged: %d", len(changes["unchanged"]))
+        _log.info("  Deleted:   %d", len(changes["deleted"]))
     else:
-        print("\nNo previous runs found — all files are new.")
+        _log.info("")
+        _log.info("No previous runs found — all files are new.")
 
     # Print largest files
     by_size = sorted(results, key=lambda r: r["file_size_bytes"], reverse=True)
-    print(f"\nLargest files:")
+    _log.info("")
+    _log.info("Largest files:")
     for r in by_size[:10]:
         mb = r["file_size_bytes"] / (1024**2)
-        print(f"  {mb:7.1f} MB  ({r['page_count']:4d} pp)  {r['rel_path']}")
+        _log.info("  %7.1f MB  (%4d pp)  %s", mb, r["page_count"], r["rel_path"])
 
 
 if __name__ == "__main__":

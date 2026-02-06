@@ -1,13 +1,12 @@
 """Claude API vision calls for photo analysis."""
 
 import base64
-import json
-import time
 from pathlib import Path
 
 import anthropic
 
 from . import config
+from .models import InferenceMetadata, PhotoAnalysis
 
 
 def load_prompt(folder_hint: str) -> str:
@@ -21,28 +20,27 @@ def encode_image(path: Path) -> str:
     return base64.standard_b64encode(path.read_bytes()).decode("utf-8")
 
 
-def parse_json_response(text: str) -> dict:
-    """Parse JSON from Claude's response, handling markdown fencing."""
+def strip_json_fences(text: str) -> str:
+    """Strip markdown code fences from a JSON response."""
     text = text.strip()
     if text.startswith("```"):
-        # Strip ```json ... ``` or ``` ... ```
         lines = text.split("\n")
-        # Remove first line (```json) and last line (```)
         lines = lines[1:]
         if lines and lines[-1].strip() == "```":
             lines = lines[:-1]
         text = "\n".join(lines)
-    return json.loads(text)
+    return text
 
 
+@config.retry()
 def analyze_photo(
     jpeg_path: Path,
     folder_hint: str,
     client: anthropic.Anthropic | None = None,
-) -> tuple[dict, dict]:
+) -> tuple[PhotoAnalysis, InferenceMetadata]:
     """Analyze a photo using Claude's vision API.
 
-    Returns (analysis_dict, inference_metadata_dict).
+    Returns (PhotoAnalysis, InferenceMetadata).
     """
     if client is None:
         client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
@@ -72,13 +70,15 @@ def analyze_photo(
     )
 
     raw_text = response.content[0].text
-    analysis = parse_json_response(raw_text)
+    clean_json = strip_json_fences(raw_text)
+    analysis = PhotoAnalysis.model_validate_json(clean_json)
 
-    inference_meta = {
-        "model": config.MODEL,
-        "prompt_version": config.PROMPT_VERSION,
-        "input_tokens": response.usage.input_tokens,
-        "output_tokens": response.usage.output_tokens,
-    }
+    inference_meta = InferenceMetadata(
+        model=config.MODEL,
+        prompt_version=config.PROMPT_VERSION,
+        input_tokens=response.usage.input_tokens,
+        output_tokens=response.usage.output_tokens,
+        raw_response=raw_text,
+    )
 
     return analysis, inference_meta

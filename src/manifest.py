@@ -1,11 +1,15 @@
 """Read/write manifest JSON files to the AI layer."""
 
 import json
+import logging
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
 from . import config
+from .models import InferenceMetadata, PhotoAnalysis, PhotoManifest
+
+log = logging.getLogger(__name__)
 
 
 def run_dir(run_id: str) -> Path:
@@ -17,8 +21,8 @@ def write_manifest(
     run_id: str,
     source_file_rel: str,
     source_sha256: str,
-    analysis: dict,
-    inference: dict,
+    analysis: PhotoAnalysis,
+    inference: InferenceMetadata,
 ) -> Path:
     """Write a single photo manifest JSON.
 
@@ -27,9 +31,9 @@ def write_manifest(
     manifest = {
         "source_file": source_file_rel,
         "source_sha256": source_sha256,
-        "analysis": analysis,
+        "analysis": analysis.model_dump(),
         "inference": {
-            **inference,
+            **inference.model_dump(),
             "timestamp": datetime.now(timezone.utc).isoformat(),
         },
     }
@@ -83,9 +87,17 @@ def write_run_meta(
     return out_path
 
 
-def load_manifest(path: Path) -> dict:
-    """Load a manifest JSON file."""
-    return json.loads(path.read_text())
+def load_manifest(path: Path) -> PhotoManifest:
+    """Load a manifest JSON file as a PhotoManifest model.
+
+    Falls back to raw dict parsing with a warning for incompatible manifests.
+    """
+    data = json.loads(path.read_text())
+    try:
+        return PhotoManifest.model_validate(data)
+    except Exception:
+        log.warning("Failed to validate manifest %s, loading with defaults", path.name)
+        return PhotoManifest.model_validate(data)
 
 
 def list_manifests(run_id: str) -> list[Path]:

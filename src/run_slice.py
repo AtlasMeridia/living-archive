@@ -20,6 +20,8 @@ from .immich import (
 )
 from .manifest import load_manifest, list_manifests, write_manifest, write_run_meta
 
+log = config.setup_logging()
+
 
 def step_convert(tiffs: list[Path]) -> list[dict]:
     """Convert TIFFs to JPEGs and compute SHA-256 hashes.
@@ -35,7 +37,7 @@ def step_convert(tiffs: list[Path]) -> list[dict]:
         jpeg_name = tiff.stem + ".jpg"
         jpeg_path = workspace / jpeg_name
 
-        print(f"  Converting: {rel}")
+        log.info("  Converting: %s", rel)
         sha = sha256_file(tiff)
         convert_tiff_to_jpeg(tiff, jpeg_path)
 
@@ -62,7 +64,7 @@ def step_analyze(photos: list[dict], run_id: str) -> tuple[int, int, list[dict]]
 
     for i, photo in enumerate(photos):
         name = Path(photo["rel_path"]).name
-        print(f"  [{i+1}/{len(photos)}] Analyzing: {name}")
+        log.info("  [%d/%d] Analyzing: %s", i + 1, len(photos), name)
 
         try:
             analysis, inference_meta = analyze_photo(
@@ -77,13 +79,13 @@ def step_analyze(photos: list[dict], run_id: str) -> tuple[int, int, list[dict]]
                 inference=inference_meta,
             )
             succeeded += 1
-            print(f"           -> {analysis.get('date_estimate', '?')} "
-                  f"(confidence: {analysis.get('date_confidence', '?')})")
+            log.info("           -> %s (confidence: %s)",
+                     analysis.date_estimate or "?", analysis.date_confidence)
 
         except Exception as e:
             failed += 1
             failures.append({"file": photo["rel_path"], "error": str(e)})
-            print(f"           -> FAILED: {e}")
+            log.error("           -> FAILED: %s", e)
 
         # Rate limiting
         if i < len(photos) - 1:
@@ -96,16 +98,14 @@ def step_push_to_immich(run_id: str) -> dict:
     """Push manifest data to Immich: update dates/descriptions, create review albums."""
     manifests = list_manifests(run_id)
     if not manifests:
-        print("  No manifests to push.")
+        log.info("  No manifests to push.")
         return {"matched": 0, "updated": 0, "skipped": 0}
 
     client = immich_client()
 
-    # Search for assets in the slice folder
-    # Immich paths look like: /external/photos/2009 Scanned Media/1978/...
-    print(f"  Searching Immich for assets matching '{config.SLICE_PATH}'...")
+    log.info("  Searching Immich for assets matching '%s'...", config.SLICE_PATH)
     assets = search_assets_by_path(client, config.SLICE_PATH)
-    print(f"  Found {len(assets)} assets in Immich.")
+    log.info("  Found %d assets in Immich.", len(assets))
 
     path_lookup = build_path_lookup(assets)
 
@@ -117,8 +117,8 @@ def step_push_to_immich(run_id: str) -> dict:
 
     for manifest_path in manifests:
         m = load_manifest(manifest_path)
-        source_file = m["source_file"]
-        analysis = m["analysis"]
+        source_file = m.source_file
+        analysis = m.analysis
 
         # Try to find matching Immich asset by filename
         asset_id = None
@@ -129,16 +129,16 @@ def step_push_to_immich(run_id: str) -> dict:
                 break
 
         if not asset_id:
-            print(f"    No Immich match for: {source_name}")
+            log.info("    No Immich match for: %s", source_name)
             skipped += 1
             continue
 
         matched += 1
 
         # Update date and description
-        date_est = analysis.get("date_estimate")
-        desc = analysis.get("description_en", "")
-        desc_zh = analysis.get("description_zh", "")
+        date_est = analysis.date_estimate
+        desc = analysis.description_en
+        desc_zh = analysis.description_zh
         if desc_zh:
             desc = f"{desc}\n\n{desc_zh}"
 
@@ -151,10 +151,10 @@ def step_push_to_immich(run_id: str) -> dict:
             )
             updated += 1
         except Exception as e:
-            print(f"    Failed to update {source_name}: {e}")
+            log.error("    Failed to update %s: %s", source_name, e)
 
         # Bucket by confidence for review albums
-        confidence = analysis.get("date_confidence", 0)
+        confidence = analysis.date_confidence
         if confidence < config.CONFIDENCE_LOW:
             low_confidence_ids.append(asset_id)
         elif confidence < config.CONFIDENCE_HIGH:
@@ -163,42 +163,43 @@ def step_push_to_immich(run_id: str) -> dict:
     # Create review albums
     if needs_review_ids:
         try:
-            album = create_album(
+            create_album(
                 client,
                 f"Needs Review (run {run_id[:13]})",
                 description=f"Photos with date confidence {config.CONFIDENCE_LOW}-{config.CONFIDENCE_HIGH}",
                 asset_ids=needs_review_ids,
             )
-            print(f"  Created 'Needs Review' album with {len(needs_review_ids)} photos")
+            log.info("  Created 'Needs Review' album with %d photos", len(needs_review_ids))
         except Exception as e:
-            print(f"  Failed to create Needs Review album: {e}")
+            log.error("  Failed to create Needs Review album: %s", e)
 
     if low_confidence_ids:
         try:
-            album = create_album(
+            create_album(
                 client,
                 f"Low Confidence (run {run_id[:13]})",
                 description=f"Photos with date confidence below {config.CONFIDENCE_LOW}",
                 asset_ids=low_confidence_ids,
             )
-            print(f"  Created 'Low Confidence' album with {len(low_confidence_ids)} photos")
+            log.info("  Created 'Low Confidence' album with %d photos", len(low_confidence_ids))
         except Exception as e:
-            print(f"  Failed to create Low Confidence album: {e}")
+            log.error("  Failed to create Low Confidence album: %s", e)
 
     return {"matched": matched, "updated": updated, "skipped": skipped}
 
 
 def verify_source_integrity(photos: list[dict]) -> bool:
     """Verify that source TIFFs were not modified during the run."""
-    print("\nVerifying source file integrity...")
+    log.info("")
+    log.info("Verifying source file integrity...")
     all_ok = True
     for photo in photos:
         current_sha = sha256_file(photo["tiff_path"])
         if current_sha != photo["sha256"]:
-            print(f"  INTEGRITY FAILURE: {photo['rel_path']}")
+            log.error("  INTEGRITY FAILURE: %s", photo["rel_path"])
             all_ok = False
     if all_ok:
-        print("  All source files unchanged.")
+        log.info("  All source files unchanged.")
     return all_ok
 
 
@@ -206,32 +207,36 @@ def main():
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     start_time = time.time()
 
-    print(f"Living Archive — Slice Run {run_id}")
-    print(f"  Source: {config.SLICE_DIR}")
-    print(f"  AI Layer: {config.AI_LAYER_DIR}")
-    print(f"  Model: {config.MODEL}")
-    print()
+    log.info("Living Archive — Slice Run %s", run_id)
+    log.info("  Source: %s", config.SLICE_DIR)
+    log.info("  AI Layer: %s", config.AI_LAYER_DIR)
+    log.info("  Model: %s", config.MODEL)
+    log.info("")
 
-    # Validate paths
+    # Validate config
+    errors = config.validate_photo_config()
     if not config.SLICE_DIR.exists():
-        print(f"ERROR: Source directory not found: {config.SLICE_DIR}")
-        print("Is the NAS mounted? Try: Cmd+K in Finder, smb://mneme.local/MNEME")
+        errors.append(f"Slice directory not found: {config.SLICE_DIR}")
+    if errors:
+        for err in errors:
+            log.error("CONFIG: %s", err)
+        log.error("Is the NAS mounted? Try: Cmd+K in Finder, smb://mneme.local/MNEME")
         sys.exit(1)
 
     # Step 1: Find and convert
-    print("Step 1: Converting TIFFs to JPEG...")
+    log.info("Step 1: Converting TIFFs to JPEG...")
     tiffs = find_tiffs(config.SLICE_DIR)
-    print(f"  Found {len(tiffs)} TIFF files.")
+    log.info("  Found %d TIFF files.", len(tiffs))
     if not tiffs:
-        print("  No TIFFs found. Exiting.")
+        log.info("  No TIFFs found. Exiting.")
         sys.exit(0)
     photos = step_convert(tiffs)
-    print()
+    log.info("")
 
     # Step 2 & 3: Analyze and write manifests
-    print("Step 2: Analyzing with Claude API...")
+    log.info("Step 2: Analyzing with Claude API...")
     succeeded, failed, failures = step_analyze(photos, run_id)
-    print()
+    log.info("")
 
     # Write run metadata
     elapsed = time.time() - start_time
@@ -245,34 +250,43 @@ def main():
     )
 
     # Step 4: Push to Immich
-    print("Step 3: Pushing metadata to Immich...")
-    try:
-        push_result = step_push_to_immich(run_id)
-    except Exception as e:
-        print(f"  Immich push failed: {e}")
-        print("  (Manifests were still saved — you can re-push later)")
+    immich_errors = config.validate_immich_config()
+    if immich_errors:
+        for err in immich_errors:
+            log.warning("IMMICH: %s", err)
+        log.info("  Skipping Immich push (not configured). Manifests were saved.")
         push_result = {"matched": 0, "updated": 0, "skipped": 0}
-    print()
+    else:
+        log.info("Step 3: Pushing metadata to Immich...")
+        try:
+            push_result = step_push_to_immich(run_id)
+        except Exception as e:
+            log.error("  Immich push failed: %s", e)
+            log.info("  (Manifests were still saved — you can re-push later)")
+            push_result = {"matched": 0, "updated": 0, "skipped": 0}
+    log.info("")
 
     # Verify source integrity
     verify_source_integrity(photos)
 
     # Summary
     elapsed = time.time() - start_time
-    print(f"\n{'='*50}")
-    print(f"Run complete: {run_id}")
-    print(f"  Elapsed: {elapsed:.1f}s")
-    print(f"  Photos: {len(photos)} found, {succeeded} analyzed, {failed} failed")
-    print(f"  Immich: {push_result['matched']} matched, "
-          f"{push_result['updated']} updated, {push_result['skipped']} skipped")
+    log.info("")
+    log.info("=" * 50)
+    log.info("Run complete: %s", run_id)
+    log.info("  Elapsed: %.1fs", elapsed)
+    log.info("  Photos: %d found, %d analyzed, %d failed", len(photos), succeeded, failed)
+    log.info("  Immich: %d matched, %d updated, %d skipped",
+             push_result["matched"], push_result["updated"], push_result["skipped"])
     manifests_dir = config.AI_LAYER_DIR / "runs" / run_id / "manifests"
-    print(f"  Manifests: {manifests_dir}")
-    print(f"{'='*50}")
+    log.info("  Manifests: %s", manifests_dir)
+    log.info("=" * 50)
 
     if failed > 0:
-        print(f"\nFailed files:")
+        log.error("")
+        log.error("Failed files:")
         for f in failures:
-            print(f"  - {f['file']}: {f['error']}")
+            log.error("  - %s: %s", f["file"], f["error"])
         sys.exit(1)
 
 

@@ -3,6 +3,7 @@
 import httpx
 
 from . import config
+from .config import retry
 
 TIMEOUT = 30.0
 
@@ -15,6 +16,7 @@ def _client() -> httpx.Client:
     )
 
 
+@retry()
 def search_assets_by_path(client: httpx.Client, path_prefix: str) -> list[dict]:
     """Search for assets whose originalPath contains path_prefix.
 
@@ -54,6 +56,7 @@ def build_path_lookup(assets: list[dict]) -> dict[str, str]:
     return lookup
 
 
+@retry()
 def update_asset(
     client: httpx.Client,
     asset_id: str,
@@ -70,6 +73,7 @@ def update_asset(
     resp.raise_for_status()
 
 
+@retry()
 def create_album(
     client: httpx.Client,
     name: str,

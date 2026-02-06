@@ -1,11 +1,14 @@
 """SQLite FTS5 full-text search index for extracted documents."""
 
 import json
+import logging
 import sqlite3
 from pathlib import Path
 
 from . import config
 from .doc_manifest import list_manifests, load_manifest, text_dir
+
+log = logging.getLogger(__name__)
 
 
 def db_path(run_id: str) -> Path:
@@ -135,7 +138,7 @@ def build_index(run_id: str) -> Path:
     conn.commit()
     conn.close()
 
-    print(f"Index built: {indexed} documents -> {index_path}")
+    log.info("Index built: %d documents -> %s", indexed, index_path)
     return index_path
 
 
@@ -181,41 +184,43 @@ def search(query: str, index_path: Path, limit: int = 20) -> list[dict]:
 def main():
     """CLI: build index or search."""
     import sys
+    _log = config.setup_logging()
 
     if len(sys.argv) < 2:
-        print("Usage:")
-        print("  python -m src.doc_index build RUN_ID")
-        print("  python -m src.doc_index search RUN_ID 'query text'")
+        _log.info("Usage:")
+        _log.info("  python -m src.doc_index build RUN_ID")
+        _log.info("  python -m src.doc_index search RUN_ID 'query text'")
         sys.exit(1)
 
     command = sys.argv[1]
 
     if command == "build":
         if len(sys.argv) < 3:
-            print("Usage: python -m src.doc_index build RUN_ID")
+            _log.info("Usage: python -m src.doc_index build RUN_ID")
             sys.exit(1)
         run_id = sys.argv[2]
         build_index(run_id)
 
     elif command == "search":
         if len(sys.argv) < 4:
-            print("Usage: python -m src.doc_index search RUN_ID 'query'")
+            _log.info("Usage: python -m src.doc_index search RUN_ID 'query'")
             sys.exit(1)
         run_id = sys.argv[2]
         query = sys.argv[3]
         ip = db_path(run_id)
 
         if not ip.exists():
-            print(f"Index not found: {ip}")
-            print(f"Run: python -m src.doc_index build {run_id}")
+            _log.error("Index not found: %s", ip)
+            _log.info("Run: python -m src.doc_index build %s", run_id)
             sys.exit(1)
 
         results = search(query, ip)
         if not results:
-            print("No results found.")
+            _log.info("No results found.")
             return
 
-        print(f"Found {len(results)} results for '{query}':\n")
+        _log.info("Found %d results for '%s':", len(results), query)
+        _log.info("")
         for i, r in enumerate(results, 1):
             sensitivity = []
             if r["has_ssn"]:
@@ -226,15 +231,15 @@ def main():
                 sensitivity.append("MEDICAL")
             sens_str = f" [{', '.join(sensitivity)}]" if sensitivity else ""
 
-            print(f"  [{i}] {r['title'] or r['source_file']}")
-            print(f"      Type: {r['document_type']}  Date: {r['date']}{sens_str}")
+            _log.info("  [%d] %s", i, r["title"] or r["source_file"])
+            _log.info("      Type: %s  Date: %s%s", r["document_type"], r["date"], sens_str)
             if r["summary_en"]:
-                print(f"      {r['summary_en'][:120]}")
+                _log.info("      %s", r["summary_en"][:120])
             if r["text_snippet"]:
-                print(f"      ...{r['text_snippet'][:150]}...")
-            print()
+                _log.info("      ...%s...", r["text_snippet"][:150])
+            _log.info("")
     else:
-        print(f"Unknown command: {command}")
+        _log.error("Unknown command: %s", command)
         sys.exit(1)
 
 
