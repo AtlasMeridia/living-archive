@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Living Archive — Review Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy-950: #08090c;
+  --navy-900: #0e1318;
+  --navy-800: #161c24;
+  --navy-700: #1e2630;
+  --navy-600: #2a3442;
+  --cream-50: #f8f6f1;
+  --cream-100: #f3f0ea;
+  --cream-200: #eae6de;
+  --cream-300: #d4cfc5;
+  --cream-400: #a8a398;
+  --accent: #c9924a;
+  --accent-light: #ddb878;
+  --accent-dark: #a87a3a;
+  --accent-deep: #8a6530;
+  --success: #6a9a70;
+  --success-dim: #6a9a7030;
+  --warning: #c9924a;
+  --warning-dim: #c9924a25;
+  --error: #b05454;
+  --info: #5a8ab0;
+  --info-dim: #5a8ab025;
+
+  --bg-primary: var(--navy-900);
+  --bg-elevated: var(--navy-800);
+  --bg-surface: var(--navy-700);
+  --text-primary: var(--cream-100);
+  --text-secondary: var(--cream-300);
+  --text-muted: var(--cream-400);
+  --border-color: #ffffff0d;
+  --border-hover: #ffffff1a;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Lora', Georgia, serif;
+  --font-ui: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
+  --font-zh: 'Noto Serif TC', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* --- Header --- */
+.header {
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: var(--cream-50);
+  white-space: nowrap;
+}
+
+.header select {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-hover);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--navy-700);
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 100px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.push-btn {
+  background: var(--accent-dark);
+  color: var(--cream-50);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.push-btn:hover { background: var(--accent); }
+.push-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* --- Main layout --- */
+.main {
+  display: flex;
+  height: calc(100vh - 49px - 90px);
+}
+
+/* --- Photo panel (left) --- */
+.photo-panel {
+  flex: 0 0 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--navy-950);
+  padding: 20px;
+  position: relative;
+}
+
+.photo-panel img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.photo-placeholder {
+  color: var(--text-muted);
+  font-size: 15px;
+  text-align: center;
+}
+
+/* --- Detail panel (right) --- */
+.detail-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.field-group {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.field-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.field-row:last-child { margin-bottom: 0; }
+
+.field {
+  flex: 1;
+}
+
+.field label {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  font-family: var(--font-mono);
+}
+
+.field .value {
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.field .value.mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.confidence-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+}
+.confidence-high { background: var(--success-dim); color: var(--success); }
+.confidence-mid { background: var(--warning-dim); color: var(--warning); }
+.confidence-low { background: #b0545430; color: var(--error); }
+
+.tag {
+  display: inline-block;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  margin: 2px 4px 2px 0;
+}
+
+.description-text {
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.description-zh {
+  font-family: var(--font-zh);
+}
+
+/* --- Correction form --- */
+.correction-form {
+  background: var(--bg-elevated);
+  border: 1px solid var(--accent-deep);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.correction-form h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--accent-light);
+  margin-bottom: 10px;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.form-field {
+  flex: 1;
+}
+
+.form-field label {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  font-family: var(--font-mono);
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-hover);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  transition: border-color 0.15s;
+}
+
+.form-field textarea {
+  font-family: var(--font-body);
+  resize: vertical;
+  min-height: 60px;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form-field input.changed,
+.form-field textarea.changed {
+  border-color: var(--accent-light);
+  background: #c9924a08;
+}
+
+/* --- Action buttons --- */
+.actions {
+  display: flex;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-approve {
+  background: var(--success);
+  color: var(--cream-50);
+  flex: 1;
+}
+.btn-approve:hover { background: #7aaa80; }
+
+.btn-skip {
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-hover);
+}
+.btn-skip:hover { background: var(--navy-600); }
+
+.btn-correct {
+  background: var(--accent-dark);
+  color: var(--cream-50);
+  flex: 1;
+}
+.btn-correct:hover { background: var(--accent); }
+
+.kbd {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: #ffffff15;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* --- Filmstrip --- */
+.filmstrip {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  overflow-x: auto;
+  z-index: 100;
+}
+
+.filmstrip-thumb {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 4px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  opacity: 0.6;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+
+.filmstrip-thumb:hover { opacity: 0.9; }
+.filmstrip-thumb.active { opacity: 1; border-color: var(--accent); }
+.filmstrip-thumb.approved { border-color: var(--success); opacity: 0.85; }
+.filmstrip-thumb.corrected { border-color: var(--warning); opacity: 0.85; }
+.filmstrip-thumb.skipped { border-color: var(--text-muted); opacity: 0.5; }
+
+/* --- Empty / loading states --- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  gap: 12px;
+  text-align: center;
+  padding: 40px;
+}
+
+.empty-state h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* --- Push modal --- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: #00000080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+.modal-overlay.hidden { display: none; }
+
+.modal {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-hover);
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 440px;
+  width: 90%;
+}
+
+.modal h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: var(--cream-50);
+}
+
+.modal p {
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.modal .modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  justify-content: flex-end;
+}
+
+.toast {
+  position: fixed;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  border: 1px solid var(--border-hover);
+  z-index: 300;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <h1>Review Dashboard</h1>
+  <select id="run-select"><option value="">Loading runs...</option></select>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <span class="progress-text" id="progress-text">–</span>
+  <button class="push-btn" id="push-btn" disabled>Push to Immich</button>
+</header>
+
+<!-- Main -->
+<div class="main" id="main-area">
+  <div class="photo-panel" id="photo-panel">
+    <div class="photo-placeholder" id="photo-placeholder">Select a run to begin reviewing</div>
+    <img id="photo-img" style="display:none" alt="Photo under review">
+  </div>
+  <div class="detail-panel" id="detail-panel">
+    <div class="empty-state" id="empty-detail">
+      <h2>Living Archive</h2>
+      <p>Review AI-analyzed photos, approve or correct metadata, then push to Immich.</p>
+      <p style="font-size:12px; color:var(--text-muted)">Keyboard: A = approve, S = skip, arrow keys = navigate</p>
+    </div>
+  </div>
+</div>
+
+<!-- Filmstrip -->
+<div class="filmstrip" id="filmstrip"></div>
+
+<!-- Push confirmation modal -->
+<div class="modal-overlay hidden" id="push-modal">
+  <div class="modal">
+    <h3>Push to Immich</h3>
+    <p id="push-summary"></p>
+    <div class="modal-actions">
+      <button class="btn btn-skip" id="push-cancel">Cancel</button>
+      <button class="btn btn-approve" id="push-confirm">Push</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+const API = '';
+let runs = [];
+let items = [];
+let currentIdx = -1;
+let currentRunId = '';
+
+// --- DOM refs ---
+const runSelect = document.getElementById('run-select');
+const progressFill = document.getElementById('progress-fill');
+const progressText = document.getElementById('progress-text');
+const pushBtn = document.getElementById('push-btn');
+const photoPanel = document.getElementById('photo-panel');
+const photoPlaceholder = document.getElementById('photo-placeholder');
+const photoImg = document.getElementById('photo-img');
+const detailPanel = document.getElementById('detail-panel');
+const emptyDetail = document.getElementById('empty-detail');
+const filmstrip = document.getElementById('filmstrip');
+const pushModal = document.getElementById('push-modal');
+const pushSummary = document.getElementById('push-summary');
+const pushCancel = document.getElementById('push-cancel');
+const pushConfirm = document.getElementById('push-confirm');
+const toast = document.getElementById('toast');
+
+// --- Init ---
+async function init() {
+  runs = await fetchJSON('/api/runs');
+  runSelect.innerHTML = '<option value="">Select a run...</option>';
+  for (const r of runs) {
+    const opt = document.createElement('option');
+    opt.value = r.run_id;
+    const date = r.run_id.slice(0, 8);
+    const label = `${date} — ${r.manifest_count} photos, ${r.review_count} reviewed`;
+    opt.textContent = label;
+    runSelect.appendChild(opt);
+  }
+  if (runs.length === 1) {
+    runSelect.value = runs[0].run_id;
+    loadRun(runs[0].run_id);
+  }
+}
+
+runSelect.addEventListener('change', () => {
+  if (runSelect.value) loadRun(runSelect.value);
+});
+
+async function loadRun(runId) {
+  currentRunId = runId;
+  items = await fetchJSON(`/api/runs/${runId}/items`);
+  buildFilmstrip();
+  updateProgress();
+  pushBtn.disabled = false;
+  if (items.length > 0) {
+    // Jump to first unreviewed, or first item
+    const firstUnreviewed = items.findIndex(it => !it.review);
+    selectItem(firstUnreviewed >= 0 ? firstUnreviewed : 0);
+  }
+}
+
+// --- Filmstrip ---
+function buildFilmstrip() {
+  filmstrip.innerHTML = '';
+  const placeholder = (idx) => 'data:image/svg+xml,' + encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect fill="#1e2630" width="64" height="64"/><text x="32" y="36" text-anchor="middle" fill="#a8a398" font-size="11">${idx + 1}</text></svg>`
+  );
+  items.forEach((item, idx) => {
+    const img = document.createElement('img');
+    img.className = 'filmstrip-thumb';
+    img.dataset.idx = idx;
+    img.alt = item.source_file;
+    img.src = item.asset_id ? `/api/immich/thumbnail/${item.asset_id}` : placeholder(idx);
+    updateThumbStatus(img, item);
+    img.addEventListener('click', () => selectItem(idx));
+    filmstrip.appendChild(img);
+  });
+}
+
+function updateThumbStatus(img, item) {
+  img.classList.remove('approved', 'corrected', 'skipped', 'active');
+  if (item.review) {
+    img.classList.add(item.review.status);
+  }
+}
+
+function updateProgress() {
+  const reviewed = items.filter(it => it.review).length;
+  const total = items.length;
+  const pct = total > 0 ? (reviewed / total * 100) : 0;
+  progressFill.style.width = pct + '%';
+  progressText.textContent = `${reviewed} of ${total} reviewed`;
+}
+
+// --- Select & render item ---
+function selectItem(idx) {
+  if (idx < 0 || idx >= items.length) return;
+  currentIdx = idx;
+  const item = items[idx];
+
+  // Update filmstrip active state
+  filmstrip.querySelectorAll('.filmstrip-thumb').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+  // Scroll active thumb into view
+  const activeThumb = filmstrip.children[idx];
+  if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+  // Photo thumbnail from Immich
+  if (item.asset_id) {
+    photoImg.src = `/api/immich/thumbnail/${item.asset_id}`;
+    photoImg.style.display = 'block';
+    photoPlaceholder.style.display = 'none';
+  } else {
+    photoImg.style.display = 'none';
+    photoPlaceholder.style.display = 'block';
+    photoPlaceholder.innerHTML = `<div style="font-size:48px; margin-bottom:12px; opacity:0.3">&#128247;</div>
+      <div>${item.source_file.split('/').pop()}</div>
+      <div style="font-size:11px; margin-top:4px">No matching asset found in Immich</div>`;
+  }
+
+  // Detail panel
+  renderDetail(item);
+}
+
+function renderDetail(item) {
+  const a = item.analysis;
+  const review = item.review;
+
+  const confClass = a.date_confidence >= 0.8 ? 'confidence-high' :
+                    a.date_confidence >= 0.5 ? 'confidence-mid' : 'confidence-low';
+
+  const tagsHtml = (a.tags || []).map(t => `<span class="tag">${esc(t)}</span>`).join('');
+
+  detailPanel.innerHTML = `
+    <div class="field-group">
+      <div class="section-label">Source</div>
+      <div class="field">
+        <div class="value mono" style="font-size:12px; word-break:break-all">${esc(item.source_file)}</div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <div class="section-label">AI Analysis</div>
+      <div class="field-row">
+        <div class="field">
+          <label>Date estimate</label>
+          <div class="value mono">${esc(a.date_estimate || '—')}</div>
+        </div>
+        <div class="field">
+          <label>Precision</label>
+          <div class="value">${esc(a.date_precision || '—')}</div>
+        </div>
+        <div class="field">
+          <label>Confidence</label>
+          <div class="value"><span class="confidence-badge ${confClass}">${a.date_confidence}</span></div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Reasoning</label>
+          <div class="value" style="font-size:13px; color:var(--text-secondary)">${esc(a.date_reasoning || '—')}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <div class="section-label">Description</div>
+      <div class="field" style="margin-bottom:8px">
+        <label>English</label>
+        <div class="value description-text">${esc(a.description_en || '—')}</div>
+      </div>
+      <div class="field">
+        <label>Chinese</label>
+        <div class="value description-text description-zh">${esc(a.description_zh || '—')}</div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <div class="section-label">Details</div>
+      <div class="field-row">
+        <div class="field">
+          <label>People</label>
+          <div class="value">${a.people_count != null ? a.people_count : '—'}${a.people_notes ? ' — ' + esc(a.people_notes) : ''}</div>
+        </div>
+        <div class="field">
+          <label>Location</label>
+          <div class="value">${esc(a.location_estimate || '—')} ${a.location_confidence ? `<span class="confidence-badge ${a.location_confidence >= 0.8 ? 'confidence-high' : a.location_confidence >= 0.5 ? 'confidence-mid' : 'confidence-low'}">${a.location_confidence}</span>` : ''}</div>
+        </div>
+      </div>
+      ${tagsHtml ? `<div class="field"><label>Tags</label><div style="margin-top:4px">${tagsHtml}</div></div>` : ''}
+      ${a.ocr_text ? `<div class="field" style="margin-top:8px"><label>OCR Text</label><div class="value mono" style="font-size:12px; white-space:pre-wrap">${esc(a.ocr_text)}</div></div>` : ''}
+    </div>
+
+    <div class="correction-form">
+      <h3>Corrections</h3>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Date</label>
+          <input type="text" id="corr-date" value="${esc(review?.corrected_date || a.date_estimate || '')}" placeholder="e.g. 1982-06">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Description (EN)</label>
+          <textarea id="corr-desc-en" rows="2">${esc(review?.corrected_description_en || a.description_en || '')}</textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Description (ZH)</label>
+          <textarea id="corr-desc-zh" rows="2" style="font-family:var(--font-zh)">${esc(review?.corrected_description_zh || a.description_zh || '')}</textarea>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Notes</label>
+          <input type="text" id="corr-notes" value="${esc(review?.notes || '')}" placeholder="Any additional notes...">
+        </div>
+      </div>
+    </div>
+
+    ${review ? `<div class="field-group" style="border-color: ${review.status === 'approved' ? 'var(--success)' : review.status === 'corrected' ? 'var(--warning)' : 'var(--text-muted)'}">
+      <div class="section-label">Current Review</div>
+      <div class="value" style="text-transform:capitalize">${review.status} <span style="color:var(--text-muted); font-size:12px">${review.reviewed_at}</span></div>
+    </div>` : ''}
+
+    <div class="actions">
+      <button class="btn btn-approve" onclick="doApprove()">Approve <span class="kbd">A</span></button>
+      <button class="btn btn-correct" onclick="doCorrect()">Save Correction <span class="kbd">Ctrl+Enter</span></button>
+      <button class="btn btn-skip" onclick="doSkip()">Skip <span class="kbd">S</span></button>
+    </div>
+  `;
+
+  // Track changes for visual feedback
+  trackFormChanges(a);
+}
+
+function trackFormChanges(analysis) {
+  const dateInput = document.getElementById('corr-date');
+  const descEnInput = document.getElementById('corr-desc-en');
+  const descZhInput = document.getElementById('corr-desc-zh');
+  if (!dateInput) return;
+
+  const checkChanged = () => {
+    dateInput.classList.toggle('changed', dateInput.value !== (analysis.date_estimate || ''));
+    descEnInput.classList.toggle('changed', descEnInput.value !== (analysis.description_en || ''));
+    descZhInput.classList.toggle('changed', descZhInput.value !== (analysis.description_zh || ''));
+  };
+
+  dateInput.addEventListener('input', checkChanged);
+  descEnInput.addEventListener('input', checkChanged);
+  descZhInput.addEventListener('input', checkChanged);
+}
+
+// --- Review actions ---
+async function doApprove() {
+  await submitReview('approved');
+}
+
+async function doSkip() {
+  await submitReview('skipped');
+}
+
+async function doCorrect() {
+  const item = items[currentIdx];
+  const a = item.analysis;
+  const dateVal = document.getElementById('corr-date')?.value?.trim();
+  const descEnVal = document.getElementById('corr-desc-en')?.value?.trim();
+  const descZhVal = document.getElementById('corr-desc-zh')?.value?.trim();
+  const notesVal = document.getElementById('corr-notes')?.value?.trim();
+
+  const body = { status: 'corrected' };
+
+  // Only include fields that actually changed
+  if (dateVal && dateVal !== (a.date_estimate || '')) body.corrected_date = dateVal;
+  if (descEnVal && descEnVal !== (a.description_en || '')) body.corrected_description_en = descEnVal;
+  if (descZhVal && descZhVal !== (a.description_zh || '')) body.corrected_description_zh = descZhVal;
+  if (notesVal) body.notes = notesVal;
+
+  await submitReview('corrected', body);
+}
+
+async function submitReview(status, extraFields) {
+  if (currentIdx < 0 || currentIdx >= items.length) return;
+  const item = items[currentIdx];
+  const body = {
+    status: status,
+    ...(extraFields || {}),
+  };
+
+  // Add notes from form if approving/skipping
+  if (status !== 'corrected') {
+    const notesVal = document.getElementById('corr-notes')?.value?.trim();
+    if (notesVal) body.notes = notesVal;
+  }
+
+  try {
+    await fetchJSON(`/api/runs/${currentRunId}/items/${item.sha}/review`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    // Update local state
+    item.review = { ...body, reviewed_at: new Date().toISOString() };
+    updateProgress();
+
+    // Update filmstrip thumb
+    const thumb = filmstrip.children[currentIdx];
+    if (thumb) updateThumbStatus(thumb, item);
+
+    showToast(`${status.charAt(0).toUpperCase() + status.slice(1)}: ${item.source_file.split('/').pop()}`);
+
+    // Auto-advance to next unreviewed
+    if (status !== 'skipped' || true) {
+      const nextUnreviewed = items.findIndex((it, i) => i > currentIdx && !it.review);
+      if (nextUnreviewed >= 0) {
+        selectItem(nextUnreviewed);
+      } else {
+        // Re-render current to show updated status
+        selectItem(currentIdx);
+      }
+    }
+  } catch (e) {
+    showToast(`Error: ${e.message}`, true);
+  }
+}
+
+// --- Push to Immich ---
+pushBtn.addEventListener('click', () => {
+  const approved = items.filter(it => it.review?.status === 'approved').length;
+  const corrected = items.filter(it => it.review?.status === 'corrected').length;
+  const total = approved + corrected;
+  if (total === 0) {
+    showToast('No reviewed items to push');
+    return;
+  }
+  pushSummary.textContent = `Push ${total} items to Immich (${approved} approved, ${corrected} corrected)?`;
+  pushModal.classList.remove('hidden');
+});
+
+pushCancel.addEventListener('click', () => pushModal.classList.add('hidden'));
+
+pushConfirm.addEventListener('click', async () => {
+  pushModal.classList.add('hidden');
+  pushBtn.disabled = true;
+  pushBtn.textContent = 'Pushing...';
+  try {
+    const result = await fetchJSON(`/api/runs/${currentRunId}/push`, { method: 'POST' });
+    const msg = `Pushed ${result.pushed} items` +
+      (result.errors?.length ? `, ${result.errors.length} errors` : '') +
+      (result.skipped ? `, ${result.skipped} skipped` : '');
+    showToast(msg);
+    if (result.errors?.length) {
+      console.warn('Push errors:', result.errors);
+    }
+  } catch (e) {
+    showToast(`Push failed: ${e.message}`, true);
+  } finally {
+    pushBtn.disabled = false;
+    pushBtn.textContent = 'Push to Immich';
+  }
+});
+
+// --- Keyboard shortcuts ---
+document.addEventListener('keydown', (e) => {
+  // Don't capture when typing in inputs
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+    // Ctrl+Enter in any form field saves correction
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      doCorrect();
+    }
+    return;
+  }
+
+  switch (e.key) {
+    case 'a':
+    case 'Enter':
+      e.preventDefault();
+      doApprove();
+      break;
+    case 's':
+      e.preventDefault();
+      doSkip();
+      break;
+    case 'ArrowLeft':
+      e.preventDefault();
+      if (currentIdx > 0) selectItem(currentIdx - 1);
+      break;
+    case 'ArrowRight':
+      e.preventDefault();
+      if (currentIdx < items.length - 1) selectItem(currentIdx + 1);
+      break;
+    case 'Escape':
+      pushModal.classList.add('hidden');
+      break;
+  }
+});
+
+// --- Utilities ---
+async function fetchJSON(url, opts) {
+  const resp = await fetch(API + url, opts);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  return resp.json();
+}
+
+function esc(str) {
+  if (str == null) return '';
+  const div = document.createElement('div');
+  div.textContent = String(str);
+  return div.innerHTML;
+}
+
+function showToast(msg, isError) {
+  toast.textContent = msg;
+  toast.style.borderColor = isError ? 'var(--error)' : 'var(--border-hover)';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// --- Start ---
+init();
+</script>
+</body>
+</html>

@@ -5,8 +5,6 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-import anthropic
-
 from . import config
 from .analyze import analyze_photo
 from .convert import convert_tiff_to_jpeg, find_tiffs, sha256_file
@@ -19,6 +17,7 @@ from .immich import (
     update_asset,
 )
 from .manifest import load_manifest, list_manifests, write_manifest, write_run_meta
+from .preflight import run_preflight
 
 log = config.setup_logging()
 
@@ -56,7 +55,12 @@ def step_analyze(photos: list[dict], run_id: str) -> tuple[int, int, list[dict]]
 
     Returns (succeeded, failed, failures_list).
     """
-    client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
+    # Only create API client when using API mode
+    client = None
+    if not config.USE_CLI:
+        import anthropic
+        client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
+
     folder_hint = config.SLICE_PATH
     succeeded = 0
     failed = 0
@@ -87,8 +91,8 @@ def step_analyze(photos: list[dict], run_id: str) -> tuple[int, int, list[dict]]
             failures.append({"file": photo["rel_path"], "error": str(e)})
             log.error("           -> FAILED: %s", e)
 
-        # Rate limiting
-        if i < len(photos) - 1:
+        # Rate limiting: only needed for API mode (CLI has natural spacing)
+        if not config.USE_CLI and i < len(photos) - 1:
             time.sleep(0.5)
 
     return succeeded, failed, failures
@@ -210,17 +214,14 @@ def main():
     log.info("Living Archive — Slice Run %s", run_id)
     log.info("  Source: %s", config.SLICE_DIR)
     log.info("  AI Layer: %s", config.AI_LAYER_DIR)
-    log.info("  Model: %s", config.MODEL)
+    if config.USE_CLI:
+        log.info("  Mode: CLI (%s via %s)", config.CLI_MODEL, config.CLAUDE_CLI.name)
+    else:
+        log.info("  Mode: API (%s)", config.MODEL)
     log.info("")
 
-    # Validate config
-    errors = config.validate_photo_config()
-    if not config.SLICE_DIR.exists():
-        errors.append(f"Slice directory not found: {config.SLICE_DIR}")
-    if errors:
-        for err in errors:
-            log.error("CONFIG: %s", err)
-        log.error("Is the NAS mounted? Try: Cmd+K in Finder, smb://mneme.local/MNEME")
+    # Preflight: NAS mount (auto-mount if needed), Immich health, config
+    if not run_preflight(require_immich=False):
         sys.exit(1)
 
     # Step 1: Find and convert
@@ -234,7 +235,8 @@ def main():
     log.info("")
 
     # Step 2 & 3: Analyze and write manifests
-    log.info("Step 2: Analyzing with Claude API...")
+    mode_label = "CLI" if config.USE_CLI else "API"
+    log.info("Step 2: Analyzing with Claude %s...", mode_label)
     succeeded, failed, failures = step_analyze(photos, run_id)
     log.info("")
 

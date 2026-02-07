@@ -1,12 +1,15 @@
-"""Claude API vision calls for photo analysis."""
+"""Claude vision analysis: CLI mode (default) or direct API fallback."""
 
 import base64
+import json
+import logging
+import subprocess
 from pathlib import Path
-
-import anthropic
 
 from . import config
 from .models import InferenceMetadata, PhotoAnalysis
+
+log = logging.getLogger("living_archive")
 
 
 def load_prompt(folder_hint: str) -> str:
@@ -32,16 +35,69 @@ def strip_json_fences(text: str) -> str:
     return text
 
 
-@config.retry()
-def analyze_photo(
+def _photo_analysis_schema() -> str:
+    """Auto-generate JSON Schema from the PhotoAnalysis Pydantic model."""
+    return json.dumps(PhotoAnalysis.model_json_schema())
+
+
+def _build_cli_prompt(jpeg_path: Path, folder_hint: str) -> str:
+    """Build prompt for CLI mode: instructs Claude to read the image file."""
+    base_prompt = load_prompt(folder_hint)
+    return f"Read and analyze the photo at: {jpeg_path.resolve()}\n\n{base_prompt}"
+
+
+def _analyze_via_cli(
     jpeg_path: Path,
     folder_hint: str,
-    client: anthropic.Anthropic | None = None,
 ) -> tuple[PhotoAnalysis, InferenceMetadata]:
-    """Analyze a photo using Claude's vision API.
+    """Analyze a photo via the Claude Code CLI (uses Max plan)."""
+    prompt = _build_cli_prompt(jpeg_path, folder_hint)
+    schema = _photo_analysis_schema()
 
-    Returns (PhotoAnalysis, InferenceMetadata).
-    """
+    cmd = [
+        str(config.CLAUDE_CLI), "-p", prompt,
+        "--output-format", "json",
+        "--json-schema", schema,
+        "--model", config.CLI_MODEL,
+        "--allowedTools", "Read",
+        "--no-session-persistence",
+    ]
+
+    log.debug("CLI command: %s", " ".join(cmd[:4]) + " ...")
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"Claude CLI exited with code {result.returncode}: "
+            f"{result.stderr[:500] if result.stderr else 'no stderr'}"
+        )
+
+    envelope = json.loads(result.stdout)
+    analysis = PhotoAnalysis.model_validate(envelope["structured_output"])
+
+    # Extract token usage from CLI envelope
+    usage = envelope.get("usage", {})
+    model_used = envelope.get("model", config.CLI_MODEL)
+
+    inference_meta = InferenceMetadata(
+        model=model_used,
+        prompt_version=config.PROMPT_VERSION,
+        input_tokens=usage.get("input_tokens", 0),
+        output_tokens=usage.get("output_tokens", 0),
+        raw_response=json.dumps(envelope.get("structured_output", {})),
+    )
+
+    return analysis, inference_meta
+
+
+def _analyze_via_api(
+    jpeg_path: Path,
+    folder_hint: str,
+    client=None,
+) -> tuple[PhotoAnalysis, InferenceMetadata]:
+    """Analyze a photo via the Anthropic API (billed per-token)."""
+    import anthropic
+
     if client is None:
         client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
 
@@ -82,3 +138,19 @@ def analyze_photo(
     )
 
     return analysis, inference_meta
+
+
+@config.retry()
+def analyze_photo(
+    jpeg_path: Path,
+    folder_hint: str,
+    client=None,
+) -> tuple[PhotoAnalysis, InferenceMetadata]:
+    """Analyze a photo using Claude.
+
+    Dispatches to CLI mode (Max plan, no per-token cost) or API mode
+    based on config.USE_CLI. Set USE_CLI=false in .env to use the API.
+    """
+    if config.USE_CLI:
+        return _analyze_via_cli(jpeg_path, folder_hint)
+    return _analyze_via_api(jpeg_path, folder_hint, client=client)

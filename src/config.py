@@ -1,8 +1,10 @@
 """Path constants and environment variable loading."""
 
 import functools
+import json
 import logging
 import os
+import subprocess
 import time as _time
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
@@ -42,6 +44,11 @@ DOC_AI_LAYER_DIR = DOCUMENTS_ROOT / "_ai-layer"
 MODEL = "claude-sonnet-4-20250514"
 PROMPT_VERSION = "photo_analysis_v1"
 PROMPT_FILE = REPO_ROOT / "prompts" / f"{PROMPT_VERSION}.txt"
+
+# --- CLI mode (routes through Claude Code CLI instead of Anthropic API) ---
+USE_CLI = os.environ.get("USE_CLI", "true").lower() in ("true", "1", "yes")
+CLAUDE_CLI = Path(os.environ.get("CLAUDE_CLI", os.path.expanduser("~/.local/bin/claude")))
+CLI_MODEL = os.environ.get("CLI_MODEL", "sonnet")
 
 DOC_PROMPT_VERSION = "document_analysis_v1"
 DOC_PROMPT_FILE = REPO_ROOT / "prompts" / f"{DOC_PROMPT_VERSION}.txt"
@@ -88,8 +95,12 @@ def setup_logging() -> logging.Logger:
 def validate_photo_config() -> list[str]:
     """Check that photo pipeline config is valid. Returns list of error messages."""
     errors = []
-    if not ANTHROPIC_API_KEY:
-        errors.append("ANTHROPIC_API_KEY is not set")
+    if USE_CLI:
+        if not CLAUDE_CLI.exists():
+            errors.append(f"Claude CLI not found: {CLAUDE_CLI}")
+    else:
+        if not ANTHROPIC_API_KEY:
+            errors.append("ANTHROPIC_API_KEY is not set")
     if not MEDIA_ROOT.exists():
         errors.append(f"MEDIA_ROOT not found: {MEDIA_ROOT} (is the NAS mounted?)")
     if not PROMPT_FILE.exists():
@@ -126,14 +137,22 @@ def _get_retryable_exceptions() -> tuple[type[Exception], ...]:
     global _RETRYABLE_EXCEPTIONS
     if _RETRYABLE_EXCEPTIONS:
         return _RETRYABLE_EXCEPTIONS
-    import httpx
-    import anthropic
-    _RETRYABLE_EXCEPTIONS = (
-        httpx.ConnectError,
-        httpx.TimeoutException,
-        anthropic.RateLimitError,
-        anthropic.APIConnectionError,
-    )
+    exceptions: list[type[Exception]] = [
+        subprocess.TimeoutExpired,
+        json.JSONDecodeError,
+    ]
+    try:
+        import httpx
+        import anthropic
+        exceptions.extend([
+            httpx.ConnectError,
+            httpx.TimeoutException,
+            anthropic.RateLimitError,
+            anthropic.APIConnectionError,
+        ])
+    except ImportError:
+        pass
+    _RETRYABLE_EXCEPTIONS = tuple(exceptions)
     return _RETRYABLE_EXCEPTIONS
 
 
