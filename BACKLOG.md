@@ -8,7 +8,7 @@
 
 - [ ] Run remaining 2009 Scanned Media slices: `1993-europe/` (8), `assorted/` (22), `assorted II/` (40), `assorted III/` (42), `assorted IV/` (11), `1KUVLQ~D/` (10)
 - [ ] Make `SLICE_PATH` accept multiple paths or a batch mode so you don't have to run one-at-a-time
-- [ ] Run document pipeline on a small PDF batch to validate extraction quality
+- [x] Run document pipeline on Liu Family Trust — 72/116 small docs processed, 44 medium/large remaining — 2026-02-07
 - [ ] Enumerate `2022 Swei Chi/` and `2025-2026 Digital Revolution Scans/` — count files, check formats
 - [ ] Add preflight checks to document pipeline (`run_doc_extract.py`)
 
@@ -39,3 +39,4 @@ Steps 1-2 are research/validation. Steps 3-6 are implementation. See `_dev/counc
 - [x] Create project map (interactive HTML) — 2026-02-06
 - [x] Verify Immich metadata push — descriptions and dates confirmed on all 26 assets — 2026-02-06
 - [x] Run photo pipeline on `1980-1982/` (36 TIFFs, 36 succeeded, 0 failed, 369.8s) — 2026-02-06
+- [x] Run document pipeline on Liu Family Trust — 72 docs, 468 pages, 26 doc types, FTS5 index built — 2026-02-07
