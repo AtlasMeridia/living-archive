@@ -1,8 +1,8 @@
-"""Pydantic models for photo and document manifest schemas."""
+"""Pydantic models for photo, document, and people registry schemas."""
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # --- Photo pipeline models ---
@@ -91,3 +91,28 @@ class DocumentManifest(BaseModel):
     extraction: DocumentExtraction = DocumentExtraction()
     analysis: DocumentAnalysis = DocumentAnalysis()
     inference: DocumentInferenceMetadata = DocumentInferenceMetadata()
+
+
+# --- People registry models ---
+
+
+class Person(BaseModel):
+    """A known person in the family archive."""
+    person_id: str = ""
+    name_en: str = ""
+    name_zh: str = ""
+    relationship: str = ""
+    birth_year: int | None = None
+    notes: str = ""
+    immich_person_ids: list[str] = Field(
+        default_factory=list,
+        description="Immich face cluster IDs linked to this person (may be multiple due to age spanning)",
+    )
+    created_at: str = ""
+    updated_at: str = ""
+
+
+class PeopleRegistry(BaseModel):
+    """Top-level container for the people registry file."""
+    version: int = 1
+    people: list[Person] = Field(default_factory=list)

@@ -16,10 +16,10 @@
 
 Steps 1-2 are research/validation. Steps 3-6 are implementation. See `_dev/council-face-recognition-2026-02-06.md`.
 
-- [ ] 1. Enable Immich face recognition on existing photos — evaluate clustering quality on 1970s scans
-- [ ] 2. Investigate Immich face/person API — can we pull face crops, bounding boxes, person assignments? Document findings
-- [ ] 3. Create people registry in AI layer — `_ai-layer/people/registry.json` with `{person_id, name_en, name_zh, relationship, birth_year, notes}`
-- [ ] 4. Build Immich ↔ AI layer sync script — pull face assignments from Immich into registry, push confirmed names back
+- [x] 1. Enable Immich face recognition — already running (buffalo_l), 1241 clusters, 874 with 3+ assets — 2026-02-06
+- [x] 2. Investigate Immich face/person API — full CRUD: thumbnails, bounding boxes, merge, search, name update — 2026-02-06
+- [x] 3. Create people registry in AI layer — `_ai-layer/people/registry.json`, Pydantic models, CRUD helpers — 2026-02-06
+- [x] 4. Build Immich ↔ AI layer sync script — `python -m src.sync_people [status|pull|push]`, 794 clusters imported — 2026-02-06
 - [ ] 5. Elder knowledge capture session — get faces in front of family elders (Immich mobile or printed face crops as fallback)
 - [ ] 6. Evaluate elder UX — decide between Immich's native face tagging on mobile vs. building a custom "name this face" tool
 

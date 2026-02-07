@@ -99,6 +99,82 @@ def add_assets_to_album(
     resp.raise_for_status()
 
 
+# --- People / Face APIs ---
+
+
+@retry()
+def list_people(client: httpx.Client, with_hidden: bool = False) -> list[dict]:
+    """List all people (face clusters) from Immich, paginating through all pages."""
+    people = []
+    page = 1
+    while True:
+        resp = client.get("/people", params={"withHidden": with_hidden, "page": page})
+        resp.raise_for_status()
+        data = resp.json()
+        items = data.get("people", [])
+        if not items:
+            break
+        people.extend(items)
+        if not data.get("hasNextPage", False):
+            break
+        page += 1
+    return people
+
+
+@retry()
+def get_person(client: httpx.Client, person_id: str) -> dict:
+    """Get a single person's details."""
+    resp = client.get(f"/people/{person_id}")
+    resp.raise_for_status()
+    return resp.json()
+
+
+@retry()
+def get_person_statistics(client: httpx.Client, person_id: str) -> dict:
+    """Get asset count for a person cluster."""
+    resp = client.get(f"/people/{person_id}/statistics")
+    resp.raise_for_status()
+    return resp.json()
+
+
+@retry()
+def update_person(
+    client: httpx.Client,
+    person_id: str,
+    name: str | None = None,
+    birth_date: str | None = None,
+) -> dict:
+    """Update a person's name and/or birth date."""
+    body: dict = {}
+    if name is not None:
+        body["name"] = name
+    if birth_date is not None:
+        body["birthDate"] = birth_date
+    resp = client.put(f"/people/{person_id}", json=body)
+    resp.raise_for_status()
+    return resp.json()
+
+
+@retry()
+def merge_people(
+    client: httpx.Client, target_person_id: str, source_person_ids: list[str]
+) -> dict:
+    """Merge source person clusters into target."""
+    resp = client.post(
+        f"/people/{target_person_id}/merge",
+        json={"ids": source_person_ids},
+    )
+    resp.raise_for_status()
+    return resp.json()
+
+
+def get_person_thumbnail(client: httpx.Client, person_id: str) -> bytes:
+    """Get the face crop thumbnail for a person cluster."""
+    resp = client.get(f"/people/{person_id}/thumbnail")
+    resp.raise_for_status()
+    return resp.content
+
+
 def date_estimate_to_iso(date_str: str) -> str:
     """Convert a date estimate like '1978-06' or '1978' to ISO datetime.
 
