@@ -1,7 +1,7 @@
 # Personal Cloud Data Retrieval — Intent Document
 
 **Created:** January 19, 2026
-**Status:** Planning
+**Status:** In Progress (Phase 2 complete)
 **Scope:** Personal leg of Living Archive case study
 
 ---
@@ -54,18 +54,51 @@ This work serves multiple purposes within the Living Archive project:
 
 ## Approach
 
-### Phase 1: Data Request
+### Phase 1: Data Request ✅
 
 1. Request data export from Apple via privacy.apple.com
 2. Document the request process (screenshots, timeline)
 3. Inventory what Apple provides vs. what's missing
 
-### Phase 2: Initial Organization
+**Completed:** February 7, 2026. Apple delivered 42 zip files (~780GB) to `~/Desktop/Personal Data/`. Export includes iCloud Photos (20 parts), iCloud Drive, Notes, Contacts, Mail, Bookmarks, Calendars & Reminders, Apple Media Services, and various metadata archives.
+
+### Phase 2: Initial Organization ✅
 
 1. Download and extract all provided data
 2. Catalog by data type (photos, documents, notes, etc.)
 3. Identify date ranges and gaps
 4. Cross-reference with Day One archive timeline
+
+**Completed:** February 9–10, 2026. All 42 zips extracted to NAS via `ditto -x -k` over AFP. 25 nested zips within the archives were also extracted in-place. Originals moved to macOS Trash.
+
+**NAS structure established:**
+```
+/Volumes/MNEME/05_PROJECTS/Living Archive/
+├── Family/
+│   ├── Documents/   (2.7GB — existing Liu family archive)
+│   └── Media/       (286GB — existing family scans)
+└── Personal/
+    ├── iCloud Photos Part 1–20 of 20/
+    ├── iCloud Drive/
+    ├── iCloud Notes/
+    ├── iCloud Contacts/
+    ├── iCloud Mail/
+    ├── iCloud Bookmarks/
+    ├── iCloud Calendars and Reminders/
+    ├── Apple Media Services Information Part 1 of 2/
+    ├── Game Center/  (from Apple Media Services Part 2)
+    ├── Other Data Part 1–6 of 7/
+    ├── Devices Registered with Apple Messaging.json  (from Other Data Part 7)
+    ├── Apple Account and device information/
+    ├── Apple.com and Apple Store/
+    ├── AppleCare/
+    ├── App install and push notification activity/
+    ├── Feedback Assistant activity/
+    ├── Marketing communications/
+    └── Wallet Activity/
+```
+
+**Extraction stats:** 39,959 files, 726GB on NAS. Zero failures. Full log at `~/Desktop/apple-extract-20260209-171534.log`.
 
 ### Phase 3: Photo Integration
 
@@ -110,9 +143,9 @@ This work serves multiple purposes within the Living Archive project:
 
 ## Success Criteria
 
-- [ ] Complete iCloud data export received and inventoried
+- [x] Complete iCloud data export received and inventoried
 - [ ] Photos deduplicated against Day One archive
-- [ ] Organized folder structure established
+- [x] Organized folder structure established
 - [ ] At least one blog post documenting the process
 - [ ] Reusable workflow template added to public repo
 
@@ -120,7 +153,7 @@ This work serves multiple purposes within the Living Archive project:
 
 ## Open Questions
 
-1. **Storage location:** Should personal cloud exports live alongside Day One archive, or in a separate location?
+1. **Storage location:** ~~Should personal cloud exports live alongside Day One archive, or in a separate location?~~ **Resolved:** Personal data lives on MNEME NAS at `Living Archive/Personal/`, alongside the family archive at `Living Archive/Family/`. Both tracks share the same project root.
 
 2. **Photo management:** Use existing tools (Apple Photos, Google Photos) for viewing, or build custom solution?
 
@@ -132,7 +165,9 @@ This work serves multiple purposes within the Living Archive project:
 
 ## Timeline
 
-No specific dates—progress tracked by milestones above. This work proceeds alongside family archive scanning, which is nearly complete.
+- **Phase 1 completed:** February 7, 2026 (Apple data export delivered)
+- **Phase 2 completed:** February 9–10, 2026 (extraction and NAS organization)
+- **Phase 3–5:** Not yet scheduled — proceeds alongside family archive work
 
 ---
 
