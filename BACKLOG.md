@@ -11,9 +11,9 @@
 
 The codebase, architecture, and documentation need to catch up to what the project has become.
 
-- [ ] Update project brief — currently dated Jan 11, describes "not software" but we built a working system; reconcile methodology + engineering reality
-- [ ] Update README — repo structure references `templates/` and `guides/` that don't exist; real `src/`, `prompts/`, `tests/` are unmentioned
-- [ ] Update `docs/open-questions.md` — questions 1, 2, 4, 5 have been answered; add new open questions (personal branch, UI, AI layer for personal data)
+- [x] Update project brief — reconciled dual identity (working system + methodology), added architecture and case study sections, updated open questions — 2026-02-11
+- [x] Update README — rewrote to lead with system description, real directory tree, CLI reference, quick start — 2026-02-11
+- [x] Retire `docs/open-questions.md` — answered questions archived to `_dev/resolved-decisions.md`, remaining items absorbed into backlog; doc deleted — 2026-02-11
 - [ ] Create `_dev/research/` — narrative and research layer where decisions, session insights, and blog-ready seeds accumulate over time
 - [ ] Sketch personal branch in `docs/architecture.md` — document intent, integration points, and how pipeline improvements benefit both Family and Personal branches
 - [ ] Review medium-confidence photos in Immich "Needs Review" albums — 5 from 1978 run, 34 from 1980-1982 run (human task)
@@ -57,6 +57,8 @@ Depends on the focused conversations above producing a plan.
 
 - [ ] First blog post — document the methodology with real results to show
 - [ ] Family access — Cloudflare Tunnel + Access for secure remote Immich viewing
+- [ ] Family photo uploads — find an easy upload system (existing app) for family members to contribute photos
+- [ ] Privacy defaults for published content — opt-in vs. opt-out for people in photos, deceased vs. living distinction
 - [ ] Decide what's public repo vs. private — methodology public, family-specific data private
 - [ ] Cost estimation tool — preview API costs before running a large batch
 
