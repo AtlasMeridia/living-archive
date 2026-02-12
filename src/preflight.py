@@ -13,10 +13,21 @@ from . import config
 log = logging.getLogger("living_archive")
 
 
-def check_nas_mount(mount_point: Path | None = None, auto_mount: bool = True) -> bool:
-    """Check if the NAS is mounted; optionally try to auto-mount.
+NAS_AFP_URL = "afp://mneme.local/MNEME"
 
-    Uses macOS `open smb://` which triggers Finder mount with Keychain credentials.
+
+def ensure_nas_mounted(
+    mount_point: Path | None = None,
+    auto_mount: bool = True,
+    mount_attempts: int = 3,
+) -> bool:
+    """Ensure the NAS is mounted, retrying the mount command if needed.
+
+    Uses macOS `open afp://` which triggers Finder mount with Keychain credentials.
+    Retries the mount command up to `mount_attempts` times to handle NAS wake-up
+    delays and transient network issues.
+
+    Can be called from anywhere — preflight, mid-pipeline on I/O error, or standalone.
     """
     mount_point = mount_point or config.MEDIA_ROOT
     if mount_point.exists():
@@ -27,28 +38,38 @@ def check_nas_mount(mount_point: Path | None = None, auto_mount: bool = True) ->
         log.error("  NAS not mounted: %s", mount_point)
         return False
 
-    # Try to mount via macOS Finder (uses Keychain for auth)
-    log.info("  NAS not mounted. Attempting auto-mount...")
-    try:
-        subprocess.run(
-            ["open", "smb://mneme.local/MNEME"],
-            check=True,
-            timeout=10,
-        )
-    except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError) as e:
-        log.error("  Auto-mount failed: %s", e)
-        return False
+    for attempt in range(1, mount_attempts + 1):
+        log.info("  NAS not mounted. Auto-mount attempt %d/%d...", attempt, mount_attempts)
+        try:
+            subprocess.run(
+                ["open", NAS_AFP_URL],
+                check=True,
+                timeout=10,
+            )
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError) as e:
+            log.warning("  Mount command failed: %s", e)
+            if attempt < mount_attempts:
+                time.sleep(5)
+            continue
 
-    # Wait for mount to appear (Finder mount is async)
-    for i in range(15):
-        time.sleep(2)
-        if mount_point.exists():
-            log.info("  NAS mounted after %.0fs: %s", (i + 1) * 2, mount_point)
-            return True
-        log.info("  Waiting for mount... (%ds)", (i + 1) * 2)
+        # Wait for mount to appear (Finder mount is async)
+        for i in range(15):
+            time.sleep(2)
+            if mount_point.exists():
+                log.info("  NAS mounted after %.0fs: %s", (i + 1) * 2, mount_point)
+                return True
+            log.info("  Waiting for mount... (%ds)", (i + 1) * 2)
 
-    log.error("  NAS did not mount within 30s. Mount manually: Cmd+K → smb://mneme.local/MNEME")
+        if attempt < mount_attempts:
+            log.warning("  Mount did not appear. Retrying...")
+
+    log.error("  NAS did not mount after %d attempts.", mount_attempts)
+    log.error("  Mount manually: Cmd+K in Finder → %s", NAS_AFP_URL)
     return False
+
+
+# Backward-compatible alias
+check_nas_mount = ensure_nas_mounted
 
 
 def check_immich(url: str | None = None, api_key: str | None = None) -> bool:

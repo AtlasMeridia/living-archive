@@ -20,7 +20,7 @@ IMMICH_URL = os.environ.get("IMMICH_URL", "http://mneme.local:2283")
 
 # --- Paths: Photo pipeline ---
 MEDIA_ROOT = Path(os.environ.get(
-    "MEDIA_ROOT", "/Volumes/MNEME/05_PROJECTS/Living Archive/Media"
+    "MEDIA_ROOT", "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media"
 ))
 SLICE_PATH = os.environ.get("SLICE_PATH", "2009 Scanned Media/1978")
 
@@ -32,7 +32,7 @@ WORKSPACE_DIR = REPO_ROOT / "private" / "slice_workspace"
 
 # --- Paths: Document pipeline ---
 DOCUMENTS_ROOT = Path(os.environ.get(
-    "DOCUMENTS_ROOT", "/Volumes/MNEME/05_PROJECTS/Living Archive/Documents"
+    "DOCUMENTS_ROOT", "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents"
 ))
 DOC_SLICE_PATH = os.environ.get(
     "DOC_SLICE_PATH", "Liu Family Trust Filings & Documents"

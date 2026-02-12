@@ -13,19 +13,19 @@ Infrastructure documentation for the Living Archive project.
 ## Data Flow
 
 ```
-DATA LAYER (NAS, read-only)              AI LAYER (NAS, regeneratable)              PRESENTATION (Immich)
-/Living Archive/Media/              -->  /Living Archive/Media/_ai-layer/       --> Immich REST API
-  2009 Scanned Media/1978/                 runs/<run-id>/manifests/                  PUT /assets (dates, descriptions)
-  Source TIFFs, never modified              one JSON per photo, keyed by SHA-256     POST /albums (review buckets)
+DATA LAYER (NAS, read-only)                    AI LAYER (NAS, regeneratable)              PRESENTATION (Immich)
+/Living Archive/Family/Media/            -->  .../Media/_ai-layer/               --> Immich REST API
+  2009 Scanned Media/1978/                     runs/<run-id>/manifests/                PUT /assets (dates, descriptions)
+  Source TIFFs, never modified                  one JSON per photo, keyed by SHA-256   POST /albums (review buckets)
 ```
 
 Inference runs on M3 Pro via Claude API (Sonnet). Results written to NAS. Then pushed to Immich.
 
 ```
 [Scanned Photos]
-    → NAS: /volume1/MNEME/05_PROJECTS/Living Archive/Media/
+    → NAS: /volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/
     → Immich (read-only external library, mounted at /external/photos)
-    → AI Layer: /volume1/MNEME/05_PROJECTS/Living Archive/Media/_ai-layer/
+    → AI Layer: /volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/_ai-layer/
     → Immich API (date/description metadata sync)
     → Family Access: archives.kennyliu.io (Cloudflare Tunnel)
 ```
@@ -34,8 +34,8 @@ Inference runs on M3 Pro via Claude API (Sonnet). Results written to NAS. Then p
 
 | What | Where | Why |
 |------|-------|-----|
-| Source photos | NAS `/volume1/MNEME/05_PROJECTS/Living Archive/Media/` | Canonical, never modified |
-| AI manifests/outputs | NAS `Media/_ai-layer/runs/<timestamp>/` | Regeneratable, lives with data |
+| Source photos | NAS `/volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/` | Canonical, never modified |
+| AI manifests/outputs | NAS `Family/Media/_ai-layer/runs/<timestamp>/` | Regeneratable, lives with data |
 | Inference scripts | Repo `src/` | Version controlled |
 | Prompts | Repo `prompts/` | Version controlled, referenced by manifest |
 | Methodology docs | Repo `docs/` | Public-facing content source |
@@ -55,13 +55,15 @@ Inference runs on M3 Pro via Claude API (Sonnet). Results written to NAS. Then p
 
 ```
 # NAS (Synology volume paths)
-/volume1/MNEME/05_PROJECTS/Living Archive/Media/                  # Source photos
-/volume1/MNEME/05_PROJECTS/Living Archive/Media/_ai-layer/        # AI inference layer
+/volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/           # Source photos
+/volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/_ai-layer/ # AI inference layer
+/volume1/MNEME/05_PROJECTS/Living Archive/Family/Documents/       # Family documents
+/volume1/MNEME/05_PROJECTS/Living Archive/Personal/               # Apple data export (726 GB)
 /volume1/docker/immich/                                           # Immich installation
 
-# Mac (SMB mount)
-/Volumes/MNEME/05_PROJECTS/Living Archive/Media/                  # Mounted source
-/Volumes/MNEME/05_PROJECTS/Living Archive/Media/_ai-layer/        # Mounted AI layer
+# Mac (AFP mount)
+/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/           # Mounted source
+/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/_ai-layer/ # Mounted AI layer
 
 # EllisAgent
 ~/Projects/living-archive/                         # This repo
@@ -103,4 +105,4 @@ Per-photo JSON keyed by SHA-256 of the original TIFF. Contains `analysis` (date 
 
 ---
 
-*Last updated: 2026-02-05*
+*Last updated: 2026-02-10*

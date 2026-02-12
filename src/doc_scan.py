@@ -120,9 +120,10 @@ def main():
     _log.info("")
 
     if not config.DOC_SLICE_DIR.exists():
-        _log.error("ERROR: Directory not found: %s", config.DOC_SLICE_DIR)
-        _log.error("Is the NAS mounted? Try: Cmd+K in Finder, smb://mneme.local/MNEME")
-        sys.exit(1)
+        from .preflight import ensure_nas_mounted
+        if not ensure_nas_mounted(config.DOCUMENTS_ROOT):
+            _log.error("ERROR: Directory not found: %s", config.DOC_SLICE_DIR)
+            sys.exit(1)
 
     _log.info("Scanning PDFs...")
     results = scan_pdfs(config.DOC_SLICE_DIR)

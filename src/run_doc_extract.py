@@ -186,13 +186,18 @@ def main():
     log.info("  AI Layer: %s", config.DOC_AI_LAYER_DIR)
     log.info("")
 
+    # Ensure NAS is mounted before checking paths
+    from .preflight import ensure_nas_mounted
+    if not ensure_nas_mounted(config.DOCUMENTS_ROOT):
+        log.error("  Cannot reach NAS. Aborting.")
+        sys.exit(1)
+
     errors = config.validate_doc_config()
     if not config.DOC_SLICE_DIR.exists():
         errors.append(f"Doc slice directory not found: {config.DOC_SLICE_DIR}")
     if errors:
         for err in errors:
             log.error("CONFIG: %s", err)
-        log.error("Is the NAS mounted? Try: Cmd+K in Finder, smb://mneme.local/MNEME")
         sys.exit(1)
 
     if args.status:
