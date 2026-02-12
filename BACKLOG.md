@@ -14,7 +14,7 @@ The codebase, architecture, and documentation need to catch up to what the proje
 - [x] Update project brief — reconciled dual identity (working system + methodology), added architecture and case study sections, updated open questions — 2026-02-11
 - [x] Update README — rewrote to lead with system description, real directory tree, CLI reference, quick start — 2026-02-11
 - [x] Retire `docs/open-questions.md` — answered questions archived to `_dev/resolved-decisions.md`, remaining items absorbed into backlog; doc deleted — 2026-02-11
-- [ ] Create `_dev/research/` — narrative and research layer where decisions, session insights, and blog-ready seeds accumulate over time
+- [x] Create `_dev/research/` — narrative and research layer; moved council and personal-data docs in, added README with conventions — 2026-02-11
 - [ ] Sketch personal branch in `docs/architecture.md` — document intent, integration points, and how pipeline improvements benefit both Family and Personal branches
 - [ ] Review medium-confidence photos in Immich "Needs Review" albums — 5 from 1978 run, 34 from 1980-1982 run (human task)
 
