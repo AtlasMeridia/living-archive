@@ -89,6 +89,66 @@ These are captured in AutoMem but documented here for reference:
 
 4. **Quarterly reindex**: AI manifests are versioned per inference run. Plan to reindex as models improve.
 
+## Two Branches: Family and Personal
+
+The project has two data branches sharing the same three-layer architecture and pipeline code.
+
+### Family Branch (active)
+
+The Liu family archive — scanned photos, trust documents, genealogy records. This is the working branch with pipelines running and metadata live in Immich.
+
+```
+Living Archive/Family/
+├── Media/                    # Source TIFFs (2009 Scanned Media, etc.)
+│   └── _ai-layer/           # Photo manifests, people registry
+└── Documents/                # Source PDFs (Liu Family Trust, etc.)
+    └── _ai-layer/           # Doc manifests, extracted text, FTS5 index
+```
+
+### Personal Branch (planned)
+
+Kenny's personal digital history — 726 GB Apple data export (iCloud Photos, Drive, Notes, Mail) plus a Day One journal archive (918 entries, 1999–2024). Different source formats, different scale, same architectural pattern.
+
+```
+Living Archive/Personal/
+├── Apple Export/             # Raw iCloud data (20 parts, HEIC photos, documents)
+│   └── _ai-layer/           # Manifests, extracted text (when pipeline runs)
+└── Day One/                  # Journal markdown archive (already converted)
+```
+
+Key differences from Family:
+- **HEIC not TIFF** — iCloud Photos are HEIC/JPEG, not scanned TIFFs. Conversion step changes.
+- **Deduplication** — Day One photo attachments overlap with iCloud Photos; needs hash-based dedup before processing.
+- **Scale** — 726 GB vs. ~2 GB of scanned media. Batch mode and cost estimation become essential.
+- **Privacy boundary** — Personal data never enters the public repo or family-facing Immich. Separate Immich library or separate presentation layer TBD.
+
+### Integration Points
+
+The branches share infrastructure and cross-reference each other:
+
+| Shared | How |
+|--------|-----|
+| **Pipeline code** | Same `src/` modules with configurable roots (`MEDIA_ROOT`, `DOCUMENTS_ROOT`, future `PERSONAL_ROOT`) |
+| **AI layer conventions** | Same `_ai-layer/runs/<timestamp>/manifests/` structure, same SHA-256 keying |
+| **People registry** | `_ai-layer/people/registry.json` spans both branches — a face recognized in family photos can match personal photos |
+| **Prompts** | Same vision prompt works for any photo; doc prompt works for any PDF |
+| **Immich** | Family and personal could share one Immich instance with separate libraries, or use separate instances |
+
+Cross-referencing opportunities:
+- Day One journal entries (with dates) enrich photos from the same period
+- Family faces appear in personal photos and vice versa
+- Family trust documents reference events documented in personal records
+
+### Why This Matters for Pipeline Development
+
+Every pipeline improvement benefits both branches:
+- Better models → reindex both branches (quarterly reindex principle)
+- Batch mode for `SLICE_PATH` → required for personal branch's scale
+- Page-range chunking → needed for both large trust docs and Apple export documents
+- Cost estimation → essential before running personal branch at 726 GB
+
+The personal branch doesn't need its own pipeline — it needs the family pipeline to be configurable enough to point at different roots and handle different source formats.
+
 ## Pipeline (implemented)
 
 Run via `python -m src.run_slice` from repo root.
@@ -105,4 +165,4 @@ Per-photo JSON keyed by SHA-256 of the original TIFF. Contains `analysis` (date 
 
 ---
 
-*Last updated: 2026-02-10*
+*Last updated: 2026-02-12*

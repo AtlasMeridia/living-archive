@@ -15,19 +15,21 @@ The codebase, architecture, and documentation need to catch up to what the proje
 - [x] Update README — rewrote to lead with system description, real directory tree, CLI reference, quick start — 2026-02-11
 - [x] Retire `docs/open-questions.md` — answered questions archived to `_dev/resolved-decisions.md`, remaining items absorbed into backlog; doc deleted — 2026-02-11
 - [x] Create `_dev/research/` — narrative and research layer; moved council and personal-data docs in, added README with conventions — 2026-02-11
-- [ ] Sketch personal branch in `docs/architecture.md` — document intent, integration points, and how pipeline improvements benefit both Family and Personal branches
+- [x] Sketch personal branch in `docs/architecture.md` — document intent, integration points, and how pipeline improvements benefit both Family and Personal branches — 2026-02-12
 - [ ] Review medium-confidence photos in Immich "Needs Review" albums — 5 from 1978 run, 34 from 1980-1982 run (human task)
 
 ## Next — Focused Conversations
 
 Each of these needs a dedicated session producing artifacts in `_dev/research/`.
 
-- [ ] AI layer architecture deep dive — how does the three-layer model extend to personal data? What's the AI layer for iCloud Photos (HEIC not TIFF), iCloud Drive, Notes? How do family and personal cross-reference?
-- [ ] Personal filesystem organization — 726 GB Apple export (20 iCloud Photos parts, Drive, Notes, Mail, etc.) needs a plan before pipeline can touch it; dedup strategy against Day One archive
+- [x] AI layer architecture deep dive — council session produced unified catalog design (SQLite asset catalog + entity index); see `_dev/research/unified-catalog-2026-02-12.md` — 2026-02-12
+- [x] Personal filesystem organization — raw export stays untouched, catalog is the interface; 6-phase ingestion plan (photos, notes, journals, dedup, Drive, small sources); see `_dev/research/personal-data-organization-2026-02-12.md` — 2026-02-12
 - [ ] UI development discussion — Immich covers photos but no interface for document search (FTS5 index is SQLite-only), no cross-collection browsing, no unified dashboard; define what "showing this publicly" looks like
 
 ## Next — Pipeline Operations
 
+- [ ] Build unified asset catalog — `_ai-layer/catalog.db` with asset table, integrate with `run_slice` and `run_doc_extract`; see `_dev/research/unified-catalog-2026-02-12.md`
+- [ ] Build `scan` command — inventory data layer filesystem, diff against catalog, report new/changed/stale items
 - [ ] Batch mode for `SLICE_PATH` — accept multiple paths or glob so remaining slices can run unattended
 - [ ] Run remaining 2009 Scanned Media slices: `1993-europe/` (8), `assorted/` (22), `assorted II/` (40), `assorted III/` (42), `assorted IV/` (11), `1KUVLQ~D/` (10)
 - [ ] Enumerate `2022 Swei Chi/` and `2025-2026 Digital Revolution Scans/` — count files, check formats
@@ -46,12 +48,15 @@ Steps 1-4 done. Steps 5-6 blocked on human activity. See `_dev/council-face-reco
 
 ## Later — Personal Data Integration
 
-Depends on the focused conversations above producing a plan.
+Plan defined in `_dev/research/personal-data-organization-2026-02-12.md`. Depends on unified catalog being built first.
 
-- [ ] Define `PERSONAL_ROOT` and personal pipeline paths in `config.py`
-- [ ] Create AI layer structure for personal photos and documents
-- [ ] Day One journal cross-referencing — 918 entries (1999-2024) as metadata enrichment for photos from same dates
-- [ ] iCloud Photos deduplication and organization (20 parts, ~726 GB)
+- [ ] Copy Day One archive from Dropbox to NAS `Personal/Day One/`
+- [ ] Parse iCloud Photo Details CSVs → catalog (~26,000 assets across 20 parts)
+- [ ] Ingest iCloud Notes → catalog + FTS5 (~949 notes, 2,700 text files)
+- [ ] Ingest Day One journals → catalog + FTS5 (~918 entries, YAML frontmatter parsing)
+- [ ] Dedup pass — cross-reference Day One attachment hashes against iCloud Photos checksums
+- [ ] Investigate `👀` folder in iCloud Drive (7.8 GB unknown content)
+- [ ] Small sources (Mail, Contacts, Calendars) — deferred until catalog is proven
 
 ## Later — Public Presence & Content
 
