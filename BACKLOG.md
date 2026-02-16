@@ -17,6 +17,7 @@ The codebase, architecture, and documentation need to catch up to what the proje
 - [x] Create `_dev/research/` — narrative and research layer; moved council and personal-data docs in, added README with conventions — 2026-02-11
 - [x] Sketch personal branch in `docs/architecture.md` — document intent, integration points, and how pipeline improvements benefit both Family and Personal branches — 2026-02-12
 - [ ] Review medium-confidence photos in Immich "Needs Review" albums — 5 from 1978 run, 34 from 1980-1982 run (human task)
+- [ ] Document local LLM inference mode — `config.py` has `USE_CLI`/`CLAUDE_CLI`/`CLI_MODEL` and `analyze.py` has `analyze_via_cli()`, but README and architecture docs only mention the Anthropic API path; need to document the CLI routing option and when/why to use it
 
 ## Next — Focused Conversations
 
