@@ -1,11 +1,14 @@
 """Read/write document manifest JSON files to the AI layer."""
 
 import json
+import logging
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
 from . import config
+
+log = logging.getLogger(__name__)
 
 
 def run_dir(run_id: str) -> Path:
@@ -63,6 +66,26 @@ def write_manifest(
     except BaseException:
         Path(tmp).unlink(missing_ok=True)
         raise
+
+    # Update catalog (non-fatal — catalog is optional)
+    try:
+        from .catalog import get_catalog_db, init_catalog, upsert_asset
+        db_path = get_catalog_db("family")
+        if db_path.parent.exists():
+            conn = init_catalog(db_path)
+            upsert_asset(
+                conn,
+                sha256=source_sha256,
+                path=source_file_rel,
+                content_type="document",
+                file_size=file_size_bytes,
+                manifest_path=str(out_path.relative_to(config.DOC_AI_LAYER_DIR)),
+                run_id=run_id,
+                status="indexed",
+            )
+            conn.close()
+    except Exception:
+        log.debug("Catalog update skipped (non-fatal)", exc_info=True)
 
     return out_path
 

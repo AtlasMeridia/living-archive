@@ -1,7 +1,7 @@
 # Unified Catalog & Entity Index — Architecture Discussion
 
 **Date:** 2026-02-12
-**Status:** Decision made — ready to implement
+**Status:** Phase 1 implemented (2026-02-16) — asset catalog live at `Family/_ai-layer/catalog.db`
 **Council:** Claude Opus, GPT-4.1, Grok 4 (Gemini unavailable)
 
 ---
@@ -112,10 +112,25 @@ Novel idea: periodically feed the entity index back into Claude to refine entity
 
 ---
 
+## Implementation (2026-02-16)
+
+Phase 1 implemented in `src/catalog.py`:
+
+- **Schema:** `catalog_meta` + `assets` table with indexes on content_type, status, path. Schema version tracked for future migrations.
+- **Inline updates:** `manifest.py` and `doc_manifest.py` call `upsert_asset()` after every manifest write (try/except, non-fatal).
+- **Backfill:** `python -m src.catalog backfill` reads all existing manifests and populates the catalog.
+- **Scan:** `python -m src.catalog scan [--type photo|document]` walks the filesystem, diffs against catalog using mtime+size (fast) then SHA-256 (confirmation). New files get status `discovered`; unchanged indexed files keep their status.
+- **Stats:** `python -m src.catalog stats` shows counts by content_type and status.
+- **Preflight:** `preflight.py` checks catalog schema version if catalog.db exists (informational, not a blocker).
+
+Initial population: 62 photo + 74 document manifests → 136 unique indexed assets. Document scan found 44 additional unprocessed files.
+
+Schema evolved slightly from the design above: added `created_at`/`updated_at` timestamps, `catalog_meta` table for schema versioning, path index for scan performance.
+
 ## Next Steps
 
-1. Build the asset catalog table (`Phase 1`) — integrate with existing `run_slice` and `run_doc_extract`
-2. Build a `scan` command that inventories the data layer and diffs against the catalog
+1. ~~Build the asset catalog table (`Phase 1`) — integrate with existing `run_slice` and `run_doc_extract`~~ Done
+2. ~~Build a `scan` command that inventories the data layer and diffs against the catalog~~ Done
 3. Run the remaining 6 photo slices through the catalog-aware pipeline
 4. Evaluate whether the entity index is needed yet based on real usage
 

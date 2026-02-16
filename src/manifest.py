@@ -54,6 +54,25 @@ def write_manifest(
         Path(tmp).unlink(missing_ok=True)
         raise
 
+    # Update catalog (non-fatal — catalog is optional)
+    try:
+        from .catalog import get_catalog_db, init_catalog, upsert_asset
+        db_path = get_catalog_db("family")
+        if db_path.parent.exists():
+            conn = init_catalog(db_path)
+            upsert_asset(
+                conn,
+                sha256=source_sha256,
+                path=source_file_rel,
+                content_type="photo",
+                manifest_path=str(out_path.relative_to(config.AI_LAYER_DIR)),
+                run_id=run_id,
+                status="indexed",
+            )
+            conn.close()
+    except Exception:
+        log.debug("Catalog update skipped (non-fatal)", exc_info=True)
+
     return out_path
 
 

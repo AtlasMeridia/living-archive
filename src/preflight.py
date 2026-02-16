@@ -161,6 +161,20 @@ def run_preflight(require_immich: bool = True) -> bool:
     else:
         log.info("  Prompt file: %s", config.PROMPT_FILE.name)
 
+    # 6. Catalog (optional — informational only)
+    if config.FAMILY_CATALOG_DB.exists():
+        try:
+            from .catalog import SCHEMA_VERSION, init_catalog
+            conn = init_catalog(config.FAMILY_CATALOG_DB)
+            conn.close()
+            log.info("  Catalog: %s (schema v%s)", config.FAMILY_CATALOG_DB.name, SCHEMA_VERSION)
+        except RuntimeError as e:
+            log.warning("  Catalog schema issue: %s", e)
+        except Exception as e:
+            log.warning("  Catalog check failed: %s", e)
+    else:
+        log.info("  Catalog: not yet created (run: python -m src.catalog backfill)")
+
     if all_ok:
         log.info("  All checks passed.")
     else:

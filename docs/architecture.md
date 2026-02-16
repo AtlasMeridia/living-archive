@@ -17,6 +17,9 @@ DATA LAYER (NAS, read-only)                    AI LAYER (NAS, regeneratable)    
 /Living Archive/Family/Media/            -->  .../Media/_ai-layer/               --> Immich REST API
   2009 Scanned Media/1978/                     runs/<run-id>/manifests/                PUT /assets (dates, descriptions)
   Source TIFFs, never modified                  one JSON per photo, keyed by SHA-256   POST /albums (review buckets)
+                                          -->  Family/_ai-layer/catalog.db
+                                                unified asset catalog (SQLite)
+                                                tracks all photos + documents
 ```
 
 Inference runs on M3 Pro via Claude API (Sonnet). Results written to NAS. Then pushed to Immich.
@@ -99,6 +102,8 @@ The Liu family archive — scanned photos, trust documents, genealogy records. T
 
 ```
 Living Archive/Family/
+├── _ai-layer/
+│   └── catalog.db           # Unified asset catalog (photos + documents)
 ├── Media/                    # Source TIFFs (2009 Scanned Media, etc.)
 │   └── _ai-layer/           # Photo manifests, people registry
 └── Documents/                # Source PDFs (Liu Family Trust, etc.)
@@ -165,4 +170,4 @@ Per-photo JSON keyed by SHA-256 of the original TIFF. Contains `analysis` (date 
 
 ---
 
-*Last updated: 2026-02-12*
+*Last updated: 2026-02-16*

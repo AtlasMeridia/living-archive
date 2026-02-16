@@ -18,9 +18,17 @@ ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 IMMICH_API_KEY = os.environ.get("IMMICH_API_KEY", "")
 IMMICH_URL = os.environ.get("IMMICH_URL", "http://mneme.local:2283")
 
+# --- Paths: Branch roots ---
+FAMILY_ROOT = Path(os.environ.get(
+    "FAMILY_ROOT", "/Volumes/MNEME/05_PROJECTS/Living Archive/Family"
+))
+PERSONAL_ROOT = Path(os.environ.get(
+    "PERSONAL_ROOT", "/Volumes/MNEME/05_PROJECTS/Living Archive/Personal"
+))
+
 # --- Paths: Photo pipeline ---
 MEDIA_ROOT = Path(os.environ.get(
-    "MEDIA_ROOT", "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media"
+    "MEDIA_ROOT", str(FAMILY_ROOT / "Media")
 ))
 SLICE_PATH = os.environ.get("SLICE_PATH", "2009 Scanned Media/1978")
 
@@ -32,8 +40,11 @@ WORKSPACE_DIR = REPO_ROOT / "private" / "slice_workspace"
 
 # --- Paths: Document pipeline ---
 DOCUMENTS_ROOT = Path(os.environ.get(
-    "DOCUMENTS_ROOT", "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents"
+    "DOCUMENTS_ROOT", str(FAMILY_ROOT / "Documents")
 ))
+
+# --- Paths: Catalog ---
+FAMILY_CATALOG_DB = FAMILY_ROOT / "_ai-layer" / "catalog.db"
 DOC_SLICE_PATH = os.environ.get(
     "DOC_SLICE_PATH", "Liu Family Trust Filings & Documents"
 )

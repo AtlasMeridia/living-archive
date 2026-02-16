@@ -28,8 +28,8 @@ Each of these needs a dedicated session producing artifacts in `_dev/research/`.
 
 ## Next — Pipeline Operations
 
-- [ ] Build unified asset catalog — `_ai-layer/catalog.db` with asset table, integrate with `run_slice` and `run_doc_extract`; see `_dev/research/unified-catalog-2026-02-12.md`
-- [ ] Build `scan` command — inventory data layer filesystem, diff against catalog, report new/changed/stale items
+- [x] Build unified asset catalog — `_ai-layer/catalog.db` with asset table, backfill + scan commands, inline updates from manifest writers; see `_dev/research/unified-catalog-2026-02-12.md` — 2026-02-16
+- [x] Build `scan` command — `python -m src.catalog scan` inventories filesystem, diffs against catalog, reports new/changed/stale items — 2026-02-16
 - [ ] Batch mode for `SLICE_PATH` — accept multiple paths or glob so remaining slices can run unattended
 - [ ] Run remaining 2009 Scanned Media slices: `1993-europe/` (8), `assorted/` (22), `assorted II/` (40), `assorted III/` (42), `assorted IV/` (11), `1KUVLQ~D/` (10)
 - [ ] Enumerate `2022 Swei Chi/` and `2025-2026 Digital Revolution Scans/` — count files, check formats
@@ -76,6 +76,7 @@ Plan defined in `_dev/research/personal-data-organization-2026-02-12.md`. Depend
 
 ## Done
 
+- [x] Build unified asset catalog (Phase 1) — `catalog.db` with 136 indexed assets (62 photo + 74 document), backfill/scan/stats CLI, inline manifest updates — 2026-02-16
 - [x] Harden NAS auto-mount with retry logic, fix stale smb:// references, add mount to doc pipeline — 2026-02-11
 - [x] Run document pipeline on Liu Family Trust — 72 docs, 468 pages, 26 doc types, FTS5 index built — 2026-02-07
 - [x] Run photo pipeline on `1980-1982/` — 36 TIFFs, 36 succeeded, 369.8s — 2026-02-06

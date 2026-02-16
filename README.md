@@ -21,7 +21,7 @@ Three-layer separation:
 | Layer | Location | Contents |
 |-------|----------|----------|
 | **Data** | NAS (read-only) | Source TIFFs, PDFs — never modified |
-| **AI** | NAS (regeneratable) | JSON manifests, extracted text, FTS index — keyed by SHA-256 |
+| **AI** | NAS (regeneratable) | JSON manifests, extracted text, FTS index, asset catalog — keyed by SHA-256 |
 | **Presentation** | Immich | Metadata, albums, face tags — populated via API |
 
 AI outputs are versioned per inference run and designed to be regenerated as models improve.
@@ -60,6 +60,7 @@ src/
 ├── doc_manifest.py       # Document manifest read/write
 ├── doc_scan.py           # PDF discovery and change detection
 ├── doc_index.py          # SQLite FTS5 index builder
+├── catalog.py            # Unified asset catalog (SQLite)
 ├── immich.py             # Immich API client (metadata push, albums)
 ├── people.py             # People registry management
 ├── sync_people.py        # Immich face ↔ registry sync
@@ -91,6 +92,7 @@ _dev/                     # Development notes and research
 | `python -m src.run_doc_extract` | Document extraction orchestrator |
 | `python -m src.doc_scan` | Scan and inventory PDFs |
 | `python -m src.doc_index` | Build/rebuild FTS5 search index |
+| `python -m src.catalog` | Asset catalog: stats, backfill, scan |
 | `python -m src.preflight` | Run all preflight checks |
 | `python -m src.review` | Generate review dashboard |
 | `python -m src.sync_people` | Sync people registry to Immich faces |
