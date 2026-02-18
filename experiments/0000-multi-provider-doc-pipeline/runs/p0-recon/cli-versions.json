@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-02-18T00:00:00Z",
+  "providers": {
+    "claude-cli": {
+      "version": "2.1.45 (Claude Code)",
+      "binary": "~/.local/bin/claude",
+      "default_model": "sonnet",
+      "model_id": "claude-sonnet-4-6"
+    },
+    "codex-cli": {
+      "version": "codex-cli 0.101.0",
+      "binary": "codex",
+      "default_model": "codex-5.3"
+    },
+    "ollama": {
+      "version": "0.13.5",
+      "endpoint": "http://localhost:11434/v1",
+      "default_model": "qwen3:32b",
+      "available_models": [
+        "qwen3-coder:30b-a3b-q8_0",
+        "qwen3:32b",
+        "llava:latest",
+        "llama3.3:70b",
+        "nomic-embed-text:latest"
+      ]
+    }
+  }
+}

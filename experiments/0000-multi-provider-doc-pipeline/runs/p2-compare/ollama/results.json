@@ -1,0 +1,856 @@
+{
+  "provider": "ollama",
+  "total_documents": 18,
+  "succeeded": 18,
+  "failed": 0,
+  "skipped": 0,
+  "total_elapsed_seconds": 2013.0,
+  "results": [
+    {
+      "source_sha256": "0068335420f13b74ce03d6060019cf0480ea26a74d734331dd4c9a039902d388",
+      "source_file": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+      "status": "ok",
+      "elapsed_seconds": 52.9,
+      "analysis": {
+        "document_type": "financial/statement",
+        "title": "Chase Manhattan Bank Wire Transfer Receipt",
+        "date": "1989-08-21",
+        "date_confidence": 0.95,
+        "summary_en": "Wire transfer confirmation from Chase Manhattan Bank for $135,663.00 to Feng Kang Liu and Meichu Grace Liu on August 21, 1989. Includes sender and recipient account details and addresses.",
+        "summary_zh": "美國大通銀行電匯證明，顯示於1989年8月21日轉賬135,663美元至劉豐康和劉美禇賬戶。文件載有匯款人與收款人帳號及地址資訊。",
+        "key_people": [
+          "Feng Kang Liu",
+          "Meichu Grace Liu",
+          "Liu-Chen"
+        ],
+        "key_dates": [
+          "1989-08-21"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "financial",
+          "wire-transfer",
+          "bank",
+          "account"
+        ],
+        "language": "English",
+        "quality": "good"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:34:39.319070+00:00",
+        "input_tokens": 1415,
+        "output_tokens": 279,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "077159dc446d20049224d593e497822652d32c24e3d352f5b35077939c0e1956",
+      "source_file": "Liu Family Trust Filings & Documents/1986-2009 Marquis Diamond Documentation.pdf",
+      "status": "ok",
+      "elapsed_seconds": 80.4,
+      "analysis": {
+        "document_type": "Product Comparison",
+        "title": "3-Carat Diamond Comparison (3.02–3.19 ct)",
+        "date": "2024-03-15",
+        "date_confidence": 0.78,
+        "summary_en": "This comparison includes ethically sourced 3-carat diamonds (3.02–3.19 ct) with SI1 clarity, H/I color, Ideal cut (Blue Nile) or Excellent cut (GIA). Prices range from $30,480 to $42,580, with fluorescence and eye-visible inclusions noted. Options prioritize carat weight, color, and cut quality.",
+        "summary_zh": "此比较包含3克拉（3.02–3.19克拉）伦理采购的SI1净度、H/I色、理想切工（Blue Nile）或精密切工（GIA）钻石，价格从30,480美元到42,580美元，注荧光和肉眼可见内含物。选项优先考虑克拉重量、颜色和切工。",
+        "key_people": [],
+        "key_dates": [
+          "February 7, 2024 (Earliest available delivery)"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "Diamond Comparison",
+          "SI1 Clarity",
+          "3-Carat Options",
+          "Fluorescence",
+          "GIA Certification"
+        ],
+        "language": "en",
+        "quality": "default"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:35:59.702770+00:00",
+        "input_tokens": 529,
+        "output_tokens": 371,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "09192c83a93fc264da7489b1eb71cf3f12fac3b464ec606a57ec0354442495c4",
+      "source_file": "Liu Family Trust Filings & Documents/1990-06-20 Weston Dr Deed transfer to Trust.pdf",
+      "status": "ok",
+      "elapsed_seconds": 91.0,
+      "analysis": {
+        "document_type": "Title Insurance Policy",
+        "title": "First American Title Insurance Company - Owner's Policy of Title Insurance",
+        "date": "January 1, 1958",
+        "date_confidence": 0.75,
+        "summary_en": "This document is an Owner's Policy of Title Insurance issued by First American Title Insurance Company. It provides coverage up to the date of recording stated in the document (1958). The policy includes Schedule B with exceptions like encroachments, easements, zoning violations, and other restrictions. Additional coverage is provided through endorsements like the 126.1 endorsement, which added post-recording protections for specific issues such as building encroachments and zoning changes.",
+        "summary_zh": "这张文件是第一美亚理赔公司（First American Title Insurance Company）签发的业主地契保险单。保险期限为文件标注的记录日期（1958年），其后添加了扩展保护（如126.1条款），针对建筑侵占、土地分区法规变更等后记录问题提供额外保障。保险单的B表例外条款包括侵占、产权负担、分区违规和其他限制。",
+        "key_people": [],
+        "key_dates": [
+          "1950/11/02 - Date of original recording for the subdivision",
+          "1958/01/01 - Recorded date of the title policy",
+          "1968/11 - Date of 126.1 endorsement addition"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "RealEstate",
+          "LegalProtection",
+          "Insurance",
+          "Property",
+          "PolicyCoverage"
+        ],
+        "language": "mix (Chinese/Japanese/English)",
+        "quality": "text has parts in non-English languages and some pages are blurry"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:37:30.673811+00:00",
+        "input_tokens": 516,
+        "output_tokens": 411,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "0d2eaf1ef09571e8513535d9bbfed41a80a09b5885302cf474ca192b506a23fa",
+      "source_file": "Liu Family Trust Filings & Documents/1983-07-30 Wedding Invitation.pdf",
+      "status": "ok",
+      "elapsed_seconds": 60.5,
+      "analysis": {
+        "document_type": "personal/memorial",
+        "title": "Liu Family Wedding Invitation for Judy and Ipe Lim on July 30, 1983",
+        "date": "1983-07-30",
+        "date_confidence": 1.0,
+        "summary_en": "Wedding invitation for Judy and Ipe Lim, to be held on July 30, 1983 at the First Baptist Church of Sunnyvale. The wedding banquet will follow at the Santa Clara Marriott Hotel.",
+        "summary_zh": "蕭文和與吳雅卿於一九八三年七月三十日舉行婚禮，地點在聖安娜基督教會，婚宴則在聖克拉拉萬豪酒店舉行。",
+        "key_people": [
+          "Judy",
+          "Ipe Lim",
+          "Wen Ho Mariao",
+          "Ipe Lim Igu",
+          "Liu Fengguang"
+        ],
+        "key_dates": [
+          "1983-07-30"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "wedding",
+          "personal",
+          "ceremony",
+          "invitation",
+          "traditional"
+        ],
+        "language": "Chinese",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:38:31.131310+00:00",
+        "input_tokens": 1459,
+        "output_tokens": 268,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "191e25b99dbb03c0c29679b4f58628f9c05a6691c1e508a33f347b63cbea9687",
+      "source_file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+      "status": "ok",
+      "elapsed_seconds": 206.3,
+      "analysis": {
+        "document_type": "death_certificate",
+        "title": "Death Certificate for Feng Liu and Liang-Kuang Liu",
+        "date": "2010",
+        "date_confidence": 0.75,
+        "summary_en": "Two documents with conflicting information about individuals named Feng Liu (August 17, 2010, Stanford Medical Center) and Liang-Kuang Liu (June 18, 2004, Stanford Medical Center). Both list the same address in Los Altos Hills, CA. Inconsistencies include different names and death dates. California certificate mentions a liver transplant in June 2004, while Massachusetts document lacks this detail.",
+        "summary_zh": "两份死亡证明存在矛盾：冯柳（2010年8月17日，斯坦福医疗中心）与梁光柳（2004年6月18日，斯坦福医疗中心），居住地址均为加州洛斯阿尔托斯丘。差异包括姓名、死亡日期，加州文件提及2004年6月肝移植，而马萨诸塞州文件未提及相关信息。",
+        "key_people": [
+          "{\"name\": \"Feng Liu\", \"role\": \"Deceased (MA record)\", \"death_date\": \"2010-08-17\", \"cause\": \"Right heart failure due to massive pulmonary embolus\"}",
+          "{\"name\": \"Liang-Kuang Liu\", \"role\": \"Deceased (CA record)\", \"death_date\": \"2004-06-18\", \"cause\": \"Right heart failure due to massive pulmonary embolus and acute fulminant hepatitis\"}"
+        ],
+        "key_dates": [
+          "2004-06-15: Liver transplant (CA certificate)",
+          "2004-06-18: Death date (CA certificate)",
+          "2010-08-17: Death date (MA certificate)",
+          "2010-08-09: Certified copy date (MA certificate)"
+        ],
+        "sensitivity": {
+          "has_ssn": true,
+          "has_financial": false,
+          "has_medical": true
+        },
+        "tags": [
+          "death_certificate",
+          "California",
+          "Massachusetts",
+          "pulmonary_embolus",
+          "hepatitis",
+          "liver_transplant"
+        ],
+        "language": "en",
+        "quality": "high"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:41:57.431715+00:00",
+        "input_tokens": 1866,
+        "output_tokens": 516,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "2f0b8ac565768d107e8e0dd81d268c38e94d723ab6d0d020e021421992f7c36c",
+      "source_file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+      "status": "ok",
+      "elapsed_seconds": 123.6,
+      "analysis": {
+        "document_type": "信托法律纠纷",
+        "title": "信托受益人（Karen & Kenny Liu）质疑受托人（Melody Tsai）违规使用信托资金及管理失当的法律争议",
+        "date": "2021-10-25",
+        "date_confidence": 0.95,
+        "summary_en": "The documents reveal a legal dispute over Melody Tsai's management of Feng Kuang Liu's trust. Tsai, appointed by attorney Jeffrey Froehlich, made multiple payments from the trust including a $15,000 retainer to Froehlich (Check #3001) and $2,500 to Raymond Sheffield (Check #3012), which beneficiaries Karen & Kenny Liu later questioned. The trust's original terms appear to have permitted limited use of GE account funds, but Tsai's expenditures on attorney fees, estate maintenance, and personal expenses raised fiduciary duty concerns. Karen & Kenny sought judicial removal of Tsai and accounting of trust funds through probate court.",
+        "summary_zh": "文件显示关于Melody Tsai管理Feng Kuang Liu信托的法律争议。Tsai由律所Jeffrey Froehlich任命，从信托账户支付了3001号支票15,000美元给Froehlich，3012号支票2,500美元给Raymond Sheffield，这些支出受到受益人Karen & Kenny Liu质疑。信托原始条款允许有限使用GE账户资金，但Tsai将资金用于律师费、遗产维护及个人开支，引发受托责任争议。Karen & Kenny已向遗嘱认证法院申请解除Tsai的受托人职务并要求资金清算。",
+        "key_people": [
+          "Melody Tsai(受托人)",
+          "Karen Liu(受益人)",
+          "Kenny Liu(受益人)",
+          "Jeffrey Froehlich(原任律师)",
+          "Jean Kohler(信托记录负责人)"
+        ],
+        "key_dates": [
+          "2021-10-25(争议爆发日期)",
+          "2021-10-25(法院关键时间节点)"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "信托管理失职",
+          "受托人责任争议",
+          "资金滥用指控",
+          "遗嘱认证法院诉讼"
+        ],
+        "language": "zh",
+        "quality": "a"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:44:01.081231+00:00",
+        "input_tokens": 723,
+        "output_tokens": 530,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "33c13901edc9e84789358a808ccaef8868a6f83d6ece4f20dbf995feb1e23040",
+      "source_file": "Liu Family Trust Filings & Documents/2011 Assorted bills.pdf",
+      "status": "ok",
+      "elapsed_seconds": 108.3,
+      "analysis": {
+        "document_type": "Mixed Financial and Healthcare Documents",
+        "title": "Mixed Financial and Healthcare Transaction Records",
+        "date": "2011",
+        "date_confidence": 0.95,
+        "summary_en": "This document set includes three financial transaction records (Citibank credit card payments, Wells Fargo VA loan payoff, Chase cashier's check) and two healthcare claim records (Medicare Part B claims for medical services and vaccine). Key dates include March 4, 2011, for Medicare billing, with services from March to April 2011, and payment confirmations from 2009-2011.",
+        "summary_zh": "该文件集包含三项金融交易记录（Citibank信用卡还款、Wells Fargo VA贷款结清、Chase现金支票）和两项医疗健康理赔记录（Medicare Part B医疗服务和疫苗理赔）。医保账单日期标注为2011年3月4日，服务覆盖2011年3月至4月，金融交易确认文件涵盖2009-2011年期间。",
+        "key_people": [
+          "Swei-Chih Peng",
+          "Swie-Chih Peng",
+          "Kenny Liu",
+          "Swee Chih Peng"
+        ],
+        "key_dates": [
+          "March 4, 2011",
+          "March 8, 2011",
+          "March 12, 2011",
+          "April 8, 2011"
+        ],
+        "sensitivity": {
+          "has_ssn": true,
+          "has_financial": true,
+          "has_medical": true
+        },
+        "tags": [
+          "financial",
+          "healthcare",
+          "Citibank",
+          "Wells Fargo",
+          "Medicare",
+          "payment confirmation",
+          "loan payoff",
+          "cashier's check"
+        ],
+        "language": "en",
+        "quality": "hq"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:45:49.410221+00:00",
+        "input_tokens": 586,
+        "output_tokens": 437,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "40b0a7f5a982b9f96588778b444239777058ca01b25c87eaec7b57056ab9ebc9",
+      "source_file": "Liu Family Trust Filings & Documents/2007-10-22 Immigration Application KAI TI PENG.pdf",
+      "status": "ok",
+      "elapsed_seconds": 170.0,
+      "analysis": {
+        "document_type": "Immigration and Financial Documents",
+        "title": "Immigration-Related Form and Wire Transfer Records",
+        "date": "2007 - 2008",
+        "date_confidence": 0.9,
+        "summary_en": "This collection of documents pertains to U.S. immigration procedures and financial transactions for an immigrant visa applicant, focusing on legal representation and a large wire transfer. The core document is a DS-3032 form for the CHOICE OF ADDRESS AND AGENT, appointing Feng K. Liu as the agent for Kai Tipeng, an immigrant visa applicant. Accompanying documents include an Affidavit of Support fee notice ($70), a wire transfer confirmation of $53,982 to Feng K. Liu's address in Los Altos Hills, California, sent by Fang-Kuong Liu, and a Franchise Tax Board payment voucher from 2007.",
+        "summary_zh": "该文件集涉及一名移民签证申请人的美国移民程序和金融交易，重点是法律代理和大额电汇。核心文件是《地址和代理人选择表》（DS-3032表），其中指定冯光流作为申请人的代理人。附加文件包括70美元的经济担保费通知、53,982美元电汇凭证，以及来自2007年的加州特许经营税局付款凭证。",
+        "key_people": [
+          "Feng K. Liu",
+          "Kai Tipeng",
+          "Fang-Kuang Liu"
+        ],
+        "key_dates": [
+          "2007-09-17",
+          "2008-07-18"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "Immigration Visa",
+          "Wire Transfer",
+          "Affidavit of Support",
+          "Legal Agent",
+          "Franchise Tax"
+        ],
+        "language": "en",
+        "quality": "name_recognition_score=0.99, content_consistency=1.0, structure_completeness=0.95"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:48:39.377329+00:00",
+        "input_tokens": 1313,
+        "output_tokens": 446,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "43b9fb4062bece7235c02ae2da5efdc839b795e47084a62a4003984045183594",
+      "source_file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Guestbook.pdf",
+      "status": "ok",
+      "elapsed_seconds": 63.4,
+      "analysis": {
+        "document_type": "personal/memorial",
+        "title": "Meichu Grace Liu Memorial Guestbook",
+        "date": "2004-06-21",
+        "date_confidence": 0.95,
+        "summary_en": "This document is a memorial guestbook for Meichu Grace Liu (1947-2004) from June 2004. It contains handwritten names and messages of attendees, family members, and friends, primarily in Chinese and English, commemorating her life and passing.",
+        "summary_zh": "此文件是紀念劉美菊（1947-2004）的追思賓客簿，於2004年6月製作，內含參與者、親友以中文及英文手寫的姓名與悼詞。",
+        "key_people": [
+          "Meichu Grace Liu",
+          "Vasantha Tholasiram",
+          "Liu Shichang",
+          "Wang Liyi",
+          "James Mare",
+          "Lily, Sarah, Paul Carp"
+        ],
+        "key_dates": [
+          "1947-03-11",
+          "2004-06-16",
+          "2004-06-21"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "memorial",
+          "family",
+          "personal",
+          "handwritten",
+          "multilingual"
+        ],
+        "language": "Chinese/English bilingual",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:49:42.778195+00:00",
+        "input_tokens": 2620,
+        "output_tokens": 342,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "4b6ec06ad65b6c151351670daa66a989ca1fa62fdde6c0b786951757c9b10073",
+      "source_file": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+      "status": "ok",
+      "elapsed_seconds": 78.8,
+      "analysis": {
+        "document_type": "legal/will",
+        "title": "Feng Kuang Liu's Last Will and Testament",
+        "date": "2007-05-10",
+        "date_confidence": 0.95,
+        "summary_en": "This will revokes all prior wills and designates the Feng Kuang Liu 'A' Trust (established March 14, 2005) as the sole beneficiary of the testator's estate. It names Mei Liang Melody Tsai as executor, with Karen Peling Liu and Kenny Peng Liu as alternate executors. The document includes witness signatures and jurisdictional information.",
+        "summary_zh": "此遺囑註銷所有先前遺囑，指定『馮廣流A信托』（2005年3月14日成立）為唯一受益人。遺囑指定梅良美樂黛為遺囑執行人，並以女兒 Karen Peling Liu 及兒子 Kenny Peng Liu 為備位執行人。文件包含見證人簽名及管轄權資訊。",
+        "key_people": [
+          "FENG KUANG LIU",
+          "KAREN PELING LIU",
+          "KENNY PENG LIU",
+          "MEI LIANG MELODY TSAI"
+        ],
+        "key_dates": [
+          "2005-03-14",
+          "2007-05-10"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "legal",
+          "will",
+          "estate-planning"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:51:01.532639+00:00",
+        "input_tokens": 2708,
+        "output_tokens": 373,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "58237da3bad43cbb6bbfe15940340da946ea0c245137e6bb78892b42faffdb05",
+      "source_file": "Liu Family Trust Filings & Documents/Artifacts/School Certificates - KENNY PENG LIU.pdf",
+      "status": "ok",
+      "elapsed_seconds": 112.7,
+      "analysis": {
+        "document_type": "personal/certificate",
+        "title": "Liu Family Chinese Language School Certificates and Report Cards",
+        "date": "1988-06",
+        "date_confidence": 0.8,
+        "summary_en": "This document contains multiple educational records from the West Valley Chinese Language School in Sunnyvale, California. It includes certificates of completion for Chinese language courses awarded to Kenny Peng Liu (劉侃寧) and other students in the MK3 year program (1986–1988). Report cards with performance evaluations in speaking, writing, and conduct are also included. Dates range across 1986–1988 with certificates issued in June 1987 and June 3, 1988.",
+        "summary_zh": "本文件包含西谷中文學校（加州陽奈維爾市）的結業證書及成績單，記載劉侃寧（Kenny Peng Liu）及其他學生參加中文課程（1986–1988年間）的學習紀錄。內容涵蓋語文能力、書寫評分以及行為表現，證書頒發日主要為1987年6月及1988年6月3日。",
+        "key_people": [
+          "Liu, Kenny",
+          "劉侃寧",
+          "Catherine La",
+          "賴瑞準",
+          "賴當瑞修",
+          "星導"
+        ],
+        "key_dates": [
+          "1988-06-03",
+          "1987-06-05",
+          "1986-06"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "education",
+          "certificate",
+          "language-school",
+          "academic-records"
+        ],
+        "language": "Chinese",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:52:54.206082+00:00",
+        "input_tokens": 2755,
+        "output_tokens": 413,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "7bd2ccac29b5cf5adc1a66a745cec5423384fe082c24f567b6fe2f34921bb80e",
+      "source_file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+      "status": "ok",
+      "elapsed_seconds": 154.0,
+      "analysis": {
+        "document_type": "Security Transaction Report & Tax Instructions",
+        "title": "2010 Security Transaction Summary for Feng Kuan Liu, TR",
+        "date": "April 2, 2010",
+        "date_confidence": 0.98,
+        "summary_en": "This document summarizes the 2010 security transactions for Feng Kuan Liu, TR, an investment in a partnership issuing K-1s. It includes six entries of buying and selling units. The partnership applies a FIFO basis method, which may not fully comply with IRS unified basis rules. Key tax considerations include reconciling partnership basis adjustments with IRS requirements, properly reporting capital gains/losses on Schedule D, and calculating alternative minimum tax (AMT) adjustments. Additional data like sales proceeds, purchase amount, and cumulative basis adjustments are provided for each entry.",
+        "summary_zh": "这份文件总结了冯坤刘2010年的投资交易情况，该投资以K-1文件报税。内容包括六笔买入和卖出交易。合伙公司采用先进先出法确定基础，这可能不符合IRS的统一基础规则。主要税务考虑因素包括将合伙公司计算的资本损益与IRS要求对账，在Schedule D上正确报告资本收益/损失，并计算替代最低税（AMT）调整。还提供了每笔交易的销售收益、买入金额和累计基础调整数据。",
+        "key_people": [
+          "Feng Kuan Liu, TR"
+        ],
+        "key_dates": [
+          "2010-02-04 (Buy 300 units)",
+          "2010-02-16 (Sell 300 units)",
+          "2010-05-17 (Buy 300 units)",
+          "2010-05-20 (Buy 200 units)"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "Capital Gains/Loss",
+          "K-1 Form",
+          "FIFO Method",
+          "IRS",
+          "Tax Basis Adjustment",
+          "Schedule D",
+          "Alternative Minimum Tax (AMT)"
+        ],
+        "language": "en",
+        "quality": "label=High Confidence;score=0.998"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:55:28.229808+00:00",
+        "input_tokens": 1074,
+        "output_tokens": 487,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "8ad09e2eca3fcace10eea278022c5cd033ad82056140d2181fee414bec22269d",
+      "source_file": "Liu Family Trust Filings & Documents/Work Life/2004-10-07 FENG KUANG LIU Retirement Email Notification.pdf",
+      "status": "ok",
+      "elapsed_seconds": 94.1,
+      "analysis": {
+        "document_type": "email_transcript",
+        "title": "Feng's Contributions to Technical Projects at Nortel",
+        "date": "2001-2004",
+        "date_confidence": 0.95,
+        "summary_en": "Feng contributed to multiple critical projects at Nortel between 2001-2004, focusing on telecom system optimization, traffic engineering, and capacity planning. His work involved identifying configuration errors in the Meridian and CS1000 systems, analyzing real-time factors, and resolving IP call capacity limitations.",
+        "summary_zh": "2001年至2004年间，Feng在Nortel参与多个关键项目，涉及电信系统优化、流量工程和容量规划。他识别了Meridian和CS1000系统的配置错误，分析实时系数，并解决IP通话容量限制问题。",
+        "key_people": [
+          "Feng",
+          "Louis Lanthier",
+          "Chris Armour"
+        ],
+        "key_dates": [
+          "2001-09",
+          "2004-04",
+          "2004-10",
+          "2004-11"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "telecom systems",
+          "traffic engineering",
+          "capacity planning",
+          "Meridian",
+          "CS1000",
+          "EBC calculation"
+        ],
+        "language": "en",
+        "quality": "mathematical calculations and technical terminology present with high clarity"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:57:02.336893+00:00",
+        "input_tokens": 466,
+        "output_tokens": 348,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "920df846c730bcdfcb3ce209d05ce2f2259771a40dcbbdce0d92e6ad03771d1b",
+      "source_file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+      "status": "ok",
+      "elapsed_seconds": 94.1,
+      "analysis": {
+        "document_type": "legal/deed",
+        "title": "Grant Deed for Property Transfer in Los Altos Hills, California",
+        "date": "2010-04-14",
+        "date_confidence": 0.95,
+        "summary_en": "This grant deed transfers real property in Los Altos Hills, California, from Feng-Kuang Liu as surviving trustee of the Liu Personal Residence Trust and other trusts under his name. The deed, dated April 1, 2010, was recorded on April 14, 2010, with a notary date of April 7, 2010. It includes a property description in Exhibit A and specifies undivided ownership interests divided among multiple trusts.",
+        "summary_zh": "此贊助文書將加州洛斯阿圖斯山的不動產從馮國廖作為個人住宅信託的存續受託人及其他其名下的信託轉讓。文書日期為2010年4月1日，於2010年4月14日提交登記，公證日期為2010年4月7日。文書包含附錄A的產權描述，並說明多家信託之間的不動產未分割擁有比例。",
+        "key_people": [
+          "Feng-Kuang Liu",
+          "Mei Chhu Grace Liu"
+        ],
+        "key_dates": [
+          "2010-04-07",
+          "2010-04-14",
+          "2010-04-15"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "legal",
+          "deed",
+          "property",
+          "trust"
+        ],
+        "language": "English",
+        "quality": "good"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:58:36.428177+00:00",
+        "input_tokens": 3820,
+        "output_tokens": 414,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "9bebd08ebcdd0c48dffccfb7d49873bfa7a5e374984133d925e4a8787e6ae2bb",
+      "source_file": "Liu Family Trust Filings & Documents/2011-06-14  Weston Dr Sales Contract.pdf",
+      "status": "ok",
+      "elapsed_seconds": 119.0,
+      "analysis": {
+        "document_type": "California Real Estate Purchase Agreement Addendum",
+        "title": "Notice to Buyer Regarding the Existence and Content of RDS Disclosures and Certain Other Matters",
+        "date": "July 1, 2007",
+        "date_confidence": 0.9,
+        "summary_en": "This addendum serves as a notice to the buyer and other interested parties regarding the existence and content of the Real Data Standard (RDS) disclosures, which include various disclosures by the seller about the condition of the property. It is crucial for the buyer to carefully review these disclosures, as they cover a wide range of topics including building compliance, environmental hazards, taxes, and potential issues affecting property ownership. The addendum emphasizes that the seller has fulfilled their obligations to disclose, but does not relieve the buyer of the responsibility to investigate further. The buyer is advised to be aware of specific disclosures like unpermitted improvements, mold, lead paint, seismic hazards, and supplemental taxes upon transfer. These disclosures are essential for the buyer to be fully informed and to avoid future legal or financial complications.",
+        "summary_zh": "此附加文件是购买方和其他相关方关于Real Data Standard (RDS) 披露的存在和内容的通知。这些披露由卖方关于房产状况提供，买家必须谨慎审查，因为其涵盖了建筑合规、环境危害、税收以及可能影响房产所有权的各种问题。附加文件强调卖方已履行披露义务，但不会免除买家进一步调查的责任。买家需要注意特定的披露内容，比如未经许可的改进、霉菌、铅漆、地震危害和转让后的附加税。这些披露对买家来说至关重要，可以避免未来的法律或财务问题。",
+        "key_people": [],
+        "key_dates": [
+          "July 1, 2007"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "real estate",
+          "disclosure",
+          "RDS form",
+          "California",
+          "purchase agreement",
+          "environmental hazards",
+          "taxes",
+          "property conditions",
+          "legal obligation"
+        ],
+        "language": "en",
+        "quality": "high"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T11:00:35.409577+00:00",
+        "input_tokens": 626,
+        "output_tokens": 486,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "ac9080ef8a791f59891ded66cbda5629c1a6a2af1f564ad63b7260ab9e3737f1",
+      "source_file": "Liu Family Trust Filings & Documents/Scanned Letters/Untitled.pdf",
+      "status": "ok",
+      "elapsed_seconds": 61.1,
+      "analysis": {
+        "document_type": "personal/memorial",
+        "title": "Personal memorial letter and reflective correspondence",
+        "date": "2021",
+        "date_confidence": 0.5,
+        "summary_en": "This handwritten letter appears to be a memorial and reflective correspondence sent to family members and a close friend. The writer discusses completing a personal memorial project after four years of effort, expressing regret over past hospitality shortcomings and gratitude for receiving gifts. The document is written in a mix of Japanese and Chinese, concluding with handwritten signatures and personal notes.",
+        "summary_zh": "這封親筆信似乎是寫給家人及摯友的紀念性文字。作者談及經過四年努力完成個人紀念項目，表達對過去待客不周的遺憾與收到禮物的感謝。文檔使用日文與中文混合書寫，最後附有手寫簽名與注記。",
+        "key_people": [
+          "奚 扙 (Xi Lu)",
+          "女兒",
+          "弟弟",
+          "貴 教"
+        ],
+        "key_dates": [],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "personal",
+          "memorial",
+          "correspondence"
+        ],
+        "language": "Chinese/Japanese mix",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T11:01:36.468764+00:00",
+        "input_tokens": 2016,
+        "output_tokens": 273,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "e28810d04c65b05b55bc429e260f0f2ccebf3aa2bf58574a7c8ffcbef393fde8",
+      "source_file": "Liu Family Trust Filings & Documents/1985-01-31 Mobile Home Park Related.pdf",
+      "status": "ok",
+      "elapsed_seconds": 182.3,
+      "analysis": {
+        "document_type": "Real Estate Transaction & Financial Records",
+        "title": "Feng K. Liu & Grace Liu Real Estate and Financial Activities Summary",
+        "date": "February 1986 - March 1986",
+        "date_confidence": 0.8,
+        "summary_en": "Feng K. Liu/Kuang Liu (married to Meichu Grace Liu) is engaged in two major transactions:\n\n1. A Sunnyvale commercial property for sale on El Camino Real (approx. $1.928M asking price) featuring a 42-unit mobile home park, auto dealership, and commercial tenants.\n\n2. A March 3, 1986 loan payoff for Howard Vierra ($1,486,209.64) facilitated through Foreclosure Company Inc., with funds paid from American Title Insurance.\n\nFeng and Grace appear as joint recipients of the payoff funds. Both transactions involve significant commercial real estate activity in the San Jose/Sunnyvale CA area.",
+        "summary_zh": "冯·K·刘/冯光刘（与麦淑·格蕾丝·刘结婚）涉及两项主要交易：\n\n1. 1986年2月，销售圣何塞/阳光谷埃尔卡米诺雷尔的一处商业房产，标价约192.8万美元。该房产包括移动房屋公园（42个单位）、汽车经销商和商业租户。\n\n2. 1986年3月3日，冯和格蕾丝通过抵押公司公司收到了霍华德·维拉的还贷资金148.62万美元（由美国产权保险公司支付）。\n\n两项交易均涉及圣荷西/阳光谷地区的商业房地产活动。",
+        "key_people": [
+          "Feng K. Liu",
+          "Feng Kuang Liu",
+          "Meichu Grace Liu",
+          "Howard Vierra"
+        ],
+        "key_dates": [
+          "February 1986 - Sunnyvale property listing activity",
+          "March 3, 1986 - Loan payoff to Feng K. Liu & Grace Liu"
+        ],
+        "sensitivity": {
+          "has_ssn": true,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "Real Estate Transaction",
+          "Commercial Real Estate",
+          "Foreclosure",
+          "Loan Payoff"
+        ],
+        "language": "en",
+        "quality": "HIGH CONFIDENCE"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T11:04:38.795076+00:00",
+        "input_tokens": 1335,
+        "output_tokens": 534,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "f3ed4d4da2926e29006d0699159b6b2df111ab1b9cad219e5b4a5044b84d21c3",
+      "source_file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+      "status": "ok",
+      "elapsed_seconds": 160.6,
+      "analysis": {
+        "document_type": "Privacy Statement and Conditions of Admission",
+        "title": "Healthcare Privacy and Admission Policies",
+        "date": "2002",
+        "date_confidence": 0.9,
+        "summary_en": "The 2002 document encompasses a detailed Privacy Statement and Conditions of Admission & Financial Responsibility Agreement. The Privacy Statement aligns with HIPAA regulations, outlining policies on the use and disclosure of health information. Key aspects include allowing use of health information for treatment, payment, and healthcare operations without written authorization in most cases. It specifies scenarios allowing disclosure (e.g. coroners, law enforcement, public health threats) and the individual's rights such as accessing records and requesting changes. The Conditions of Admission section requires patients to provide personal and medical information and to be financially responsible for non-covered charges. The document outlines rules for patient conduct, billing procedures, and insurance claim responsibilities. The summary also emphasizes patient rights to request confidential communication. It concludes with contact details for the privacy officer and a summary of the HIPAA Notice. The document is comprehensive, covering patient rights, privacy protections, and clear financial obligations.",
+        "summary_zh": "2002 年的文件包括一份详细的隐私声明和一份关于住院条件与财务责任的协议。隐私声明符合 HIPAA 有关规定，涵盖了健康信息的使用与披露政策。主要内容包括允许在多数情况下无书面授权即可将健康信息用于治疗、支付和医疗运营。它规定了可披露的场景（例如遗体检验员、执法部门、公共健康威胁），并规定了个人的权利如访问记录及要求修改。《入院条件》章节要求患者提供个人与医疗信息，并为其承担的费用负责任。该文件规定患者行为规范、账单程序及保险索赔责任。总结中还强调了患者要求保密沟通的权利。它总结了 HIPAA 通知，列出了隐私办公室的联系方式。该文件全面覆盖了患者权利、隐私保护以及明确的财务义务。",
+        "key_people": [],
+        "key_dates": [
+          "2002"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": true
+        },
+        "tags": [
+          "HIPAA",
+          "Privacy Statement",
+          "Conditions of Admission",
+          "Financial Responsibility",
+          "Healthcare Information Use and Disclosure"
+        ],
+        "language": "en",
+        "quality": "high"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "ollama",
+        "model": "qwen3:32b",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T11:07:19.431060+00:00",
+        "input_tokens": 1089,
+        "output_tokens": 502,
+        "chunk_count": 1
+      }
+    }
+  ]
+}

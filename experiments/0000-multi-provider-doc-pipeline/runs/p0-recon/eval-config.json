@@ -1,0 +1,59 @@
+{
+  "description": "Locked evaluation configuration for multi-provider document pipeline comparison",
+  "created": "2026-02-18",
+  "prompt": {
+    "version": "v1",
+    "file": "prompts/document_analysis_v1.txt",
+    "note": "v2 will be created in Phase 1 to support pre-extracted text input. Both v1 template variables ({source_file}, {page_count}) and the schema/guidelines remain identical."
+  },
+  "providers": {
+    "claude-cli": {
+      "model": "sonnet",
+      "model_id": "claude-sonnet-4-6",
+      "timeout_seconds": 300,
+      "flags": "--output-format json --json-schema SCHEMA --model sonnet --no-session-persistence"
+    },
+    "codex-cli": {
+      "model": "codex-5.3",
+      "timeout_seconds": 300,
+      "flags": "exec PROMPT --json --output-schema FILE -o FILE --skip-git-repo-check --ephemeral"
+    },
+    "ollama": {
+      "model": "qwen3:32b",
+      "endpoint": "http://localhost:11434/v1",
+      "timeout_seconds": 300,
+      "response_format": "json_schema"
+    }
+  },
+  "extraction": {
+    "method": "pypdf",
+    "chunk_pages": 50,
+    "chunk_overlap_pages": 0,
+    "small_doc_threshold_chars": 100000
+  },
+  "aggregation": {
+    "strategy": "merge",
+    "notes": "Union key_people/key_dates/tags across chunks. OR sensitivity flags. Highest-confidence date. First chunk's document_type/title. Concatenate summaries."
+  },
+  "privacy_routing": {
+    "default_policy": "all-providers-allowed",
+    "note": "Pre-extracted text (not raw PDF binary) is sent to all providers. Text extraction happens locally via pypdf. Sensitivity detection is part of the analysis output, not a pre-filter."
+  },
+  "evaluation": {
+    "metrics": {
+      "document_type": "exact_match",
+      "date": "normalized_exact_or_range",
+      "sensitivity": "precision_recall_with_fn_count",
+      "summary": "qualitative_rubric",
+      "key_people": "set_overlap",
+      "key_dates": "set_overlap",
+      "tags": "set_overlap",
+      "runtime": "avg_and_p95_seconds"
+    },
+    "quality_gates": {
+      "document_type_exact_match_min": 0.80,
+      "sensitivity_false_negatives_max": 0,
+      "schema_validation_success": 1.0
+    }
+  }
+}

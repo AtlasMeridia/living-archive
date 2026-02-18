@@ -1,0 +1,708 @@
+{
+  "description": "Adjudicated ground truth labels for locked test set",
+  "created": "2026-02-18",
+  "source_run": "20260207T044501Z",
+  "adjudication_method": "Human review of manual Claude Code interactive session output against source PDFs",
+  "labels": [
+    {
+      "source_sha256": "0068335420f13b74ce03d6060019cf0480ea26a74d734331dd4c9a039902d388",
+      "document_type": "financial/statement",
+      "date": "1989-08-21",
+      "date_confidence": 0.95,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": true,
+        "has_medical": false
+      },
+      "language": "English",
+      "key_people": [
+        "Y S Liu-Chen",
+        "Feng Kuang Liu",
+        "Meichu Grace Liu"
+      ],
+      "key_dates": [
+        "1989-08-21"
+      ],
+      "tags": [
+        "financial",
+        "wire-transfer",
+        "banking"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "191e25b99dbb03c0c29679b4f58628f9c05a6691c1e508a33f347b63cbea9687",
+      "document_type": "personal/certificate",
+      "date": "2010",
+      "date_confidence": 0.8,
+      "sensitivity": {
+        "has_ssn": true,
+        "has_financial": false,
+        "has_medical": true
+      },
+      "language": "English",
+      "key_people": [
+        "Feng-Kuang Liu (\u5289\u9022\u5149)",
+        "Meichu Grace Liu (\u5289\u5f6d\u7f8e\u73e0)",
+        "Mei Liang Melody Tsai (\u8521\u7f8e\u4eae)",
+        "Tie Jia Liu",
+        "A Shio Chen",
+        "Kuo Kwang Peng (\u5f6d\u570b\u7965)",
+        "Suei Chih Ho (\u4f55\u6c34\u6cbb)",
+        "Stephan Busque MD"
+      ],
+      "key_dates": [
+        "1943-01-23",
+        "1947-03-11",
+        "2004-06-15",
+        "2004-06-18",
+        "2010-06-06"
+      ],
+      "tags": [
+        "death-certificate",
+        "vital-records",
+        "liu-family",
+        "stanford-medical-center",
+        "alta-mesa-memorial-park",
+        "sensitive"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "ac9080ef8a791f59891ded66cbda5629c1a6a2af1f564ad63b7260ab9e3737f1",
+      "document_type": "personal/letter",
+      "date": "2000-08-23",
+      "date_confidence": 0.8,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": false,
+        "has_medical": false
+      },
+      "language": "Japanese",
+      "key_people": [
+        "\u595a\u679d (Shu-Hui/Kishi)",
+        "\u6c34\u6cbb (Suiji)"
+      ],
+      "key_dates": [
+        "2000-08-23"
+      ],
+      "tags": [
+        "personal-letter",
+        "japanese",
+        "memoir",
+        "bereavement",
+        "handwritten",
+        "family-memory",
+        "memorial-book"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "0d2eaf1ef09571e8513535d9bbfed41a80a09b5885302cf474ca192b506a23fa",
+      "document_type": "personal/invitation",
+      "date": "1983-07-30",
+      "date_confidence": 0.95,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": false,
+        "has_medical": false
+      },
+      "language": "zh-Hant,en",
+      "key_people": [
+        "Wen Ho Hsiao",
+        "Hsiao Lan Hsiu-Mei",
+        "Feng Kuang Liu",
+        "Wu Ya-Qing"
+      ],
+      "key_dates": [
+        {
+          "date": "1983-07-30",
+          "event": "Wedding ceremony and banquet"
+        }
+      ],
+      "tags": [
+        "wedding",
+        "invitation",
+        "bilingual",
+        "chinese-english",
+        "sunnyvale",
+        "santa-clara",
+        "baptist-church",
+        "hsiao-family",
+        "liu-family",
+        "taiwanese-american"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "4b6ec06ad65b6c151351670daa66a989ca1fa62fdde6c0b786951757c9b10073",
+      "document_type": "legal/will",
+      "date": "2007-05-10",
+      "date_confidence": 1.0,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": false,
+        "has_medical": false
+      },
+      "language": "English",
+      "key_people": [
+        "Feng Kuang Liu",
+        "Karen Peling Liu",
+        "Kenny Peng Liu",
+        "Mei Liang Melody Tsai"
+      ],
+      "key_dates": [
+        "2007-05-10",
+        "2005-03-14"
+      ],
+      "tags": [
+        "will",
+        "last-will-testament",
+        "estate-planning",
+        "feng-kuang-liu-a-trust",
+        "executor-nomination"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "8ad09e2eca3fcace10eea278022c5cd033ad82056140d2181fee414bec22269d",
+      "document_type": "employment/records",
+      "date": "2004-10-07",
+      "date_confidence": 1.0,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": false,
+        "has_medical": false
+      },
+      "language": "English",
+      "key_people": [
+        "Feng K. Liu (\u5289\u9022\u5149)",
+        "John Lynch",
+        "Peter Tarle",
+        "Witold Kaczmarek",
+        "Irene Yeazel",
+        "Louis Lanthier",
+        "Christopher Armour",
+        "Gary Lu",
+        "Robert Outram"
+      ],
+      "key_dates": [
+        "2001-08-21",
+        "2004-10-07",
+        "2004-10-08",
+        "2004-12"
+      ],
+      "tags": [
+        "employment",
+        "retirement",
+        "nortel-networks",
+        "telecommunications",
+        "engineering",
+        "knowledge-transfer",
+        "liu-family",
+        "career"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "e28810d04c65b05b55bc429e260f0f2ccebf3aa2bf58574a7c8ffcbef393fde8",
+      "document_type": "legal/litigation",
+      "date": "1984-05-17",
+      "date_confidence": 0.85,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": true,
+        "has_medical": false
+      },
+      "language": "en",
+      "key_people": [
+        "Feng K. Liu (\u5289\u9cf3\u5149)",
+        "Meichu Grace Liu (\u5289\u7f8e\u73e0)",
+        "Frank Hanley",
+        "Michael W. Malter",
+        "Douglas A. Bird",
+        "Stuart M. Wilson",
+        "Howard Vierra",
+        "Russell DePew",
+        "Bobbie Lemberg"
+      ],
+      "key_dates": [
+        {
+          "date": "1983-06-03",
+          "event": "Rent control petition signatures filed at Sunnyvale City Hall (10,500+ signatures)"
+        },
+        {
+          "date": "1984-05-17",
+          "event": "Court judgment entered in Raynor Association of Tenants vs. Feng K. Liu & Associates (Case No. 509448)"
+        },
+        {
+          "date": "1985-01-31",
+          "event": "Approximate document compilation date (per filename)"
+        },
+        {
+          "date": "1986-02-25",
+          "event": "Foreclosure payoff statement issued by The Foreclosure Company"
+        },
+        {
+          "date": "1986-03-03",
+          "event": "Trust account check issued for $1,486,209.64 payoff by Howard Vierra"
+        }
+      ],
+      "tags": [
+        "mobile-home-park",
+        "rent-control",
+        "litigation",
+        "sunnyvale",
+        "el-camino-real",
+        "foreclosure",
+        "real-estate",
+        "tenant-rights",
+        "mobilehome-residency-law",
+        "santa-clara-county",
+        "property-sale",
+        "raynor-park",
+        "feng-k-liu",
+        "grace-liu"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "33c13901edc9e84789358a808ccaef8868a6f83d6ece4f20dbf995feb1e23040",
+      "document_type": "financial/statement",
+      "date": "2011",
+      "date_confidence": 0.9,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": true,
+        "has_medical": true
+      },
+      "language": "English",
+      "key_people": [
+        "Feng Kuang Liu (\u5289\u9022\u5149)",
+        "Mei Liang Melody Tsai (\u8521\u7f8e\u4eae)",
+        "Swei Chih Peng (\u5f6d\u6c34\u6cbb)",
+        "Kenny Liu (\u5289\u4f83\u5be7)",
+        "Dr. Teresa Cheng"
+      ],
+      "key_dates": [
+        "2011-07-15",
+        "2011-08-17",
+        "2011-12-22"
+      ],
+      "tags": [
+        "financial",
+        "bills",
+        "mortgage-payoff",
+        "medicare",
+        "medical-claims",
+        "trust-payment",
+        "liu-family",
+        "peng-family",
+        "weston-drive"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "920df846c730bcdfcb3ce209d05ce2f2259771a40dcbbdce0d92e6ad03771d1b",
+      "document_type": "legal/deed",
+      "date": "2010-04-14",
+      "date_confidence": 1.0,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": false,
+        "has_medical": false
+      },
+      "language": "English",
+      "key_people": [
+        "Feng-Kuang Liu (\u5289\u9022\u5149)",
+        "Meichu Grace Liu (\u5289\u5f6d\u7f8e\u73e0)",
+        "Linda J. Bentson",
+        "Regina Alcomendras"
+      ],
+      "key_dates": [
+        "2010-04-01",
+        "2010-04-07",
+        "2010-04-14",
+        "2010-04-15"
+      ],
+      "tags": [
+        "grant-deed",
+        "real-estate",
+        "trust",
+        "weston-drive",
+        "los-altos-hills",
+        "santa-clara-county",
+        "liu-family"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "58237da3bad43cbb6bbfe15940340da946ea0c245137e6bb78892b42faffdb05",
+      "document_type": "personal/certificate",
+      "date": "1988-06-03",
+      "date_confidence": 0.95,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": false,
+        "has_medical": false
+      },
+      "language": "en/zh",
+      "key_people": [
+        "Kenny Peng Liu",
+        "Lily Kong",
+        "Catherine Lai",
+        "James D. Teyy",
+        "Ernie Reyes"
+      ],
+      "key_dates": [
+        {
+          "date": "1986-06-26",
+          "event": "Pre-kindergarten Chinese completion certificate"
+        },
+        {
+          "date": "1987-06-05",
+          "event": "Kindergarten Chinese completion certificate"
+        },
+        {
+          "date": "1988-01-31",
+          "event": "Tae Kwon Do 9th gup green belt advancement"
+        },
+        {
+          "date": "1988-06-03",
+          "event": "MK3 Chinese completion certificate"
+        }
+      ],
+      "tags": [
+        "education",
+        "chinese-language",
+        "west-valley-chinese-school",
+        "sunnyvale",
+        "report-card",
+        "certificate",
+        "tae-kwon-do",
+        "martial-arts",
+        "childhood",
+        "kenny-liu",
+        "1980s"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "40b0a7f5a982b9f96588778b444239777058ca01b25c87eaec7b57056ab9ebc9",
+      "document_type": "government/immigration",
+      "date": "2007-10-22",
+      "date_confidence": 0.95,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": true,
+        "has_medical": false
+      },
+      "language": "en/zh",
+      "key_people": [
+        "Kai Ti Peng (\u5f6d\u51f1\u5a23)",
+        "Kuang Sheng Peng (\u5f6d\u5321\u751f)",
+        "Feng K. Liu (Feng Kuang Liu / \u5289\u99ae\u5321)",
+        "Liu Chen Lee-Fei (\u5289\u9673\u9e97\u98db)"
+      ],
+      "key_dates": [
+        {
+          "date": "2007-09-17",
+          "event": "CA Franchise Tax Board Form 540-ES payment voucher due date"
+        },
+        {
+          "date": "2007-10-22",
+          "event": "NVC letter date and AOS Fee Bill date"
+        },
+        {
+          "date": "2007-11-27",
+          "event": "Handwritten Chinese cover note date"
+        },
+        {
+          "date": "2008-07-18",
+          "event": "Washington Mutual wire transfer of $53,982.00 from Liu Chen Lee-Fei"
+        }
+      ],
+      "tags": [
+        "immigration",
+        "immigrant-visa",
+        "national-visa-center",
+        "affidavit-of-support",
+        "ds-3032",
+        "taiwan",
+        "peng-family",
+        "wire-transfer",
+        "washington-mutual",
+        "franchise-tax-board",
+        "weston-drive"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "9bebd08ebcdd0c48dffccfb7d49873bfa7a5e374984133d925e4a8787e6ae2bb",
+      "document_type": "legal/contract",
+      "date": "2011-06-14",
+      "date_confidence": 0.95,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": true,
+        "has_medical": false
+      },
+      "language": "English",
+      "key_people": [
+        "Paul Mercadante",
+        "Charlene Mercadante",
+        "Karen Liu",
+        "Kenny Liu",
+        "Kathy Bridgman"
+      ],
+      "key_dates": [
+        "2011-06-13",
+        "2011-06-14",
+        "2011-10-13"
+      ],
+      "tags": [
+        "real-estate",
+        "sales-contract",
+        "weston-drive",
+        "los-altos-hills",
+        "purchase-agreement",
+        "liu-family",
+        "property-sale"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "43b9fb4062bece7235c02ae2da5efdc839b795e47084a62a4003984045183594",
+      "document_type": "personal/memorial",
+      "date": "2004-06-21",
+      "date_confidence": 0.95,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": false,
+        "has_medical": false
+      },
+      "language": "Chinese/English",
+      "key_people": [
+        "Meichu Grace Liu",
+        "Feng Kuang Liu",
+        "Karen Peling Liu",
+        "Kenny Peng Liu"
+      ],
+      "key_dates": [
+        "1947-03-11",
+        "2004-06-16",
+        "2004-06-21"
+      ],
+      "tags": [
+        "memorial",
+        "guestbook",
+        "funeral",
+        "meichu-grace-liu",
+        "los-altos",
+        "taiwanese-american",
+        "community",
+        "silicon-valley"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "7bd2ccac29b5cf5adc1a66a745cec5423384fe082c24f567b6fe2f34921bb80e",
+      "document_type": "financial/tax-return",
+      "date": "2010",
+      "date_confidence": 0.95,
+      "sensitivity": {
+        "has_ssn": true,
+        "has_financial": true,
+        "has_medical": false
+      },
+      "language": "English",
+      "key_people": [
+        "Feng Kuang Liu",
+        "Meichu Grace Liu"
+      ],
+      "key_dates": [
+        "2010-02-18",
+        "2010-01-07",
+        "2010-02-26",
+        "2010-05-13",
+        "2010-12-27",
+        "2010-02-16",
+        "2010-05-17",
+        "2010-05-20"
+      ],
+      "tags": [
+        "tax",
+        "k-1",
+        "schedule-k1",
+        "partnership",
+        "oil-fund",
+        "uso",
+        "investment",
+        "ira",
+        "trust",
+        "liu-estate",
+        "feng-kuang-liu"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "2f0b8ac565768d107e8e0dd81d268c38e94d723ab6d0d020e021421992f7c36c",
+      "document_type": "legal/trust",
+      "date": "2010",
+      "date_confidence": 0.9,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": true,
+        "has_medical": false
+      },
+      "language": "English",
+      "key_people": [
+        "Feng-Kuang Liu",
+        "Melody Tsai",
+        "Karen Liu",
+        "Kenny Liu",
+        "Robert A. Froehlich",
+        "Jean M. Kohler",
+        "Andrew P. Holland",
+        "Ellson Chen",
+        "Paul Peng",
+        "Reiling Liao"
+      ],
+      "key_dates": [
+        "2010-09-30",
+        "2010-11-01",
+        "2010-08-17",
+        "2011-08-16",
+        "2011-09-26",
+        "2011-10-13"
+      ],
+      "tags": [
+        "estate",
+        "trust",
+        "liu-family",
+        "legal-dispute",
+        "promissory-note",
+        "trustee",
+        "billing",
+        "correspondence"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "f3ed4d4da2926e29006d0699159b6b2df111ab1b9cad219e5b4a5044b84d21c3",
+      "document_type": "medical/correspondence",
+      "date": "2004-06",
+      "date_confidence": 0.95,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": false,
+        "has_medical": true
+      },
+      "language": "English",
+      "key_people": [
+        "Meichu Grace Liu",
+        "Josephine Tang",
+        "Benjamin Chang",
+        "Lawrence Shapiro",
+        "Rose O Meara",
+        "Suzanne Tegio"
+      ],
+      "key_dates": [
+        "2004-05-14",
+        "2004-05-27",
+        "2004-05-29",
+        "2004-06-02",
+        "2004-06-07",
+        "2004-06-10",
+        "2004-06-14",
+        "2004-06-17",
+        "2004-06-18"
+      ],
+      "tags": [
+        "medical",
+        "hospitalization",
+        "liver-transplant",
+        "meichu-grace-liu",
+        "stanford-hospital",
+        "el-camino-hospital",
+        "camino-medical-group",
+        "blue-shield",
+        "renal-failure",
+        "hepatitis",
+        "transfusion",
+        "precertification"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "077159dc446d20049224d593e497822652d32c24e3d352f5b35077939c0e1956",
+      "document_type": "financial/insurance",
+      "date": "1986",
+      "date_confidence": 0.8,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": true,
+        "has_medical": false
+      },
+      "language": "English",
+      "key_people": [
+        "Meichu Grace Liu"
+      ],
+      "key_dates": [
+        "1984-09-04",
+        "1986-03-06"
+      ],
+      "tags": [
+        "diamond",
+        "jewelry",
+        "gia",
+        "appraisal",
+        "marquise",
+        "meichu-grace-liu",
+        "insurance",
+        "valuable-property",
+        "langport-drive",
+        "sunnyvale"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    },
+    {
+      "source_sha256": "09192c83a93fc264da7489b1eb71cf3f12fac3b464ec606a57ec0354442495c4",
+      "document_type": "legal/deed",
+      "date": "1990-06-20",
+      "date_confidence": 0.95,
+      "sensitivity": {
+        "has_ssn": false,
+        "has_financial": true,
+        "has_medical": false
+      },
+      "language": "English",
+      "key_people": [
+        "Feng K. Liu",
+        "Meichu Grace Liu",
+        "Brice E. Bennett",
+        "Seth S. Kurasaki",
+        "Cecily A. Deex"
+      ],
+      "key_dates": [
+        "1990-02-09",
+        "1990-06-20",
+        "1988-06-23",
+        "1990-02-23",
+        "1990-05-09",
+        "1990-05-22"
+      ],
+      "tags": [
+        "deed",
+        "property",
+        "weston-drive",
+        "los-altos-hills",
+        "liu-family-trust",
+        "quit-claim",
+        "title-insurance",
+        "real-estate"
+      ],
+      "reviewer_notes": "Baseline from manual Claude Code interactive session (20260207T044501Z). Adjudicated by human review of PDF + LLM output."
+    }
+  ]
+}

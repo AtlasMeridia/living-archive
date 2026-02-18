@@ -1,0 +1,1093 @@
+{
+  "provider": "claude-cli",
+  "total_documents": 18,
+  "succeeded": 18,
+  "failed": 0,
+  "skipped": 0,
+  "total_elapsed_seconds": 354.2,
+  "results": [
+    {
+      "source_sha256": "0068335420f13b74ce03d6060019cf0480ea26a74d734331dd4c9a039902d388",
+      "source_file": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+      "status": "ok",
+      "elapsed_seconds": 13.4,
+      "analysis": {
+        "document_type": "financial/statement",
+        "title": "Wire Transfer Receipt – $135,663.00 to Feng Kuang Liu & Meichu Grace Liu",
+        "date": "1989-08-21",
+        "date_confidence": 0.95,
+        "summary_en": "A wire transfer receipt dated August 21, 1989 documenting a transfer of $135,663.00 through Chase Manhattan Bank. The funds were sent by Y.S. Liu-Chen via Shanghai Commercial & Savings Bank of Philadelphia and credited to the account of Feng Kuang Liu and Meichu Grace Liu at Chase Manhattan Bank in Wilmington, Delaware. The recipients resided at 26471 Weston Drive, Los Altos Hills, CA 94022.",
+        "summary_zh": "這份1989年8月21日的電匯收據記錄了一筆透過大通曼哈頓銀行匯出的135,663美元款項。資金由劉陳女士（Y.S. Liu-Chen）透過費城上海商業儲蓄銀行匯出，收款人為劉鳳光（Feng Kuang Liu）與劉梅珠·葛麗絲（Meichu Grace Liu），款項存入其位於德拉瓦州威爾明頓的大通銀行帳戶。收款人當時居住於加州洛斯阿爾托斯山26471號韋斯頓大道。",
+        "key_people": [
+          "Y.S. Liu-Chen",
+          "Feng Kuang Liu",
+          "Meichu Grace Liu"
+        ],
+        "key_dates": [
+          "1989-08-21"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "financial",
+          "wire-transfer",
+          "banking",
+          "personal"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:33:49.346371+00:00",
+        "input_tokens": 3,
+        "output_tokens": 644,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "077159dc446d20049224d593e497822652d32c24e3d352f5b35077939c0e1956",
+      "source_file": "Liu Family Trust Filings & Documents/1986-2009 Marquis Diamond Documentation.pdf",
+      "status": "ok",
+      "elapsed_seconds": 21.1,
+      "analysis": {
+        "document_type": "financial/statement",
+        "title": "Liu Family Marquis Diamond Documentation: GIA Grading Reports, Appraisals, and Purchase Research (1984–2009)",
+        "date": "2009",
+        "date_confidence": 0.6,
+        "summary_en": "This 17-page document compiles diamond-related records spanning 1984 to 2009 for M. Grace Liu of Sunnyvale and later Los Altos Hills, California. It includes a 1984/1986 GIA grading report for a 2.04-carat Marquise diamond (color E, clarity VVS2), a 1986 appraisal valuing it at $18,000 from A.M. Bruner Diamond Exchange, a 2000 jewelry purchase receipt from Kohinoor Jewellers in Agra, India, jeweler work orders from Vardy's Jewelers in Cupertino, and a 2008 GIA report for a 3.26-carat round brilliant diamond. The latter pages contain Blue Nile comparison printouts from May 2009 researching 3+ carat round diamonds in the $20,000–$38,000 range, suggesting an active purchase decision at that time.",
+        "summary_zh": "這份17頁的文件彙集了劉美珠（M. Grace Liu）從1984年至2009年間的鑽石相關紀錄。內容包括：1984年/1986年美國寶石學院（GIA）對一顆2.04克拉馬眼形鑽石（顏色E級、淨度VVS2）的鑑定報告、1986年A.M. Bruner鑽石交易所出具的18,000美元估價單、2000年在印度阿格拉Kohinoor珠寶店的購物收據、Vardy's珠寶店（庫比蒂諾）的維修工單，以及2008年GIA對一顆3.26克拉圓形明亮式切割鑽石的鑑定報告。文件後半部分為2009年5月從Blue Nile網站列印的比較資料，顯示當時正在研究購買3克拉以上、售價兩萬至三萬八千美元不等的圓形鑽石。",
+        "key_people": [
+          "M. Grace Liu",
+          "Meichiu Grace Liu",
+          "A.M. Bruner",
+          "Lola Sweet"
+        ],
+        "key_dates": [
+          "1984-09-04",
+          "1986-03-06",
+          "1986-04-02",
+          "1985-10-01",
+          "2000-01-23",
+          "2007-11-12",
+          "2008-12-10",
+          "2009-05-12",
+          "2009-05-13",
+          "2009-05-14",
+          "2009-05-15"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "financial",
+          "property",
+          "legal",
+          "personal",
+          "certificate",
+          "insurance",
+          "correspondence"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:34:10.405281+00:00",
+        "input_tokens": 3,
+        "output_tokens": 959,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "09192c83a93fc264da7489b1eb71cf3f12fac3b464ec606a57ec0354442495c4",
+      "source_file": "Liu Family Trust Filings & Documents/1990-06-20 Weston Dr Deed transfer to Trust.pdf",
+      "status": "ok",
+      "elapsed_seconds": 21.1,
+      "analysis": {
+        "document_type": "legal/deed",
+        "title": "Quitclaim Deed — Transfer of 26471 Weston Drive to Liu Family Trust",
+        "date": "1990-02-09",
+        "date_confidence": 0.95,
+        "summary_en": "This document package records the transfer of the residential property at 26471 Weston Drive, Los Altos Hills, California (APN 175-33-035) from Feng K. Liu and Meichu Grace Liu as individuals to themselves as Co-Trustees of the Liu Family Trust, dated February 9, 1990. The quitclaim deed was first recorded on February 23, 1990, but was returned by the Santa Clara County Assessor in May 1990 because it lacked a legal property description and required re-recording with Exhibit \"A\" attached. Also included are the original title insurance policy (Policy No. 552783) from First American Title Insurance Company, issued June 23, 1988, insuring the property for $735,000, and the subdivision map for Tract No. 2206, Mockingbird Knolls.",
+        "summary_zh": "本文件組記錄了加州洛斯阿托斯山26471 Weston Drive住宅物業（APN 175-33-035）的產權轉移，由劉馮光及劉美珠葛蕾絲以個人名義轉讓給劉氏家族信託（成立於1990年2月9日），二人同時擔任共同受託人。放棄契約於1990年2月23日首次登記，但因缺乏法律財產描述，聖塔克拉拉縣評估局於同年5月要求重新登記並附上附件A。文件組亦包含第一美國產權保險公司於1988年6月23日簽發的原始產權保險單（保單號552783），保額為735,000美元，以及Mockingbird Knolls第2206號地塊的分區地圖。",
+        "key_people": [
+          "Feng K. Liu",
+          "Feng Kuang Liu",
+          "Meichu Grace Liu",
+          "Brice E. Bennett",
+          "Seth S. Kurasaki",
+          "Cecily A. Deex",
+          "Laurie Kane",
+          "Pauline Esparza",
+          "M.V.E. McNulty",
+          "Alfred E. Carlson",
+          "Maurice R. Johnson",
+          "Helen Johnson"
+        ],
+        "key_dates": [
+          "1990-02-09",
+          "1990-02-23",
+          "1990-05-09",
+          "1990-05-22",
+          "1990-06-20",
+          "1988-06-23",
+          "1988-06-15",
+          "1958-11-25"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "legal",
+          "trust",
+          "estate-planning",
+          "property",
+          "deed",
+          "title-insurance",
+          "financial"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:34:31.498556+00:00",
+        "input_tokens": 3,
+        "output_tokens": 925,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "0d2eaf1ef09571e8513535d9bbfed41a80a09b5885302cf474ca192b506a23fa",
+      "source_file": "Liu Family Trust Filings & Documents/1983-07-30 Wedding Invitation.pdf",
+      "status": "ok",
+      "elapsed_seconds": 15.8,
+      "analysis": {
+        "document_type": "personal/certificate",
+        "title": "Wedding Invitation — Lin/Xiao and Wu/Lan Families, July 30, 1983",
+        "date": "1983-07-30",
+        "date_confidence": 0.97,
+        "summary_en": "A bilingual (English and Chinese) wedding invitation for a ceremony held on Saturday, July 30, 1983, at 4:00 PM at the First Baptist Church of Sunnyvale, California. The invitation was issued by the families of the bride and groom — Mr. and Mrs. Wen Ho Mariao (蕭文和/吳雅卿) and Mr. and Mrs. Ipe Lim Igu (藍秀美/斯子林). The wedding banquet was held at 6:30 PM and a dancing party at 8:30 PM at the Santa Clara Marriott Hotel, Great America Parkway, Santa Clara, California. The invitation was addressed to Mr. Liu Fenguang (劉逢光) and family at 6550 McAbee Road, San Jose, CA 95120.",
+        "summary_zh": "這是一份中英雙語婚禮請柬，邀請劉逢光先生夫人參加於一九八三年七月三十日（星期六）下午四時在加州桑尼維爾第一浸信教會舉行的婚禮典禮。婚禮由蕭文和、吳雅卿與藍秀美、斯子林兩家家長聯合舉辦。婚宴於當晚六時三十分、舞會於八時三十分假加州聖塔克拉拉萬豪酒店（Great America Parkway）舉行。",
+        "key_people": [
+          "劉逢光 (Liu Fenguang)",
+          "蕭文和 (Wen Ho Mariao / Xiao Wenhe)",
+          "吳雅卿 (Wu Yaqing)",
+          "藍秀美 (Lan Xiumei)",
+          "斯子林 (Lin Zisi)"
+        ],
+        "key_dates": [
+          "1983-07-30"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "personal",
+          "certificate",
+          "wedding",
+          "invitation",
+          "bilingual",
+          "taiwanese-american",
+          "church",
+          "sunnyvale",
+          "santa-clara"
+        ],
+        "language": "Chinese/English (bilingual)",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:34:47.317192+00:00",
+        "input_tokens": 3,
+        "output_tokens": 798,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "191e25b99dbb03c0c29679b4f58628f9c05a6691c1e508a33f347b63cbea9687",
+      "source_file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+      "status": "ok",
+      "elapsed_seconds": 20.8,
+      "analysis": {
+        "document_type": "personal/certificate",
+        "title": "Death Certificates — Feng-Kuang Liu (2010) and Grace Liu (2004)",
+        "date": "2004-06-18",
+        "date_confidence": 0.95,
+        "summary_en": "This PDF contains two official death certificates from the Liu family. Page 1 is a Massachusetts Standard Certificate of Death for Feng-Kuang Liu, who died on June 6, 2010, at Lahey Clinic Northshore in Peabody, MA, born January 23, 1943 in Taiwan; his wife is listed as Mei Liang Melody Tsai. Page 2 is a certified copy of a California death certificate for Grace Liu (also known by Chinese name with given name Mei-Chu), who died on June 18, 2004, at Stanford Medical Center in Santa Clara County; cause of death included acute fulminant hepatitis, massive pulmonary embolus, and right heart failure, with a liver transplant performed shortly before death. Both decedents resided at 26471 Weston Drive, Los Altos/Los Altos Hills, CA.",
+        "summary_zh": "此PDF包含劉家兩份官方死亡證明書。第一頁為麻薩諸塞州劉鳳光（Feng-Kuang Liu）的死亡證明，死亡日期為2010年6月6日，死於麻州皮博迪市Lahey Clinic Northshore，生於1943年1月23日，台灣出生，配偶為蔡美良（Mei Liang Melody Tsai）。第二頁為加州聖塔克拉拉縣劉葛瑞絲（Grace Liu，中文名疑為美珠）的死亡證明認證副本，死亡日期為2004年6月18日，死於史丹佛醫學中心，死因包括急性爆發性肝炎、大量肺栓塞及右心衰竭，死前曾接受肝臟移植手術。兩位死者生前均居住於加州洛斯阿托斯山地區威斯頓大道26471號。",
+        "key_people": [
+          "Feng-Kuang Liu",
+          "Mei Liang Melody Tsai",
+          "Grace Liu",
+          "Tie Jia Liu",
+          "A Shio Chen",
+          "Suei Ho",
+          "Feng Liu",
+          "Kevin J. Conway",
+          "Stephan Busque MD",
+          "Regina Alcomendras"
+        ],
+        "key_dates": [
+          "2010-06-06",
+          "2010-06-08",
+          "2010-08-09",
+          "2010-12-10",
+          "2004-06-18",
+          "2004-06-21",
+          "2004-06-15",
+          "2004-06-16",
+          "2004-05-29",
+          "1943-01-23",
+          "1947-03-11"
+        ],
+        "sensitivity": {
+          "has_ssn": true,
+          "has_financial": false,
+          "has_medical": true
+        },
+        "tags": [
+          "legal",
+          "certificate",
+          "memorial",
+          "personal",
+          "estate-planning",
+          "medical"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:35:08.122217+00:00",
+        "input_tokens": 3,
+        "output_tokens": 970,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "2f0b8ac565768d107e8e0dd81d268c38e94d723ab6d0d020e021421992f7c36c",
+      "source_file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+      "status": "ok",
+      "elapsed_seconds": 22.4,
+      "analysis": {
+        "document_type": "legal/trust",
+        "title": "Feng Kuang Liu A Trust — Melody Tsai Legal Correspondence and Billing (2010–2011)",
+        "date": "2011-09-26",
+        "date_confidence": 0.85,
+        "summary_en": "This file compiles legal correspondence, billing statements, and internal notes related to a dispute over the Feng Kuang Liu \"A\" Trust following the death of Feng Kuang Liu. Key documents include an attorney billing statement from Robert A. Froehlich (Sep 2010), a withdrawal letter from Froehlich citing conflict of interest (Nov 2010), a demand letter from Lakin Spears on behalf of trustee Karen Liu alleging unauthorized trust account expenditures by Melody Tsai (Sep 2011), a legal services agreement from Thoits Love Hershberger & McLean retained by Karen and Kenny Liu to enforce a promissory note against Melody Tsai (Aug 2011), and Melody Tsai's written rebuttal explaining her use of trust funds. The dispute centers on whether Melody Tsai had authority as trustee and whether payments she made from the GE Interest Plus Account were legitimate trust expenses.",
+        "summary_zh": "本檔案彙整了與馮光劉「A」信託相關的法律往來信函、帳單及內部注記，背景為馮光劉去世後的信託糾紛。主要文件包括：Robert A. Froehlich律師的帳單（2010年9月）、Froehlich以利益衝突為由退出的信函（2010年11月）、Lakin Spears律所代表受託人劉凱倫發出的要求函，指控蔡美麗未經授權動用信託帳戶（2011年9月）、Thoits律所受劉凱倫與劉肯尼委託、為強制執行期票而簽訂的法律服務協議（2011年8月），以及蔡美麗的書面答辯，說明其動用信託資金的理由。爭議核心在於蔡美麗是否具備受託人身份及其從GE帳戶支出款項是否合法。",
+        "key_people": [
+          "Melody Tsai (Mei Liang Melody Tsai)",
+          "Karen Liu",
+          "Kenny Liu",
+          "Feng Kuang Liu",
+          "Robert A. Froehlich",
+          "Ellson Chen",
+          "Paul Peng",
+          "Reiling Liao",
+          "Paul Robinson",
+          "Terri Sherer",
+          "Tim Sherer",
+          "Raymond Sheffield",
+          "Jean M. Kohler",
+          "Andrew P. Holland",
+          "Jeffrey Chen",
+          "J. Anthony Villanueva"
+        ],
+        "key_dates": [
+          "2010-06-06",
+          "2010-07-21",
+          "2010-07-22",
+          "2010-08-02",
+          "2010-09-30",
+          "2010-11-01",
+          "2010-11-25",
+          "2010-11-30",
+          "2011-01-25",
+          "2011-03-23",
+          "2011-03-28",
+          "2011-08-16",
+          "2011-09-26",
+          "2011-10-13"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "legal",
+          "trust",
+          "estate-planning",
+          "financial",
+          "correspondence",
+          "property",
+          "probate"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:35:30.527004+00:00",
+        "input_tokens": 3,
+        "output_tokens": 1042,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "33c13901edc9e84789358a808ccaef8868a6f83d6ece4f20dbf995feb1e23040",
+      "source_file": "Liu Family Trust Filings & Documents/2011 Assorted bills.pdf",
+      "status": "ok",
+      "elapsed_seconds": 19.3,
+      "analysis": {
+        "document_type": "financial/statement",
+        "title": "2011 Assorted Bills — Liu Family Trust Payment Records and Medicare Summary",
+        "date": "2011",
+        "date_confidence": 0.95,
+        "summary_en": "This document is a collection of six pages from 2011 containing financial and medical records related to the Liu family. It includes a Citibank bill payment of $2,010.99 made by Mei Liang Melody Tsai to the Trustee of Feng Kuang Liu, a Wells Fargo Home Mortgage loan payoff confirmation for property at 26471 Weston Drive, Los Altos Hills, a Medicare Summary Notice for Swei Chih Peng covering medical visits at Palo Alto Medical Foundation with Dr. Teresa Cheng, and a Chase cashier's check for $1,300.00 remitted by Kenny Liu to Swei-Chih Peng.",
+        "summary_zh": "此文件為2011年劉家相關財務及醫療記錄的合集，共六頁。內容包括：梅亮美樂蒂蔡（Mei Liang Melody Tsai）透過花旗銀行向劉奉光信託受託人支付2,010.99美元的帳單；富國銀行房貸確認洛斯阿爾托斯山莊26471 Weston Drive房產貸款已全額付清；彭瑞枝（Swei Chih Peng）在帕羅奧圖醫療基金會由鄭醫師（Dr. Teresa Cheng）診治的聯邦醫療保險摘要通知；以及劉肯尼（Kenny Liu）以大通銀行本票支付彭瑞枝1,300美元。",
+        "key_people": [
+          "Feng Kuang Liu",
+          "Mei Liang Melody Tsai",
+          "Mei Liang Tsai",
+          "Swei Chih Peng",
+          "Kenny Liu",
+          "Dr. Teresa Cheng"
+        ],
+        "key_dates": [
+          "2011-08-17",
+          "2011-07-15",
+          "2011-06-02",
+          "2011-12-22",
+          "2011-02-11",
+          "2011-05-17",
+          "2010-02-17"
+        ],
+        "sensitivity": {
+          "has_ssn": true,
+          "has_financial": true,
+          "has_medical": true
+        },
+        "tags": [
+          "financial",
+          "trust",
+          "legal",
+          "property",
+          "medical",
+          "insurance",
+          "correspondence",
+          "personal"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:35:49.845017+00:00",
+        "input_tokens": 3,
+        "output_tokens": 819,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "40b0a7f5a982b9f96588778b444239777058ca01b25c87eaec7b57056ab9ebc9",
+      "source_file": "Liu Family Trust Filings & Documents/2007-10-22 Immigration Application KAI TI PENG.pdf",
+      "status": "ok",
+      "elapsed_seconds": 22.9,
+      "analysis": {
+        "document_type": "government/immigration",
+        "title": "Immigration Application – Affidavit of Support Fee & DS-3032 Agent Form for Kai Ti Peng (2007)",
+        "date": "2007-10-22",
+        "date_confidence": 0.95,
+        "summary_en": "This is a packet of U.S. immigrant visa processing documents issued by the National Visa Center on October 22, 2007, related to the immigration application of Kai Ti Peng (case TAI2005629009), filed by petitioner Kuang Sheng Peng of Los Altos, CA. It includes an Affidavit of Support (I-864) fee bill for $70.00 and the DS-3032 Choice of Agent form, in which Kai Ti Peng designated Feng K. Liu (of 26471 Weston Drive, Los Altos Hills, CA) as her immigration mail agent. Also included are a Washington Mutual wire transfer notice for $53,982.00 posted on 07/18/2008 to Feng Kuang Liu's account (originating from Liu Chen Lee-Fei), and a California Franchise Tax Board payment voucher.",
+        "summary_zh": "此為美國國家簽證中心於2007年10月22日發出的移民簽證處理文件包，涉及彭凱蒂（Kai Ti Peng）的移民申請案（案號TAI2005629009），由彭光勝（Kuang Sheng Peng，居加州洛斯阿爾托斯）提出申請。文件包含八十六十四表（I-864）支持宣誓書費用賬單（70美元）及DS-3032代理人選擇表，表中彭凱蒂指定劉鳳光（Feng K. Liu，地址：加州洛斯阿爾托斯山26471 Weston Drive）為其移民郵件代理人。另附有2008年7月18日華盛頓互惠銀行電匯通知，顯示劉鳳光帳戶收到53,982美元電匯（匯款方為劉陳麗飛），以及加州特許稅務局繳款單。",
+        "key_people": [
+          "Kai Ti Peng",
+          "Kuang Sheng Peng",
+          "Feng K. Liu",
+          "Feng Kuang Liu",
+          "Liu Chen Lee-Fei"
+        ],
+        "key_dates": [
+          "2007-10-22",
+          "2007-09-17",
+          "2008-07-18"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "immigration",
+          "legal",
+          "government",
+          "personal",
+          "financial",
+          "correspondence"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:36:12.767308+00:00",
+        "input_tokens": 3,
+        "output_tokens": 886,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "43b9fb4062bece7235c02ae2da5efdc839b795e47084a62a4003984045183594",
+      "source_file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Guestbook.pdf",
+      "status": "ok",
+      "elapsed_seconds": 21.1,
+      "analysis": {
+        "document_type": "personal/memorial",
+        "title": "Memorial Guestbook for Meichu Grace Liu",
+        "date": "2004-06-21",
+        "date_confidence": 0.95,
+        "summary_en": "This is a memorial guestbook for Meichu Grace Liu (March 11, 1947 – June 16, 2004), held in Los Altos, California on June 21, 2004. The guestbook contains signatures and names of approximately 100–150 attendees, written in both English and Traditional Chinese. Signatories include family members, friends, and community members from the local Taiwanese-American community, including members of the Silicon Valley Tennis Club and what appears to be a university alumni association.",
+        "summary_zh": "這是劉美珠（Meichu Grace Liu，1947年3月11日－2004年6月16日）的追思會簽名冊，於2004年6月21日在加州洛斯阿圖斯（Los Altos）舉行。簽名冊中收錄了約百餘位參加者的簽名，以英文及繁體中文書寫，包括家屬、友人及灣區台灣裔社群成員，其中有矽谷網球俱樂部成員及大學校友會人士。",
+        "key_people": [
+          "Meichu Grace Liu",
+          "Vasantha Tholasiram",
+          "陳德輝",
+          "葉琴",
+          "劉世昌",
+          "簡嘉宏",
+          "陳明德",
+          "詹芳枝",
+          "Sophong Reshngar",
+          "Chris & Amy Cin",
+          "LETICIA CRISOLOGO-CABRERA",
+          "Lisa Melhouse",
+          "OFELLA & ALFREDO SERAFICA",
+          "Lourdes E. Miranda",
+          "Bernadette Anchta-Agnes",
+          "GREG ACHETA",
+          "DHEREN YAGNEKAGNEW",
+          "HENRY BRADLEY",
+          "Shirley Chen",
+          "張全酵",
+          "林兰惠",
+          "陳昭耀",
+          "Laura Penafield",
+          "Charlene Tu",
+          "Mounir Habiss",
+          "Darius Falanku",
+          "Eleanor Lin",
+          "Debbie Edwards",
+          "PETER SAXENA",
+          "陳連勞",
+          "劉淑矿",
+          "素秀梅",
+          "吳翠相",
+          "GILBERT QUITORIANO",
+          "Dr. Milagros Zinco-Burinaje",
+          "李行墊",
+          "Christine Chang",
+          "TAIPING HO",
+          "林玉清",
+          "RICARD DING",
+          "William Tian",
+          "Josh Fredericks",
+          "詹蔚盈",
+          "彭國祥",
+          "彭瑞玲",
+          "彭光生",
+          "劉逢光",
+          "彭美珠",
+          "劉禧寧"
+        ],
+        "key_dates": [
+          "2004-06-16",
+          "2004-06-21",
+          "1947-03-11"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "memorial",
+          "personal",
+          "guestbook",
+          "taiwanese-american",
+          "community",
+          "los-altos",
+          "california"
+        ],
+        "language": "English and Traditional Chinese",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:36:33.886559+00:00",
+        "input_tokens": 3,
+        "output_tokens": 993,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "4b6ec06ad65b6c151351670daa66a989ca1fa62fdde6c0b786951757c9b10073",
+      "source_file": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+      "status": "ok",
+      "elapsed_seconds": 14.5,
+      "analysis": {
+        "document_type": "legal/will",
+        "title": "Last Will and Testament of Feng Kuang Liu",
+        "date": "2007-05-10",
+        "date_confidence": 0.95,
+        "summary_en": "This is the last will and testament of Feng Kuang Liu, a Santa Clara County, California resident, executed on May 10, 2007. The will revokes all prior wills and directs that the entirety of his estate be transferred to the trustees of the Feng Kuang Liu \"A\" Trust, established March 14, 2005. His fiancée Mei Liang Melody Tsai is nominated as primary Executor, with his daughter Karen Peling Liu and son Kenny Peng Liu serving as successive alternates.",
+        "summary_zh": "本文件為劉鳳光（Feng Kuang Liu）於2007年5月10日在加州聖克拉拉縣簽立之最後遺囑。遺囑撤銷所有先前立定之遺囑，並指示將其全部遺產移轉至2005年3月14日設立之「鳳光劉甲信託」受託人名下。遺囑指定其未婚妻蔡美良（Mei Liang Melody Tsai）為主要遺囑執行人，女兒劉珮玲（Karen Peling Liu）及兒子劉鵬（Kenny Peng Liu）依序為備位執行人。",
+        "key_people": [
+          "Feng Kuang Liu",
+          "Karen Peling Liu",
+          "Kenny Peng Liu",
+          "Mei Liang Melody Tsai"
+        ],
+        "key_dates": [
+          "2007-05-10",
+          "2005-03-14"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "legal",
+          "estate-planning",
+          "trust",
+          "will",
+          "personal"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:36:48.417576+00:00",
+        "input_tokens": 3,
+        "output_tokens": 668,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "58237da3bad43cbb6bbfe15940340da946ea0c245137e6bb78892b42faffdb05",
+      "source_file": "Liu Family Trust Filings & Documents/Artifacts/School Certificates - KENNY PENG LIU.pdf",
+      "status": "ok",
+      "elapsed_seconds": 14.9,
+      "analysis": {
+        "document_type": "personal/certificate",
+        "title": "School Certificates — Kenny Peng Liu (Chinese Language & Tae Kwon Do)",
+        "date": "1988-06-03",
+        "date_confidence": 0.85,
+        "summary_en": "This file contains multiple school certificates and report cards for Kenny Liu (劉侃寧) from the West Valley Chinese Language School in Sunnyvale, California, covering kindergarten through MK3-year levels from approximately 1986–1988. The certificates confirm completion of the Chinese language curriculum with passing grades. Also included is a Tae Kwon Do advancement certificate dated January 31, 1988, from the West Coast Institute for Jae Kwon Do, awarding Kenny Liu 9th gup rank (green belt).",
+        "summary_zh": "本檔案收錄劉侃寧（Kenny Liu）在加州桑尼維爾西谷華文學校就讀期間的多份結業證書及成績單，涵蓋幼稚班至MK3年中文班，時間約為1986至1988年，各級均成績及格。另附1988年1月31日由西岸跆拳道學院頒發之跆拳道晉級證書，劉侃寧晉升為第九級（綠帶）。",
+        "key_people": [
+          "Kenny Liu",
+          "劉侃寧",
+          "Ely Krng (teacher)",
+          "Catherine La (teacher)",
+          "Ernie Reyes (Tae Kwon Do instructor)"
+        ],
+        "key_dates": [
+          "1988-06-03",
+          "1988-01-31",
+          "1987-06-05"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "certificate",
+          "personal",
+          "education",
+          "chinese-language",
+          "school",
+          "martial-arts"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:37:03.344021+00:00",
+        "input_tokens": 3,
+        "output_tokens": 651,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "7bd2ccac29b5cf5adc1a66a745cec5423384fe082c24f567b6fe2f34921bb80e",
+      "source_file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+      "status": "ok",
+      "elapsed_seconds": 19.4,
+      "analysis": {
+        "document_type": "financial/tax-return",
+        "title": "2010 Schedule K-1 — United States Oil Fund LP (Liu Family Trust, IRA, and B Trust)",
+        "date": "2010",
+        "date_confidence": 0.95,
+        "summary_en": "This document is a set of IRS Schedule K-1 (Form 1065) filings for tax year 2010 issued by United States Oil Fund, L.P. to three Liu family partners: the Feng Kuang Liu A Trust (EIN 492-58-6721), the Feng Kuang Liu IRA (custodian EIN 86-0381976), and the Feng Kuang Liu / Meichu Grace Liu B Trust (EIN 54-6662519). Each K-1 reports the partner's share of income, deductions, and capital account activity for the partnership year ending December 31, 2010. The package includes ownership schedules and sales schedules showing unit acquisitions and dispositions throughout 2010 at addresses in Los Altos Hills, CA.",
+        "summary_zh": "本文件為2010年度美國石油基金有限合夥（United States Oil Fund, L.P.）向劉家三個合夥人發出的IRS K-1表格（Form 1065）：劉豐光A信託、劉豐光個人退休帳戶（IRA），以及劉豐光與劉美珠B信託。各K-1表格記錄了各合夥人在2010年度的收入、扣除項目及資本帳戶變動。文件附有持股明細表及銷售明細表，顯示2010年度各合夥人的基金單位買賣紀錄，地址位於加州洛斯阿爾托斯山。",
+        "key_people": [
+          "Feng Kuang Liu",
+          "Meichu Grace Liu"
+        ],
+        "key_dates": [
+          "2010-12-31",
+          "2010-02-18",
+          "2010-02-16",
+          "2010-02-05",
+          "2010-02-26",
+          "2010-01-07",
+          "2010-01-13",
+          "2010-01-22",
+          "2010-05-07",
+          "2010-05-13",
+          "2010-05-14",
+          "2010-05-17",
+          "2010-05-20",
+          "2009-08-31",
+          "2009-11-06",
+          "2009-11-27",
+          "2011-04-18",
+          "2011-05-31"
+        ],
+        "sensitivity": {
+          "has_ssn": true,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "tax",
+          "financial",
+          "trust",
+          "estate-planning",
+          "legal",
+          "investment",
+          "partnership",
+          "k-1",
+          "ira",
+          "oil-fund"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:37:22.712236+00:00",
+        "input_tokens": 3,
+        "output_tokens": 877,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "8ad09e2eca3fcace10eea278022c5cd033ad82056140d2181fee414bec22269d",
+      "source_file": "Liu Family Trust Filings & Documents/Work Life/2004-10-07 FENG KUANG LIU Retirement Email Notification.pdf",
+      "status": "ok",
+      "elapsed_seconds": 20.8,
+      "analysis": {
+        "document_type": "employment/correspondence",
+        "title": "Feng Kuang Liu Retirement Notification Email Chain — Nortel Networks",
+        "date": "2004-10-07",
+        "date_confidence": 0.95,
+        "summary_en": "This document is a chain of internal work emails from October 2004 at Nortel Networks announcing Feng Kuang Liu's voluntary retirement at the end of December 2004. Colleagues including John Lynch, Peter Tarle, and Irene Yeazel offer congratulations and express that Liu will be missed. The emails also discuss a planned technical knowledge-transfer trip to Belleville, Ontario in mid-November 2004, where Liu would deliver presentations on traffic theory, CS1000 system algorithms, and engineering spreadsheets. A fifth page includes an older 2001 email thread praising Liu's work on a CallPilot/SCCS channel analysis.",
+        "summary_zh": "本文件為2004年10月諾泰爾網路公司（Nortel Networks）內部電子郵件往來紀錄，宣告劉鳳光（Feng Kuang Liu）申請自願離職並將於2004年12月底退休。同事John Lynch、Peter Tarle及Irene Yeazel等人紛紛致賀，並表示將十分懷念劉先生。郵件中亦討論劉先生計畫於2004年11月中旬前往安大略省貝爾維爾（Belleville）進行技術知識移轉，內容涵蓋電信流量理論、CS1000系統演算法及工程試算表分析。第五頁附有一封2001年的舊郵件，讚揚劉先生在CallPilot/SCCS頻道分析方面的優異表現。",
+        "key_people": [
+          "Liu, Feng (Feng Kuang Liu)",
+          "Lynch, John",
+          "Tarle, Peter",
+          "Kaczmarek, Witold",
+          "Petrovic, Sladjana",
+          "Quenneville, Dwayne",
+          "Ross, Denis",
+          "Pothier, Dennis",
+          "Johnson, Trystan",
+          "Tozer, William",
+          "Petrovic, Sreten",
+          "Lu, Gary",
+          "Flesch, Terry",
+          "Outram, Robert",
+          "Yeazel, Irene",
+          "Docherty, Robert",
+          "Teo, Ka",
+          "Lanthier, Louis",
+          "Armour, Christopher",
+          "Smith, David"
+        ],
+        "key_dates": [
+          "2004-10-07",
+          "2004-10-08",
+          "2004-11-15",
+          "2004-11-16",
+          "2004-11-17",
+          "2004-11-18",
+          "2004-11-19",
+          "2004-12-31",
+          "2001-08-21"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "employment",
+          "correspondence",
+          "retirement",
+          "nortel",
+          "personal"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:37:43.490095+00:00",
+        "input_tokens": 3,
+        "output_tokens": 935,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "920df846c730bcdfcb3ce209d05ce2f2259771a40dcbbdce0d92e6ad03771d1b",
+      "source_file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+      "status": "ok",
+      "elapsed_seconds": 20.5,
+      "analysis": {
+        "document_type": "legal/deed",
+        "title": "Grant Deed — Liu Family Residence Trust Restructuring (26471 Weston Drive, Los Altos Hills)",
+        "date": "2010-04-14",
+        "date_confidence": 0.95,
+        "summary_en": "This file contains two related Grant Deeds recorded on April 14–15, 2010 in Santa Clara County, concerning the property at 26471 Weston Drive, Los Altos Hills, CA (Lot 5, Tract No. 2206 Mockingbird Knolls, APN 175-33-035). The first deed transfers the property out of the Liu Personal Residence Trust and Feng-Kuang Liu \"A\" Trust to Feng-Kuang Liu as a married man holding sole and separate property. The second deed immediately reconveys the property back into three trusts: the Liu Personal Residence Trust (50% undivided interest), the Feng-Kuang Liu \"A\" Trust (42.4%), and the Meichu Grace Liu \"B\" Trust (7.6%). Both deeds were signed April 1, 2010, notarized April 7, 2010 by notary Linda J. Bentson, and recorded via Old Republic Title Company with no documentary transfer tax assessed.",
+        "summary_zh": "本文件包含兩份於2010年4月14至15日在聖塔克拉拉郡登記的授予契約，涉及位於加州洛斯阿圖斯山市威斯頓大道26471號的不動產（地號APN 175-33-035）。第一份契約將該房產從劉氏個人住宅信託及風光劉「A」信託移轉給風光劉，以已婚男性之個人獨立財產持有。第二份契約隨即將房產重新移入三個信託：劉氏個人住宅信託（50%）、風光劉「A」信託（42.4%）及美珠葛雷絲劉「B」信託（7.6%）。兩份契約均於2010年4月1日簽署，4月7日經公證人琳達·班森公證，透過老共和產權公司登記，無需繳納文件移轉稅。",
+        "key_people": [
+          "Feng-Kuang Liu",
+          "Meichu Grace Liu",
+          "Linda J. Bentson",
+          "Regina Alcomendras"
+        ],
+        "key_dates": [
+          "2010-04-01",
+          "2010-04-07",
+          "2010-04-14",
+          "2010-04-15",
+          "1958-11-25"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "legal",
+          "property",
+          "trust",
+          "estate-planning",
+          "deed"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:38:03.986686+00:00",
+        "input_tokens": 3,
+        "output_tokens": 902,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "9bebd08ebcdd0c48dffccfb7d49873bfa7a5e374984133d925e4a8787e6ae2bb",
+      "source_file": "Liu Family Trust Filings & Documents/2011-06-14  Weston Dr Sales Contract.pdf",
+      "status": "ok",
+      "elapsed_seconds": 23.4,
+      "analysis": {
+        "document_type": "legal/contract",
+        "title": "Real Estate Purchase Contract – 26471 Weston Dr, Los Altos Hills (Sale by Karen Lin & Kenny Liu)",
+        "date": "2011-06-13",
+        "date_confidence": 0.92,
+        "summary_en": "This is a PRDS Real Estate Purchase Contract dated June 13–14, 2011, for the sale of property at 26471 Weston Drive, Los Altos Hills, Santa Clara County, California. The sellers are Karen Lin and Kenny Liu; the buyers are Paul Mercadante and Charlene Mercadante. The initial offer price was $3,100,000, which was countered by the sellers at $3,175,000. The document includes the standard PRDS purchase agreement, a counter offer, arbitration and mediation clauses, disclosure requirements, contingency removal procedures, and an advisory disclosure covering property condition investigation topics.",
+        "summary_zh": "本文件為2011年6月13至14日簽署的加州標準房地產購買合約（PRDS格式），涉及位於加州聖塔克拉拉縣洛斯阿圖斯山莊（Los Altos Hills）韋斯頓大道26471號之房產。賣方為林凱倫（Karen Lin）及劉肯尼（Kenny Liu），買方為保羅·梅爾卡丹特（Paul Mercadante）與夏琳·梅爾卡丹特（Charlene Mercadante）。買方出價300萬元，賣方還價317.5萬元。文件包含反要約、仲裁與調解條款、房屋揭露要求及交割程序等內容。",
+        "key_people": [
+          "Karen Lin",
+          "Kenny Liu",
+          "Paul Mercadante",
+          "Charlene Mercadante",
+          "Athy Bridgman",
+          "Egreen (Intero Real Estate listing agent)"
+        ],
+        "key_dates": [
+          "2011-06-13",
+          "2011-06-14",
+          "2011-10-13"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "legal",
+          "property",
+          "contract",
+          "real-estate",
+          "trust",
+          "estate-planning",
+          "financial"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:38:27.352560+00:00",
+        "input_tokens": 3,
+        "output_tokens": 1312,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "ac9080ef8a791f59891ded66cbda5629c1a6a2af1f564ad63b7260ab9e3737f1",
+      "source_file": "Liu Family Trust Filings & Documents/Scanned Letters/Untitled.pdf",
+      "status": "ok",
+      "elapsed_seconds": 15.3,
+      "analysis": {
+        "document_type": "personal/letter",
+        "title": "Personal Letter Accompanying Memoir and Photographs (Japanese)",
+        "date": "2000",
+        "date_confidence": 0.3,
+        "summary_en": "A handwritten personal letter in Japanese, written by a woman using the pen name \"Shu Hui\" (舒慧), to a close friend she considers among her dearest. The writer apologizes for not being a better host during a visit, thanks the recipient for gifts, and encloses photographs from that occasion. She also shares that after four years of effort — covering planning, design, and repeated revisions — she has completed her late husband's memoir, which she is sending only to her daughter, her brother, and this recipient.",
+        "summary_zh": "這是一封以日文書寫的私人信函，作者署名「舒慧」，寫給她視為最親密摯友的收信人。信中她為未能好好款待對方的來訪而致歉，並感謝對方贈送的禮物，同時附上當時所拍攝的照片。她也提及，歷經四年的心血，從策劃、設計到反覆修改，終於完成了亡夫的回憶錄，此書僅寄給女兒、弟弟與這位收信人三人。",
+        "key_people": [
+          "舒慧 (Shu Hui, the writer, pen name)"
+        ],
+        "key_dates": [],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "personal",
+          "correspondence",
+          "memorial",
+          "japanese-language",
+          "memoir"
+        ],
+        "language": "Japanese",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:38:42.615801+00:00",
+        "input_tokens": 3,
+        "output_tokens": 599,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "e28810d04c65b05b55bc429e260f0f2ccebf3aa2bf58574a7c8ffcbef393fde8",
+      "source_file": "Liu Family Trust Filings & Documents/1985-01-31 Mobile Home Park Related.pdf",
+      "status": "ok",
+      "elapsed_seconds": 25.0,
+      "analysis": {
+        "document_type": "legal/contract",
+        "title": "Sunnyvale Mobile Home Park — Litigation, Rent Control, Sale Listing & Foreclosure Payoff",
+        "date": "1985-01-31",
+        "date_confidence": 0.5,
+        "summary_en": "This five-page document bundle relates to the Liu family's mobile home park property on El Camino Real in Sunnyvale, California. It includes a newsletter article about a 1984 court judgment against Feng K. Liu & Associates for violating the Mobilehome Residency Law, a newspaper clipping about the 1983 Sunnyvale rent control ballot campaign, a real estate sale listing for the property (42-unit mobile home park plus commercial tenants, asking $1,928,000), and foreclosure payoff correspondence from 1986 showing a total payoff of $1,486,209.64 issued to Feng Kuang Liu and Meichu Grace Liu.",
+        "summary_zh": "這份五頁文件集涉及劉氏家族在加州桑尼維爾市艾爾卡米諾真實大道上的移動房屋公園物業。內容包括：一篇關於1984年法院判決馮K.劉及合夥人違反《移動房屋居住法》的通訊文章、一篇1983年桑尼維爾租金管制公投運動的報紙剪報、該物業的房地產銷售清單（含42個移動房屋單位及商業租戶，要價1,928,000美元），以及1986年的止贖還款函件，顯示向劉鳳光與劉梅珠葛瑞斯支付總計1,486,209.64美元。",
+        "key_people": [
+          "Feng K. Liu",
+          "Grace Liu",
+          "Meichu Grace Liu",
+          "Feng Kuang Liu",
+          "Frank Hanley",
+          "Douglas A. Bird",
+          "Michael W. Malter",
+          "Stuart M. Wilson",
+          "Russell DePew",
+          "Bobbie Lemberg",
+          "Howard Vierra",
+          "Jeff Van Valer",
+          "Bharol Tang",
+          "Wm Hurley",
+          "Carol Butler",
+          "Mike Hunnicutt",
+          "Aylene Kuhn"
+        ],
+        "key_dates": [
+          "1983-06-03",
+          "1983-11-08",
+          "1984-05-17",
+          "1984-07-01",
+          "1985-01-31",
+          "1986-02-25",
+          "1986-02-28",
+          "1986-03-03"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "legal",
+          "property",
+          "trust",
+          "financial",
+          "correspondence",
+          "mobile-home-park",
+          "foreclosure",
+          "rent-control",
+          "litigation",
+          "real-estate"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:39:07.642066+00:00",
+        "input_tokens": 3,
+        "output_tokens": 894,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "f3ed4d4da2926e29006d0699159b6b2df111ab1b9cad219e5b4a5044b84d21c3",
+      "source_file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+      "status": "ok",
+      "elapsed_seconds": 22.5,
+      "analysis": {
+        "document_type": "medical/correspondence",
+        "title": "Meichu G. Liu — Medical Authorization & Correspondence for Liver Transplant Evaluation (2004)",
+        "date": "2004-06",
+        "date_confidence": 0.95,
+        "summary_en": "This 16-page document is a collection of medical correspondence and authorization records for Meichu G. Liu (DOB 03/11/1947) from May–June 2004. It includes pre-certification notifications from Camino Medical Group (a division of Palo Alto Medical Foundation) for hospitalizations at El Camino Hospital and Stanford Medical Center, diagnoses of acute renal failure, hepatitis NOS, and rectal/anal hemorrhage, and a Blue Shield of California approval letter for a liver transplant (CPT# 47135) at Stanford University Medical Center. Also included are a Stanford Transfusion Service letter identifying special blood antibodies (anti-E, anti-P1), a blood group identification card, and an El Camino Hospital conditions-of-admission form.",
+        "summary_zh": "本文件集共16頁，為劉美珠（Meichu G. Liu，生於1947年3月11日）於2004年5月至6月間的醫療授權及往來信函。內容包括卡米諾醫療集團（帕羅奧圖醫療基金會分支）針對於艾爾卡米諾醫院及史丹佛醫療中心住院治療所開立的預授權通知，診斷包括急性腎衰竭、肝炎及直腸肛門出血。另附藍盾加州保險公司批准史丹佛大學醫療中心執行肝臟移植手術（CPT# 47135）的授權函、史丹佛輸血服務部門關於特殊血型抗體（抗E、抗P1）的通知及血型識別卡，以及艾爾卡米諾醫院的入院條件同意書。",
+        "key_people": [
+          "Meichu G. Liu",
+          "Lawrence Shapiro, M.D.",
+          "Josephine Tang",
+          "Benjamin Chang",
+          "Rose O'Meara, RN, BSN, CCM",
+          "Suzanne Tegio"
+        ],
+        "key_dates": [
+          "2004-05-27",
+          "2004-05-29",
+          "2004-06-02",
+          "2004-06-07",
+          "2004-06-10",
+          "2004-06-13",
+          "2004-06-14",
+          "2004-06-16",
+          "2004-06-17",
+          "2004-06-18",
+          "2005-06-10"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": true
+        },
+        "tags": [
+          "medical",
+          "correspondence",
+          "insurance",
+          "transplant",
+          "liver",
+          "hospital",
+          "authorization",
+          "blue-shield",
+          "stanford",
+          "el-camino-hospital",
+          "camino-medical-group"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "sonnet",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-18T10:39:30.157039+00:00",
+        "input_tokens": 3,
+        "output_tokens": 931,
+        "chunk_count": 1
+      }
+    }
+  ]
+}

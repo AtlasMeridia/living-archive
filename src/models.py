@@ -79,8 +79,13 @@ class DocumentExtraction(BaseModel):
 
 class DocumentInferenceMetadata(BaseModel):
     method: str = ""
+    provider: str = ""
+    model: str = ""
     prompt_version: str = ""
     timestamp: str = ""
+    input_tokens: int = 0
+    output_tokens: int = 0
+    chunk_count: int = 1
 
 
 class DocumentManifest(BaseModel):

@@ -1,13 +1,15 @@
-"""Orchestrator for Claude Code document extraction sessions.
+"""Orchestrator for document extraction — manual and automated modes.
 
-This script prepares the work list and tracks progress. Claude Code handles
-the actual PDF reading, text extraction, and analysis interactively.
+Manual mode: prints instructions for interactive Claude Code sessions.
+Auto mode: extracts text via pypdf, analyzes via configured LLM provider.
 
 Usage:
     python -m src.run_doc_extract              # Show work to do
     python -m src.run_doc_extract --status      # Show progress on current run
-    python -m src.run_doc_extract --new-run     # Start a new run
-    python -m src.run_doc_extract --resume RUN  # Resume a specific run
+    python -m src.run_doc_extract --new-run     # Start a new run (manual)
+    python -m src.run_doc_extract --resume RUN  # Resume a specific run (manual)
+    python -m src.run_doc_extract --auto        # Automated extraction + analysis
+    python -m src.run_doc_extract --auto --resume RUN  # Resume automated run
 """
 
 import argparse
@@ -169,9 +171,141 @@ def print_extraction_instructions(work: list[dict], run_id: str) -> None:
         log.info("  ... and %d more (re-run to see updated list)", len(work) - 5)
 
 
+def auto_extract(run_id: str, work: list[dict]) -> None:
+    """Run automated extraction + analysis on the work list."""
+    from .doc_analyze import analyze_document, get_provider, merge_chunk_analyses
+    from .doc_extract_text import chunk_for_analysis, extract_text
+
+    provider = get_provider()
+    log.info("")
+    log.info("=" * 60)
+    log.info("AUTOMATED EXTRACTION — Provider: %s", provider.name)
+    log.info("Run ID: %s", run_id)
+    log.info("Documents: %d", len(work))
+    log.info("=" * 60)
+
+    succeeded = 0
+    failed = 0
+    skipped = 0
+    failures: list[dict] = []
+    start_time = time.monotonic()
+
+    for i, w in enumerate(work, 1):
+        pdf_path = Path(w["path"])
+        rel_path = w["rel_path"]
+        sha = w["sha256"]
+        pages = w["page_count"]
+        mb = w["file_size_bytes"] / (1024**2)
+
+        log.info("")
+        log.info("[%d/%d] %s (%.1f MB, %d pp)", i, len(work), rel_path, mb, pages)
+
+        try:
+            # 1. Extract text
+            doc_start = time.monotonic()
+            result = extract_text(pdf_path)
+
+            if result.is_empty:
+                log.warning("  SKIP: no text extracted (scanned image PDF, OCR needed)")
+                skipped += 1
+                continue
+
+            log.info("  Extracted %d chars from %d pages", result.chars_extracted, result.total_pages)
+
+            # 2. Save extracted text immediately (preserves work if analysis fails)
+            write_extracted_text(run_id, sha, result.full_text)
+
+            # 3. Chunk if large
+            chunks = chunk_for_analysis(result)
+            log.info("  Chunks: %d", len(chunks))
+
+            # 4. Analyze each chunk
+            chunk_results = []
+            for chunk in chunks:
+                if len(chunks) > 1:
+                    log.info(
+                        "  Analyzing chunk %d/%d (pages %d-%d)...",
+                        chunk.chunk_index + 1, chunk.total_chunks,
+                        chunk.page_start, chunk.page_end,
+                    )
+                else:
+                    log.info("  Analyzing...")
+
+                analysis, inference = analyze_document(
+                    text=chunk.text,
+                    source_file=rel_path,
+                    page_count=pages,
+                )
+                chunk_results.append((analysis, inference))
+
+            # 5. Merge if multi-chunk
+            if len(chunk_results) > 1:
+                analysis, inference = merge_chunk_analyses(chunk_results)
+            else:
+                analysis, inference = chunk_results[0]
+
+            # 6. Write manifest
+            inference_dict = inference.model_dump()
+            inference_dict["chunk_count"] = len(chunks)
+            write_manifest(
+                run_id=run_id,
+                source_file_rel=rel_path,
+                source_sha256=sha,
+                file_size_bytes=w["file_size_bytes"],
+                page_count=pages,
+                extraction={"chars_extracted": result.chars_extracted},
+                analysis=analysis.model_dump(),
+                inference=inference_dict,
+            )
+
+            elapsed = time.monotonic() - doc_start
+            log.info(
+                "  OK: %s — %s (%.1fs)",
+                analysis.document_type,
+                analysis.title[:60],
+                elapsed,
+            )
+            succeeded += 1
+
+        except Exception as exc:
+            log.error("  FAIL: %s: %s", type(exc).__name__, exc)
+            failed += 1
+            failures.append({
+                "source_file": rel_path,
+                "sha256": sha,
+                "error": f"{type(exc).__name__}: {exc}",
+            })
+
+    total_elapsed = time.monotonic() - start_time
+
+    log.info("")
+    log.info("=" * 60)
+    log.info("Run complete: %s", run_id)
+    log.info("  Succeeded: %d", succeeded)
+    log.info("  Failed: %d", failed)
+    log.info("  Skipped: %d (no text)", skipped)
+    log.info("  Elapsed: %.1fs", total_elapsed)
+    log.info("=" * 60)
+
+    write_run_meta(
+        run_id=run_id,
+        total=len(work),
+        succeeded=succeeded,
+        failed=failed,
+        skipped=skipped,
+        failures=failures,
+        elapsed_seconds=total_elapsed,
+        method="auto",
+        provider=provider.name,
+    )
+
+    if failed > 0:
+        sys.exit(1)
+
+
 def main():
     parser = argparse.ArgumentParser(
-        description="Document extraction orchestrator for Claude Code"
+        description="Document extraction orchestrator"
     )
     parser.add_argument("--status", metavar="RUN_ID", nargs="?", const="latest",
                         help="Show status of a run (default: latest)")
@@ -179,6 +313,8 @@ def main():
                         help="Start a new extraction run")
     parser.add_argument("--resume", metavar="RUN_ID",
                         help="Resume a specific run")
+    parser.add_argument("--auto", action="store_true",
+                        help="Run automated extraction + analysis")
     args = parser.parse_args()
 
     log.info("Living Archive — Document Extraction Pipeline")
@@ -213,33 +349,36 @@ def main():
         print_status(run_id)
         return
 
+    # Determine run ID
     if args.resume:
         run_id = get_or_create_run_id(resume=args.resume)
-    elif args.new_run:
+    elif args.new_run or args.auto:
         run_id = get_or_create_run_id()
-        # Create the run directory
         run_path = config.DOC_AI_LAYER_DIR / "runs" / run_id
         run_path.mkdir(parents=True, exist_ok=True)
         log.info("Created new run: %s", run_id)
     else:
         # Default: just show what needs to be done
-        # Use latest run if it exists, otherwise show all as new
         from .doc_scan import find_latest_run
         latest = find_latest_run()
         run_id = latest.name if latest else "preview"
 
     work = build_work_list(run_id) if run_id != "preview" else []
     if run_id == "preview":
-        # No existing run — show all PDFs
         log.info("Scanning source PDFs...")
         all_pdfs = scan_pdfs(config.DOC_SLICE_DIR)
         work = sorted(all_pdfs, key=lambda r: r["file_size_bytes"])
         log.info("  Found %d PDFs (no previous runs)", len(work))
 
-    print_work_list(work)
-
-    if args.new_run or args.resume:
-        print_extraction_instructions(work, run_id)
+    if args.auto:
+        if not work:
+            log.info("No documents to process.")
+            return
+        auto_extract(run_id, work)
+    else:
+        print_work_list(work)
+        if args.new_run or args.resume:
+            print_extraction_instructions(work, run_id)
 
 
 if __name__ == "__main__":

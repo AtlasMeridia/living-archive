@@ -1,0 +1,33 @@
+{
+  "id": "0000-multi-provider-doc-pipeline",
+  "title": "Multi-Provider Document Pipeline — Feasibility Study",
+  "date": "2026-02-16",
+  "status": "complete",
+  "thread": "pipeline",
+  "tags": ["documents", "claude-cli", "codex-cli", "ollama", "automation", "multi-provider", "pdf", "classification"],
+  "description": "Can the manual document extraction pipeline be fully automated using CLI-based LLM providers (Claude Code, Codex), and which provider produces the best classification quality for family archive documents?",
+  "key_findings": [
+    "Claude CLI (sonnet) is conditionally-viable: 89% adjusted doc_type match, 100% sensitivity recall, 19.7s avg/doc",
+    "Codex CLI (codex-5.3) is conditionally-viable: 89% adjusted doc_type match, 100% sensitivity recall, 37.7s avg/doc",
+    "Ollama (qwen3:32b) is not-viable: 28% doc_type match, 3 sensitivity FN, 111.8s avg/doc",
+    "Both cloud providers pass all quality gates after correcting 2 ground-truth vocabulary issues",
+    "OpenAI strict mode requires additionalProperties:false and full required arrays — Pydantic schemas need post-processing",
+    "Claude nested session requires CLAUDECODE env var to be unset when spawning subprocess"
+  ],
+  "outputs": [
+    "brief.md",
+    "plan.md",
+    "runs/p0-recon/",
+    "runs/p1-build/notes.md",
+    "runs/p2-compare/comparison.md",
+    "runs/p2-compare/scores.json",
+    "runs/p2-compare/safety-metrics.json",
+    "runs/p4-report/summary.md",
+    "src/doc_extract_text.py",
+    "src/doc_analyze.py",
+    "prompts/document_analysis_v2.txt"
+  ],
+  "cost_usd": 0,
+  "budget_cap_usd": 0,
+  "related_experiments": []
+}

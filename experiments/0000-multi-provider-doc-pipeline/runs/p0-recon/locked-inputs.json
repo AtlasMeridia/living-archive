@@ -1,0 +1,123 @@
+{
+  "description": "Locked test set for multi-provider document pipeline comparison",
+  "created": "2026-02-18",
+  "total_documents": 18,
+  "total_pages": 151,
+  "stratification": {
+    "small_lt5pp": 5,
+    "medium_5_20pp": 13,
+    "large_gt50pp": 0,
+    "non_english_dominant": 2
+  },
+  "deviation_from_brief": "No 50+ page documents exist in the processed corpus (max is 20pp). The 44 large docs (21-420pp) are unprocessed. Medium bin expanded to compensate.",
+  "documents": [
+    {
+      "source_sha256": "0068335420f13b74ce03d6060019cf0480ea26a74d734331dd4c9a039902d388",
+      "source_file": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+      "page_count": 1,
+      "file_size_bytes": 345864
+    },
+    {
+      "source_sha256": "191e25b99dbb03c0c29679b4f58628f9c05a6691c1e508a33f347b63cbea9687",
+      "source_file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+      "page_count": 2,
+      "file_size_bytes": 2392490
+    },
+    {
+      "source_sha256": "ac9080ef8a791f59891ded66cbda5629c1a6a2af1f564ad63b7260ab9e3737f1",
+      "source_file": "Liu Family Trust Filings & Documents/Scanned Letters/Untitled.pdf",
+      "page_count": 2,
+      "file_size_bytes": 836050
+    },
+    {
+      "source_sha256": "0d2eaf1ef09571e8513535d9bbfed41a80a09b5885302cf474ca192b506a23fa",
+      "source_file": "Liu Family Trust Filings & Documents/1983-07-30 Wedding Invitation.pdf",
+      "page_count": 3,
+      "file_size_bytes": 3293045
+    },
+    {
+      "source_sha256": "4b6ec06ad65b6c151351670daa66a989ca1fa62fdde6c0b786951757c9b10073",
+      "source_file": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+      "page_count": 4,
+      "file_size_bytes": 1560137
+    },
+    {
+      "source_sha256": "8ad09e2eca3fcace10eea278022c5cd033ad82056140d2181fee414bec22269d",
+      "source_file": "Liu Family Trust Filings & Documents/Work Life/2004-10-07 FENG KUANG LIU Retirement Email Notification.pdf",
+      "page_count": 5,
+      "file_size_bytes": 3029801
+    },
+    {
+      "source_sha256": "e28810d04c65b05b55bc429e260f0f2ccebf3aa2bf58574a7c8ffcbef393fde8",
+      "source_file": "Liu Family Trust Filings & Documents/1985-01-31 Mobile Home Park Related.pdf",
+      "page_count": 5,
+      "file_size_bytes": 4292198
+    },
+    {
+      "source_sha256": "33c13901edc9e84789358a808ccaef8868a6f83d6ece4f20dbf995feb1e23040",
+      "source_file": "Liu Family Trust Filings & Documents/2011 Assorted bills.pdf",
+      "page_count": 6,
+      "file_size_bytes": 3015448
+    },
+    {
+      "source_sha256": "920df846c730bcdfcb3ce209d05ce2f2259771a40dcbbdce0d92e6ad03771d1b",
+      "source_file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+      "page_count": 6,
+      "file_size_bytes": 2414957
+    },
+    {
+      "source_sha256": "58237da3bad43cbb6bbfe15940340da946ea0c245137e6bb78892b42faffdb05",
+      "source_file": "Liu Family Trust Filings & Documents/Artifacts/School Certificates - KENNY PENG LIU.pdf",
+      "page_count": 7,
+      "file_size_bytes": 6637440
+    },
+    {
+      "source_sha256": "40b0a7f5a982b9f96588778b444239777058ca01b25c87eaec7b57056ab9ebc9",
+      "source_file": "Liu Family Trust Filings & Documents/2007-10-22 Immigration Application KAI TI PENG.pdf",
+      "page_count": 9,
+      "file_size_bytes": 4277531
+    },
+    {
+      "source_sha256": "9bebd08ebcdd0c48dffccfb7d49873bfa7a5e374984133d925e4a8787e6ae2bb",
+      "source_file": "Liu Family Trust Filings & Documents/2011-06-14  Weston Dr Sales Contract.pdf",
+      "page_count": 9,
+      "file_size_bytes": 14563778
+    },
+    {
+      "source_sha256": "43b9fb4062bece7235c02ae2da5efdc839b795e47084a62a4003984045183594",
+      "source_file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Guestbook.pdf",
+      "page_count": 12,
+      "file_size_bytes": 9883341
+    },
+    {
+      "source_sha256": "7bd2ccac29b5cf5adc1a66a745cec5423384fe082c24f567b6fe2f34921bb80e",
+      "source_file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+      "page_count": 12,
+      "file_size_bytes": 24252488
+    },
+    {
+      "source_sha256": "2f0b8ac565768d107e8e0dd81d268c38e94d723ab6d0d020e021421992f7c36c",
+      "source_file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+      "page_count": 15,
+      "file_size_bytes": 11600808
+    },
+    {
+      "source_sha256": "f3ed4d4da2926e29006d0699159b6b2df111ab1b9cad219e5b4a5044b84d21c3",
+      "source_file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+      "page_count": 16,
+      "file_size_bytes": 8859951
+    },
+    {
+      "source_sha256": "077159dc446d20049224d593e497822652d32c24e3d352f5b35077939c0e1956",
+      "source_file": "Liu Family Trust Filings & Documents/1986-2009 Marquis Diamond Documentation.pdf",
+      "page_count": 17,
+      "file_size_bytes": 10209733
+    },
+    {
+      "source_sha256": "09192c83a93fc264da7489b1eb71cf3f12fac3b464ec606a57ec0354442495c4",
+      "source_file": "Liu Family Trust Filings & Documents/1990-06-20 Weston Dr Deed transfer to Trust.pdf",
+      "page_count": 20,
+      "file_size_bytes": 11839670
+    }
+  ]
+}

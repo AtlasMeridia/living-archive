@@ -61,8 +61,19 @@ USE_CLI = os.environ.get("USE_CLI", "true").lower() in ("true", "1", "yes")
 CLAUDE_CLI = Path(os.environ.get("CLAUDE_CLI", os.path.expanduser("~/.local/bin/claude")))
 CLI_MODEL = os.environ.get("CLI_MODEL", "sonnet")
 
-DOC_PROMPT_VERSION = "document_analysis_v1"
+DOC_PROMPT_VERSION = "document_analysis_v2"
 DOC_PROMPT_FILE = REPO_ROOT / "prompts" / f"{DOC_PROMPT_VERSION}.txt"
+
+# --- Document analysis provider ---
+DOC_PROVIDER = os.environ.get("DOC_PROVIDER", "claude-cli")  # claude-cli | codex | ollama
+DOC_CLI_MODEL = os.environ.get("DOC_CLI_MODEL", "sonnet")
+DOC_TIMEOUT = int(os.environ.get("DOC_TIMEOUT", "300"))
+CODEX_CLI = Path(os.environ.get("CODEX_CLI", subprocess.run(
+    ["which", "codex"], capture_output=True, text=True
+).stdout.strip() or "codex"))
+CODEX_MODEL = os.environ.get("CODEX_MODEL", "")
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/v1")
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3:32b")
 
 # --- Immich confidence thresholds ---
 CONFIDENCE_HIGH = 0.8
@@ -126,6 +137,12 @@ def validate_doc_config() -> list[str]:
         errors.append(f"DOCUMENTS_ROOT not found: {DOCUMENTS_ROOT} (is the NAS mounted?)")
     if not DOC_PROMPT_FILE.exists():
         errors.append(f"Doc prompt file not found: {DOC_PROMPT_FILE}")
+    if DOC_PROVIDER not in ("claude-cli", "codex", "ollama"):
+        errors.append(f"Unknown DOC_PROVIDER: {DOC_PROVIDER}")
+    if DOC_PROVIDER == "claude-cli" and not CLAUDE_CLI.exists():
+        errors.append(f"Claude CLI not found: {CLAUDE_CLI}")
+    if DOC_PROVIDER == "codex" and not CODEX_CLI.exists():
+        errors.append(f"Codex CLI not found: {CODEX_CLI}")
     return errors
 
 
@@ -160,6 +177,15 @@ def _get_retryable_exceptions() -> tuple[type[Exception], ...]:
             httpx.TimeoutException,
             anthropic.RateLimitError,
             anthropic.APIConnectionError,
+        ])
+    except ImportError:
+        pass
+    try:
+        import openai
+        exceptions.extend([
+            openai.APIConnectionError,
+            openai.RateLimitError,
+            openai.APITimeoutError,
         ])
     except ImportError:
         pass

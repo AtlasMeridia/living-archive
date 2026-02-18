@@ -1,0 +1,2418 @@
+{
+  "claude": {
+    "provider": "claude",
+    "documents_scored": 18,
+    "documents_missing": 0,
+    "doc_type_exact_match": 0.778,
+    "doc_type_matches": 14,
+    "doc_type_total": 18,
+    "date_exact": 11,
+    "date_partial": 3,
+    "date_total": 18,
+    "sensitivity_precision_avg": 0.982,
+    "sensitivity_recall_avg": 1.0,
+    "sensitivity_total_fn": 0,
+    "sensitivity_fn_details": [],
+    "people_f1_avg": 0.361,
+    "tags_f1_avg": 0.348,
+    "avg_time_seconds": 19.7,
+    "p95_time_seconds": 25.0,
+    "total_time_seconds": 354.2,
+    "per_doc_scores": [
+      {
+        "sha": "0068335420f1",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "financial/statement",
+        "pred_type": "financial/statement",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.667,
+          "recall": 0.667,
+          "f1": 0.667,
+          "gt_count": 3,
+          "pred_count": 3,
+          "overlap": 2
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 1,
+          "pred_count": 1,
+          "overlap": 1
+        },
+        "tags_overlap": {
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.857,
+          "gt_count": 3,
+          "pred_count": 4,
+          "overlap": 3
+        },
+        "elapsed_seconds": 13.4
+      },
+      {
+        "sha": "191e25b99dbb",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "personal/certificate",
+        "pred_type": "personal/certificate",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "tn": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.3,
+          "recall": 0.375,
+          "f1": 0.333,
+          "gt_count": 8,
+          "pred_count": 10,
+          "overlap": 3
+        },
+        "dates_overlap": {
+          "precision": 0.455,
+          "recall": 1.0,
+          "f1": 0.625,
+          "gt_count": 5,
+          "pred_count": 11,
+          "overlap": 5
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 6,
+          "pred_count": 6,
+          "overlap": 0
+        },
+        "elapsed_seconds": 20.8
+      },
+      {
+        "sha": "ac9080ef8a79",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "personal/letter",
+        "pred_type": "personal/letter",
+        "date_score": "partial",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 2,
+          "pred_count": 1,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 1,
+          "pred_count": 0,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.2,
+          "recall": 0.143,
+          "f1": 0.167,
+          "gt_count": 7,
+          "pred_count": 5,
+          "overlap": 1
+        },
+        "elapsed_seconds": 15.3
+      },
+      {
+        "sha": "0d2eaf1ef095",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "personal/invitation",
+        "pred_type": "personal/certificate",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 4,
+          "pred_count": 5,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 1,
+          "pred_count": 1,
+          "overlap": 1
+        },
+        "tags_overlap": {
+          "precision": 0.667,
+          "recall": 0.6,
+          "f1": 0.632,
+          "gt_count": 10,
+          "pred_count": 9,
+          "overlap": 6
+        },
+        "elapsed_seconds": 15.8
+      },
+      {
+        "sha": "4b6ec06ad65b",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/will",
+        "pred_type": "legal/will",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 4,
+          "pred_count": 4,
+          "overlap": 4
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 2,
+          "pred_count": 2,
+          "overlap": 2
+        },
+        "tags_overlap": {
+          "precision": 0.4,
+          "recall": 0.4,
+          "f1": 0.4,
+          "gt_count": 5,
+          "pred_count": 5,
+          "overlap": 2
+        },
+        "elapsed_seconds": 14.5
+      },
+      {
+        "sha": "8ad09e2eca3f",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "employment/records",
+        "pred_type": "employment/correspondence",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 9,
+          "pred_count": 20,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.333,
+          "recall": 0.75,
+          "f1": 0.462,
+          "gt_count": 4,
+          "pred_count": 9,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.4,
+          "recall": 0.25,
+          "f1": 0.308,
+          "gt_count": 8,
+          "pred_count": 5,
+          "overlap": 2
+        },
+        "elapsed_seconds": 20.8
+      },
+      {
+        "sha": "e28810d04c65",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "legal/litigation",
+        "pred_type": "legal/contract",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.412,
+          "recall": 0.778,
+          "f1": 0.538,
+          "gt_count": 9,
+          "pred_count": 17,
+          "overlap": 7
+        },
+        "dates_overlap": {
+          "precision": 0.625,
+          "recall": 1.0,
+          "f1": 0.769,
+          "gt_count": 5,
+          "pred_count": 8,
+          "overlap": 5
+        },
+        "tags_overlap": {
+          "precision": 0.5,
+          "recall": 0.357,
+          "f1": 0.417,
+          "gt_count": 14,
+          "pred_count": 10,
+          "overlap": 5
+        },
+        "elapsed_seconds": 25.0
+      },
+      {
+        "sha": "33c13901edc9",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "financial/statement",
+        "pred_type": "financial/statement",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 2,
+          "fp": 1,
+          "fn": 0,
+          "tn": 0,
+          "precision": 0.667,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.167,
+          "recall": 0.2,
+          "f1": 0.182,
+          "gt_count": 5,
+          "pred_count": 6,
+          "overlap": 1
+        },
+        "dates_overlap": {
+          "precision": 0.429,
+          "recall": 1.0,
+          "f1": 0.6,
+          "gt_count": 3,
+          "pred_count": 7,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.125,
+          "recall": 0.111,
+          "f1": 0.118,
+          "gt_count": 9,
+          "pred_count": 8,
+          "overlap": 1
+        },
+        "elapsed_seconds": 19.3
+      },
+      {
+        "sha": "920df846c730",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/deed",
+        "pred_type": "legal/deed",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "gt_count": 4,
+          "pred_count": 4,
+          "overlap": 2
+        },
+        "dates_overlap": {
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.889,
+          "gt_count": 4,
+          "pred_count": 5,
+          "overlap": 4
+        },
+        "tags_overlap": {
+          "precision": 0.2,
+          "recall": 0.143,
+          "f1": 0.167,
+          "gt_count": 7,
+          "pred_count": 5,
+          "overlap": 1
+        },
+        "elapsed_seconds": 20.5
+      },
+      {
+        "sha": "58237da3bad4",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "personal/certificate",
+        "pred_type": "personal/certificate",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 5,
+          "pred_count": 5,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.857,
+          "gt_count": 4,
+          "pred_count": 3,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.667,
+          "recall": 0.364,
+          "f1": 0.471,
+          "gt_count": 11,
+          "pred_count": 6,
+          "overlap": 4
+        },
+        "elapsed_seconds": 14.9
+      },
+      {
+        "sha": "40b0a7f5a982",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "government/immigration",
+        "pred_type": "government/immigration",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 4,
+          "pred_count": 5,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.857,
+          "gt_count": 4,
+          "pred_count": 3,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.167,
+          "recall": 0.091,
+          "f1": 0.118,
+          "gt_count": 11,
+          "pred_count": 6,
+          "overlap": 1
+        },
+        "elapsed_seconds": 22.9
+      },
+      {
+        "sha": "9bebd08ebcdd",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/contract",
+        "pred_type": "legal/contract",
+        "date_score": "partial",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.5,
+          "recall": 0.6,
+          "f1": 0.545,
+          "gt_count": 5,
+          "pred_count": 6,
+          "overlap": 3
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 3,
+          "pred_count": 3,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.143,
+          "recall": 0.143,
+          "f1": 0.143,
+          "gt_count": 7,
+          "pred_count": 7,
+          "overlap": 1
+        },
+        "elapsed_seconds": 23.4
+      },
+      {
+        "sha": "43b9fb4062be",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "personal/memorial",
+        "pred_type": "personal/memorial",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.02,
+          "recall": 0.25,
+          "f1": 0.038,
+          "gt_count": 4,
+          "pred_count": 49,
+          "overlap": 1
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 3,
+          "pred_count": 3,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.714,
+          "recall": 0.625,
+          "f1": 0.667,
+          "gt_count": 8,
+          "pred_count": 7,
+          "overlap": 5
+        },
+        "elapsed_seconds": 21.1
+      },
+      {
+        "sha": "7bd2ccac29b5",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "financial/tax-return",
+        "pred_type": "financial/tax-return",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "tn": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 2,
+          "pred_count": 2,
+          "overlap": 2
+        },
+        "dates_overlap": {
+          "precision": 0.389,
+          "recall": 0.875,
+          "f1": 0.538,
+          "gt_count": 8,
+          "pred_count": 18,
+          "overlap": 7
+        },
+        "tags_overlap": {
+          "precision": 0.7,
+          "recall": 0.636,
+          "f1": 0.667,
+          "gt_count": 11,
+          "pred_count": 10,
+          "overlap": 7
+        },
+        "elapsed_seconds": 19.4
+      },
+      {
+        "sha": "2f0b8ac56576",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/trust",
+        "pred_type": "legal/trust",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.5,
+          "recall": 0.8,
+          "f1": 0.615,
+          "gt_count": 10,
+          "pred_count": 16,
+          "overlap": 8
+        },
+        "dates_overlap": {
+          "precision": 0.357,
+          "recall": 0.833,
+          "f1": 0.5,
+          "gt_count": 6,
+          "pred_count": 14,
+          "overlap": 5
+        },
+        "tags_overlap": {
+          "precision": 0.286,
+          "recall": 0.25,
+          "f1": 0.267,
+          "gt_count": 8,
+          "pred_count": 7,
+          "overlap": 2
+        },
+        "elapsed_seconds": 22.4
+      },
+      {
+        "sha": "f3ed4d4da292",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "medical/correspondence",
+        "pred_type": "medical/correspondence",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "gt_count": 6,
+          "pred_count": 6,
+          "overlap": 3
+        },
+        "dates_overlap": {
+          "precision": 0.727,
+          "recall": 0.889,
+          "f1": 0.8,
+          "gt_count": 9,
+          "pred_count": 11,
+          "overlap": 8
+        },
+        "tags_overlap": {
+          "precision": 0.364,
+          "recall": 0.333,
+          "f1": 0.348,
+          "gt_count": 12,
+          "pred_count": 11,
+          "overlap": 4
+        },
+        "elapsed_seconds": 22.5
+      },
+      {
+        "sha": "077159dc446d",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "financial/insurance",
+        "pred_type": "financial/statement",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 1,
+          "pred_count": 4,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.182,
+          "recall": 1.0,
+          "f1": 0.308,
+          "gt_count": 2,
+          "pred_count": 11,
+          "overlap": 2
+        },
+        "tags_overlap": {
+          "precision": 0.143,
+          "recall": 0.1,
+          "f1": 0.118,
+          "gt_count": 10,
+          "pred_count": 7,
+          "overlap": 1
+        },
+        "elapsed_seconds": 21.1
+      },
+      {
+        "sha": "09192c83a93f",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/deed",
+        "pred_type": "legal/deed",
+        "date_score": "partial",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.417,
+          "recall": 1.0,
+          "f1": 0.588,
+          "gt_count": 5,
+          "pred_count": 12,
+          "overlap": 5
+        },
+        "dates_overlap": {
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.857,
+          "gt_count": 6,
+          "pred_count": 8,
+          "overlap": 6
+        },
+        "tags_overlap": {
+          "precision": 0.429,
+          "recall": 0.375,
+          "f1": 0.4,
+          "gt_count": 8,
+          "pred_count": 7,
+          "overlap": 3
+        },
+        "elapsed_seconds": 21.1
+      }
+    ]
+  },
+  "codex": {
+    "provider": "codex",
+    "documents_scored": 18,
+    "documents_missing": 0,
+    "doc_type_exact_match": 0.778,
+    "doc_type_matches": 14,
+    "doc_type_total": 18,
+    "date_exact": 14,
+    "date_partial": 1,
+    "date_total": 18,
+    "sensitivity_precision_avg": 0.898,
+    "sensitivity_recall_avg": 1.0,
+    "sensitivity_total_fn": 0,
+    "sensitivity_fn_details": [],
+    "people_f1_avg": 0.456,
+    "tags_f1_avg": 0.139,
+    "avg_time_seconds": 37.7,
+    "p95_time_seconds": 61.3,
+    "total_time_seconds": 678.3,
+    "per_doc_scores": [
+      {
+        "sha": "0068335420f1",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "financial/statement",
+        "pred_type": "financial/statement",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.667,
+          "recall": 0.667,
+          "f1": 0.667,
+          "gt_count": 3,
+          "pred_count": 3,
+          "overlap": 2
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 1,
+          "pred_count": 1,
+          "overlap": 1
+        },
+        "tags_overlap": {
+          "precision": 0.5,
+          "recall": 0.333,
+          "f1": 0.4,
+          "gt_count": 3,
+          "pred_count": 2,
+          "overlap": 1
+        },
+        "elapsed_seconds": 24.1
+      },
+      {
+        "sha": "191e25b99dbb",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "personal/certificate",
+        "pred_type": "personal/certificate",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "tn": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.222,
+          "recall": 0.25,
+          "f1": 0.235,
+          "gt_count": 8,
+          "pred_count": 9,
+          "overlap": 2
+        },
+        "dates_overlap": {
+          "precision": 0.417,
+          "recall": 1.0,
+          "f1": 0.588,
+          "gt_count": 5,
+          "pred_count": 12,
+          "overlap": 5
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 6,
+          "pred_count": 4,
+          "overlap": 0
+        },
+        "elapsed_seconds": 52.7
+      },
+      {
+        "sha": "ac9080ef8a79",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "personal/letter",
+        "pred_type": "personal/letter",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 2,
+          "pred_count": 2,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 1,
+          "pred_count": 0,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 7,
+          "pred_count": 3,
+          "overlap": 0
+        },
+        "elapsed_seconds": 52.1
+      },
+      {
+        "sha": "0d2eaf1ef095",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "personal/invitation",
+        "pred_type": "personal/letter",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 4,
+          "pred_count": 9,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 1,
+          "pred_count": 1,
+          "overlap": 1
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 10,
+          "pred_count": 2,
+          "overlap": 0
+        },
+        "elapsed_seconds": 25.6
+      },
+      {
+        "sha": "4b6ec06ad65b",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/will",
+        "pred_type": "legal/will",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 4,
+          "pred_count": 4,
+          "overlap": 4
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 2,
+          "pred_count": 2,
+          "overlap": 2
+        },
+        "tags_overlap": {
+          "precision": 0.2,
+          "recall": 0.2,
+          "f1": 0.2,
+          "gt_count": 5,
+          "pred_count": 5,
+          "overlap": 1
+        },
+        "elapsed_seconds": 23.2
+      },
+      {
+        "sha": "8ad09e2eca3f",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "employment/records",
+        "pred_type": "employment/correspondence",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.4,
+          "recall": 0.889,
+          "f1": 0.552,
+          "gt_count": 9,
+          "pred_count": 20,
+          "overlap": 8
+        },
+        "dates_overlap": {
+          "precision": 0.333,
+          "recall": 0.75,
+          "f1": 0.462,
+          "gt_count": 4,
+          "pred_count": 9,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.333,
+          "recall": 0.125,
+          "f1": 0.182,
+          "gt_count": 8,
+          "pred_count": 3,
+          "overlap": 1
+        },
+        "elapsed_seconds": 25.5
+      },
+      {
+        "sha": "e28810d04c65",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "legal/litigation",
+        "pred_type": "financial/statement",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.438,
+          "recall": 0.778,
+          "f1": 0.56,
+          "gt_count": 9,
+          "pred_count": 16,
+          "overlap": 7
+        },
+        "dates_overlap": {
+          "precision": 0.444,
+          "recall": 0.8,
+          "f1": 0.571,
+          "gt_count": 5,
+          "pred_count": 9,
+          "overlap": 4
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 14,
+          "pred_count": 4,
+          "overlap": 0
+        },
+        "elapsed_seconds": 61.3
+      },
+      {
+        "sha": "33c13901edc9",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "financial/statement",
+        "pred_type": "financial/statement",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 2,
+          "fp": 1,
+          "fn": 0,
+          "tn": 0,
+          "precision": 0.667,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 5,
+          "pred_count": 6,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.333,
+          "recall": 1.0,
+          "f1": 0.5,
+          "gt_count": 3,
+          "pred_count": 9,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.167,
+          "recall": 0.111,
+          "f1": 0.133,
+          "gt_count": 9,
+          "pred_count": 6,
+          "overlap": 1
+        },
+        "elapsed_seconds": 36.0
+      },
+      {
+        "sha": "920df846c730",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/deed",
+        "pred_type": "legal/deed",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 0,
+          "tn": 2,
+          "precision": 0.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "gt_count": 4,
+          "pred_count": 4,
+          "overlap": 2
+        },
+        "dates_overlap": {
+          "precision": 0.667,
+          "recall": 1.0,
+          "f1": 0.8,
+          "gt_count": 4,
+          "pred_count": 6,
+          "overlap": 4
+        },
+        "tags_overlap": {
+          "precision": 0.167,
+          "recall": 0.143,
+          "f1": 0.154,
+          "gt_count": 7,
+          "pred_count": 6,
+          "overlap": 1
+        },
+        "elapsed_seconds": 39.8
+      },
+      {
+        "sha": "58237da3bad4",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "personal/certificate",
+        "pred_type": "personal/certificate",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.4,
+          "recall": 0.4,
+          "f1": 0.4,
+          "gt_count": 5,
+          "pred_count": 5,
+          "overlap": 2
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.857,
+          "gt_count": 4,
+          "pred_count": 3,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.5,
+          "recall": 0.091,
+          "f1": 0.154,
+          "gt_count": 11,
+          "pred_count": 2,
+          "overlap": 1
+        },
+        "elapsed_seconds": 30.4
+      },
+      {
+        "sha": "40b0a7f5a982",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "government/immigration",
+        "pred_type": "government/immigration",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 4,
+          "pred_count": 4,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.75,
+          "recall": 0.75,
+          "f1": 0.75,
+          "gt_count": 4,
+          "pred_count": 4,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.2,
+          "recall": 0.091,
+          "f1": 0.125,
+          "gt_count": 11,
+          "pred_count": 5,
+          "overlap": 1
+        },
+        "elapsed_seconds": 35.9
+      },
+      {
+        "sha": "9bebd08ebcdd",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/contract",
+        "pred_type": "legal/contract",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.8,
+          "recall": 0.8,
+          "f1": 0.8,
+          "gt_count": 5,
+          "pred_count": 5,
+          "overlap": 4
+        },
+        "dates_overlap": {
+          "precision": 0.667,
+          "recall": 0.667,
+          "f1": 0.667,
+          "gt_count": 3,
+          "pred_count": 3,
+          "overlap": 2
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 7,
+          "pred_count": 5,
+          "overlap": 0
+        },
+        "elapsed_seconds": 35.1
+      },
+      {
+        "sha": "43b9fb4062be",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "personal/memorial",
+        "pred_type": "personal/memorial",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.1,
+          "recall": 0.25,
+          "f1": 0.143,
+          "gt_count": 4,
+          "pred_count": 10,
+          "overlap": 1
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 3,
+          "pred_count": 3,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.5,
+          "recall": 0.125,
+          "f1": 0.2,
+          "gt_count": 8,
+          "pred_count": 2,
+          "overlap": 1
+        },
+        "elapsed_seconds": 24.4
+      },
+      {
+        "sha": "7bd2ccac29b5",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "financial/tax-return",
+        "pred_type": "financial/tax-return",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "tn": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 2,
+          "pred_count": 2,
+          "overlap": 2
+        },
+        "dates_overlap": {
+          "precision": 0.381,
+          "recall": 1.0,
+          "f1": 0.552,
+          "gt_count": 8,
+          "pred_count": 21,
+          "overlap": 8
+        },
+        "tags_overlap": {
+          "precision": 0.5,
+          "recall": 0.182,
+          "f1": 0.267,
+          "gt_count": 11,
+          "pred_count": 4,
+          "overlap": 2
+        },
+        "elapsed_seconds": 36.0
+      },
+      {
+        "sha": "2f0b8ac56576",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/trust",
+        "pred_type": "legal/trust",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.6,
+          "recall": 0.9,
+          "f1": 0.72,
+          "gt_count": 10,
+          "pred_count": 15,
+          "overlap": 9
+        },
+        "dates_overlap": {
+          "precision": 0.316,
+          "recall": 1.0,
+          "f1": 0.48,
+          "gt_count": 6,
+          "pred_count": 19,
+          "overlap": 6
+        },
+        "tags_overlap": {
+          "precision": 0.4,
+          "recall": 0.25,
+          "f1": 0.308,
+          "gt_count": 8,
+          "pred_count": 5,
+          "overlap": 2
+        },
+        "elapsed_seconds": 41.6
+      },
+      {
+        "sha": "f3ed4d4da292",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "medical/correspondence",
+        "pred_type": "medical/correspondence",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 1,
+          "fn": 0,
+          "tn": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.667,
+          "recall": 0.667,
+          "f1": 0.667,
+          "gt_count": 6,
+          "pred_count": 6,
+          "overlap": 4
+        },
+        "dates_overlap": {
+          "precision": 0.615,
+          "recall": 0.889,
+          "f1": 0.727,
+          "gt_count": 9,
+          "pred_count": 13,
+          "overlap": 8
+        },
+        "tags_overlap": {
+          "precision": 0.25,
+          "recall": 0.083,
+          "f1": 0.125,
+          "gt_count": 12,
+          "pred_count": 4,
+          "overlap": 1
+        },
+        "elapsed_seconds": 36.7
+      },
+      {
+        "sha": "077159dc446d",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "financial/insurance",
+        "pred_type": "financial/statement",
+        "date_score": "partial",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.333,
+          "recall": 1.0,
+          "f1": 0.5,
+          "gt_count": 1,
+          "pred_count": 3,
+          "overlap": 1
+        },
+        "dates_overlap": {
+          "precision": 0.154,
+          "recall": 1.0,
+          "f1": 0.267,
+          "gt_count": 2,
+          "pred_count": 13,
+          "overlap": 2
+        },
+        "tags_overlap": {
+          "precision": 0.167,
+          "recall": 0.1,
+          "f1": 0.125,
+          "gt_count": 10,
+          "pred_count": 6,
+          "overlap": 1
+        },
+        "elapsed_seconds": 57.4
+      },
+      {
+        "sha": "09192c83a93f",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/deed",
+        "pred_type": "legal/deed",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.333,
+          "recall": 0.8,
+          "f1": 0.471,
+          "gt_count": 5,
+          "pred_count": 12,
+          "overlap": 4
+        },
+        "dates_overlap": {
+          "precision": 0.6,
+          "recall": 1.0,
+          "f1": 0.75,
+          "gt_count": 6,
+          "pred_count": 10,
+          "overlap": 6
+        },
+        "tags_overlap": {
+          "precision": 0.143,
+          "recall": 0.125,
+          "f1": 0.133,
+          "gt_count": 8,
+          "pred_count": 7,
+          "overlap": 1
+        },
+        "elapsed_seconds": 40.5
+      }
+    ]
+  },
+  "ollama": {
+    "provider": "ollama",
+    "documents_scored": 18,
+    "documents_missing": 0,
+    "doc_type_exact_match": 0.278,
+    "doc_type_matches": 5,
+    "doc_type_total": 18,
+    "date_exact": 7,
+    "date_partial": 2,
+    "date_total": 18,
+    "sensitivity_precision_avg": 0.926,
+    "sensitivity_recall_avg": 0.861,
+    "sensitivity_total_fn": 3,
+    "sensitivity_fn_details": [
+      {
+        "sha": "9bebd08ebcdd",
+        "source_file": "Liu Family Trust Filings & Documents/2011-06-14  Weston Dr Sales Contract.pdf",
+        "missed_flags": [
+          "has_financial"
+        ]
+      },
+      {
+        "sha": "7bd2ccac29b5",
+        "source_file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+        "missed_flags": [
+          "has_ssn"
+        ]
+      },
+      {
+        "sha": "09192c83a93f",
+        "source_file": "Liu Family Trust Filings & Documents/1990-06-20 Weston Dr Deed transfer to Trust.pdf",
+        "missed_flags": [
+          "has_financial"
+        ]
+      }
+    ],
+    "people_f1_avg": 0.103,
+    "tags_f1_avg": 0.136,
+    "avg_time_seconds": 111.8,
+    "p95_time_seconds": 206.3,
+    "total_time_seconds": 2013.0,
+    "per_doc_scores": [
+      {
+        "sha": "0068335420f1",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "financial/statement",
+        "pred_type": "financial/statement",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.333,
+          "recall": 0.333,
+          "f1": 0.333,
+          "gt_count": 3,
+          "pred_count": 3,
+          "overlap": 1
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 1,
+          "pred_count": 1,
+          "overlap": 1
+        },
+        "tags_overlap": {
+          "precision": 0.5,
+          "recall": 0.667,
+          "f1": 0.571,
+          "gt_count": 3,
+          "pred_count": 4,
+          "overlap": 2
+        },
+        "elapsed_seconds": 52.9
+      },
+      {
+        "sha": "191e25b99dbb",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "personal/certificate",
+        "pred_type": "death_certificate",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "tn": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 8,
+          "pred_count": 2,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 5,
+          "pred_count": 4,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 6,
+          "pred_count": 6,
+          "overlap": 0
+        },
+        "elapsed_seconds": 206.3
+      },
+      {
+        "sha": "ac9080ef8a79",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "personal/letter",
+        "pred_type": "personal/memorial",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 2,
+          "pred_count": 4,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 1,
+          "pred_count": 0,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 7,
+          "pred_count": 3,
+          "overlap": 0
+        },
+        "elapsed_seconds": 61.1
+      },
+      {
+        "sha": "0d2eaf1ef095",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "personal/invitation",
+        "pred_type": "personal/memorial",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 4,
+          "pred_count": 5,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 1,
+          "pred_count": 1,
+          "overlap": 1
+        },
+        "tags_overlap": {
+          "precision": 0.4,
+          "recall": 0.2,
+          "f1": 0.267,
+          "gt_count": 10,
+          "pred_count": 5,
+          "overlap": 2
+        },
+        "elapsed_seconds": 60.5
+      },
+      {
+        "sha": "4b6ec06ad65b",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/will",
+        "pred_type": "legal/will",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 4,
+          "pred_count": 4,
+          "overlap": 4
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 2,
+          "pred_count": 2,
+          "overlap": 2
+        },
+        "tags_overlap": {
+          "precision": 0.667,
+          "recall": 0.4,
+          "f1": 0.5,
+          "gt_count": 5,
+          "pred_count": 3,
+          "overlap": 2
+        },
+        "elapsed_seconds": 78.8
+      },
+      {
+        "sha": "8ad09e2eca3f",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "employment/records",
+        "pred_type": "email_transcript",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.333,
+          "recall": 0.111,
+          "f1": 0.167,
+          "gt_count": 9,
+          "pred_count": 3,
+          "overlap": 1
+        },
+        "dates_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 4,
+          "pred_count": 4,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 8,
+          "pred_count": 6,
+          "overlap": 0
+        },
+        "elapsed_seconds": 94.1
+      },
+      {
+        "sha": "e28810d04c65",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "legal/litigation",
+        "pred_type": "Real Estate Transaction & Financial Records",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 1,
+          "fn": 0,
+          "tn": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.25,
+          "recall": 0.111,
+          "f1": 0.154,
+          "gt_count": 9,
+          "pred_count": 4,
+          "overlap": 1
+        },
+        "dates_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 5,
+          "pred_count": 2,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.25,
+          "recall": 0.071,
+          "f1": 0.111,
+          "gt_count": 14,
+          "pred_count": 4,
+          "overlap": 1
+        },
+        "elapsed_seconds": 182.3
+      },
+      {
+        "sha": "33c13901edc9",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "financial/statement",
+        "pred_type": "Mixed Financial and Healthcare Documents",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 2,
+          "fp": 1,
+          "fn": 0,
+          "tn": 0,
+          "precision": 0.667,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 5,
+          "pred_count": 4,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 3,
+          "pred_count": 4,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.25,
+          "recall": 0.222,
+          "f1": 0.235,
+          "gt_count": 9,
+          "pred_count": 8,
+          "overlap": 2
+        },
+        "elapsed_seconds": 108.3
+      },
+      {
+        "sha": "920df846c730",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "legal/deed",
+        "pred_type": "legal/deed",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 4,
+          "pred_count": 2,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.857,
+          "gt_count": 4,
+          "pred_count": 3,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.25,
+          "recall": 0.143,
+          "f1": 0.182,
+          "gt_count": 7,
+          "pred_count": 4,
+          "overlap": 1
+        },
+        "elapsed_seconds": 94.1
+      },
+      {
+        "sha": "58237da3bad4",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "personal/certificate",
+        "pred_type": "personal/certificate",
+        "date_score": "partial",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 5,
+          "pred_count": 6,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.667,
+          "recall": 0.5,
+          "f1": 0.571,
+          "gt_count": 4,
+          "pred_count": 3,
+          "overlap": 2
+        },
+        "tags_overlap": {
+          "precision": 0.5,
+          "recall": 0.182,
+          "f1": 0.267,
+          "gt_count": 11,
+          "pred_count": 4,
+          "overlap": 2
+        },
+        "elapsed_seconds": 112.7
+      },
+      {
+        "sha": "40b0a7f5a982",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "government/immigration",
+        "pred_type": "Immigration and Financial Documents",
+        "date_score": "partial",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 4,
+          "pred_count": 3,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.667,
+          "gt_count": 4,
+          "pred_count": 2,
+          "overlap": 2
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 11,
+          "pred_count": 5,
+          "overlap": 0
+        },
+        "elapsed_seconds": 170.0
+      },
+      {
+        "sha": "9bebd08ebcdd",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "legal/contract",
+        "pred_type": "California Real Estate Purchase Agreement Addendum",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "fn_details": [
+            "has_financial"
+          ]
+        },
+        "people_overlap": {
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 5,
+          "pred_count": 0,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 3,
+          "pred_count": 1,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 7,
+          "pred_count": 9,
+          "overlap": 0
+        },
+        "elapsed_seconds": 119.0
+      },
+      {
+        "sha": "43b9fb4062be",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": true,
+        "gt_type": "personal/memorial",
+        "pred_type": "personal/memorial",
+        "date_score": "exact",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.167,
+          "recall": 0.25,
+          "f1": 0.2,
+          "gt_count": 4,
+          "pred_count": 6,
+          "overlap": 1
+        },
+        "dates_overlap": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "gt_count": 3,
+          "pred_count": 3,
+          "overlap": 3
+        },
+        "tags_overlap": {
+          "precision": 0.2,
+          "recall": 0.125,
+          "f1": 0.154,
+          "gt_count": 8,
+          "pred_count": 5,
+          "overlap": 1
+        },
+        "elapsed_seconds": 63.4
+      },
+      {
+        "sha": "7bd2ccac29b5",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "financial/tax-return",
+        "pred_type": "Security Transaction Report & Tax Instructions",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 1,
+          "tn": 1,
+          "precision": 1.0,
+          "recall": 0.5,
+          "fn_details": [
+            "has_ssn"
+          ]
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 2,
+          "pred_count": 1,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 8,
+          "pred_count": 4,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 11,
+          "pred_count": 7,
+          "overlap": 0
+        },
+        "elapsed_seconds": 154.0
+      },
+      {
+        "sha": "2f0b8ac56576",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "legal/trust",
+        "pred_type": "信托法律纠纷",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 10,
+          "pred_count": 5,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 6,
+          "pred_count": 2,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 8,
+          "pred_count": 4,
+          "overlap": 0
+        },
+        "elapsed_seconds": 123.6
+      },
+      {
+        "sha": "f3ed4d4da292",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "medical/correspondence",
+        "pred_type": "Privacy Statement and Conditions of Admission",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 1,
+          "fn": 0,
+          "tn": 1,
+          "precision": 0.5,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 6,
+          "pred_count": 0,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 9,
+          "pred_count": 1,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 12,
+          "pred_count": 5,
+          "overlap": 0
+        },
+        "elapsed_seconds": 160.6
+      },
+      {
+        "sha": "077159dc446d",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "financial/insurance",
+        "pred_type": "Product Comparison",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fn_details": []
+        },
+        "people_overlap": {
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 1,
+          "pred_count": 0,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 2,
+          "pred_count": 1,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 10,
+          "pred_count": 5,
+          "overlap": 0
+        },
+        "elapsed_seconds": 80.4
+      },
+      {
+        "sha": "09192c83a93f",
+        "pages": 0,
+        "status": "scored",
+        "doc_type_match": false,
+        "gt_type": "legal/deed",
+        "pred_type": "Title Insurance Policy",
+        "date_score": "miss",
+        "sensitivity": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "tn": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "fn_details": [
+            "has_financial"
+          ]
+        },
+        "people_overlap": {
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 5,
+          "pred_count": 0,
+          "overlap": 0
+        },
+        "dates_overlap": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "gt_count": 6,
+          "pred_count": 3,
+          "overlap": 0
+        },
+        "tags_overlap": {
+          "precision": 0.2,
+          "recall": 0.125,
+          "f1": 0.154,
+          "gt_count": 8,
+          "pred_count": 5,
+          "overlap": 1
+        },
+        "elapsed_seconds": 91.0
+      }
+    ]
+  }
+}

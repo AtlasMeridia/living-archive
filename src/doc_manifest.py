@@ -29,11 +29,18 @@ def write_manifest(
     page_count: int,
     extraction: dict,
     analysis: dict,
+    inference: dict | None = None,
 ) -> Path:
     """Write a single document manifest JSON.
 
     Returns the path to the written file.
+    If inference is provided, it's used as-is. Otherwise a default is generated.
     """
+    default_inference = {
+        "method": "claude-code",
+        "prompt_version": config.DOC_PROMPT_VERSION,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
     manifest = {
         "source_file": source_file_rel,
         "source_sha256": source_sha256,
@@ -44,11 +51,7 @@ def write_manifest(
             "text_file": f"extracted-text/{source_sha256[:12]}.txt",
         },
         "analysis": analysis,
-        "inference": {
-            "method": "claude-code",
-            "prompt_version": config.DOC_PROMPT_VERSION,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-        },
+        "inference": inference if inference is not None else default_inference,
     }
 
     out_dir = run_dir(run_id)
@@ -122,6 +125,8 @@ def write_run_meta(
     skipped: int,
     failures: list[dict],
     elapsed_seconds: float,
+    method: str = "claude-code",
+    provider: str = "",
 ) -> Path:
     """Write run-level metadata."""
     meta = {
@@ -136,7 +141,8 @@ def write_run_meta(
         "failed": failed,
         "skipped": skipped,
         "failures": failures,
-        "method": "claude-code",
+        "method": method,
+        "provider": provider or method,
         "prompt_version": config.DOC_PROMPT_VERSION,
     }
 

@@ -1,0 +1,45 @@
+You are analyzing a document from a family archive (the Liu family, Taiwanese-American).
+
+Source file: "{source_file}"
+Page count: {page_count}
+
+The following text has been extracted from this PDF. Analyze it and respond with ONLY a JSON object (no markdown fencing, no commentary). Use this exact schema:
+
+{{
+  "document_type": "category/subcategory",
+  "title": "Descriptive title for the document",
+  "date": "YYYY-MM-DD or YYYY-MM or YYYY, primary date of the document",
+  "date_confidence": 0.0 to 1.0,
+  "summary_en": "2-4 sentence summary in English",
+  "summary_zh": "Same summary in Traditional Chinese (繁體中文)",
+  "key_people": ["List of people mentioned by name"],
+  "key_dates": ["YYYY-MM-DD format, all significant dates mentioned"],
+  "sensitivity": {{
+    "has_ssn": true/false,
+    "has_financial": true/false,
+    "has_medical": true/false
+  }},
+  "tags": ["list", "of", "relevant", "tags"],
+  "language": "primary language of document (English, Chinese, etc.)",
+  "quality": "good/fair/poor — quality of text extraction"
+}}
+
+Document type categories:
+- legal/trust, legal/will, legal/power-of-attorney, legal/deed, legal/contract
+- financial/tax-return, financial/statement, financial/insurance
+- medical/records, medical/correspondence, medical/insurance
+- personal/letter, personal/certificate, personal/memorial
+- employment/records, employment/correspondence
+- government/immigration, government/id, government/correspondence
+
+Guidelines:
+- For date_confidence: 0.9+ if date is printed on document; 0.5-0.8 if inferred from content; below 0.5 if uncertain
+- summary_zh should be natural Traditional Chinese, not word-for-word translation
+- has_ssn: true if any Social Security numbers appear (even partial)
+- has_financial: true if tax returns, account numbers, financial statements, property values
+- has_medical: true if health records, diagnoses, medical correspondence
+- tags: use lowercase, relevant categories from: legal, trust, estate-planning, tax, financial, medical, property, insurance, employment, immigration, correspondence, certificate, memorial, personal
+- quality: "good" if text is clear and complete, "fair" if some portions illegible, "poor" if mostly illegible
+
+--- EXTRACTED TEXT ---
+{text}
