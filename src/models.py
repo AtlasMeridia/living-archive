@@ -85,6 +85,7 @@ class DocumentInferenceMetadata(BaseModel):
     timestamp: str = ""
     input_tokens: int = 0
     output_tokens: int = 0
+    estimated_input_tokens: int = 0
     chunk_count: int = 1
 
 

@@ -10,6 +10,8 @@ Usage:
     python -m src.run_doc_extract --resume RUN  # Resume a specific run (manual)
     python -m src.run_doc_extract --auto        # Automated extraction + analysis
     python -m src.run_doc_extract --auto --resume RUN  # Resume automated run
+    python -m src.run_doc_extract --auto --batch 20 --delay 2  # Batched with pacing
+    python -m src.run_doc_extract --auto --dry-run --batch 20  # Preview batch
 """
 
 import argparse
@@ -171,23 +173,73 @@ def print_extraction_instructions(work: list[dict], run_id: str) -> None:
         log.info("  ... and %d more (re-run to see updated list)", len(work) - 5)
 
 
-def auto_extract(run_id: str, work: list[dict]) -> None:
+def dry_run(work: list[dict], batch_size: int) -> None:
+    """Show what would be processed without calling any LLM."""
+    if batch_size > 0:
+        batch = work[:batch_size]
+    else:
+        batch = work
+
+    total_chars = sum(w["file_size_bytes"] for w in batch)
+    total_pages = sum(w["page_count"] for w in batch)
+    est_tokens = total_chars // 4  # ~4 chars per token heuristic
+
+    log.info("")
+    log.info("=" * 60)
+    log.info("DRY RUN — no documents will be processed")
+    log.info("=" * 60)
+    log.info("  Batch: %d of %d remaining documents", len(batch), len(work))
+    log.info("  Total file size: %.2f MB", total_chars / (1024**2))
+    log.info("  Total pages: %d", total_pages)
+    log.info("  Estimated input tokens: ~%d (%.0fk)", est_tokens, est_tokens / 1000)
+    log.info("")
+
+    for i, w in enumerate(batch, 1):
+        mb = w["file_size_bytes"] / (1024**2)
+        est = w["file_size_bytes"] // 4
+        log.info(
+            "  [%d] %s  (%.1f MB, %d pp, ~%dk tokens)",
+            i, w["rel_path"], mb, w["page_count"], est // 1000,
+        )
+
+    if len(work) > len(batch):
+        log.info("")
+        log.info("  ... %d more documents remain after this batch", len(work) - len(batch))
+
+
+def auto_extract(
+    run_id: str,
+    work: list[dict],
+    batch_size: int = 0,
+    pacing_delay: float = 0,
+) -> None:
     """Run automated extraction + analysis on the work list."""
     from .doc_analyze import analyze_document, get_provider, merge_chunk_analyses
     from .doc_extract_text import chunk_for_analysis, extract_text
+
+    full_remaining = len(work)
+    if batch_size > 0:
+        work = work[:batch_size]
 
     provider = get_provider()
     log.info("")
     log.info("=" * 60)
     log.info("AUTOMATED EXTRACTION — Provider: %s", provider.name)
     log.info("Run ID: %s", run_id)
-    log.info("Documents: %d", len(work))
+    log.info("Documents: %d%s", len(work),
+             f" (batch of {batch_size}, {full_remaining} remaining)" if batch_size > 0 else "")
+    if pacing_delay > 0:
+        log.info("Pacing delay: %.1fs between documents", pacing_delay)
     log.info("=" * 60)
 
     succeeded = 0
     failed = 0
     skipped = 0
     failures: list[dict] = []
+    total_input_tokens = 0
+    total_output_tokens = 0
+    total_estimated_tokens = 0
+    total_chars = 0
     start_time = time.monotonic()
 
     for i, w in enumerate(work, 1):
@@ -259,11 +311,23 @@ def auto_extract(run_id: str, work: list[dict]) -> None:
             )
 
             elapsed = time.monotonic() - doc_start
+
+            # Accumulate usage
+            total_input_tokens += inference.input_tokens
+            total_output_tokens += inference.output_tokens
+            total_estimated_tokens += inference.estimated_input_tokens
+            total_chars += result.chars_extracted
+
             log.info(
                 "  OK: %s — %s (%.1fs)",
                 analysis.document_type,
                 analysis.title[:60],
                 elapsed,
+            )
+            log.info(
+                "  Usage so far: %d input / %d output tokens (est. ~%dk input)",
+                total_input_tokens, total_output_tokens,
+                total_estimated_tokens // 1000,
             )
             succeeded += 1
 
@@ -276,7 +340,18 @@ def auto_extract(run_id: str, work: list[dict]) -> None:
                 "error": f"{type(exc).__name__}: {exc}",
             })
 
+        # Pacing delay between documents (not after the last one)
+        if pacing_delay > 0 and i < len(work):
+            time.sleep(pacing_delay)
+
     total_elapsed = time.monotonic() - start_time
+
+    usage = {
+        "input_tokens": total_input_tokens,
+        "output_tokens": total_output_tokens,
+        "estimated_input_tokens": total_estimated_tokens,
+        "total_chars_processed": total_chars,
+    }
 
     log.info("")
     log.info("=" * 60)
@@ -285,7 +360,17 @@ def auto_extract(run_id: str, work: list[dict]) -> None:
     log.info("  Failed: %d", failed)
     log.info("  Skipped: %d (no text)", skipped)
     log.info("  Elapsed: %.1fs", total_elapsed)
+    log.info("  Tokens: %d input / %d output (est. ~%dk input)",
+             total_input_tokens, total_output_tokens,
+             total_estimated_tokens // 1000)
     log.info("=" * 60)
+
+    remaining_after = full_remaining - len(work)
+    if batch_size > 0 and remaining_after > 0:
+        log.info("")
+        log.info("  %d documents remain. Resume with:", remaining_after)
+        log.info("    python -m src.run_doc_extract --auto --resume %s --batch %d",
+                 run_id, batch_size)
 
     write_run_meta(
         run_id=run_id,
@@ -297,6 +382,8 @@ def auto_extract(run_id: str, work: list[dict]) -> None:
         elapsed_seconds=total_elapsed,
         method="auto",
         provider=provider.name,
+        usage=usage,
+        batch_size=batch_size,
     )
 
     if failed > 0:
@@ -315,6 +402,12 @@ def main():
                         help="Resume a specific run")
     parser.add_argument("--auto", action="store_true",
                         help="Run automated extraction + analysis")
+    parser.add_argument("--batch", metavar="N", type=int, default=0,
+                        help="Process at most N documents (0 = all)")
+    parser.add_argument("--delay", metavar="SECS", type=float, default=0,
+                        help="Seconds to pause between documents")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Show what would be processed without calling LLM")
     args = parser.parse_args()
 
     log.info("Living Archive — Document Extraction Pipeline")
@@ -370,11 +463,18 @@ def main():
         work = sorted(all_pdfs, key=lambda r: r["file_size_bytes"])
         log.info("  Found %d PDFs (no previous runs)", len(work))
 
+    batch_size = args.batch or config.DOC_BATCH_SIZE
+    pacing_delay = args.delay or config.DOC_PACING_DELAY
+
+    if args.dry_run:
+        dry_run(work, batch_size)
+        return
+
     if args.auto:
         if not work:
             log.info("No documents to process.")
             return
-        auto_extract(run_id, work)
+        auto_extract(run_id, work, batch_size=batch_size, pacing_delay=pacing_delay)
     else:
         print_work_list(work)
         if args.new_run or args.resume:

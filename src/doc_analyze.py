@@ -16,9 +16,21 @@ from pathlib import Path
 from typing import Protocol
 
 from . import config
+from .config import CliRateLimitError
 from .models import DocumentAnalysis, DocumentInferenceMetadata, Sensitivity
 
 log = logging.getLogger("living_archive")
+
+_RATE_LIMIT_SIGNALS = (
+    "rate limit", "rate_limit", "429", "quota", "try again later",
+    "overloaded", "capacity", "cooldown",
+)
+
+
+def _is_rate_limit_error(stderr: str) -> bool:
+    """Check if CLI stderr indicates a rate limit / capacity issue."""
+    lower = stderr.lower()
+    return any(s in lower for s in _RATE_LIMIT_SIGNALS)
 
 
 # --- Schema and prompt helpers ---
@@ -114,10 +126,13 @@ class ClaudeCliProvider:
         )
 
         if result.returncode != 0:
-            raise RuntimeError(
+            msg = (
                 f"Claude CLI exited {result.returncode}: "
                 f"{result.stderr[:500] if result.stderr else 'no stderr'}"
             )
+            if result.stderr and _is_rate_limit_error(result.stderr):
+                raise CliRateLimitError(msg)
+            raise RuntimeError(msg)
 
         envelope = json.loads(result.stdout)
         analysis = DocumentAnalysis.model_validate(envelope["structured_output"])
@@ -131,6 +146,7 @@ class ClaudeCliProvider:
             timestamp=datetime.now(timezone.utc).isoformat(),
             input_tokens=usage.get("input_tokens", 0),
             output_tokens=usage.get("output_tokens", 0),
+            estimated_input_tokens=len(text) // 4,
         )
         return analysis, inference
 
@@ -176,10 +192,13 @@ class CodexCliProvider:
             )
 
             if result.returncode != 0:
-                raise RuntimeError(
+                msg = (
                     f"Codex CLI exited {result.returncode}: "
                     f"{result.stderr[:500] if result.stderr else 'no stderr'}"
                 )
+                if result.stderr and _is_rate_limit_error(result.stderr):
+                    raise CliRateLimitError(msg)
+                raise RuntimeError(msg)
 
             # Parse output file
             raw = Path(out_path).read_text().strip()
@@ -207,6 +226,7 @@ class CodexCliProvider:
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 input_tokens=input_tokens,
                 output_tokens=output_tokens,
+                estimated_input_tokens=len(text) // 4,
             )
             return analysis, inference
 
@@ -270,6 +290,7 @@ class OllamaProvider:
             timestamp=datetime.now(timezone.utc).isoformat(),
             input_tokens=usage.get("prompt_tokens", 0),
             output_tokens=usage.get("completion_tokens", 0),
+            estimated_input_tokens=len(text) // 4,
         )
         return analysis, inference
 

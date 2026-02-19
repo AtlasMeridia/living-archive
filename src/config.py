@@ -75,6 +75,10 @@ CODEX_MODEL = os.environ.get("CODEX_MODEL", "")
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/v1")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3:32b")
 
+# --- Batch / pacing controls ---
+DOC_BATCH_SIZE = int(os.environ.get("DOC_BATCH_SIZE", "0"))        # 0 = unlimited
+DOC_PACING_DELAY = float(os.environ.get("DOC_PACING_DELAY", "0"))  # seconds between docs
+
 # --- Immich confidence thresholds ---
 CONFIDENCE_HIGH = 0.8
 CONFIDENCE_LOW = 0.5
@@ -158,6 +162,11 @@ def validate_immich_config() -> list[str]:
 
 # --- Retry decorator ---
 
+
+class CliRateLimitError(Exception):
+    """CLI subprocess stderr indicates rate limit / capacity issue."""
+
+
 _RETRYABLE_EXCEPTIONS: tuple[type[Exception], ...] = ()
 
 # Build the tuple lazily so imports don't fail if libs are missing
@@ -168,6 +177,7 @@ def _get_retryable_exceptions() -> tuple[type[Exception], ...]:
     exceptions: list[type[Exception]] = [
         subprocess.TimeoutExpired,
         json.JSONDecodeError,
+        CliRateLimitError,
     ]
     try:
         import httpx
@@ -225,7 +235,10 @@ def retry(max_attempts: int = 3, base_delay: float = 2.0, max_delay: float = 30.
                     else:
                         raise
                 if attempt < max_attempts:
-                    delay = min(base_delay * (2 ** (attempt - 1)), max_delay)
+                    if isinstance(last_exc, CliRateLimitError):
+                        delay = 60.0  # longer cooldown for rate limits
+                    else:
+                        delay = min(base_delay * (2 ** (attempt - 1)), max_delay)
                     _log.warning(
                         "Retry %d/%d for %s after %.1fs: %s",
                         attempt, max_attempts, fn.__name__, delay, last_exc,

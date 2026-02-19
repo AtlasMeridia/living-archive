@@ -127,6 +127,8 @@ def write_run_meta(
     elapsed_seconds: float,
     method: str = "claude-code",
     provider: str = "",
+    usage: dict | None = None,
+    batch_size: int = 0,
 ) -> Path:
     """Write run-level metadata."""
     meta = {
@@ -145,6 +147,10 @@ def write_run_meta(
         "provider": provider or method,
         "prompt_version": config.DOC_PROMPT_VERSION,
     }
+    if batch_size > 0:
+        meta["batch_size"] = batch_size
+    if usage:
+        meta["usage"] = usage
 
     out_dir = config.DOC_AI_LAYER_DIR / "runs" / run_id
     out_dir.mkdir(parents=True, exist_ok=True)
