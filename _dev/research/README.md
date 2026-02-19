@@ -4,7 +4,7 @@ Session insights, architecture decisions, and blog-ready seeds. Each file captur
 
 ## Naming
 
-`<topic>-<YYYY-MM-DD>.md` for dated sessions, `<topic>.md` for evolving documents.
+`YYYY-MM-DD <topic>.md` for dated sessions, `<topic>.md` for evolving documents. Date goes first so files sort chronologically.
 
 ## What goes here
 

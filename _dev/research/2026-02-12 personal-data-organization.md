@@ -2,7 +2,7 @@
 
 **Date:** 2026-02-12
 **Status:** Decision made — ready to implement
-**Depends on:** Unified catalog (`_ai-layer/catalog.db`) from unified-catalog-2026-02-12.md
+**Depends on:** Unified catalog (`_ai-layer/catalog.db`) from 2026-02-12 unified-catalog.md
 
 ---
 

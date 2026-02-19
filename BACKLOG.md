@@ -23,14 +23,16 @@ The codebase, architecture, and documentation need to catch up to what the proje
 
 Each of these needs a dedicated session producing artifacts in `_dev/research/`.
 
-- [x] AI layer architecture deep dive — council session produced unified catalog design (SQLite asset catalog + entity index); see `_dev/research/unified-catalog-2026-02-12.md` — 2026-02-12
-- [x] Personal filesystem organization — raw export stays untouched, catalog is the interface; 6-phase ingestion plan (photos, notes, journals, dedup, Drive, small sources); see `_dev/research/personal-data-organization-2026-02-12.md` — 2026-02-12
-- [ ] UI development discussion — Immich covers photos but no interface for document search (FTS5 index is SQLite-only), no cross-collection browsing, no unified dashboard; define what "showing this publicly" looks like
+- [x] AI layer architecture deep dive — council session produced unified catalog design (SQLite asset catalog + entity index); see `_dev/research/2026-02-12 unified-catalog.md` — 2026-02-12
+- [x] Personal filesystem organization — raw export stays untouched, catalog is the interface; 6-phase ingestion plan (photos, notes, journals, dedup, Drive, small sources); see `_dev/research/2026-02-12 personal-data-organization.md` — 2026-02-12
+- [x] Presentation layer discussion — public layer is methodology-first (blog series at `kennyliu.io/living-archive`), family access deferred, admin tools built as needed; see `_dev/research/2026-02-18 presentation-layer.md` — 2026-02-18
 
 ## Next — Pipeline Operations
 
-- [x] Build unified asset catalog — `_ai-layer/catalog.db` with asset table, backfill + scan commands, inline updates from manifest writers; see `_dev/research/unified-catalog-2026-02-12.md` — 2026-02-16
+- [x] Build unified asset catalog — `_ai-layer/catalog.db` with asset table, backfill + scan commands, inline updates from manifest writers; see `_dev/research/2026-02-12 unified-catalog.md` — 2026-02-16
 - [x] Build `scan` command — `python -m src.catalog scan` inventories filesystem, diffs against catalog, reports new/changed/stale items — 2026-02-16
+- [x] Subscription-aware batch controls — `--batch N`, `--delay`, `--dry-run`, cumulative usage tracking, CLI rate-limit detection + 60s retry; run_meta.json now includes usage and batch_size — 2026-02-18
+- [ ] Run remaining ~400 documents in batches — use `--dry-run` to preview, `--batch 20 --delay 2` to pace, resume between sessions
 - [ ] Batch mode for `SLICE_PATH` — accept multiple paths or glob so remaining slices can run unattended
 - [ ] Run remaining 2009 Scanned Media slices: `1993-europe/` (8), `assorted/` (22), `assorted II/` (40), `assorted III/` (42), `assorted IV/` (11), `1KUVLQ~D/` (10)
 - [ ] Enumerate `2022 Swei Chi/` and `2025-2026 Digital Revolution Scans/` — count files, check formats
@@ -38,7 +40,7 @@ Each of these needs a dedicated session producing artifacts in `_dev/research/`.
 
 ## Later — Face Recognition & People Tagging
 
-Steps 1-4 done. Steps 5-6 blocked on human activity. See `_dev/council-face-recognition-2026-02-06.md`.
+Steps 1-4 done. Steps 5-6 blocked on human activity. See `_dev/research/2026-02-06 council-face-recognition.md`.
 
 - [x] 1. Enable Immich face recognition — buffalo_l running, 1241 clusters — 2026-02-06
 - [x] 2. Investigate Immich face/person API — full CRUD available — 2026-02-06
@@ -49,7 +51,7 @@ Steps 1-4 done. Steps 5-6 blocked on human activity. See `_dev/council-face-reco
 
 ## Later — Personal Data Integration
 
-Plan defined in `_dev/research/personal-data-organization-2026-02-12.md`. Depends on unified catalog being built first.
+Plan defined in `_dev/research/2026-02-12 personal-data-organization.md`. Depends on unified catalog being built first.
 
 - [ ] Copy Day One archive from Dropbox to NAS `Personal/Day One/`
 - [ ] Parse iCloud Photo Details CSVs → catalog (~26,000 assets across 20 parts)
@@ -59,14 +61,22 @@ Plan defined in `_dev/research/personal-data-organization-2026-02-12.md`. Depend
 - [ ] Investigate `👀` folder in iCloud Drive (7.8 GB unknown content)
 - [ ] Small sources (Mail, Contacts, Calendars) — deferred until catalog is proven
 
-## Later — Public Presence & Content
+## Next — Public Presence (Living Archive Blog)
 
-- [ ] First blog post — document the methodology with real results to show
+Methodology blog at `kennyliu.io/living-archive` using headless-atlas (Next.js + Ghost + Vercel).
+See `_dev/research/2026-02-18 presentation-layer.md` for full design session.
+
+- [ ] Add `/living-archive` routes to headless-atlas — index + detail pages, Ghost tag filter, nav link
+- [ ] Co-write first 2-3 posts with openclaw agent — establish voice, format, and what a good post looks like; posts should document current AI tooling practices (see `_dev/research/ai-tooling-snapshot.md`)
+- [ ] Transition to agent-drafted posts — agent drafts from `_dev/research/` docs and dev sessions, Kenny reviews
+
+## Later — Public Presence (Other)
+
 - [ ] Family access — Cloudflare Tunnel + Access for secure remote Immich viewing
 - [ ] Family photo uploads — find an easy upload system (existing app) for family members to contribute photos
 - [ ] Privacy defaults for published content — opt-in vs. opt-out for people in photos, deceased vs. living distinction
 - [ ] Decide what's public repo vs. private — methodology public, family-specific data private
-- [ ] Cost estimation tool — preview API costs before running a large batch
+- [ ] Cost estimation tool — preview API costs before running a large batch (partially addressed by `--dry-run` estimated tokens)
 
 ## Later — Future Work
 
