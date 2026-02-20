@@ -35,8 +35,53 @@ Each of these needs a dedicated session producing artifacts in `_dev/research/`.
 - [x] Run remaining Liu Family Trust documents in batches — 116 docs processed with Opus 4.6, 0 failures, 258k output tokens, catalog at 187 assets (121 doc + 66 photo) — 2026-02-19
 - [ ] Batch mode for `SLICE_PATH` — accept multiple paths or glob so remaining slices can run unattended
 - [ ] Run remaining 2009 Scanned Media slices: `1993-europe/` (8), `assorted/` (22), `assorted II/` (40), `assorted III/` (42), `assorted IV/` (11), `1KUVLQ~D/` (10)
-- [ ] Enumerate `2022 Swei Chi/` and `2025-2026 Digital Revolution Scans/` — count files, check formats
+- [x] Enumerate new media sources — inventoried 4 sources, see below — 2026-02-20
 - [x] Page-range chunking for document pipeline — chunking worked automatically on large docs (up to 420pp), no failures — 2026-02-19
+
+## Media Source Inventory
+
+Enumerated 2026-02-20. All paths relative to `Living Archive/Family/Media/` on NAS.
+
+### 2025-2026 Digital Revolution Scans — 5,257 unique photos, 276 GB
+
+Scanned with Epson FastFoto FF-680W. Each album has both TIFF and JPEG (10,514 total files). JPEGs already exist — pipeline can skip TIFF-to-JPEG conversion.
+
+**1st Round (1,658 photos, 6 albums):** Big_Red_Album (557), Red_Album_1 (390), Pink_Flower_Album (338), Wedding (195), Gold_Album (145), Albumpage (33)
+
+**2nd Round (3,599 photos, 10 albums):** Big_Black_Album (984), White_Album (804), Red_Album_2 (401), Black_Album (355), Grey_Album (329), Red_Album_1 (261), Green_Album (216), Lifes_Garden (153), Yellow_Album (51), Misc (45)
+
+Note: 1st Round TIFF folder misspelled "TiIF".
+
+### Unsorted Archival / Liu Family Scans — ~2,997 photos, 698 MB
+
+Date-organized folders (1973–2019), mix of JPEG and TIFF. **Overlaps with 2009 Scanned Media** in folders: `1978`, `1980-1982`, `1993-europe`, `assorted` I–IV. Needs dedup before processing.
+
+New content not in 2009 Scanned Media: `1973` (8), `1974?` (10), `1975` (170), `1978-1981` (358), `1978 (01-02)` (144), `1980-1983` (473), `1983-1985` (385), `1985-1987` (531), `1989` (571), `1991` (4), `1994` (83), `Dad's Family Album` (69). Several empty folders.
+
+### 2022 Swei Chi — 87 photos, 280 MB
+
+All JPEG. Three subdirs: `processed/` (73, date-named 1973–1998), `Karina/` (9, LINE app photos), `LANGPOORT/` (5, dated 1980-05-23).
+
+### 2025 Scanned Media — 1 PDF (3.5 MB)
+
+Just `letter.pdf` and an empty `Letters/` folder. Candidate for document pipeline.
+
+### Grandma 2012 b-day pics — 4 JPGs
+
+## Next — Digital Revolution Scans
+
+Processing the 5,257 FastFoto scans. Pipeline needs adaptation since JPEGs already exist (no TIFF conversion needed).
+
+- [ ] Adapt photo pipeline for JPEG source input — skip TIFF-to-JPEG conversion when source is already JPEG, hash the JPEG source instead
+- [ ] Run test batch on a small album — `Albumpage/` (33 photos) or `Yellow_Album/` (51) as proof of concept
+- [ ] Process 1st Round albums (1,658 photos across 6 albums)
+- [ ] Process 2nd Round albums (3,599 photos across 10 albums)
+
+## Next — Unsorted Archival Dedup & Processing
+
+- [ ] Hash-compare overlapping folders between `Unsorted Archival/Liu Family Scans/` and `2009 Scanned Media/` — determine if JPEGs are derived from the same TIFFs already processed
+- [ ] Process non-overlapping Liu Family Scans folders (~2,806 photos across 12 date-range folders)
+- [ ] Process `2022 Swei Chi/` (87 JPEGs) — small, self-contained, good quick win
 
 ## Later — Face Recognition & People Tagging
 
@@ -80,7 +125,7 @@ See `_dev/research/2026-02-18 presentation-layer.md` for full design session.
 
 ## Later — Future Work
 
-- [ ] Process `2025 Scanned Media/` (letters/PDFs — document pipeline)
+- [ ] Process `2025 Scanned Media/letter.pdf` — single PDF, document pipeline
 - [ ] Red book (族譜) OCR — traditional Chinese genealogy book processing (April 2026)
 - [ ] Elder interview capture — oral history before Taiwan trip
 - [ ] Quarterly reindex — re-run manifests as models improve
