@@ -32,11 +32,11 @@ Each of these needs a dedicated session producing artifacts in `_dev/research/`.
 - [x] Build unified asset catalog — `_ai-layer/catalog.db` with asset table, backfill + scan commands, inline updates from manifest writers; see `_dev/research/2026-02-12 unified-catalog.md` — 2026-02-16
 - [x] Build `scan` command — `python -m src.catalog scan` inventories filesystem, diffs against catalog, reports new/changed/stale items — 2026-02-16
 - [x] Subscription-aware batch controls — `--batch N`, `--delay`, `--dry-run`, cumulative usage tracking, CLI rate-limit detection + 60s retry; run_meta.json now includes usage and batch_size — 2026-02-18
-- [ ] Run remaining ~400 documents in batches — use `--dry-run` to preview, `--batch 20 --delay 2` to pace, resume between sessions
+- [x] Run remaining Liu Family Trust documents in batches — 116 docs processed with Opus 4.6, 0 failures, 258k output tokens, catalog at 187 assets (121 doc + 66 photo) — 2026-02-19
 - [ ] Batch mode for `SLICE_PATH` — accept multiple paths or glob so remaining slices can run unattended
 - [ ] Run remaining 2009 Scanned Media slices: `1993-europe/` (8), `assorted/` (22), `assorted II/` (40), `assorted III/` (42), `assorted IV/` (11), `1KUVLQ~D/` (10)
 - [ ] Enumerate `2022 Swei Chi/` and `2025-2026 Digital Revolution Scans/` — count files, check formats
-- [ ] Page-range chunking for document pipeline — 44 medium/large Liu Family Trust docs (21-420pp) hit 20MB context limit; need subagent chunking strategy
+- [x] Page-range chunking for document pipeline — chunking worked automatically on large docs (up to 420pp), no failures — 2026-02-19
 
 ## Later — Face Recognition & People Tagging
 
