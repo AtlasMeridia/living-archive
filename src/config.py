@@ -66,7 +66,7 @@ DOC_PROMPT_FILE = REPO_ROOT / "prompts" / f"{DOC_PROMPT_VERSION}.txt"
 
 # --- Document analysis provider ---
 DOC_PROVIDER = os.environ.get("DOC_PROVIDER", "claude-cli")  # claude-cli | codex | ollama
-DOC_CLI_MODEL = os.environ.get("DOC_CLI_MODEL", "sonnet")
+DOC_CLI_MODEL = os.environ.get("DOC_CLI_MODEL", "opus")  # experiment 0001: opus is faster, more concise, better extraction
 DOC_TIMEOUT = int(os.environ.get("DOC_TIMEOUT", "300"))
 CODEX_CLI = Path(os.environ.get("CODEX_CLI", subprocess.run(
     ["which", "codex"], capture_output=True, text=True
