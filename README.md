@@ -54,10 +54,11 @@ python -m src.run_doc_extract --new-run
 src/
 ├── run_slice.py          # Photo pipeline orchestrator
 ├── run_doc_extract.py    # Document pipeline orchestrator
-├── analyze.py            # Claude Vision API integration
+├── analyze.py            # Photo analysis (CLI or API mode)
 ├── convert.py            # TIFF → JPEG conversion, SHA-256 hashing
 ├── manifest.py           # Photo manifest read/write (AI layer)
 ├── doc_manifest.py       # Document manifest read/write
+├── doc_analyze.py        # Document analysis (multi-provider: Claude CLI, Codex, Ollama)
 ├── doc_scan.py           # PDF discovery and change detection
 ├── doc_index.py          # SQLite FTS5 index builder
 ├── catalog.py            # Unified asset catalog (SQLite)
@@ -77,10 +78,37 @@ docs/
 _dev/                     # Development notes and research
 ```
 
+## Inference Modes
+
+Both pipelines default to **CLI mode**, which routes inference through the [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) (`claude` binary). This uses a Max plan subscription with no per-token cost. No API key required.
+
+**Photo pipeline** (`src/analyze.py`):
+- CLI mode (default): spawns `claude -p <prompt> --model sonnet` with `--json-schema` for structured output
+- API mode: direct Anthropic API call with base64-encoded image (requires `ANTHROPIC_API_KEY`)
+- Toggle: `USE_CLI=false` in `.env` to switch to API mode
+
+**Document pipeline** (`src/doc_analyze.py`):
+- Three providers, selected via `DOC_PROVIDER` env var:
+  - `claude-cli` (default) — Claude Code CLI, same as photo pipeline
+  - `codex` — OpenAI Codex CLI
+  - `ollama` — local Ollama instance (OpenAI-compatible API)
+- Default model: Opus (`DOC_CLI_MODEL=opus`), chosen after experiment 0001 showed it was faster and more detailed than Sonnet for document analysis
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `USE_CLI` | `true` | Photo pipeline: use CLI mode instead of API |
+| `CLI_MODEL` | `sonnet` | Photo pipeline: Claude model alias |
+| `DOC_PROVIDER` | `claude-cli` | Document pipeline: provider (`claude-cli`, `codex`, `ollama`) |
+| `DOC_CLI_MODEL` | `opus` | Document pipeline: Claude model alias |
+| `CLAUDE_CLI` | `~/.local/bin/claude` | Path to Claude Code CLI binary |
+| `OLLAMA_URL` | `http://localhost:11434/v1` | Ollama API endpoint |
+| `OLLAMA_MODEL` | `qwen3:32b` | Ollama model name |
+| `DOC_TIMEOUT` | `300` | Document analysis timeout (seconds) |
+
 ## Requirements
 
 - Python 3.11+
-- Anthropic API key (Claude Sonnet for vision analysis)
+- Claude Code CLI installed (for default CLI inference mode), **or** Anthropic API key (for API mode)
 - Synology NAS with AFP mount (stores source media and AI layer)
 - Immich instance (for photo browsing and metadata)
 

@@ -22,7 +22,7 @@ DATA LAYER (NAS, read-only)                    AI LAYER (NAS, regeneratable)    
                                                 tracks all photos + documents
 ```
 
-Inference runs on M3 Pro via Claude API (Sonnet). Results written to NAS. Then pushed to Immich.
+Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). Results written to NAS. Then pushed to Immich.
 
 ```
 [Scanned Photos]
@@ -154,12 +154,29 @@ Every pipeline improvement benefits both branches:
 
 The personal branch doesn't need its own pipeline — it needs the family pipeline to be configurable enough to point at different roots and handle different source formats.
 
-## Pipeline (implemented)
+## Inference Routing
+
+Both pipelines default to CLI mode, which spawns the Claude Code CLI (`claude`) as a subprocess. This routes through a Max plan subscription (flat-rate, no per-token cost). The CLI is invoked with `--output-format json --json-schema <schema>` for structured output and `--no-session-persistence` to avoid state between calls.
+
+**Photo pipeline** (`src/analyze.py`):
+- Default: CLI mode (`USE_CLI=true`), model `sonnet`
+- Fallback: Anthropic API mode (`USE_CLI=false`), model `claude-sonnet-4-20250514`
+- CLI passes `--allowedTools Read` so Claude can read the JPEG file directly
+
+**Document pipeline** (`src/doc_analyze.py`):
+- Provider abstraction with three backends: `claude-cli` (default), `codex`, `ollama`
+- Default model: `opus` (switched from `sonnet` after experiment 0001 showed Opus is 25% faster, 30% fewer tokens, and extracts more detail)
+- Documents >100k chars are split into 50-page chunks; results are merged via `merge_chunk_analyses()` (union of people/dates/tags, OR of sensitivity flags, highest-confidence date)
+- Rate limit detection: CLI stderr is scanned for limit signals; `CliRateLimitError` triggers a 60s retry cooldown
+
+Key implementation detail: CLI providers must unset the `CLAUDECODE` env var before spawning the subprocess, otherwise the nested CLI session fails.
+
+## Photo Pipeline
 
 Run via `python -m src.run_slice` from repo root.
 
 1. **Convert** — Read TIFFs from NAS, convert to JPEG (quality 85, max 2048px) in `private/slice_workspace/`, compute SHA-256 of originals
-2. **Analyze** — Send JPEGs to Claude Sonnet via vision API, parse structured JSON response (date, descriptions, tags, confidence)
+2. **Analyze** — Send JPEGs to Claude via CLI or API, parse structured JSON response (date, descriptions, tags, confidence)
 3. **Write Manifests** — Write per-photo JSON to `_ai-layer/runs/<timestamp>/manifests/<sha256-first12>.json`, crash-safe (one write per photo)
 4. **Push to Immich** — Match manifests to Immich assets by filename, update dateTimeOriginal + description, create "Needs Review" and "Low Confidence" albums by confidence threshold
 5. **Verify** — Re-hash source TIFFs to confirm they were not modified
@@ -170,4 +187,4 @@ Per-photo JSON keyed by SHA-256 of the original TIFF. Contains `analysis` (date 
 
 ---
 
-*Last updated: 2026-02-16*
+*Last updated: 2026-02-20*
