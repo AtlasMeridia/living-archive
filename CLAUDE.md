@@ -6,6 +6,7 @@ AI-assisted archival system. Three-layer architecture: data (NAS, read-only), AI
 
 - `src/` — Python pipeline code
 - `_dev/research/` — Design sessions and architecture decisions (date-first naming: `YYYY-MM-DD <topic>.md`)
+- `content/drafts/` — Blog post drafts before publishing to Ghost
 - `BACKLOG.md` — Task tracking (check before starting work)
 - `docs/architecture.md` — Infrastructure documentation
 - `project-brief.md` — Project vision and scope

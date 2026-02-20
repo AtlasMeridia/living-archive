@@ -33,6 +33,10 @@ Each document captures the thinking behind a decision or exploration — the "wh
 
 Blog posts for the Living Archive series live at `kennyliu.io/living-archive`, published through Ghost CMS on the headless-atlas stack (Next.js + Vercel).
 
+Workflow: `_dev/research/` (thinking) → `content/drafts/` (writing) → Ghost (publishing).
+
+Drafts live in `content/drafts/` so they have direct access to the research docs, experiment results, and pipeline context that inform them. The headless-atlas repo handles rendering only.
+
 Source material for posts:
 - `_dev/research/` documents (design sessions, architecture decisions)
 - Development session transcripts
