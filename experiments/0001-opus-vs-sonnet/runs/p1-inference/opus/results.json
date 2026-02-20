@@ -1,0 +1,254 @@
+{
+  "model": "opus",
+  "provider": "claude-cli",
+  "total_documents": 5,
+  "succeeded": 5,
+  "failed": 0,
+  "skipped": 0,
+  "total_elapsed_seconds": 114.7,
+  "total_input_tokens": 15,
+  "total_output_tokens": 5415,
+  "results": [
+    {
+      "source_sha256": "0869607c4ff22605a5e9cbc943faf1f17ee3db861fae8f91f031dec5610ad80e",
+      "source_file": "Artifacts/Countries Visited.pdf",
+      "status": "ok",
+      "elapsed_seconds": 26.8,
+      "analysis": {
+        "document_type": "personal/letter",
+        "title": "Handwritten List of Countries Visited",
+        "date": "2000",
+        "date_confidence": 0.1,
+        "summary_en": "A handwritten personal list of countries and territories visited, totaling approximately 45–50 destinations across six continents. Locations span Asia (Taiwan, Japan, Korea, China, Thailand, Laos, Singapore, Hong Kong, India, Nepal, Turkey), Europe (England, France, Holland, Belgium, Switzerland, Germany, Poland, Slovakia, Hungary, Austria, Russia, Finland, Denmark, Norway, Sweden, Ireland, Monte Carlo), Africa (Egypt, Zimbabwe, Kenya, South Africa), Oceania (Australia, New Zealand, Fiji), and the Americas (Mexico, Costa Rica, Panama, Peru, Argentina, Brazil, Chile, Grand Cayman Island, Bahamas, Puerto Rico, Hawaii, Alaska). The breadth of travel suggests a lifetime of international experiences.",
+        "summary_zh": "一份手寫的旅遊國家清單，列出約四十五至五十個曾造訪的國家與地區，遍及六大洲。涵蓋亞洲（台灣、日本、韓國、中國、泰國、寮國、新加坡、香港、印度、尼泊爾、土耳其）、歐洲（英國、法國、荷蘭、比利時、瑞士、德國、波蘭、斯洛伐克、匈牙利、奧地利、俄羅斯、芬蘭、丹麥、挪威、瑞典、愛爾蘭、蒙地卡羅）、非洲（埃及、辛巴威、肯亞、南非）、大洋洲（澳洲、紐西蘭、斐濟）及美洲（墨西哥、哥斯大黎加、巴拿馬、秘魯、阿根廷、巴西、智利、大乘曼島、巴哈馬、波多黎各、夏威夷、阿拉斯加）。旅行範圍之廣，顯示出一生豐富的國際旅遊經歷。",
+        "key_people": [],
+        "key_dates": [],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "personal",
+          "travel",
+          "international"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "opus",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-20T03:27:59.765845+00:00",
+        "input_tokens": 3,
+        "output_tokens": 1345,
+        "estimated_input_tokens": 96,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "4b6ec06ad65b6c151351670daa66a989ca1fa62fdde6c0b786951757c9b10073",
+      "source_file": "2007-05-10 Will of Feng Kuang Liu.pdf",
+      "status": "ok",
+      "elapsed_seconds": 21.0,
+      "analysis": {
+        "document_type": "legal/will",
+        "title": "Last Will and Testament of Feng Kuang Liu",
+        "date": "2007-05-10",
+        "date_confidence": 0.92,
+        "summary_en": "Last Will and Testament of Feng Kuang Liu, a resident of Santa Clara County, California. The will directs that his entire estate be transferred to the Feng Kuang Liu \"A\" Trust, established on March 14, 2005. He names his fiancée Mei Liang Melody Tsai as executor, with his daughter Karen Peling Liu and son Kenny Peng Liu as successor executors. The will was executed on May 10, 2007 in San Jose, California.",
+        "summary_zh": "劉豐光的遺囑，居住於加州聖乃拉郡。遺囑指示將其全部遺產轉入2005年3月14日設立的「劉豐光A信託」。他指定未婚妻蔡美良（Melody）為遺囑執行人，女兒劉沛伶及兒子劉鵬為繼任執行人。遺囑於2007年5月10日在加州聖乃西市簽署。",
+        "key_people": [
+          "Feng Kuang Liu",
+          "Karen Peling Liu",
+          "Kenny Peng Liu",
+          "Mei Liang Melody Tsai"
+        ],
+        "key_dates": [
+          "2007-05-10",
+          "2005-03-14"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": false,
+          "has_medical": false
+        },
+        "tags": [
+          "legal",
+          "will",
+          "estate-planning",
+          "trust"
+        ],
+        "language": "English",
+        "quality": "good"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "opus",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-20T03:28:20.776935+00:00",
+        "input_tokens": 3,
+        "output_tokens": 950,
+        "estimated_input_tokens": 1093,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "8e4fdf847e630b6d85b74ae782444d7acc39058e80dbd55058791af518b662ab",
+      "source_file": "2010-04-14 Quitclaim Deed.pdf",
+      "status": "ok",
+      "elapsed_seconds": 22.8,
+      "analysis": {
+        "document_type": "legal/deed",
+        "title": "Quitclaim Deed — Santa Clara County Property",
+        "date": "2010-04-14",
+        "date_confidence": 0.7,
+        "summary_en": "A quitclaim deed recorded with the Santa Clara County Clerk-Recorder's Office in San Jose, California. The recorded document was mailed from the County Government Center at 70 West Hedding Street on approximately May 12, 2010. The extracted text captures only the mailing envelope; the actual deed contents, including grantor, grantee, and property description, were not successfully extracted.",
+        "summary_zh": "這是一份在加州聖乍拉縣（Santa Clara County）登記處登記的棄權契據（Quitclaim Deed）。該登記文件約於2010年5月12日從位於聖荷西西乙丁街70號的縣政府中心寄出。因文字擷取品質不佳，僅取得信封資訊，契據中有關讓與人、受讓人及不動產描述等實質內容未能成功擷取。",
+        "key_people": [],
+        "key_dates": [
+          "2010-04-14",
+          "2010-05-12"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "legal",
+          "property",
+          "deed",
+          "estate-planning"
+        ],
+        "language": "English",
+        "quality": "poor"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "opus",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-20T03:28:43.622871+00:00",
+        "input_tokens": 3,
+        "output_tokens": 1016,
+        "estimated_input_tokens": 73,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "a1e9a14f0fa59501814d6ce567b24683d40bf8e520ca72a3abff32b17881797c",
+      "source_file": "1970-08-29 Investment Record.pdf",
+      "status": "ok",
+      "elapsed_seconds": 22.6,
+      "analysis": {
+        "document_type": "financial/statement",
+        "title": "Stock Investment Purchase and Sale Record (1970–1979)",
+        "date": "1970-08-29",
+        "date_confidence": 0.7,
+        "summary_en": "A personal investment ledger tracking stock purchases and sales across approximately 1970–1979. Securities listed include GTE, Keystone, Texaco, Clark Oil, G.D. Searle, Howard Johnson, Western Union, Columbia Gas, Centex, Armco Steel, Zenith, and Gulf Research & Chemical. The record includes unit prices, quantities (typically 100–200 shares per transaction), net totals, and a capital gains/losses summary distinguishing short-term (held 6 months or less) and long-term positions. Transaction values range from roughly $200 to $5,000 per trade.",
+        "summary_zh": "這是一份個人股票投資買賣記錄，涵蓋約1970年至1979年間的交易。記錄中的證券包括GTE、Keystone、德士古(Texaco)、Clark Oil、乙乙Searle、霍乍得瓊森(Howard Johnson)、西聯匯款(Western Union)、哥倫比亞天然氣、Centex、阿姆科鋼鐵(Armco Steel)、乙力(Zenith)及海灣研究化學等公司股票。每筆交易通常為100至200股，單筆金額約200至5,000美元，並附有短期與長期資本利得及損失的計算摘要。",
+        "key_people": [],
+        "key_dates": [
+          "1970-08-29",
+          "1972-07-01",
+          "1972-04-28",
+          "1973-01-01",
+          "1974-01-01",
+          "1975-01-01",
+          "1975-02-27",
+          "1975-07-01",
+          "1975-11-01",
+          "1976-01-01",
+          "1976-03-29",
+          "1976-04-30",
+          "1976-07-14",
+          "1977-01-14",
+          "1977-04-01",
+          "1977-04-13",
+          "1977-07-20",
+          "1977-08-26",
+          "1978-01-01",
+          "1979-01-01"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "financial",
+          "investment",
+          "stocks",
+          "capital-gains",
+          "personal"
+        ],
+        "language": "English",
+        "quality": "poor"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "opus",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-20T03:29:06.197031+00:00",
+        "input_tokens": 3,
+        "output_tokens": 1134,
+        "estimated_input_tokens": 671,
+        "chunk_count": 1
+      }
+    },
+    {
+      "source_sha256": "ddeb92080ec52237a4ea0631ca2a8ae5839d27eac46aa766286deed71813e1c1",
+      "source_file": "Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+      "status": "ok",
+      "elapsed_seconds": 21.5,
+      "analysis": {
+        "document_type": "employment/correspondence",
+        "title": "Agnews Developmental Center Condolence Letter and Warrant Release Instructions for Deceased Employee Meichu Liu",
+        "date": "2004-06-16",
+        "date_confidence": 0.95,
+        "summary_en": "A letter from Kimberly Ponder, Personnel Officer at Agnews Developmental Center (California Department of Developmental Services), to Feng Kuang Liu expressing condolences on the death of his wife Meichu (\"Grace\") G. Liu, who was an employee at Agnews. The letter informs Mr. Liu that he is listed as the designee to receive state warrants that would have been payable to Mrs. Liu, and encloses a notarized form required to release those funds. It notes that death benefits and retirement contribution refunds will be handled separately by other agencies.",
+        "summary_zh": "加州發展服務部阿格紐斯發展中心人事主管乘柏莉·乓德致函劉豐光先生，對其妻子劉美珠（Grace）的離世表達深切哀悼。劉美珠生前為阿格紐斯的員工，深受同事愛戴。信中告知劉先生，他被列為接收本應支付給劉美珠之州政府款項的指定人，並附上需經公證的領款申請表格。信中另說明，身故撫恤金及退休金退款將由其他機構另行聯繫處理。",
+        "key_people": [
+          "Feng Kuang Liu",
+          "Meichu (Grace) G. Liu",
+          "Kimberly Ponder",
+          "Linda Pacheco"
+        ],
+        "key_dates": [
+          "2004-06-16"
+        ],
+        "sensitivity": {
+          "has_ssn": false,
+          "has_financial": true,
+          "has_medical": false
+        },
+        "tags": [
+          "employment",
+          "correspondence",
+          "memorial",
+          "financial",
+          "california",
+          "state-government"
+        ],
+        "language": "English",
+        "quality": "fair"
+      },
+      "inference": {
+        "method": "auto",
+        "provider": "claude-cli",
+        "model": "opus",
+        "prompt_version": "document_analysis_v2",
+        "timestamp": "2026-02-20T03:29:27.669214+00:00",
+        "input_tokens": 3,
+        "output_tokens": 970,
+        "estimated_input_tokens": 434,
+        "chunk_count": 1
+      }
+    }
+  ]
+}

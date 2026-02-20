@@ -1,0 +1,16 @@
+{
+  "source_file": "2010-04-14 Quitclaim Deed.pdf",
+  "source_sha256": "8e4fdf847e630b6d85b74ae782444d7acc39058e80dbd55058791af518b662ab",
+  "file_size_bytes": 293252,
+  "page_count": 2,
+  "total_pages_extracted": 2,
+  "chars_extracted": 294,
+  "is_empty": false,
+  "chunks": [
+    {
+      "text": "HOLLINNO\n*AANTA  \nCIT\nCounty \nof \nSanta \nClara\nClerk-RecorderCounty \nGovernment \nCenter, \nEast \nWing\n7 0 \nWest  \nHedding \nStreet\nSan Jose, California 95110\nPRESORTED\nFIRST CLASS\n049J82049562\n$ 00.38205/12/2010\nailed From\n95110\nU S POSTAGE\n* Important \nNotice \non \nBack\n03.ML.IX.INB\nREXFIMI94022",
+      "page_index": 1
+    }
+  ],
+  "full_text": "\nHOLLINNO\n*AANTA  \nCIT\nCounty \nof \nSanta \nClara\nClerk-RecorderCounty \nGovernment \nCenter, \nEast \nWing\n7 0 \nWest  \nHedding \nStreet\nSan Jose, California 95110\nPRESORTED\nFIRST CLASS\n049J82049562\n$ 00.38205/12/2010\nailed From\n95110\nU S POSTAGE\n* Important \nNotice \non \nBack\n03.ML.IX.INB\nREXFIMI94022"
+}

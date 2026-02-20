@@ -1,0 +1,29 @@
+{
+  "id": "0001-opus-vs-sonnet",
+  "title": "Opus 4.6 vs Sonnet 4.6 — Document Analysis Quality & Cost",
+  "date": "2026-02-19",
+  "status": "complete",
+  "thread": "pipeline",
+  "tags": ["documents", "claude-cli", "opus", "sonnet", "model-comparison", "cost-quality"],
+  "description": "Does Opus 4.6 produce meaningfully better document analysis than Sonnet 4.6 for family archive documents, and is any quality difference worth the additional cost and latency?",
+  "key_findings": [
+    "Opus 4.6 is 25% faster than Sonnet 4.6 (114.7s vs 153.0s for 5 docs)",
+    "Opus uses 30% fewer output tokens (5,415 vs 7,721) while extracting more detail",
+    "Document type classification is identical across all 5 documents",
+    "Opus extracts more dates (20 vs 15 on investment record), more specifics from degraded text",
+    "Opus makes better judgment calls (excludes letterhead governor from key_people, flags deed as financial)",
+    "Both models covered by Max plan; API-equivalent cost for 116 docs: Opus ~$13, Sonnet ~$3.50",
+    "Recommendation: use Opus for remaining documents — quality edge is real, speed is better, cost is covered"
+  ],
+  "outputs": [
+    "brief.md",
+    "runs/p0-setup/locked-inputs.json",
+    "runs/p0-setup/extracted/",
+    "runs/p1-inference/sonnet/results.json",
+    "runs/p1-inference/opus/results.json",
+    "runs/p2-compare/comparison.md"
+  ],
+  "cost_usd": 0,
+  "budget_cap_usd": 0,
+  "related_experiments": ["0000-multi-provider-doc-pipeline"]
+}

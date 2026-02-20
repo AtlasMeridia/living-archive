@@ -1,0 +1,47 @@
+[
+  {
+    "index": 1,
+    "relative_path": "2010-04-14 Quitclaim Deed.pdf",
+    "sha256": "8e4fdf847e630b6d85b74ae782444d7acc39058e80dbd55058791af518b662ab",
+    "file_size_bytes": 293252,
+    "page_count": 2,
+    "chars_extracted": 294,
+    "is_empty": false
+  },
+  {
+    "index": 2,
+    "relative_path": "Artifacts/Countries Visited.pdf",
+    "sha256": "0869607c4ff22605a5e9cbc943faf1f17ee3db861fae8f91f031dec5610ad80e",
+    "file_size_bytes": 522418,
+    "page_count": 1,
+    "chars_extracted": 387,
+    "is_empty": false
+  },
+  {
+    "index": 3,
+    "relative_path": "2007-05-10 Will of Feng Kuang Liu.pdf",
+    "sha256": "4b6ec06ad65b6c151351670daa66a989ca1fa62fdde6c0b786951757c9b10073",
+    "file_size_bytes": 1560137,
+    "page_count": 4,
+    "chars_extracted": 4372,
+    "is_empty": false
+  },
+  {
+    "index": 4,
+    "relative_path": "1970-08-29 Investment Record.pdf",
+    "sha256": "a1e9a14f0fa59501814d6ce567b24683d40bf8e520ca72a3abff32b17881797c",
+    "file_size_bytes": 1989327,
+    "page_count": 2,
+    "chars_extracted": 2684,
+    "is_empty": false
+  },
+  {
+    "index": 5,
+    "relative_path": "Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+    "sha256": "ddeb92080ec52237a4ea0631ca2a8ae5839d27eac46aa766286deed71813e1c1",
+    "file_size_bytes": 639337,
+    "page_count": 1,
+    "chars_extracted": 1739,
+    "is_empty": false
+  }
+]
