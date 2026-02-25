@@ -1,5 +1,6 @@
 """Main orchestrator: convert -> analyze -> manifest -> push to Immich."""
 
+import shutil
 import sys
 import time
 from datetime import datetime, timezone
@@ -7,7 +8,7 @@ from pathlib import Path
 
 from . import config
 from .analyze import analyze_photo
-from .convert import convert_tiff_to_jpeg, find_tiffs, sha256_file
+from .convert import find_photos, needs_conversion, prepare_for_analysis, sha256_file
 from .immich import (
     _client as immich_client,
     build_path_lookup,
@@ -22,26 +23,32 @@ from .preflight import run_preflight
 log = config.setup_logging()
 
 
-def step_convert(tiffs: list[Path]) -> list[dict]:
-    """Convert TIFFs to JPEGs and compute SHA-256 hashes.
+def step_prepare(sources: list[Path]) -> list[dict]:
+    """Prepare photos for analysis: convert/resize as needed, compute SHA-256.
 
-    Returns list of dicts with keys: tiff_path, jpeg_path, sha256, rel_path
+    Returns list of dicts with keys: source_path, jpeg_path, sha256, rel_path
     """
     workspace = config.WORKSPACE_DIR
     workspace.mkdir(parents=True, exist_ok=True)
 
     results = []
-    for tiff in tiffs:
-        rel = tiff.relative_to(config.MEDIA_ROOT)
-        jpeg_name = tiff.stem + ".jpg"
+    for src in sources:
+        rel = src.relative_to(config.MEDIA_ROOT)
+        jpeg_name = src.stem + ".jpg"
         jpeg_path = workspace / jpeg_name
 
-        log.info("  Converting: %s", rel)
-        sha = sha256_file(tiff)
-        convert_tiff_to_jpeg(tiff, jpeg_path)
+        sha = sha256_file(src)
+
+        if needs_conversion(src):
+            log.info("  Converting: %s", rel)
+            prepare_for_analysis(src, jpeg_path)
+        else:
+            log.info("  Copying (already JPEG): %s", rel)
+            jpeg_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, jpeg_path)
 
         results.append({
-            "tiff_path": tiff,
+            "source_path": src,
             "jpeg_path": jpeg_path,
             "sha256": sha,
             "rel_path": str(rel),
@@ -193,12 +200,12 @@ def step_push_to_immich(run_id: str) -> dict:
 
 
 def verify_source_integrity(photos: list[dict]) -> bool:
-    """Verify that source TIFFs were not modified during the run."""
+    """Verify that source files were not modified during the run."""
     log.info("")
     log.info("Verifying source file integrity...")
     all_ok = True
     for photo in photos:
-        current_sha = sha256_file(photo["tiff_path"])
+        current_sha = sha256_file(photo["source_path"])
         if current_sha != photo["sha256"]:
             log.error("  INTEGRITY FAILURE: %s", photo["rel_path"])
             all_ok = False
@@ -224,14 +231,14 @@ def main():
     if not run_preflight(require_immich=False):
         sys.exit(1)
 
-    # Step 1: Find and convert
-    log.info("Step 1: Converting TIFFs to JPEG...")
-    tiffs = find_tiffs(config.SLICE_DIR)
-    log.info("  Found %d TIFF files.", len(tiffs))
-    if not tiffs:
-        log.info("  No TIFFs found. Exiting.")
+    # Step 1: Find and prepare
+    log.info("Step 1: Preparing photos for analysis...")
+    sources = find_photos(config.SLICE_DIR)
+    log.info("  Found %d photo files.", len(sources))
+    if not sources:
+        log.info("  No photos found. Exiting.")
         sys.exit(0)
-    photos = step_convert(tiffs)
+    photos = step_prepare(sources)
     log.info("")
 
     # Step 2 & 3: Analyze and write manifests
