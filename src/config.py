@@ -59,7 +59,7 @@ PROMPT_FILE = REPO_ROOT / "prompts" / f"{PROMPT_VERSION}.txt"
 # --- CLI mode (routes through Claude Code CLI instead of Anthropic API) ---
 USE_CLI = os.environ.get("USE_CLI", "true").lower() in ("true", "1", "yes")
 CLAUDE_CLI = Path(os.environ.get("CLAUDE_CLI", os.path.expanduser("~/.local/bin/claude")))
-CLI_MODEL = os.environ.get("CLI_MODEL", "sonnet")
+CLI_MODEL = os.environ.get("CLI_MODEL", "opus")
 
 DOC_PROMPT_VERSION = "document_analysis_v2"
 DOC_PROMPT_FILE = REPO_ROOT / "prompts" / f"{DOC_PROMPT_VERSION}.txt"
