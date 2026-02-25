@@ -12,3 +12,4 @@ Archived from `docs/open-questions.md` (retired 2026-02-11). Kept for historical
 | — | Photo storage | NAS external library in Immich | 2026-01-26 |
 | — | Admin interface | Immich web UI | 2026-01-26 |
 | — | Blog location | `kennyliu.io/notes` with `living-archive` tag | 2026-01-24 |
+| — | Nested Claude CLI in photo pipeline? | Photo pipeline (`analyze.py`) failed when run from within Claude Code — `CLAUDECODE` env var triggers nested session guard. Fix: strip `CLAUDECODE` from subprocess env, matching existing pattern in `doc_analyze.py`. Run `20260225T074733Z` lost: 33 Albumpage photos, 0 manifests written (no data corruption — atomic writes protected). | 2026-02-25 |

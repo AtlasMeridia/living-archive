@@ -3,6 +3,7 @@
 import base64
 import json
 import logging
+import os
 import subprocess
 from pathlib import Path
 
@@ -64,7 +65,9 @@ def _analyze_via_cli(
     ]
 
     log.debug("CLI command: %s", " ".join(cmd[:4]) + " ...")
-    result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+    # Strip CLAUDECODE env var so CLI can spawn from within a Claude Code session
+    env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=120, env=env)
 
     if result.returncode != 0:
         raise RuntimeError(
