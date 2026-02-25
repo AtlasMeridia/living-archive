@@ -22,6 +22,10 @@ Each document captures the thinking behind a decision or exploration — the "wh
 
 `BACKLOG.md` at project root. Agents should check this before starting work. Mark items in-progress while working, completed (with date) when done.
 
+### Run log
+
+`_dev/run-log.md` — update after every pipeline batch. Record the run ID, result (succeeded/failed counts), elapsed time, and anything learned. This is the operational narrative that bridges the machine log (`private/living-archive.log`) and the task backlog.
+
 ### Code
 
 - Python source in `src/`, one module per concern
