@@ -34,7 +34,7 @@ Each of these needs a dedicated session producing artifacts in `_dev/research/`.
 - [x] Subscription-aware batch controls — `--batch N`, `--delay`, `--dry-run`, cumulative usage tracking, CLI rate-limit detection + 60s retry; run_meta.json now includes usage and batch_size — 2026-02-18
 - [x] Run remaining Liu Family Trust documents in batches — 116 docs processed with Opus 4.6, 0 failures, 258k output tokens, catalog at 187 assets (121 doc + 66 photo) — 2026-02-19
 - [ ] Batch mode for `SLICE_PATH` — accept multiple paths or glob so remaining slices can run unattended
-- [ ] Run remaining 2009 Scanned Media slices: `1993-europe/` (8), `assorted/` (22), `assorted II/` (40), `assorted III/` (42), `assorted IV/` (11), `1KUVLQ~D/` (10)
+- [x] Run remaining 2009 Scanned Media slices — 133/133 photos across 6 slices, 0 failures, ~65 min total — 2026-02-25
 - [x] Enumerate new media sources — inventoried 4 sources, see below — 2026-02-20
 - [x] Page-range chunking for document pipeline — chunking worked automatically on large docs (up to 420pp), no failures — 2026-02-19
 
@@ -42,15 +42,17 @@ Each of these needs a dedicated session producing artifacts in `_dev/research/`.
 
 Enumerated 2026-02-20. All paths relative to `Living Archive/Family/Media/` on NAS.
 
-### 2025-2026 Digital Revolution Scans — 5,257 unique photos, 276 GB
+### 2025-2026 Digital Revolution Scans — 7,629 unique photos, ~388 GB
 
-Scanned with Epson FastFoto FF-680W. Each album has both TIFF and JPEG (10,514 total files). JPEGs already exist — pipeline can skip TIFF-to-JPEG conversion.
+Scanned with Epson FastFoto FF-680W. Each album has both TIFF and JPEG (15,258 total files). JPEGs already exist — pipeline can skip TIFF-to-JPEG conversion.
 
 **1st Round (1,658 photos, 6 albums):** Big_Red_Album (557), Red_Album_1 (390), Pink_Flower_Album (338), Wedding (195), Gold_Album (145), Albumpage (33)
 
 **2nd Round (3,599 photos, 10 albums):** Big_Black_Album (984), White_Album (804), Red_Album_2 (401), Black_Album (355), Grey_Album (329), Red_Album_1 (261), Green_Album (216), Lifes_Garden (153), Yellow_Album (51), Misc (45)
 
-Note: 1st Round TIFF folder misspelled "TiIF".
+**3rd Round (2,372 photos, 6 albums):** Red_Album (655), Blue_Album2 (532), Blue_Memories_1978_3A_!981_1A (466), Brown_Album_A18 (352), Brown_Wooden_Album (250), Orange_Textured_Album (117)
+
+Note: 1st Round TIFF folder misspelled "TiIF". 3rd Round album name `Blue_Memories_1978_3A_!981_1A` has `!981` typo (likely `1981`).
 
 ### Unsorted Archival / Liu Family Scans — ~2,997 photos, 698 MB
 
@@ -70,18 +72,19 @@ Just `letter.pdf` and an empty `Letters/` folder. Candidate for document pipelin
 
 ## Next — Digital Revolution Scans
 
-Processing the 5,257 FastFoto scans. Pipeline needs adaptation since JPEGs already exist (no TIFF conversion needed).
+Processing the 7,629 FastFoto scans. Pipeline needs adaptation since JPEGs already exist (no TIFF conversion needed).
 
-- [ ] Adapt photo pipeline for JPEG source input — skip TIFF-to-JPEG conversion when source is already JPEG, hash the JPEG source instead
-- [ ] Run test batch on a small album — `Albumpage/` (33 photos) or `Yellow_Album/` (51) as proof of concept
+- [x] Adapt photo pipeline for JPEG source input — skip TIFF-to-JPEG conversion when source is already JPEG, hash the JPEG source instead — 2026-02-25
+- [x] Run test batch on a small album — `Albumpage/` (33 photos), 31/33 succeeded, 2 timed out — 2026-02-25
 - [ ] Process 1st Round albums (1,658 photos across 6 albums)
 - [ ] Process 2nd Round albums (3,599 photos across 10 albums)
+- [ ] Process 3rd Round albums (2,372 photos across 6 albums)
 
 ## Next — Unsorted Archival Dedup & Processing
 
 - [ ] Hash-compare overlapping folders between `Unsorted Archival/Liu Family Scans/` and `2009 Scanned Media/` — determine if JPEGs are derived from the same TIFFs already processed
 - [ ] Process non-overlapping Liu Family Scans folders (~2,806 photos across 12 date-range folders)
-- [ ] Process `2022 Swei Chi/` (87 JPEGs) — small, self-contained, good quick win
+- [x] Process `2022 Swei Chi/` — 87/87 photos across 3 folders, 0 failures, ~45 min — 2026-02-25
 
 ## Later — Face Recognition & People Tagging
 
