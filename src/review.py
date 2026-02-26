@@ -4,14 +4,20 @@ Run: python -m src.review
 Opens localhost:8377 with a review UI for approving/correcting AI manifests.
 """
 
+import io
 import json
 import logging
+import mimetypes
 import re
+import subprocess
 import webbrowser
 from datetime import datetime, timezone
 from http import HTTPStatus
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
+from urllib.parse import parse_qs, urlparse
+
+from PIL import Image
 
 import httpx
 
@@ -23,8 +29,9 @@ from .immich import (
     search_assets_by_path,
     update_asset,
 )
-from .manifest import list_manifests, load_manifest
+from .manifest import list_manifests, load_manifest, update_manifest
 from .review_models import ReviewDecision
+from .tokens import generate_css
 
 log = logging.getLogger("living_archive")
 
@@ -114,6 +121,7 @@ def get_run_items(run_id: str) -> list[dict]:
             "sha": sha,
             "source_file": m.source_file,
             "source_sha256": m.source_sha256,
+            "rotation": m.rotation,
             "analysis": m.analysis.model_dump(),
             "inference": m.inference.model_dump(),
             "review": review.model_dump() if review else None,
@@ -204,12 +212,16 @@ class ReviewHandler(BaseHTTPRequestHandler):
 
         if path == "/":
             self._serve_html()
+        elif path == "/tokens.css":
+            self._serve_tokens_css()
         elif path == "/api/runs":
             self._json_response(list_runs())
         elif m := re.match(r"^/api/runs/([^/]+)/items$", path):
             self._json_response(get_run_items(m.group(1)))
         elif m := re.match(r"^/api/immich/thumbnail/([^/]+)$", path):
             self._proxy_thumbnail(m.group(1))
+        elif path == "/api/photo":
+            self._serve_source_photo()
         else:
             self.send_error(HTTPStatus.NOT_FOUND)
 
@@ -218,10 +230,28 @@ class ReviewHandler(BaseHTTPRequestHandler):
 
         if m := re.match(r"^/api/runs/([^/]+)/items/([^/]+)/review$", path):
             self._save_review(m.group(1), m.group(2))
+        elif m := re.match(r"^/api/runs/([^/]+)/items/([^/]+)/rotation$", path):
+            self._save_rotation(m.group(1), m.group(2))
         elif m := re.match(r"^/api/runs/([^/]+)/push$", path):
             self._push_to_immich(m.group(1))
+        elif path == "/api/reveal":
+            self._reveal_in_finder()
         else:
             self.send_error(HTTPStatus.NOT_FOUND)
+
+    def _serve_tokens_css(self):
+        """Serve design tokens as CSS, generated from atlas-style-guide."""
+        try:
+            css = generate_css()
+            body = css.encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "text/css; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-cache")
+            self.end_headers()
+            self.wfile.write(body)
+        except FileNotFoundError as e:
+            self.send_error(HTTPStatus.NOT_FOUND, str(e))
 
     def _serve_html(self):
         if not HTML_PATH.exists():
@@ -231,6 +261,43 @@ class ReviewHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _serve_source_photo(self):
+        """Serve a resized photo from NAS. Supports ?size=thumb|preview (default: preview)."""
+        qs = parse_qs(urlparse(self.path).query)
+        rel_path = qs.get("path", [None])[0]
+        if not rel_path:
+            self.send_error(HTTPStatus.BAD_REQUEST, "Missing path parameter")
+            return
+        photo_path = (config.MEDIA_ROOT / rel_path).resolve()
+        # Security: ensure path stays within MEDIA_ROOT
+        if not str(photo_path).startswith(str(config.MEDIA_ROOT.resolve())):
+            self.send_error(HTTPStatus.FORBIDDEN, "Path outside media root")
+            return
+        if not photo_path.is_file():
+            self.send_error(HTTPStatus.NOT_FOUND, "Photo not found")
+            return
+
+        size = qs.get("size", ["preview"])[0]
+        max_dim = 200 if size == "thumb" else 1600
+
+        try:
+            img = Image.open(photo_path)
+            img.thumbnail((max_dim, max_dim), Image.LANCZOS)
+            buf = io.BytesIO()
+            img.save(buf, format="JPEG", quality=85)
+            body = buf.getvalue()
+        except Exception as e:
+            log.warning("Failed to resize %s: %s", rel_path, e)
+            self.send_error(HTTPStatus.INTERNAL_SERVER_ERROR, "Could not process image")
+            return
+
+        self.send_response(200)
+        self.send_header("Content-Type", "image/jpeg")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "public, max-age=3600")
         self.end_headers()
         self.wfile.write(body)
 
@@ -254,6 +321,15 @@ class ReviewHandler(BaseHTTPRequestHandler):
             log.warning("Thumbnail proxy failed for %s: %s", asset_id, e)
             self.send_error(HTTPStatus.BAD_GATEWAY, str(e))
 
+    def _save_rotation(self, run_id: str, sha: str):
+        try:
+            body = json.loads(self._read_body())
+            rotation = body.get("rotation", 0)
+            update_manifest(run_id, sha, {"rotation": rotation})
+            self._json_response({"ok": True, "sha": sha, "rotation": rotation})
+        except Exception as e:
+            self._json_response({"error": str(e)}, status=400)
+
     def _save_review(self, run_id: str, sha: str):
         try:
             body = json.loads(self._read_body())
@@ -262,6 +338,26 @@ class ReviewHandler(BaseHTTPRequestHandler):
             self._json_response({"ok": True, "sha": sha, "status": decision.status})
         except Exception as e:
             self._json_response({"error": str(e)}, status=400)
+
+    def _reveal_in_finder(self):
+        """Reveal a source photo in macOS Finder."""
+        try:
+            body = json.loads(self._read_body())
+            rel_path = body.get("path")
+            if not rel_path:
+                self._json_response({"error": "Missing path"}, status=400)
+                return
+            photo_path = (config.MEDIA_ROOT / rel_path).resolve()
+            if not str(photo_path).startswith(str(config.MEDIA_ROOT.resolve())):
+                self._json_response({"error": "Path outside media root"}, status=403)
+                return
+            if not photo_path.exists():
+                self._json_response({"error": "File not found"}, status=404)
+                return
+            subprocess.Popen(["open", "-R", str(photo_path)])
+            self._json_response({"ok": True})
+        except Exception as e:
+            self._json_response({"error": str(e)}, status=500)
 
     def _push_to_immich(self, run_id: str):
         try:

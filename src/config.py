@@ -36,6 +36,11 @@ SLICE_DIR = MEDIA_ROOT / SLICE_PATH
 AI_LAYER_DIR = MEDIA_ROOT / "_ai-layer"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+
+# --- Style guide tokens ---
+STYLE_GUIDE_ROOT = Path(os.environ.get(
+    "STYLE_GUIDE_ROOT", os.path.expanduser("~/Projects/atlas-style-guide")
+))
 WORKSPACE_DIR = Path(os.environ.get(
     "WORKSPACE_DIR", str(REPO_ROOT / "private" / "slice_workspace")
 ))

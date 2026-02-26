@@ -119,6 +119,15 @@ def load_manifest(path: Path) -> PhotoManifest:
         return PhotoManifest.model_validate(data)
 
 
+def update_manifest(run_id: str, sha: str, updates: dict) -> Path:
+    """Merge updates into an existing manifest JSON file."""
+    path = run_dir(run_id) / f"{sha}.json"
+    data = json.loads(path.read_text())
+    data.update(updates)
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
+    return path
+
+
 def list_manifests(run_id: str) -> list[Path]:
     """List all manifest files for a run."""
     d = run_dir(run_id)

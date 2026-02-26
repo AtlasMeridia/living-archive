@@ -1,50 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Living Archive — Review Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tokens.css">
 <style>
+/* App-specific tokens (derived from base design tokens) */
 :root {
-  --navy-950: #08090c;
-  --navy-900: #0e1318;
-  --navy-800: #161c24;
-  --navy-700: #1e2630;
-  --navy-600: #2a3442;
-  --cream-50: #f8f6f1;
-  --cream-100: #f3f0ea;
-  --cream-200: #eae6de;
-  --cream-300: #d4cfc5;
-  --cream-400: #a8a398;
-  --accent: #c9924a;
-  --accent-light: #ddb878;
-  --accent-dark: #a87a3a;
-  --accent-deep: #8a6530;
-  --success: #6a9a70;
-  --success-dim: #6a9a7030;
-  --warning: #c9924a;
-  --warning-dim: #c9924a25;
-  --error: #b05454;
-  --info: #5a8ab0;
-  --info-dim: #5a8ab025;
-
-  --bg-primary: var(--navy-900);
-  --bg-elevated: var(--navy-800);
   --bg-surface: var(--navy-700);
-  --text-primary: var(--cream-100);
-  --text-secondary: var(--cream-300);
-  --text-muted: var(--cream-400);
-  --border-color: #ffffff0d;
   --border-hover: #ffffff1a;
-
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Lora', Georgia, serif;
-  --font-ui: 'DM Sans', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
-  --font-zh: 'Noto Serif TC', serif;
+  --success-dim: #6a9a7030;
+  --warning-dim: #c9924a25;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -159,6 +126,32 @@ body {
   text-align: center;
 }
 
+.rotate-controls {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.rotate-btn {
+  background: #000000aa;
+  color: var(--cream-50);
+  border: 1px solid #ffffff30;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.rotate-btn:hover { background: #000000dd; }
+
 /* --- Detail panel (right) --- */
 .detail-panel {
   flex: 1;
@@ -244,7 +237,7 @@ body {
 }
 
 .description-zh {
-  font-family: var(--font-zh);
+  font-family: var(--font-chinese);
 }
 
 /* --- Correction form --- */
@@ -494,6 +487,11 @@ body {
   <div class="photo-panel" id="photo-panel">
     <div class="photo-placeholder" id="photo-placeholder">Select a run to begin reviewing</div>
     <img id="photo-img" style="display:none" alt="Photo under review">
+    <div class="rotate-controls" id="rotate-controls" style="display:none">
+      <button class="rotate-btn" onclick="rotatePhoto(-90)" title="Rotate left (R)">&#x21BA;</button>
+      <button class="rotate-btn" onclick="rotatePhoto(90)" title="Rotate right (R)">&#x21BB;</button>
+      <button class="rotate-btn" onclick="revealInFinder()" title="Reveal in Finder (F)" style="font-size:14px">&#x1F4C2;</button>
+    </div>
   </div>
   <div class="detail-panel" id="detail-panel">
     <div class="empty-state" id="empty-detail">
@@ -528,6 +526,7 @@ let runs = [];
 let items = [];
 let currentIdx = -1;
 let currentRunId = '';
+let currentRotation = 0;
 
 // --- DOM refs ---
 const runSelect = document.getElementById('run-select');
@@ -584,15 +583,15 @@ async function loadRun(runId) {
 // --- Filmstrip ---
 function buildFilmstrip() {
   filmstrip.innerHTML = '';
-  const placeholder = (idx) => 'data:image/svg+xml,' + encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect fill="#1e2630" width="64" height="64"/><text x="32" y="36" text-anchor="middle" fill="#a8a398" font-size="11">${idx + 1}</text></svg>`
-  );
   items.forEach((item, idx) => {
     const img = document.createElement('img');
     img.className = 'filmstrip-thumb';
     img.dataset.idx = idx;
     img.alt = item.source_file;
-    img.src = item.asset_id ? `/api/immich/thumbnail/${item.asset_id}` : placeholder(idx);
+    img.src = item.asset_id
+      ? `/api/immich/thumbnail/${item.asset_id}`
+      : `/api/photo?path=${encodeURIComponent(item.source_file)}&size=thumb`;
+    if (item.rotation) img.style.transform = `rotate(${item.rotation}deg)`;
     updateThumbStatus(img, item);
     img.addEventListener('click', () => selectItem(idx));
     filmstrip.appendChild(img);
@@ -628,21 +627,67 @@ function selectItem(idx) {
   const activeThumb = filmstrip.children[idx];
   if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 
-  // Photo thumbnail from Immich
-  if (item.asset_id) {
-    photoImg.src = `/api/immich/thumbnail/${item.asset_id}`;
-    photoImg.style.display = 'block';
-    photoPlaceholder.style.display = 'none';
-  } else {
-    photoImg.style.display = 'none';
-    photoPlaceholder.style.display = 'block';
-    photoPlaceholder.innerHTML = `<div style="font-size:48px; margin-bottom:12px; opacity:0.3">&#128247;</div>
-      <div>${item.source_file.split('/').pop()}</div>
-      <div style="font-size:11px; margin-top:4px">No matching asset found in Immich</div>`;
-  }
+  // Photo: prefer Immich thumbnail, fall back to source file from NAS
+  const photoUrl = item.asset_id
+    ? `/api/immich/thumbnail/${item.asset_id}`
+    : `/api/photo?path=${encodeURIComponent(item.source_file)}`;
+  photoImg.src = photoUrl;
+  photoImg.style.display = 'block';
+  photoPlaceholder.style.display = 'none';
+  document.getElementById('rotate-controls').style.display = 'flex';
+
+  // Restore rotation from manifest (AI layer source of truth)
+  currentRotation = item.rotation || 0;
+  applyRotation();
 
   // Detail panel
   renderDetail(item);
+}
+
+async function rotatePhoto(degrees) {
+  currentRotation = (currentRotation + degrees + 360) % 360;
+  applyRotation();
+
+  // Persist to manifest immediately
+  const item = items[currentIdx];
+  item.rotation = currentRotation;
+  await fetchJSON(`/api/runs/${currentRunId}/items/${item.sha}/rotation`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ rotation: currentRotation }),
+  });
+
+  // Update filmstrip thumb
+  const thumb = filmstrip.children[currentIdx];
+  if (thumb) thumb.style.transform = currentRotation ? `rotate(${currentRotation}deg)` : '';
+}
+
+async function revealInFinder() {
+  if (currentIdx < 0 || currentIdx >= items.length) return;
+  const item = items[currentIdx];
+  try {
+    await fetchJSON('/api/reveal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: item.source_file }),
+    });
+  } catch (e) {
+    showToast(`Could not reveal in Finder: ${e.message}`, true);
+  }
+}
+
+function applyRotation() {
+  photoImg.style.transform = currentRotation ? `rotate(${currentRotation}deg)` : '';
+  // Scale down when rotated 90/270 so it fits the panel
+  if (currentRotation === 90 || currentRotation === 270) {
+    const panel = document.getElementById('photo-panel');
+    const ratio = panel.clientWidth / panel.clientHeight;
+    photoImg.style.maxHeight = ratio < 1 ? '100%' : `${panel.clientWidth}px`;
+    photoImg.style.maxWidth = `${panel.clientHeight}px`;
+  } else {
+    photoImg.style.maxHeight = '100%';
+    photoImg.style.maxWidth = '100%';
+  }
 }
 
 function renderDetail(item) {
@@ -731,7 +776,7 @@ function renderDetail(item) {
       <div class="form-row">
         <div class="form-field">
           <label>Description (ZH)</label>
-          <textarea id="corr-desc-zh" rows="2" style="font-family:var(--font-zh)">${esc(review?.corrected_description_zh || a.description_zh || '')}</textarea>
+          <textarea id="corr-desc-zh" rows="2" style="font-family:var(--font-chinese)">${esc(review?.corrected_description_zh || a.description_zh || '')}</textarea>
         </div>
       </div>
       <div class="form-row">
@@ -906,6 +951,14 @@ document.addEventListener('keydown', (e) => {
     case 's':
       e.preventDefault();
       doSkip();
+      break;
+    case 'r':
+      e.preventDefault();
+      rotatePhoto(e.shiftKey ? -90 : 90);
+      break;
+    case 'f':
+      e.preventDefault();
+      revealInFinder();
       break;
     case 'ArrowLeft':
       e.preventDefault();

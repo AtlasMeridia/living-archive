@@ -39,6 +39,7 @@ class InferenceMetadata(BaseModel):
 class PhotoManifest(BaseModel):
     source_file: str = ""
     source_sha256: str = ""
+    rotation: int = 0  # 0, 90, 180, 270 — clockwise correction for display
     analysis: PhotoAnalysis = PhotoAnalysis()
     inference: InferenceMetadata = InferenceMetadata()
 
