@@ -36,7 +36,9 @@ SLICE_DIR = MEDIA_ROOT / SLICE_PATH
 AI_LAYER_DIR = MEDIA_ROOT / "_ai-layer"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-WORKSPACE_DIR = REPO_ROOT / "private" / "slice_workspace"
+WORKSPACE_DIR = Path(os.environ.get(
+    "WORKSPACE_DIR", str(REPO_ROOT / "private" / "slice_workspace")
+))
 
 # --- Paths: Document pipeline ---
 DOCUMENTS_ROOT = Path(os.environ.get(

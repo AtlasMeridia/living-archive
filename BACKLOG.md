@@ -76,7 +76,7 @@ Processing the 7,629 FastFoto scans. Pipeline needs adaptation since JPEGs alrea
 
 - [x] Adapt photo pipeline for JPEG source input — skip TIFF-to-JPEG conversion when source is already JPEG, hash the JPEG source instead — 2026-02-25
 - [x] Run test batch on a small album — `Albumpage/` (33 photos), 31/33 succeeded, 2 timed out — 2026-02-25
-- [ ] Process 1st Round albums (1,658 photos across 6 albums)
+- [ ] Process 1st Round albums — Albumpage (31/33) and Gold_Album (145/145) done; remaining: Wedding (195), Pink_Flower_Album (338), Red_Album_1 (390), Big_Red_Album (557)
 - [ ] Process 2nd Round albums (3,599 photos across 10 albums)
 - [ ] Process 3rd Round albums (2,372 photos across 6 albums)
 
