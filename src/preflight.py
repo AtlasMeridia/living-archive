@@ -13,7 +13,23 @@ from . import config
 log = logging.getLogger("living_archive")
 
 
-NAS_URL = "smb://mneme.local/MNEME"
+NAS_HOST = "mneme.local"
+NAS_SHARE = "MNEME"
+NAS_USER = "mneme_admin"
+
+
+def _get_nas_password() -> str | None:
+    """Retrieve NAS password from macOS Keychain."""
+    try:
+        result = subprocess.run(
+            ["security", "find-internet-password", "-a", NAS_USER, "-s", NAS_HOST, "-w"],
+            capture_output=True, text=True, timeout=5,
+        )
+        if result.returncode == 0:
+            return result.stdout.strip()
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        pass
+    return None
 
 
 def ensure_nas_mounted(
@@ -21,11 +37,10 @@ def ensure_nas_mounted(
     auto_mount: bool = True,
     mount_attempts: int = 3,
 ) -> bool:
-    """Ensure the NAS is mounted, retrying the mount command if needed.
+    """Ensure the NAS is mounted, retrying if needed.
 
-    Uses macOS `open afp://` which triggers Finder mount with Keychain credentials.
-    Retries the mount command up to `mount_attempts` times to handle NAS wake-up
-    delays and transient network issues.
+    Uses osascript to mount SMB share with credentials from macOS Keychain.
+    Retries up to `mount_attempts` times to handle NAS wake-up delays.
 
     Can be called from anywhere — preflight, mid-pipeline on I/O error, or standalone.
     """
@@ -38,13 +53,21 @@ def ensure_nas_mounted(
         log.error("  NAS not mounted: %s", mount_point)
         return False
 
+    password = _get_nas_password()
+    if not password:
+        log.error("  NAS password not found in Keychain.")
+        log.error("  Store it: security add-internet-password -a %s -s %s -r 'smb ' -w '<password>'",
+                   NAS_USER, NAS_HOST)
+        return False
+
+    smb_url = f"smb://{NAS_USER}:{password}@{NAS_HOST}/{NAS_SHARE}"
+
     for attempt in range(1, mount_attempts + 1):
         log.info("  NAS not mounted. Auto-mount attempt %d/%d...", attempt, mount_attempts)
         try:
             subprocess.run(
-                ["open", NAS_URL],
-                check=True,
-                timeout=10,
+                ["osascript", "-e", f'mount volume "{smb_url}"'],
+                capture_output=True, timeout=30,
             )
         except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError) as e:
             log.warning("  Mount command failed: %s", e)
@@ -52,11 +75,11 @@ def ensure_nas_mounted(
                 time.sleep(5)
             continue
 
-        # Wait for mount to appear (Finder mount is async)
-        for i in range(15):
+        # Wait for mount to appear
+        for i in range(10):
             time.sleep(2)
             if mount_point.exists():
-                log.info("  NAS mounted after %.0fs: %s", (i + 1) * 2, mount_point)
+                log.info("  NAS mounted after %ds: %s", (i + 1) * 2, mount_point)
                 return True
             log.info("  Waiting for mount... (%ds)", (i + 1) * 2)
 
@@ -64,7 +87,7 @@ def ensure_nas_mounted(
             log.warning("  Mount did not appear. Retrying...")
 
     log.error("  NAS did not mount after %d attempts.", mount_attempts)
-    log.error("  Mount manually: Cmd+K in Finder → %s", NAS_URL)
+    log.error("  Mount manually: Cmd+K in Finder → smb://%s/%s", NAS_HOST, NAS_SHARE)
     return False
 
 
