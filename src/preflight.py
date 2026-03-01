@@ -13,7 +13,7 @@ from . import config
 log = logging.getLogger("living_archive")
 
 
-NAS_AFP_URL = "afp://mneme.local/MNEME"
+NAS_URL = "smb://mneme.local/MNEME"
 
 
 def ensure_nas_mounted(
@@ -42,7 +42,7 @@ def ensure_nas_mounted(
         log.info("  NAS not mounted. Auto-mount attempt %d/%d...", attempt, mount_attempts)
         try:
             subprocess.run(
-                ["open", NAS_AFP_URL],
+                ["open", NAS_URL],
                 check=True,
                 timeout=10,
             )
@@ -64,7 +64,7 @@ def ensure_nas_mounted(
             log.warning("  Mount did not appear. Retrying...")
 
     log.error("  NAS did not mount after %d attempts.", mount_attempts)
-    log.error("  Mount manually: Cmd+K in Finder → %s", NAS_AFP_URL)
+    log.error("  Mount manually: Cmd+K in Finder → %s", NAS_URL)
     return False
 
 

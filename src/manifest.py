@@ -83,11 +83,14 @@ def write_run_meta(
     failed: int,
     failures: list[dict],
     elapsed_seconds: float,
+    *,
+    slice_path: str | None = None,
+    batch_slices: list[dict] | None = None,
 ) -> Path:
     """Write run-level metadata."""
     meta = {
         "run_id": run_id,
-        "slice_path": config.SLICE_PATH,
+        "slice_path": slice_path or config.SLICE_PATH,
         "started": run_id,
         "completed": datetime.now(timezone.utc).isoformat(),
         "elapsed_seconds": round(elapsed_seconds, 1),
@@ -98,6 +101,9 @@ def write_run_meta(
         "model": config.MODEL,
         "prompt_version": config.PROMPT_VERSION,
     }
+    if batch_slices:
+        meta["batch_mode"] = True
+        meta["slices"] = batch_slices
 
     out_dir = config.AI_LAYER_DIR / "runs" / run_id
     out_dir.mkdir(parents=True, exist_ok=True)

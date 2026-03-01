@@ -57,7 +57,9 @@ def step_prepare(sources: list[Path]) -> list[dict]:
     return results
 
 
-def step_analyze(photos: list[dict], run_id: str) -> tuple[int, int, list[dict]]:
+def step_analyze(
+    photos: list[dict], run_id: str, folder_hint: str | None = None,
+) -> tuple[int, int, list[dict]]:
     """Analyze each photo with Claude and write manifests immediately.
 
     Returns (succeeded, failed, failures_list).
@@ -68,7 +70,7 @@ def step_analyze(photos: list[dict], run_id: str) -> tuple[int, int, list[dict]]
         import anthropic
         client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
 
-    folder_hint = config.SLICE_PATH
+    folder_hint = folder_hint or config.SLICE_PATH
     succeeded = 0
     failed = 0
     failures = []
@@ -105,8 +107,10 @@ def step_analyze(photos: list[dict], run_id: str) -> tuple[int, int, list[dict]]
     return succeeded, failed, failures
 
 
-def step_push_to_immich(run_id: str) -> dict:
+def step_push_to_immich(run_id: str, slice_path: str | None = None) -> dict:
     """Push manifest data to Immich: update dates/descriptions, create review albums."""
+    slice_path = slice_path or config.SLICE_PATH
+
     manifests = list_manifests(run_id)
     if not manifests:
         log.info("  No manifests to push.")
@@ -114,8 +118,8 @@ def step_push_to_immich(run_id: str) -> dict:
 
     client = immich_client()
 
-    log.info("  Searching Immich for assets matching '%s'...", config.SLICE_PATH)
-    assets = search_assets_by_path(client, config.SLICE_PATH)
+    log.info("  Searching Immich for assets matching '%s'...", slice_path)
+    assets = search_assets_by_path(client, slice_path)
     log.info("  Found %d assets in Immich.", len(assets))
 
     path_lookup = build_path_lookup(assets)

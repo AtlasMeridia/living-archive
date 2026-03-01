@@ -18,6 +18,7 @@ ollama = ["openai>=1.0"]
 
 [project.scripts]
 run-slice = "src.run_slice:main"
+run-batch = "src.run_batch:main"
 doc-scan = "src.doc_scan:main"
 doc-extract = "src.run_doc_extract:main"
 doc-index = "src.doc_index:main"
