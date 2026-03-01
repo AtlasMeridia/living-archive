@@ -2,6 +2,32 @@
 
 Operational record of pipeline runs — what happened, what worked, what didn't. Each entry is a dated section with the run ID, result, and lessons learned.
 
+## 2026-02-28 — Wedding (Digital Revolution Scans 1st Round)
+
+**Run:** `20260228T100154Z` — 195 FastFoto scan JPEGs from `1st Round/Jpeg/Wedding`
+**Result:** 195/195 succeeded, 0 failures
+**Elapsed:** 6,321s (~105 min, ~32.4s/photo)
+**Model:** Opus via CLI
+
+### Date confidence
+
+| High (>=0.8) | Medium (0.5–0.8) | Low (<0.5) | Date range |
+|--------------|-------------------|------------|------------|
+| 0 (0%) | 171 (87%) | 24 (12%) | 1960–1985 |
+
+No high-confidence results — wedding and family celebration photos with no visible date stamps. Overwhelmingly medium confidence, consistent with Gold_Album profile. 24 low-confidence photos (12%) will need human review.
+
+### Content
+
+Wedding and celebration photos spanning roughly 1960–1985. Likely covers one or more family weddings plus related gatherings. Album name suggests a wedding-themed collection from the FastFoto scanning sessions.
+
+### Notes
+
+- Immich push skipped — no API key in session env. Manifests saved on NAS for later push.
+- This is the 3rd of 6 albums processed from 1st Round. Remaining: Pink_Flower_Album (338), Red_Album_1 (390), Big_Red_Album (557).
+
+---
+
 ## 2026-02-25 — Session summary
 
 Single Claude Code session processing three sources back-to-back. All runs used Opus via CLI (Max plan, `photo_analysis_v1` prompt).
