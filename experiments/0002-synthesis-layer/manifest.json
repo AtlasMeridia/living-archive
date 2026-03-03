@@ -4,12 +4,23 @@
   "date": "2026-03-03",
   "status": "active",
   "thread": "synthesis",
-  "tags": ["entity-index", "cross-reference", "timeline", "bilingual", "people", "dates", "locations"],
-  "description": "Can a useful entity graph be derived from existing photo and document manifests, and what extraction rules produce meaningful cross-content connections?",
-  "key_findings": [],
+  "tags": ["entity-index", "cross-reference", "timeline", "bilingual", "people", "dates", "locations", "branching", "person-dedup"],
+  "description": "Can a useful entity graph be derived from existing photo and document manifests? Three-way branch comparison on person name deduplication (string normalization vs fuzzy/phonetic vs LLM clustering) — the core empirical question given inconsistent romanized Chinese names across documents.",
+  "key_findings": [
+    "Data recon: people registry is entirely unpopulated (794 unnamed face clusters)",
+    "Data recon: same person appears as 3-4 name variants across documents (romanization inconsistency)",
+    "Data recon: photo people_notes is prose description, not names — person-photo linking requires face clusters, not manifests"
+  ],
   "outputs": [
     "brief.md"
   ],
+  "branches": {
+    "person_dedup": {
+      "a": "String normalization (lowercase, strip hyphens, collapse whitespace)",
+      "b": "Fuzzy/phonetic matching (normalization + Soundex/Metaphone similarity)",
+      "c": "LLM-assisted clustering (one Claude call to group name variants)"
+    }
+  },
   "cost_usd": 0,
   "budget_cap_usd": 0,
   "related_experiments": ["0000-multi-provider-doc-pipeline", "0001-opus-vs-sonnet"],
