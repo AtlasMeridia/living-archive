@@ -1,0 +1,17 @@
+{
+  "id": "0002-synthesis-layer",
+  "title": "Synthesis Layer — Entity Extraction, Cross-Reference, and Timeline",
+  "date": "2026-03-03",
+  "status": "active",
+  "thread": "synthesis",
+  "tags": ["entity-index", "cross-reference", "timeline", "bilingual", "people", "dates", "locations"],
+  "description": "Can a useful entity graph be derived from existing photo and document manifests, and what extraction rules produce meaningful cross-content connections?",
+  "key_findings": [],
+  "outputs": [
+    "brief.md"
+  ],
+  "cost_usd": 0,
+  "budget_cap_usd": 0,
+  "related_experiments": ["0000-multi-provider-doc-pipeline", "0001-opus-vs-sonnet"],
+  "design_doc": "_dev/research/2026-03-03 synthesis-layer.md"
+}

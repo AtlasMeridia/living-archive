@@ -1,7 +1,7 @@
 # Synthesis Layer — Entity Index, Timeline, and Cross-Reference
 
 **Date:** 2026-03-03
-**Status:** Design — pending implementation
+**Status:** Design — implementation tracked in `experiments/0002-synthesis-layer/`
 **Depends on:** Unified catalog (Phase 1, live), manifest schemas (stable)
 
 ---
