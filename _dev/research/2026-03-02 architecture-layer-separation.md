@@ -112,14 +112,40 @@ Immich is excellent software for its intended purpose (self-hosted Google Photos
 
 **Conclusion:** Immich was the right bootstrapping choice. It gave us a viewer, face clustering, and family access quickly. But the project needs a bespoke presentation layer. Face cluster data is already extracted to `_ai-layer/people/registry.json`. Immich can stay running as a legacy viewer while the new presentation layer is built.
 
+### Presentation layer — standalone app, merges dashboard + review
+
+Two existing tools share the same pattern (single-file HTML + Python http.server + atlas-style-guide tokens):
+- **Archive dashboard** (`dashboard.html` + `src/dashboard.py`, port 8378) — read-only stats, pipeline health, search. Currently slow because it reads from NAS.
+- **Review dashboard** (`review.html` + `src/review.py`, port 8377) — human-in-the-loop for approving/correcting AI manifests. Serves images, writes back to manifests.
+
+**Decision: merge into one app.** Both read from the same data, share the same design language, and will both benefit from reading local `data/`. One tool, tabbed views:
+
+| View | Purpose | Access |
+|------|---------|--------|
+| Overview | Archive stats, health, pipeline history | Public |
+| Browse | Photo grid, search, filters, bilingual metadata | Public |
+| Search | FTS5 across photos + documents | Public |
+| Review | Approve/correct AI analysis, confidence queues | Admin only |
+
+**Standalone, not inside headless-atlas.** The data that drives it is separate from headless-atlas. headless-atlas serves as a launchpad (links to the archive app) but doesn't contain it. Own repo or directory, own deployment.
+
+**Starts local, goes public.** During dev it reads from `data/` and serves locally. When ready, deploy with images hosted on R2/CDN. The review tab becomes auth-gated; everything else is open.
+
+**Family access:** The family viewer was never launched via Immich. Instead of building a separate family view, the public app serves that purpose. Family members access the same browse/search interface as anyone else.
+
+**Stack:** Next.js + Vercel is the natural fit (existing infrastructure, atlas-style-guide compatibility, easy auth for admin routes). Decision deferred to implementation time.
+
+**Design:** Consumes atlas-style-guide tokens. Phosphor Icons (light weight). Dark theme as default (matching existing dashboards).
+
 ## What This Means for the Backlog
 
 This session reshapes several backlog items:
 - Pipeline output paths need to change (write to `data/` not NAS `_ai-layer/`)
 - Image conversion step becomes a permanent output (keep derived images)
-- Dashboard can be rebuilt to read from local `data/catalog.db`
-- Blog/family viewer reads from same local layer + hosted images
+- `dashboard.html` + `review.html` merge into a new standalone app
+- Blog/public view and family view collapse — one app serves both
 - Immich push becomes optional rather than core
+- headless-atlas links to the archive app at its own domain/subdomain
 
 ## Resolved Questions
 
@@ -127,10 +153,12 @@ This session reshapes several backlog items:
 - **Image generation timing:** Generate all three tiers during pipeline run (source is already in memory). Backfill command for existing assets.
 - **Directory structure:** Consolidate three NAS `_ai-layer/` locations into one `data/` root. Mirror internal structure (runs/manifests/SHA-256 keying).
 - **Image format:** WebP everywhere. Sensible quality defaults (thumb 75, display 80, full 85).
+- **Presentation layer:** Standalone app merging dashboard + review. Not inside headless-atlas.
+- **Family access:** No separate family viewer. Public app serves that purpose.
 
 ## Open Questions
 
-- **Presentation layer:** What replaces Immich? Bespoke app reading from local `data/catalog.db` + hosted images. Stack TBD.
+- **App stack:** Next.js + Vercel is the leading candidate. Confirm at implementation time.
 - **Face clustering future:** With Immich deprecated, do we run InsightFace independently, or is the current registry sufficient?
-- **Family access transition:** Family members currently use Immich via Cloudflare Tunnel. What replaces that, and when?
 - **Image hosting:** R2 is the leading candidate. When does local-only dev transition to hosted? What triggers the push?
+- **Domain:** Subdomain (`archive.kennyliu.io`) or path (`kennyliu.io/archive`)?
