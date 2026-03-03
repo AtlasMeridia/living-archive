@@ -145,7 +145,7 @@ This session reshapes several backlog items:
 - `dashboard.html` + `review.html` merge into a new standalone app
 - Blog/public view and family view collapse — one app serves both
 - Immich push becomes optional rather than core
-- headless-atlas links to the archive app at its own domain/subdomain
+- headless-atlas links to the archive app at `archive.kennyliu.io`
 
 ## Resolved Questions
 
@@ -155,10 +155,11 @@ This session reshapes several backlog items:
 - **Image format:** WebP everywhere. Sensible quality defaults (thumb 75, display 80, full 85).
 - **Presentation layer:** Standalone app merging dashboard + review. Not inside headless-atlas.
 - **Family access:** No separate family viewer. Public app serves that purpose.
+- **Face clustering:** Ongoing, not static. Models improve over time — face detection should be re-runnable as better models become available. Need to run InsightFace (or equivalent) independently of Immich. Current registry is a starting point, not a final state.
+- **Image hosting trigger:** Images move from local `data/images/` to R2 when the standalone app deploys to Vercel. Until then, local serving is fine. Eventually the pipeline will couple scanning media with posting content, at which point the push to R2 becomes part of the workflow.
+- **Domain:** Subdomain — `archive.kennyliu.io`. Clean separation, independent deployment, consistent with standalone app decision.
 
 ## Open Questions
 
 - **App stack:** Next.js + Vercel is the leading candidate. Confirm at implementation time.
-- **Face clustering future:** With Immich deprecated, do we run InsightFace independently, or is the current registry sufficient?
-- **Image hosting:** R2 is the leading candidate. When does local-only dev transition to hosted? What triggers the push?
-- **Domain:** Subdomain (`archive.kennyliu.io`) or path (`kennyliu.io/archive`)?
+- **Independent face clustering:** What replaces Immich's InsightFace pipeline? Options: run InsightFace directly, use a different model, or defer until current registry needs updating. Needs research.
