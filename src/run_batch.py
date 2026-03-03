@@ -193,7 +193,7 @@ def _cleanup_workspace(workspace: Path) -> None:
 
 
 def append_run_log(results: list[dict], run_id: str, elapsed: float) -> None:
-    """Append batch summary to _dev/run-log.md in existing format."""
+    """Append batch summary to _dev/dev-log.md in existing format."""
     total_photos = sum(r["succeeded"] for r in results)
     total_failed = sum(r["failed"] for r in results)
     total_found = sum(r["photos_found"] for r in results)
@@ -228,7 +228,7 @@ def append_run_log(results: list[dict], run_id: str, elapsed: float) -> None:
     lines.append("\n---\n")
 
     # Insert after the header line (newest first)
-    run_log = config.REPO_ROOT / "_dev" / "run-log.md"
+    run_log = config.REPO_ROOT / "_dev" / "dev-log.md"
     if run_log.exists():
         content = run_log.read_text()
         # Find the end of the header section (after the first blank line following the header)

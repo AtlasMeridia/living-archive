@@ -1,6 +1,36 @@
-# Run Log
+# Dev Log
 
-Operational record of pipeline runs — what happened, what worked, what didn't. Each entry is a dated section with the run ID, result, and lessons learned.
+Working record of the Living Archive project — pipeline runs, architecture decisions, process observations, and lessons learned. Each entry is a dated section capturing whatever the significant work was.
+
+Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
+
+## 2026-03-03 — Catalog caching pivot (architecture)
+
+Rewrote the dashboard to read exclusively from `catalog.db` instead of walking the NAS filesystem. The trigger: after moving the AI layer local (2026-03-02), the dashboard was still doing 30+ second cold loads because `/api/batch-progress` imported `discover.py` and walked the NAS media tree.
+
+**Changes:** Schema v2 migration (added `slice` column, `runs`/`photo_quality`/`doc_quality` cache tables), new `refresh` command, all dashboard API endpoints rewritten as SQL queries. Split `catalog.py` (421→281 lines) and `dashboard.py` (555→181 lines) into focused modules.
+
+**Result:** Dashboard loads are now instant. Works fully offline — no NAS mount required. Data freshness tracked via `last_scan_at`/`last_refresh_at` metadata.
+
+**Process note:** This was the first fully AI-implemented architecture pivot — the plan was written in one session, approved, and executed in a single pass with zero errors. The research doc → plan → implementation pipeline is working.
+
+---
+
+## 2026-03-03 — Synthesis layer design + experiment setup (architecture)
+
+Wrote the synthesis layer design doc (`_dev/research/2026-03-03 synthesis-layer.md`) — a fully separate derivation layer that cross-references photo and document manifests to answer questions like "show me everything about Grandma" or "what happened in 1978."
+
+Turned the design doc into experiment `0002-synthesis-layer` with phased execution and decision gates. This is the third time the research → experiment pattern has been used, and it's solidifying: the research doc captures *why*, the experiment brief captures *how to test*, and the phase gates prevent overbuilding.
+
+**Observation:** The run log (now dev log) had gone stale because the project shifted from running pipelines to building infrastructure. The interesting work — architecture pivots, experiment design, process learning — had no home in an ops-only log. Broadening the log to capture all significant work, not just pipeline runs.
+
+---
+
+## 2026-03-02 — Move AI layer off NAS (architecture)
+
+Moved all AI layer outputs from NAS (`_ai-layer/`) to local `data/` directory. Motivation: AFP mount latency was bottlenecking manifest reads. Migration script handles the move; config rewired to point at local paths. NAS `_ai-layer/` directories kept as inert backups.
+
+---
 
 ## 2026-03-02 — Liu Family Trust documents (batch 2 of ~6)
 

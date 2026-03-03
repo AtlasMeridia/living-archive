@@ -16,6 +16,6 @@ Session insights, architecture decisions, and blog-ready seeds. Each file captur
 ## What doesn't go here
 
 - Task tracking → `BACKLOG.md`
-- Pipeline run results and operational notes → `_dev/run-log.md`
+- Pipeline runs, architecture decisions, and process observations → `_dev/dev-log.md`
 - Resolved yes/no decisions → `_dev/resolved-decisions.md`
 - API docs or technical reference → `docs/`
