@@ -36,7 +36,7 @@ DOCUMENT_EXTENSIONS = {".pdf"}
 def get_catalog_db(branch: str = "family") -> Path:
     """Return the catalog.db path for a branch."""
     if branch == "personal":
-        return config.PERSONAL_ROOT / "_ai-layer" / "catalog.db"
+        return config.DATA_DIR / "personal" / "catalog.db"
     return config.FAMILY_CATALOG_DB
 
 

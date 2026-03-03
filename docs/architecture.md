@@ -13,22 +13,23 @@ Infrastructure documentation for the Living Archive project.
 ## Data Flow
 
 ```
-DATA LAYER (NAS, read-only)                    AI LAYER (NAS, regeneratable)              PRESENTATION (Immich)
-/Living Archive/Family/Media/            -->  .../Media/_ai-layer/               --> Immich REST API
+DATA LAYER (NAS, read-only)                    AI LAYER (local, regeneratable)            PRESENTATION (Immich)
+/Living Archive/Family/Media/            -->  data/photos/                       --> Immich REST API
   2009 Scanned Media/1978/                     runs/<run-id>/manifests/                PUT /assets (dates, descriptions)
   Source TIFFs, never modified                  one JSON per photo, keyed by SHA-256   POST /albums (review buckets)
-                                          -->  Family/_ai-layer/catalog.db
+                                          -->  data/catalog.db
                                                 unified asset catalog (SQLite)
-                                                tracks all photos + documents
+                                          -->  data/documents/
+                                                doc manifests, extracted text, FTS5
 ```
 
-Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). Results written to NAS. Then pushed to Immich.
+Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). Source files read from NAS, results written locally to `data/`. Then pushed to Immich.
 
 ```
 [Scanned Photos]
     → NAS: /volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/
     → Immich (read-only external library, mounted at /external/photos)
-    → AI Layer: /volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/_ai-layer/
+    → AI Layer: local data/ directory (was NAS _ai-layer/, moved for latency)
     → Immich API (date/description metadata sync)
     → Family Access: archives.kennyliu.io (Cloudflare Tunnel)
 ```
@@ -38,7 +39,10 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
 | What | Where | Why |
 |------|-------|-----|
 | Source photos | NAS `/volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/` | Canonical, never modified |
-| AI manifests/outputs | NAS `Family/Media/_ai-layer/runs/<timestamp>/` | Regeneratable, lives with data |
+| AI manifests/outputs | Local `data/photos/runs/<timestamp>/` | Regeneratable, fast local reads |
+| Document AI outputs | Local `data/documents/runs/<timestamp>/` | Regeneratable, fast local reads |
+| Asset catalog | Local `data/catalog.db` | Derived index, fast queries |
+| People registry | Local `data/people/` | Face clusters and registry |
 | Inference scripts | Repo `src/` | Version controlled |
 | Prompts | Repo `prompts/` | Version controlled, referenced by manifest |
 | Methodology docs | Repo `docs/` | Public-facing content source |
@@ -57,16 +61,22 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
 ## Key Paths Reference
 
 ```
-# NAS (Synology volume paths)
+# NAS (Synology volume paths) — source data, read-only
 /volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/           # Source photos
-/volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/_ai-layer/ # AI inference layer
 /volume1/MNEME/05_PROJECTS/Living Archive/Family/Documents/       # Family documents
 /volume1/MNEME/05_PROJECTS/Living Archive/Personal/               # Apple data export (726 GB)
 /volume1/docker/immich/                                           # Immich installation
 
-# Mac (AFP mount)
+# Mac (AFP mount) — same NAS paths
 /Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/           # Mounted source
-/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/_ai-layer/ # Mounted AI layer
+/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/       # Mounted documents
+
+# Local AI layer (repo-relative, gitignored)
+~/Projects/living-archive/data/                    # AI layer root
+  photos/runs/<timestamp>/manifests/               # Photo manifests
+  documents/runs/<timestamp>/manifests/            # Doc manifests + extracted text
+  people/registry.json                             # People registry
+  catalog.db                                       # Unified asset catalog
 
 # EllisAgent
 ~/Projects/living-archive/                         # This repo
@@ -77,11 +87,13 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
 10 AEON/_CHANNEL/from-web/                        # Handoffs to Local Claude
 ```
 
+Note: NAS `_ai-layer/` directories are inert backups from before the local migration. All new AI output writes to `data/`.
+
 ## Architectural Principles
 
 These are captured in AutoMem but documented here for reference:
 
-1. **Data/AI layer separation**: Source photos at full fidelity (TIFF, PDF) are never modified. AI layer contains extracted text, structured metadata, cross-references — all regeneratable as better models emerge.
+1. **Data/AI layer separation**: Source photos at full fidelity (TIFF, PDF) live on NAS and are never modified. AI layer (manifests, catalog, extracted text) lives locally in `data/` for fast reads — all regeneratable as better models emerge.
 
 2. **Confidence-based automation**: AI dating uses thresholds:
    - ≥0.8: Auto-apply to Immich
@@ -101,13 +113,15 @@ The project has two data branches sharing the same three-layer architecture and 
 The Liu family archive — scanned photos, trust documents, genealogy records. This is the working branch with pipelines running and metadata live in Immich.
 
 ```
-Living Archive/Family/
-├── _ai-layer/
-│   └── catalog.db           # Unified asset catalog (photos + documents)
-├── Media/                    # Source TIFFs (2009 Scanned Media, etc.)
-│   └── _ai-layer/           # Photo manifests, people registry
-└── Documents/                # Source PDFs (Liu Family Trust, etc.)
-    └── _ai-layer/           # Doc manifests, extracted text, FTS5 index
+Living Archive/Family/           # NAS — source data (read-only)
+├── Media/                        # Source TIFFs and JPEGs
+└── Documents/                    # Source PDFs
+
+living-archive/data/             # Local — AI layer (regeneratable)
+├── catalog.db                    # Unified asset catalog
+├── photos/runs/                  # Photo manifests
+├── documents/runs/               # Doc manifests, extracted text, FTS5
+└── people/                       # People registry
 ```
 
 ### Personal Branch (planned)
@@ -134,8 +148,8 @@ The branches share infrastructure and cross-reference each other:
 | Shared | How |
 |--------|-----|
 | **Pipeline code** | Same `src/` modules with configurable roots (`MEDIA_ROOT`, `DOCUMENTS_ROOT`, future `PERSONAL_ROOT`) |
-| **AI layer conventions** | Same `_ai-layer/runs/<timestamp>/manifests/` structure, same SHA-256 keying |
-| **People registry** | `_ai-layer/people/registry.json` spans both branches — a face recognized in family photos can match personal photos |
+| **AI layer conventions** | Same `data/<branch>/runs/<timestamp>/manifests/` structure, same SHA-256 keying |
+| **People registry** | `data/people/registry.json` spans both branches — a face recognized in family photos can match personal photos |
 | **Prompts** | Same vision prompt works for any photo; doc prompt works for any PDF |
 | **Immich** | Family and personal could share one Immich instance with separate libraries, or use separate instances |
 
@@ -187,4 +201,4 @@ Per-photo JSON keyed by SHA-256 of the original TIFF. Contains `analysis` (date 
 
 ---
 
-*Last updated: 2026-02-20*
+*Last updated: 2026-03-02*

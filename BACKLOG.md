@@ -1,5 +1,9 @@
 # Backlog
 
+## Burn
+
+Tasks explicitly approved for unattended automated dispatch by the capacity-burn scheduler.
+Prereq: NAS must be mounted (`python -m src.preflight` handles auto-mount).
 ## Equipment
 
 - **Epson FastFoto FF-680W** — High-speed photo scanner (1 photo/sec, 1200 dpi, wireless)
@@ -120,6 +124,7 @@ See `_dev/research/2026-02-18 presentation-layer.md` for full design session.
 
 ## Later — Public Presence (Other)
 
+- [ ] Remote access for review dashboard — expose via Cloudflare Tunnel or Tailscale so collaborators outside LAN can view and use the review UI
 - [ ] Family access — Cloudflare Tunnel + Access for secure remote Immich viewing
 - [ ] Family photo uploads — find an easy upload system (existing app) for family members to contribute photos
 - [ ] Privacy defaults for published content — opt-in vs. opt-out for people in photos, deceased vs. living distinction
@@ -135,7 +140,11 @@ See `_dev/research/2026-02-18 presentation-layer.md` for full design session.
 
 ## Done
 
-- [x] Build unified asset catalog (Phase 1) — `catalog.db` with 136 indexed assets (62 photo + 74 document), backfill/scan/stats CLI, inline manifest updates — 2026-02-16
+- [x] Move AI layer off NAS to local `data/` — config rewired, migration script added, architecture docs updated — 2026-03-02
+- [x] Build unified asset catalog (Phase 1) — `catalog.db` with 136 indexed assets (62 photo + 74 document), backfill/scan/stats CLI, 
+- [x] `python -m src.run_doc_extract --auto --batch 20 --delay 2` — Process up to 20 unprocessed documents with 2s pacing — 2026-03-02inline manif
+
+- [x] `python -m src.run_batch --hours 2 --push` — Process unprocessed photo slices with 2-hour time budget, push metadata to Immich — 2026-03-02est updates — 2026-02-16
 - [x] Harden NAS auto-mount with retry logic, fix stale smb:// references, add mount to doc pipeline — 2026-02-11
 - [x] Run document pipeline on Liu Family Trust — 72 docs, 468 pages, 26 doc types, FTS5 index built — 2026-02-07
 - [x] Run photo pipeline on `1980-1982/` — 36 TIFFs, 36 succeeded, 369.8s — 2026-02-06

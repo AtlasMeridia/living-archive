@@ -184,7 +184,11 @@ def run_preflight(require_immich: bool = True) -> bool:
     else:
         log.info("  Prompt file: %s", config.PROMPT_FILE.name)
 
-    # 6. Catalog (optional — informational only)
+    # 6. Local data directory
+    config.DATA_DIR.mkdir(parents=True, exist_ok=True)
+    log.info("  Data dir: %s", config.DATA_DIR)
+
+    # 7. Catalog (optional — informational only)
     if config.FAMILY_CATALOG_DB.exists():
         try:
             from .catalog import SCHEMA_VERSION, init_catalog

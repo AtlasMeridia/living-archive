@@ -33,9 +33,14 @@ MEDIA_ROOT = Path(os.environ.get(
 SLICE_PATH = os.environ.get("SLICE_PATH", "2009 Scanned Media/1978")
 
 SLICE_DIR = MEDIA_ROOT / SLICE_PATH
-AI_LAYER_DIR = MEDIA_ROOT / "_ai-layer"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+
+# --- Paths: AI layer (local, regeneratable) ---
+DATA_DIR = Path(os.environ.get("DATA_DIR", str(REPO_ROOT / "data")))
+AI_LAYER_DIR = DATA_DIR / "photos"
+DOC_AI_LAYER_DIR = DATA_DIR / "documents"
+FAMILY_CATALOG_DB = DATA_DIR / "catalog.db"
 
 # --- Style guide tokens ---
 STYLE_GUIDE_ROOT = Path(os.environ.get(
@@ -50,13 +55,11 @@ DOCUMENTS_ROOT = Path(os.environ.get(
     "DOCUMENTS_ROOT", str(FAMILY_ROOT / "Documents")
 ))
 
-# --- Paths: Catalog ---
-FAMILY_CATALOG_DB = FAMILY_ROOT / "_ai-layer" / "catalog.db"
+# --- Paths: Document pipeline (source slices) ---
 DOC_SLICE_PATH = os.environ.get(
     "DOC_SLICE_PATH", "Liu Family Trust Filings & Documents"
 )
 DOC_SLICE_DIR = DOCUMENTS_ROOT / DOC_SLICE_PATH
-DOC_AI_LAYER_DIR = DOCUMENTS_ROOT / "_ai-layer"
 
 # --- Inference ---
 MODEL = "claude-sonnet-4-20250514"
