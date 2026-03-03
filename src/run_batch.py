@@ -17,8 +17,9 @@ from pathlib import Path
 from . import config
 from .analyze import analyze_photo
 from .convert import find_photos, needs_conversion, prepare_for_analysis, sha256_file
-from .discover import build_batch_work_list
+from .discover import build_batch_work_list, filter_work_list
 from .manifest import write_manifest, write_run_meta
+from .cost import estimate_photo_cost, format_cost_summary
 from .preflight import check_immich, ensure_nas_mounted
 from .run_slice import step_push_to_immich
 
@@ -255,6 +256,8 @@ def main():
                         help="Preview work list without processing")
     parser.add_argument("--resume", metavar="RUN_ID",
                         help="Resume an interrupted batch run")
+    parser.add_argument("--slices", nargs="+", metavar="PATTERN",
+                        help="Filter slices by glob pattern (e.g. '2009*' '*/Album')")
     args = parser.parse_args()
 
     budget_seconds = args.hours * 3600
@@ -284,6 +287,10 @@ def main():
     log.info("Discovering unprocessed albums...")
     work_list = build_batch_work_list(config.MEDIA_ROOT)
 
+    if args.slices:
+        work_list = filter_work_list(work_list, args.slices)
+        log.info("  Filtered by --slices %s: %d albums match", args.slices, len(work_list))
+
     if not work_list:
         log.info("  No unprocessed albums found. Nothing to do.")
         sys.exit(0)
@@ -303,6 +310,9 @@ def main():
     log.info("")
 
     if args.dry_run:
+        estimate = estimate_photo_cost(total_remaining)
+        log.info(format_cost_summary(estimate))
+        log.info("")
         log.info("Dry run — exiting without processing.")
         sys.exit(0)
 

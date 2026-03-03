@@ -11,6 +11,15 @@ Prereq: NAS must be mounted (`python -m src.preflight` handles auto-mount).
   - Purpose: Bulk family photo digitization
   - Expense: ATLAS Meridia LLC
 
+## Now — Cross-Pollination with Naked Robot
+
+Both projects share the same arc (source media → AI vision → JSON manifests → SQLite → browser review) but developed different strengths in isolation. NR's haptic pipeline has a tag audit tool, faceted browser workbench, and contact-sheet batch triage that would directly improve LA's review workflow and tagging quality. LA's SHA-256 keying and FTS5 catalog are more robust than NR's equivalents. See `~/Projects/naked-robot/experiments/0008-cross-pollination-living-archive/README.md` for full analysis and priority table.
+
+- [x] **Port tag audit pattern from NR** — `src/audit_tags.py`: 7 concept categories (relationship, condition/damage, activity, group, outdoor, indoor, era). Audited 2358 photos — `condition/damage` 100% gap rate, `group/crowd` 46%, `setting/indoor` 18%. — 2026-03-03
+- [x] **Adapt haptic browser for photo/doc review** — `haptic.html` + `src/haptic_api.py` + routes in `src/dashboard.py`: faceted sidebar (confidence tiers, era/decade, people count, tags), photo grid, modal with full analysis + keyboard navigation. Accessible at `/haptic` on the dashboard server (port 8378). — 2026-03-03
+- [x] **Contact sheet triage for FastFoto scans** — `src/contact_triage.py`: tiles up to 20 photos into 4×4 numbered grids, sends to Haiku via API, saves keep/skip lists to `data/triage/<album>_triage.json`; CLI `python -m src.contact_triage <album_dir>` — 2026-03-03
+- [x] **Anti-euphemization prompting** — add explicit vocabulary examples to photo prompts ("include relationship tags: parent-child, couple, siblings" / "include condition tags: faded, torn, water-damaged") — 2026-03-03
+
 ## Now — Project Self-Awareness
 
 The codebase, architecture, and documentation need to catch up to what the project has become.
@@ -37,7 +46,7 @@ Each of these needs a dedicated session producing artifacts in `_dev/research/`.
 - [x] Build `scan` command — `python -m src.catalog scan` inventories filesystem, diffs against catalog, reports new/changed/stale items — 2026-02-16
 - [x] Subscription-aware batch controls — `--batch N`, `--delay`, `--dry-run`, cumulative usage tracking, CLI rate-limit detection + 60s retry; run_meta.json now includes usage and batch_size — 2026-02-18
 - [x] Run remaining Liu Family Trust documents in batches — 116 docs processed with Opus 4.6, 0 failures, 258k output tokens, catalog at 187 assets (121 doc + 66 photo) — 2026-02-19
-- [ ] Batch mode for `SLICE_PATH` — accept multiple paths or glob so remaining slices can run unattended
+- [x] Batch mode for `SLICE_PATH` — `--slices` arg with glob patterns for targeted slice filtering in `run-batch` — 2026-03-03
 - [x] Run remaining 2009 Scanned Media slices — 133/133 photos across 6 slices, 0 failures, ~65 min total — 2026-02-25
 - [x] Enumerate new media sources — inventoried 4 sources, see below — 2026-02-20
 - [x] Page-range chunking for document pipeline — chunking worked automatically on large docs (up to 420pp), no failures — 2026-02-19
@@ -86,7 +95,7 @@ Processing the 7,629 FastFoto scans. Pipeline needs adaptation since JPEGs alrea
 
 ## Next — Unsorted Archival Dedup & Processing
 
-- [ ] Hash-compare overlapping folders between `Unsorted Archival/Liu Family Scans/` and `2009 Scanned Media/` — determine if JPEGs are derived from the same TIFFs already processed
+- [x] Hash-compare overlapping folders between `Unsorted Archival/Liu Family Scans/` and `2009 Scanned Media/` — `dedup-report` tool: SHA-256 intra-source dupes + folder-name/stem cross-source comparison — 2026-03-03
 - [ ] Process non-overlapping Liu Family Scans folders (~2,806 photos across 12 date-range folders)
 - [x] Process `2022 Swei Chi/` — 87/87 photos across 3 folders, 0 failures, ~45 min — 2026-02-25
 
@@ -129,11 +138,11 @@ See `_dev/research/2026-02-18 presentation-layer.md` for full design session.
 - [ ] Family photo uploads — find an easy upload system (existing app) for family members to contribute photos
 - [ ] Privacy defaults for published content — opt-in vs. opt-out for people in photos, deceased vs. living distinction
 - [ ] Decide what's public repo vs. private — methodology public, family-specific data private
-- [ ] Cost estimation tool — preview API costs before running a large batch (partially addressed by `--dry-run` estimated tokens)
+- [x] Cost estimation tool — `src/cost.py` with token + dollar estimates in both `run-batch --dry-run` and `doc-extract --dry-run` — 2026-03-03
 
 ## Later — Future Work
 
-- [ ] Process `2025 Scanned Media/letter.pdf` — single PDF, document pipeline
+- [x] Process `2025 Scanned Media/letter.pdf` — config fix: absolute `DOC_SLICE_PATH` support in config.py, doc_scan.py, run_doc_extract.py — 2026-03-03
 - [ ] Red book (族譜) OCR — traditional Chinese genealogy book processing (April 2026)
 - [ ] Elder interview capture — oral history before Taiwan trip
 - [ ] Quarterly reindex — re-run manifests as models improve

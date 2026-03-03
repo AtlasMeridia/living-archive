@@ -36,7 +36,10 @@ def scan_pdfs(directory: Path) -> list[dict]:
     pdfs = find_pdfs(directory)
     results = []
     for pdf in pdfs:
-        rel = pdf.relative_to(config.DOCUMENTS_ROOT)
+        try:
+            rel = pdf.relative_to(config.DOCUMENTS_ROOT)
+        except ValueError:
+            rel = pdf.relative_to(config.DOC_SLICE_DIR)
         log.info("  Scanning: %s", rel)
         sha = sha256_file(pdf)
         size = pdf.stat().st_size

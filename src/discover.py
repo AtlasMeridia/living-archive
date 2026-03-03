@@ -1,5 +1,6 @@
 """Auto-discover unprocessed photo directories for batch processing."""
 
+import fnmatch
 import logging
 from pathlib import Path
 
@@ -80,3 +81,16 @@ def build_batch_work_list(root: Path) -> list[dict]:
     # Smallest slices first — maximize completed slices within time budget
     work_list.sort(key=lambda w: w["remaining"])
     return work_list
+
+
+def filter_work_list(work_list: list[dict], patterns: list[str]) -> list[dict]:
+    """Filter work list entries whose slice_path matches any glob pattern.
+
+    Uses fnmatch against each entry's slice_path. Patterns like
+    "2009*" or "*/Pink_Flower_Album" work as expected.
+    """
+    filtered = []
+    for w in work_list:
+        if any(fnmatch.fnmatch(w["slice_path"], pat) for pat in patterns):
+            filtered.append(w)
+    return filtered

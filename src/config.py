@@ -59,7 +59,8 @@ DOCUMENTS_ROOT = Path(os.environ.get(
 DOC_SLICE_PATH = os.environ.get(
     "DOC_SLICE_PATH", "Liu Family Trust Filings & Documents"
 )
-DOC_SLICE_DIR = DOCUMENTS_ROOT / DOC_SLICE_PATH
+_dsp = Path(DOC_SLICE_PATH)
+DOC_SLICE_DIR = _dsp if _dsp.is_absolute() else DOCUMENTS_ROOT / DOC_SLICE_PATH
 
 # --- Inference ---
 MODEL = "claude-sonnet-4-20250514"

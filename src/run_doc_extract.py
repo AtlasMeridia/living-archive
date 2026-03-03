@@ -31,6 +31,7 @@ from .doc_manifest import (
     write_manifest,
     write_run_meta,
 )
+from .cost import estimate_doc_cost, format_cost_summary
 from .doc_scan import find_pdfs, get_page_count, scan_pdfs
 
 log = config.setup_logging()
@@ -201,6 +202,10 @@ def dry_run(work: list[dict], batch_size: int) -> None:
             "  [%d] %s  (%.1f MB, %d pp, ~%dk tokens)",
             i, w["rel_path"], mb, w["page_count"], est // 1000,
         )
+
+    estimate = estimate_doc_cost(total_chars, len(batch))
+    log.info("")
+    log.info(format_cost_summary(estimate))
 
     if len(work) > len(batch):
         log.info("")
@@ -417,7 +422,12 @@ def main():
 
     # Ensure NAS is mounted before checking paths
     from .preflight import ensure_nas_mounted
-    if not ensure_nas_mounted(config.DOCUMENTS_ROOT):
+    try:
+        config.DOC_SLICE_DIR.relative_to(config.DOCUMENTS_ROOT)
+        nas_check = config.DOCUMENTS_ROOT
+    except ValueError:
+        nas_check = config.FAMILY_ROOT
+    if not ensure_nas_mounted(nas_check):
         log.error("  Cannot reach NAS. Aborting.")
         sys.exit(1)
 
