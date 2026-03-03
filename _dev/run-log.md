@@ -2,6 +2,18 @@
 
 Operational record of pipeline runs — what happened, what worked, what didn't. Each entry is a dated section with the run ID, result, and lessons learned.
 
+## 2026-03-02 — Liu Family Trust documents (batch 2 of ~6)
+
+- **Run:** `20260303T004945Z` — 20 documents from `Liu Family Trust Filings & Documents`
+- **Result:** 20/20 succeeded, 0 failures
+- **Elapsed:** 521.8s (~8.7 min, ~26.1s/doc)
+- **Tokens:** 62 input / 17,773 output (est. ~8k input)
+- **96 documents remain** — resume with `--resume 20260303T004945Z`
+- **Content:** Mix of legal (trust administration, deeds, will, contract), financial (wire transfers, market report), personal (letters, diplomas, countries-visited list), medical (contact cards, correspondence), government (Social Security cards), employment (Agnews Center condolence letter)
+- **Notes:** Automated capacity-burn batch. **Duplicate run triggered** — a second run (`20260303T005448Z`) fired in parallel before the first created manifests, processing the same 20 files twice. Both runs succeeded (20/20 each). The AI layer now has duplicate manifests for these 20 documents. Resume point going forward is `20260303T005448Z`. Dedup check recommended before next push to catalog.
+
+---
+
 ## 2026-02-28 — Wedding (Digital Revolution Scans 1st Round)
 
 **Run:** `20260228T100154Z` — 195 FastFoto scan JPEGs from `1st Round/Jpeg/Wedding`
