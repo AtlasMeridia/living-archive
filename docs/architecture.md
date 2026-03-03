@@ -14,16 +14,20 @@ Infrastructure documentation for the Living Archive project.
 
 ```
 DATA LAYER (NAS, read-only)                    AI LAYER (local, regeneratable)            PRESENTATION (Immich)
-/Living Archive/Family/Media/            -->  data/photos/                       --> Immich REST API
-  2009 Scanned Media/1978/                     runs/<run-id>/manifests/                PUT /assets (dates, descriptions)
-  Source TIFFs, never modified                  one JSON per photo, keyed by SHA-256   POST /albums (review buckets)
-                                          -->  data/catalog.db
-                                                unified asset catalog (SQLite)
-                                          -->  data/documents/
-                                                doc manifests, extracted text, FTS5
+/Living Archive/Family/Media/            →    data/photos/runs/manifests/         →    Immich REST API
+  Source TIFFs/JPEGs, never modified           one JSON per photo, keyed by SHA-256     PUT /assets, POST /albums
+/Living Archive/Family/Documents/        →    data/documents/runs/manifests/
+  Source PDFs, never modified                  doc manifests, extracted text, FTS5
+
+                                         →    data/catalog.db (schema v2)
+                                               assets table (inventory + slice grouping)
+                                               runs, photo_quality, doc_quality (cache)
+                                               → dashboard reads ONLY from catalog
 ```
 
 Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). Source files read from NAS, results written locally to `data/`. Then pushed to Immich.
+
+**NAS dependency:** Only `scan` (inventorying source files) and pipeline runs (reading sources for analysis) require NAS. The dashboard, stats, and search are fully offline — they query `catalog.db` exclusively. See `_dev/research/2026-03-03 catalog-caching-pivot.md`.
 
 ```
 [Scanned Photos]
@@ -41,7 +45,7 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
 | Source photos | NAS `/volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/` | Canonical, never modified |
 | AI manifests/outputs | Local `data/photos/runs/<timestamp>/` | Regeneratable, fast local reads |
 | Document AI outputs | Local `data/documents/runs/<timestamp>/` | Regeneratable, fast local reads |
-| Asset catalog | Local `data/catalog.db` | Derived index, fast queries |
+| Asset catalog | Local `data/catalog.db` (schema v2) | Derived index + cache tables; dashboard reads only from here |
 | People registry | Local `data/people/` | Face clusters and registry |
 | Inference scripts | Repo `src/` | Version controlled |
 | Prompts | Repo `prompts/` | Version controlled, referenced by manifest |
@@ -73,10 +77,12 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
 
 # Local AI layer (repo-relative, gitignored)
 ~/Projects/living-archive/data/                    # AI layer root
+  catalog.db                                       # Asset catalog (schema v2)
+                                                   #   assets (inventory + slice)
+                                                   #   runs, photo_quality, doc_quality (cache)
   photos/runs/<timestamp>/manifests/               # Photo manifests
   documents/runs/<timestamp>/manifests/            # Doc manifests + extracted text
   people/registry.json                             # People registry
-  catalog.db                                       # Unified asset catalog
 
 # EllisAgent
 ~/Projects/living-archive/                         # This repo
@@ -95,14 +101,16 @@ These are captured in AutoMem but documented here for reference:
 
 1. **Data/AI layer separation**: Source photos at full fidelity (TIFF, PDF) live on NAS and are never modified. AI layer (manifests, catalog, extracted text) lives locally in `data/` for fast reads — all regeneratable as better models emerge.
 
-2. **Confidence-based automation**: AI dating uses thresholds:
+2. **Catalog as cache**: The dashboard and all interactive tools read exclusively from `catalog.db`. Cache tables (`runs`, `photo_quality`, `doc_quality`) are populated by `python -m src.catalog refresh` from local manifest files. NAS is only needed for `scan` (source inventory) and pipeline runs (reading sources). This makes the dashboard fully offline-capable.
+
+3. **Confidence-based automation**: AI dating uses thresholds:
    - ≥0.8: Auto-apply to Immich
    - 0.5-0.8: Flag for human review
    - <0.5: Mark as undated
 
-3. **Hybrid access model**: Tailscale for admin (technical users), Cloudflare Tunnel + Access for family (email OTP, minimal friction).
+4. **Hybrid access model**: Tailscale for admin (technical users), Cloudflare Tunnel + Access for family (email OTP, minimal friction).
 
-4. **Quarterly reindex**: AI manifests are versioned per inference run. Plan to reindex as models improve.
+5. **Quarterly reindex**: AI manifests are versioned per inference run. Plan to reindex as models improve.
 
 ## Two Branches: Family and Personal
 
@@ -201,4 +209,4 @@ Per-photo JSON keyed by SHA-256 of the original TIFF. Contains `analysis` (date 
 
 ---
 
-*Last updated: 2026-03-02*
+*Last updated: 2026-03-03*

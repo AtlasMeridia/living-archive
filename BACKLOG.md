@@ -141,6 +141,7 @@ See `_dev/research/2026-02-18 presentation-layer.md` for full design session.
 ## Done
 
 - [x] Move AI layer off NAS to local `data/` — config rewired, migration script added, architecture docs updated — 2026-03-02
+- [x] NAS-independent dashboard via catalog caching — schema v2 (slice column + cache tables), `refresh` command, dashboard rewritten as SQL queries, no NAS needed for dashboard — 2026-03-03
 - [x] Build unified asset catalog (Phase 1) — `catalog.db` with 136 indexed assets (62 photo + 74 document), backfill/scan/stats CLI, 
 - [x] `python -m src.run_doc_extract --auto --batch 20 --delay 2` — Process up to 20 unprocessed documents with 2s pacing — 2026-03-02inline manif
 
