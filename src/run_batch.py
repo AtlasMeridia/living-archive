@@ -4,10 +4,13 @@ Usage:
     python -m src.run_batch --hours 4              # 4-hour session
     python -m src.run_batch --hours 4 --push       # auto-push to Immich
     python -m src.run_batch --hours 4 --dry-run    # preview work list
+    python -m src.run_batch --hours 4 --triage off # ignore triage files
     python -m src.run_batch --resume RUN_ID        # resume interrupted batch
 """
 
 import argparse
+import json
+import re
 import shutil
 import sys
 import time
@@ -28,6 +31,84 @@ log = config.setup_logging()
 # Estimated seconds per photo (used for time estimates in dry-run)
 EST_SECONDS_PER_PHOTO = 32
 
+TRIAGE_MODES = ("off", "auto", "require")
+
+
+def _normalize_rel(path_str: str) -> str:
+    """Normalize path separators for stable slice comparisons."""
+    return path_str.replace("\\", "/").strip("/")
+
+
+def _triage_slug(text: str) -> str:
+    """Slug helper shared with contact_triage output naming."""
+    return re.sub(r"[^\w-]", "_", text)
+
+
+def load_triage_for_slice(slice_path: str) -> tuple[dict | None, Path | None]:
+    """Load triage JSON matching a slice path, if available."""
+    triage_dir = config.DATA_DIR / "triage"
+    if not triage_dir.exists():
+        return None, None
+
+    slice_norm = _normalize_rel(slice_path)
+    slice_name_norm = _normalize_rel(Path(slice_path).name)
+    expected_path_slug = f"{_triage_slug(slice_norm)}_triage.json"
+    expected_name_slug = f"{_triage_slug(slice_name_norm)}_triage.json"
+
+    matches: list[tuple[int, float, Path, dict]] = []
+    for triage_path in sorted(triage_dir.glob("*_triage.json")):
+        try:
+            data = json.loads(triage_path.read_text())
+        except Exception as exc:
+            log.warning("  Skipping invalid triage file %s: %s", triage_path.name, exc)
+            continue
+
+        album_norm = _normalize_rel(str(data.get("album", "")))
+        score = 0
+        if album_norm == slice_norm:
+            score += 10
+        elif album_norm == slice_name_norm:
+            score += 5
+        if triage_path.name == expected_path_slug:
+            score += 3
+        elif triage_path.name == expected_name_slug:
+            score += 1
+
+        if score > 0:
+            matches.append((score, triage_path.stat().st_mtime, triage_path, data))
+
+    if not matches:
+        return None, None
+
+    matches.sort(key=lambda item: (item[0], item[1]), reverse=True)
+    if len(matches) > 1:
+        chosen = matches[0][2].name
+        alternatives = ", ".join(m[2].name for m in matches[1:3])
+        log.warning(
+            "  Multiple triage files matched %s. Using %s (others: %s).",
+            slice_path,
+            chosen,
+            alternatives,
+        )
+
+    _, _, selected_path, selected_data = matches[0]
+    return selected_data, selected_path
+
+
+def filter_sources_by_triage(sources: list[Path], triage_data: dict) -> tuple[list[Path], int]:
+    """Apply triage keep/skip lists to discovered photo sources."""
+    keep_names = {str(x) for x in triage_data.get("keep", []) if isinstance(x, str)}
+    skip_names = {str(x) for x in triage_data.get("skip", []) if isinstance(x, str)}
+
+    if keep_names:
+        filtered = [src for src in sources if src.name in keep_names]
+    elif skip_names:
+        filtered = [src for src in sources if src.name not in skip_names]
+    else:
+        filtered = list(sources)
+
+    return filtered, len(sources) - len(filtered)
+
 
 def process_slice(
     slice_path: str,
@@ -35,6 +116,7 @@ def process_slice(
     run_id: str,
     budget_remaining: float,
     push: bool,
+    triage_mode: str = "auto",
 ) -> dict:
     """Process a single slice within the batch.
 
@@ -45,16 +127,47 @@ def process_slice(
     log.info("--- Slice: %s ---", slice_path)
 
     # Find and prepare photos
-    sources = find_photos(slice_dir)
+    all_sources = find_photos(slice_dir)
+    triage_data = None
+    triage_path = None
+    triage_applied = False
+    triage_skipped = 0
+
+    if triage_mode != "off":
+        triage_data, triage_path = load_triage_for_slice(slice_path)
+        if triage_data:
+            triage_applied = True
+            sources, triage_skipped = filter_sources_by_triage(all_sources, triage_data)
+            log.info(
+                "  Triage applied: %d keep, %d skip (%s)",
+                len(sources),
+                triage_skipped,
+                triage_path.name if triage_path else "unknown file",
+            )
+        elif triage_mode == "require":
+            raise RuntimeError(f"Required triage file not found for slice: {slice_path}")
+        else:
+            sources = all_sources
+            log.info("  Triage: none found, processing full slice.")
+    else:
+        sources = all_sources
+
     if not sources:
-        log.info("  No photos found in %s, skipping.", slice_dir)
+        if all_sources and triage_applied:
+            log.info("  Triage kept 0 photos in %s, skipping slice.", slice_dir)
+        else:
+            log.info("  No photos found in %s, skipping.", slice_dir)
         return {
             "slice_path": slice_path,
-            "photos_found": 0,
+            "photos_found": len(all_sources),
+            "photos_considered": 0,
             "succeeded": 0,
             "failed": 0,
             "elapsed": 0,
             "budget_exhausted": False,
+            "triage_applied": triage_applied,
+            "triage_skipped": triage_skipped,
+            "triage_file": str(triage_path) if triage_path else None,
         }
 
     log.info("  Found %d photos. Preparing...", len(sources))
@@ -105,11 +218,15 @@ def process_slice(
         _cleanup_workspace(workspace)
         return {
             "slice_path": slice_path,
-            "photos_found": len(photos),
+            "photos_found": len(all_sources),
+            "photos_considered": len(photos),
             "succeeded": 0,
             "failed": 0,
             "elapsed": time.time() - start,
             "budget_exhausted": False,
+            "triage_applied": triage_applied,
+            "triage_skipped": triage_skipped,
+            "triage_file": str(triage_path) if triage_path else None,
         }
 
     log.info("  %d to analyze (%d already done).", len(unprocessed), len(photos) - len(unprocessed))
@@ -179,11 +296,15 @@ def process_slice(
 
     return {
         "slice_path": slice_path,
-        "photos_found": len(photos),
+        "photos_found": len(all_sources),
+        "photos_considered": len(photos),
         "succeeded": succeeded,
         "failed": failed,
         "elapsed": round(elapsed, 1),
         "budget_exhausted": budget_exhausted,
+        "triage_applied": triage_applied,
+        "triage_skipped": triage_skipped,
+        "triage_file": str(triage_path) if triage_path else None,
     }
 
 
@@ -197,7 +318,8 @@ def append_run_log(results: list[dict], run_id: str, elapsed: float) -> None:
     """Append batch summary to _dev/dev-log.md in existing format."""
     total_photos = sum(r["succeeded"] for r in results)
     total_failed = sum(r["failed"] for r in results)
-    total_found = sum(r["photos_found"] for r in results)
+    total_found = sum(r.get("photos_considered", r["photos_found"]) for r in results)
+    total_triage_skipped = sum(r.get("triage_skipped", 0) for r in results)
     slices_completed = sum(1 for r in results if not r["budget_exhausted"] and r["succeeded"] > 0)
     slices_partial = sum(1 for r in results if r["budget_exhausted"])
     date_str = datetime.now().strftime("%Y-%m-%d")
@@ -207,6 +329,7 @@ def append_run_log(results: list[dict], run_id: str, elapsed: float) -> None:
         f"\n## {date_str} — Batch run\n",
         f"**Run:** `{run_id}` — batch mode, {len(results)} slices attempted\n",
         f"**Result:** {total_photos}/{total_found} succeeded, {total_failed} failures\n",
+        f"**Triage skips:** {total_triage_skipped}\n",
         f"**Elapsed:** {elapsed:,.0f}s (~{hours:.1f} hours)\n",
         f"**Model:** {'CLI' if config.USE_CLI else 'API'} "
         f"({'Opus via CLI' if config.USE_CLI else config.MODEL})\n",
@@ -217,11 +340,15 @@ def append_run_log(results: list[dict], run_id: str, elapsed: float) -> None:
     for r in results:
         if r["succeeded"] == 0 and r["failed"] == 0:
             continue
-        status = f"{r['succeeded']}/{r['photos_found']}"
+        considered = r.get("photos_considered", r["photos_found"])
+        status = f"{r['succeeded']}/{considered}"
         if r["budget_exhausted"]:
             status += " (partial)"
         elapsed_str = f"{r['elapsed']:.0f}s"
-        lines.append(f"| `{r['slice_path']}` | {r['photos_found']} | {status} | {elapsed_str} |\n")
+        photo_col = str(r["photos_found"])
+        if r.get("triage_skipped", 0):
+            photo_col = f"{photo_col} (-{r['triage_skipped']} triage)"
+        lines.append(f"| `{r['slice_path']}` | {photo_col} | {status} | {elapsed_str} |\n")
 
     if slices_partial:
         lines.append(f"\n{slices_completed} slices completed, {slices_partial} partial (budget exhausted).\n")
@@ -258,6 +385,12 @@ def main():
                         help="Resume an interrupted batch run")
     parser.add_argument("--slices", nargs="+", metavar="PATTERN",
                         help="Filter slices by glob pattern (e.g. '2009*' '*/Album')")
+    parser.add_argument(
+        "--triage",
+        choices=TRIAGE_MODES,
+        default="auto",
+        help="Triage filter mode: off=ignore, auto=use when present, require=fail if missing",
+    )
     args = parser.parse_args()
 
     budget_seconds = args.hours * 3600
@@ -268,6 +401,7 @@ def main():
     log.info("  Run ID: %s", run_id)
     log.info("  Budget: %.1f hours (%.0fs)", args.hours, budget_seconds)
     log.info("  Push to Immich: %s", "yes" if args.push else "no")
+    log.info("  Triage mode: %s", args.triage)
     if args.resume:
         log.info("  Resuming from: %s", args.resume)
     log.info("")
@@ -332,6 +466,7 @@ def main():
             run_id=run_id,
             budget_remaining=budget_left,
             push=args.push,
+            triage_mode=args.triage,
         )
         results.append(result)
 
@@ -364,17 +499,21 @@ def main():
         batch_slices=[{
             "slice_path": r["slice_path"],
             "photos_found": r["photos_found"],
+            "photos_considered": r.get("photos_considered", r["photos_found"]),
             "succeeded": r["succeeded"],
             "failed": r["failed"],
             "elapsed": r["elapsed"],
             "budget_exhausted": r["budget_exhausted"],
+            "triage_applied": r.get("triage_applied", False),
+            "triage_skipped": r.get("triage_skipped", 0),
+            "triage_file": r.get("triage_file"),
         } for r in results],
     )
 
     # Append to run log
     if results:
         append_run_log(results, run_id, total_elapsed)
-        log.info("Run log updated: _dev/run-log.md")
+        log.info("Run log updated: _dev/dev-log.md")
 
     if total_failed > 0:
         sys.exit(1)
