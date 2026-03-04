@@ -9,6 +9,7 @@ Usage (from project root):
 """
 
 import json
+import re
 import sqlite3
 import sys
 from pathlib import Path
@@ -16,6 +17,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DATA_DIR = PROJECT_ROOT / "data"
 DB_PATH = DATA_DIR / "synthesis.db"
+CLUSTERS_PATH = Path(__file__).resolve().parent / "person_clusters.json"
 
 PHOTO_MANIFEST_GLOB = "photos/runs/*/manifests/*.json"
 DOC_MANIFEST_GLOB = "documents/runs/*/manifests/*.json"
@@ -71,15 +73,166 @@ CREATE INDEX idx_te_decade ON timeline_events(era_decade);
 CREATE INDEX idx_te_type ON timeline_events(event_type);
 """
 
+# --- Country extraction for location entities ---
 
-def init_db() -> sqlite3.Connection:
-    """Drop and recreate synthesis.db with empty schema."""
-    if DB_PATH.exists():
-        DB_PATH.unlink()
-    conn = sqlite3.connect(str(DB_PATH))
-    conn.executescript(SCHEMA_SQL)
-    return conn
+COUNTRY_PATTERNS = [
+    (r"\bTaiwan\b", "Taiwan"),
+    (r"\b台[灣湾]\b", "Taiwan"),
+    (r"\bTaipei\b", "Taiwan"),
+    (r"\bKaohsiung\b", "Taiwan"),
+    (r"\bTainan\b", "Taiwan"),
+    (r"\bTaichung\b", "Taiwan"),
+    (r"\bUnited States\b|, USA\b|, US\b|, California\b|, CA\b", "United States"),
+    (r"\bSan Francisco\b|\bSan Jose\b|\bLos Angeles\b|\bLos Altos\b", "United States"),
+    (r"\bCupertino\b|\bSunnyvale\b|\bSanta Clara\b|\bPalo Alto\b", "United States"),
+    (r"\bNew York\b|\bWashington\b|\bChicago\b|\bSeattle\b", "United States"),
+    (r"\bHawaii\b|\bAlaska\b|\bYosemite\b|\bYellowstone\b", "United States"),
+    (r"\bDisneyland\b|\bGolden Gate\b|\bGrand Canyon\b", "United States"),
+    (r"\bUtah\b|\bArizona\b|\bNevada\b|\bOregon\b", "United States"),
+    (r"\bCanada\b|\bOttawa\b|\bToronto\b|\bVancouver\b|\bMontreal\b|\bQuebec\b", "Canada"),
+    (r"\bAlberta\b|\bOntario\b|\bBritish Columbia\b|\bNova Scotia\b", "Canada"),
+    (r"\bJapan\b|\b日本\b|\bTokyo\b|\bKyoto\b|\bOsaka\b", "Japan"),
+    (r"\bChina\b|\b中[国國]\b|\bBeijing\b|\bShanghai\b|\bGuangzhou\b", "China"),
+    (r"\bHong Kong\b|\b香港\b", "Hong Kong"),
+    (r"\bEgypt\b|\bGiza\b|\bCairo\b|\bNile\b", "Egypt"),
+    (r"\bGreece\b|\bAthens\b|\bAcropolis\b|\bSantorini\b", "Greece"),
+    (r"\bItaly\b|\bRome\b|\bVenice\b|\bFlorence\b|\bMilan\b", "Italy"),
+    (r"\bFrance\b|\bParis\b|\bVersailles\b", "France"),
+    (r"\bSpain\b|\bMadrid\b|\bBarcelona\b", "Spain"),
+    (r"\bGermany\b|\bBerlin\b|\bMunich\b", "Germany"),
+    (r"\bEngland\b|\bLondon\b|\bUnited Kingdom\b|\bBritain\b", "United Kingdom"),
+    (r"\bAustralia\b|\bSydney\b|\bMelbourne\b", "Australia"),
+    (r"\bMexico\b", "Mexico"),
+    (r"\bKorea\b|\bSeoul\b", "South Korea"),
+    (r"\bThailand\b|\bBangkok\b", "Thailand"),
+    (r"\bSingapore\b", "Singapore"),
+    (r"\bIreland\b|\bDublin\b", "Ireland"),
+    (r"\bSwitzerland\b|\bZurich\b|\bGeneva\b", "Switzerland"),
+    (r"\bAustria\b|\bVienna\b|\bSalzburg\b", "Austria"),
+    (r"\bBelgium\b|\bBrussels\b|\bBruges\b", "Belgium"),
+    (r"\bNetherlands\b|\bAmsterdam\b", "Netherlands"),
+    (r"\bPortugal\b|\bLisbon\b", "Portugal"),
+    (r"\bTurkey\b|\bIstanbul\b", "Turkey"),
+    (r"\bIndia\b|\bDelhi\b|\bMumbai\b", "India"),
+    (r"\bPhilippines\b|\bManila\b", "Philippines"),
+]
 
+COMPILED_COUNTRY_PATTERNS = [(re.compile(pat, re.IGNORECASE), country)
+                              for pat, country in COUNTRY_PATTERNS]
+
+
+def extract_countries(location_text: str) -> list[str]:
+    """Extract country names from a location_estimate string."""
+    found = set()
+    for pattern, country in COMPILED_COUNTRY_PATTERNS:
+        if pattern.search(location_text):
+            found.add(country)
+    return sorted(found)
+
+
+# --- Person name normalization (Branch A) ---
+
+def normalize_person_name(name: str) -> str:
+    """Normalize a person name string (Branch A rules)."""
+    s = name.strip()
+    s = re.sub(r"\s*\([^)]*\)", "", s)
+    s = re.sub(r",?\s+(MD|M\.D\.|Jr\.?|III|CFP|MA|RBM|JMK)\.?\s*$", "", s, flags=re.IGNORECASE)
+    s = re.sub(r"^(Dr\.?|Mr\.?|Mrs\.?|Ms\.?|Rev\.?|Elder|Col)\s+", "", s, flags=re.IGNORECASE)
+    s = s.lower()
+    s = s.replace("-", " ").replace(".", " ")
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
+# --- Person cluster lookup ---
+
+_cluster_lookup: dict | None = None
+_cluster_info: dict | None = None
+
+
+def _load_clusters():
+    global _cluster_lookup, _cluster_info
+    if _cluster_lookup is not None:
+        return
+    data = json.loads(CLUSTERS_PATH.read_text())
+    _cluster_lookup = data["lookup"]
+    _cluster_info = {}
+    for c in data["clusters"]:
+        _cluster_info[c["canonical"]] = c
+
+
+def resolve_person(raw_name: str) -> dict:
+    """Resolve a raw person name to a canonical identity.
+
+    Returns dict with: canonical, canonical_zh, family_role, is_resolved.
+    """
+    _load_clusters()
+    # Direct lookup first
+    if raw_name in _cluster_lookup:
+        info = _cluster_lookup[raw_name]
+        canonical = info["canonical"]
+        cluster = _cluster_info.get(canonical, {})
+        return {
+            "canonical": canonical,
+            "canonical_zh": info.get("canonical_zh"),
+            "family_role": cluster.get("family_role"),
+            "is_resolved": True,
+        }
+    # No match — unresolved
+    return {
+        "canonical": raw_name,
+        "canonical_zh": None,
+        "family_role": None,
+        "is_resolved": False,
+    }
+
+
+# --- Date normalization ---
+
+def normalize_date(date_str: str) -> tuple[str, str]:
+    """Normalize a date string. Returns (normalized, precision)."""
+    s = date_str.strip()
+    # Full date: 1978-03-15
+    if re.match(r"^\d{4}-\d{2}-\d{2}$", s):
+        return s, "day"
+    # Month: 1978-03
+    if re.match(r"^\d{4}-\d{2}$", s):
+        return s, "month"
+    # Year: 1978
+    if re.match(r"^\d{4}$", s):
+        return s, "year"
+    # Decade: 1970s
+    m = re.match(r"^(\d{3})0s$", s)
+    if m:
+        return f"{m.group(1)}0", "decade"
+    return s, "unknown"
+
+
+def date_to_decade(date_str: str) -> str | None:
+    """Extract decade string from a date. '1978-03-15' → '1970s'."""
+    m = re.match(r"^(\d{3})", date_str)
+    if m:
+        return f"{m.group(1)}0s"
+    return None
+
+
+# --- Manifest dedup ---
+
+def dedup_manifests(manifest_paths: list[Path]) -> dict[str, Path]:
+    """Dedup manifests by sha256, keeping the latest (last sorted) per asset."""
+    by_sha = {}
+    for p in manifest_paths:
+        try:
+            m = json.loads(p.read_text())
+        except (json.JSONDecodeError, OSError):
+            continue
+        sha = m.get("source_sha256", "")
+        if sha:
+            by_sha[sha] = p  # last wins (sorted by run date)
+    return by_sha
+
+
+# --- Core functions ---
 
 def find_manifests(content_type: str) -> list[Path]:
     """Find all manifest JSON files for a content type."""
@@ -96,23 +249,144 @@ def load_manifest(path: Path) -> dict | None:
         return None
 
 
+def init_db() -> sqlite3.Connection:
+    """Drop and recreate synthesis.db with empty schema."""
+    if DB_PATH.exists():
+        DB_PATH.unlink()
+    conn = sqlite3.connect(str(DB_PATH))
+    conn.executescript(SCHEMA_SQL)
+    return conn
+
+
+def get_or_create_entity(conn, entity_type, entity_value, normalized_value,
+                         name_en=None, name_zh=None, metadata=None) -> int:
+    """Get existing entity_id or insert a new one."""
+    row = conn.execute(
+        "SELECT entity_id FROM entities WHERE entity_type = ? AND normalized_value = ?",
+        (entity_type, normalized_value),
+    ).fetchone()
+    if row:
+        return row[0]
+    cur = conn.execute(
+        """INSERT INTO entities (entity_type, entity_value, normalized_value,
+           name_en, name_zh, metadata) VALUES (?, ?, ?, ?, ?, ?)""",
+        (entity_type, entity_value, normalized_value, name_en, name_zh,
+         json.dumps(metadata) if metadata else None),
+    )
+    return cur.lastrowid
+
+
+def link_entity_asset(conn, entity_id, asset_sha256, source, confidence=1.0, context=None):
+    """Link an entity to an asset. Ignores duplicates."""
+    conn.execute(
+        """INSERT OR IGNORE INTO entity_assets
+           (entity_id, asset_sha256, source, confidence, context)
+           VALUES (?, ?, ?, ?, ?)""",
+        (entity_id, asset_sha256, source, confidence, context),
+    )
+
+
+# --- Extraction ---
+
+def extract_from_document(conn, manifest: dict, sha256: str):
+    """Extract person, date, and location entities from a document manifest."""
+    analysis = manifest.get("analysis", {})
+
+    # Person entities from key_people
+    for raw_name in analysis.get("key_people", []):
+        person = resolve_person(raw_name)
+        canonical = person["canonical"]
+        norm = normalize_person_name(canonical)
+        if not norm:
+            continue
+        eid = get_or_create_entity(
+            conn, "person", canonical, norm,
+            name_en=canonical,
+            name_zh=person["canonical_zh"],
+            metadata={"family_role": person["family_role"]} if person["family_role"] else None,
+        )
+        doc_type = analysis.get("document_type", "")
+        link_entity_asset(conn, eid, sha256, "document", 1.0, doc_type)
+
+    # Date entity from document date
+    doc_date = analysis.get("date")
+    if doc_date:
+        norm_date, precision = normalize_date(doc_date)
+        if precision != "unknown":
+            date_conf = analysis.get("date_confidence", 0.9)
+            eid = get_or_create_entity(conn, "date", doc_date, norm_date)
+            link_entity_asset(conn, eid, sha256, "document", date_conf)
+
+    # Additional date entities from key_dates
+    for kd in analysis.get("key_dates", []):
+        norm_date, precision = normalize_date(kd)
+        if precision != "unknown":
+            eid = get_or_create_entity(conn, "date", kd, norm_date)
+            link_entity_asset(conn, eid, sha256, "document", 0.9)
+
+
+def extract_from_photo(conn, manifest: dict, sha256: str):
+    """Extract date and location entities from a photo manifest."""
+    analysis = manifest.get("analysis", {})
+
+    # Date entity from date_estimate
+    date_est = analysis.get("date_estimate")
+    if date_est:
+        norm_date, precision = normalize_date(date_est)
+        if precision != "unknown":
+            date_conf = analysis.get("date_confidence", 0.5)
+            eid = get_or_create_entity(conn, "date", date_est, norm_date)
+            link_entity_asset(conn, eid, sha256, "vision", date_conf)
+
+    # Location entities (country-level) from location_estimate
+    loc_est = analysis.get("location_estimate")
+    if loc_est:
+        loc_conf = analysis.get("location_confidence", 0.5)
+        countries = extract_countries(loc_est)
+        for country in countries:
+            norm_loc = country.lower().replace(" ", "-")
+            eid = get_or_create_entity(conn, "location", country, norm_loc)
+            link_entity_asset(conn, eid, sha256, "vision", loc_conf, loc_est)
+
+
+# --- Commands ---
+
 def rebuild():
     """Drop synthesis.db and rebuild from all manifests."""
     print(f"Rebuilding {DB_PATH} ...")
     conn = init_db()
 
-    photo_manifests = find_manifests("photos")
-    doc_manifests = find_manifests("documents")
+    # Dedup manifests by sha256 (latest run wins)
+    photo_paths = find_manifests("photos")
+    doc_paths = find_manifests("documents")
+    photos_by_sha = dedup_manifests(photo_paths)
+    docs_by_sha = dedup_manifests(doc_paths)
 
-    print(f"  Found {len(photo_manifests)} photo manifests")
-    print(f"  Found {len(doc_manifests)} document manifests")
+    print(f"  Photo manifests: {len(photo_paths)} files → {len(photos_by_sha)} unique assets")
+    print(f"  Doc manifests: {len(doc_paths)} files → {len(docs_by_sha)} unique assets")
 
-    # Phase 0: schema only, no extraction logic yet.
-    # Entity extraction will be added in Phase 1+.
+    # Extract from documents
+    doc_ok = 0
+    for sha, path in docs_by_sha.items():
+        manifest = load_manifest(path)
+        if manifest:
+            extract_from_document(conn, manifest, sha)
+            doc_ok += 1
+    print(f"  Extracted from {doc_ok} documents")
 
+    # Extract from photos
+    photo_ok = 0
+    for sha, path in photos_by_sha.items():
+        manifest = load_manifest(path)
+        if manifest:
+            extract_from_photo(conn, manifest, sha)
+            photo_ok += 1
+    print(f"  Extracted from {photo_ok} photos")
+
+    conn.commit()
     conn.close()
     print(f"  Created {DB_PATH} ({DB_PATH.stat().st_size:,} bytes)")
-    print("  Done. No entities extracted (Phase 0 skeleton).")
+    print("  Done. Run 'stats' for counts.")
 
 
 def stats():
@@ -139,6 +413,54 @@ def stats():
             print(f"    {etype}: {count}")
     print(f"  Entity-asset links: {total_links}")
     print(f"  Timeline events: {total_events}")
+
+    # Person breakdown
+    resolved = conn.execute(
+        "SELECT COUNT(*) FROM entities WHERE entity_type='person' AND metadata IS NOT NULL"
+    ).fetchone()[0]
+    unresolved = conn.execute(
+        "SELECT COUNT(*) FROM entities WHERE entity_type='person' AND metadata IS NULL"
+    ).fetchone()[0]
+    print(f"\n  Person entities: {resolved} with family_role, {unresolved} without")
+
+    # Top people by link count
+    top_people = conn.execute("""
+        SELECT e.entity_value, e.name_zh, COUNT(ea.asset_sha256) as link_count
+        FROM entities e JOIN entity_assets ea ON e.entity_id = ea.entity_id
+        WHERE e.entity_type = 'person'
+        GROUP BY e.entity_id ORDER BY link_count DESC LIMIT 10
+    """).fetchall()
+    if top_people:
+        print("\n  Top 10 people by document mentions:")
+        for name, zh, count in top_people:
+            zh_str = f" / {zh}" if zh else ""
+            print(f"    {count:3d}  {name}{zh_str}")
+
+    # Date distribution by decade
+    dates = conn.execute("""
+        SELECT e.normalized_value FROM entities e WHERE e.entity_type = 'date'
+    """).fetchall()
+    decade_counts = {}
+    for (d,) in dates:
+        decade = date_to_decade(d)
+        if decade:
+            decade_counts[decade] = decade_counts.get(decade, 0) + 1
+    if decade_counts:
+        print("\n  Date entities by decade:")
+        for decade in sorted(decade_counts):
+            print(f"    {decade}: {decade_counts[decade]}")
+
+    # Location inventory
+    locations = conn.execute("""
+        SELECT e.entity_value, COUNT(ea.asset_sha256)
+        FROM entities e JOIN entity_assets ea ON e.entity_id = ea.entity_id
+        WHERE e.entity_type = 'location'
+        GROUP BY e.entity_id ORDER BY COUNT(ea.asset_sha256) DESC
+    """).fetchall()
+    if locations:
+        print(f"\n  Location entities ({len(locations)} countries):")
+        for loc, count in locations:
+            print(f"    {count:4d}  {loc}")
 
     conn.close()
 

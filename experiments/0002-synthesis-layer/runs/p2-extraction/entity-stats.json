@@ -1,0 +1,13 @@
+{
+  "total_entities": 2346,
+  "by_type": {
+    "date": 1502,
+    "location": 18,
+    "person": 826
+  },
+  "entity_asset_links": 5735,
+  "person_with_family_role": 10,
+  "person_without_family_role": 816,
+  "unique_photos": 1548,
+  "unique_documents": 121
+}

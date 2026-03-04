@@ -1,0 +1,19 @@
+# Location entities — 18 countries
+ 594  United States
+ 484  Taiwan
+  68  Italy
+  59  Canada
+  58  Mexico
+  39  Greece
+  16  Spain
+  12  China
+  11  Hong Kong
+   4  Japan
+   3  Egypt
+   3  Thailand
+   1  Australia
+   1  Turkey
+   1  South Korea
+   1  United Kingdom
+   1  Philippines
+   1  Switzerland
