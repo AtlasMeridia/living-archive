@@ -20,6 +20,10 @@ Both projects share the same arc (source media → AI vision → JSON manifests 
 - [x] **Contact sheet triage for FastFoto scans** — `src/contact_triage.py`: tiles up to 20 photos into 4×4 numbered grids, sends to Haiku via API, saves keep/skip lists to `data/triage/<album>_triage.json`; CLI `python -m src.contact_triage <album_dir>` — 2026-03-03
 - [x] **Anti-euphemization prompting** — add explicit vocabulary examples to photo prompts ("include relationship tags: parent-child, couple, siblings" / "include condition tags: faded, torn, water-damaged") — 2026-03-03
 
+## Now — Synthesis Layer (Experiment 0002)
+
+- [x] **Clean pre-Phase-4 drift in experiment 0002** — aligned person cluster lookup with Branch A normalization fallback, added explicit Branch C inline/API reproducibility path, synced experiment manifest outputs with produced artifacts — 2026-03-04
+
 ## Now — Project Self-Awareness
 
 The codebase, architecture, and documentation need to catch up to what the project has become.

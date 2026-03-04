@@ -148,36 +148,70 @@ def normalize_person_name(name: str) -> str:
 
 _cluster_lookup: dict | None = None
 _cluster_info: dict | None = None
+_cluster_lookup_normalized: dict | None = None
+_cluster_norm_ambiguous: set[str] | None = None
+
+
+def _resolved_person(info: dict) -> dict:
+    """Build a resolved-person payload from cluster lookup info."""
+    canonical = info["canonical"]
+    cluster = _cluster_info.get(canonical, {})
+    return {
+        "canonical": canonical,
+        "canonical_zh": info.get("canonical_zh"),
+        "family_role": cluster.get("family_role"),
+        "is_resolved": True,
+    }
 
 
 def _load_clusters():
     global _cluster_lookup, _cluster_info
+    global _cluster_lookup_normalized, _cluster_norm_ambiguous
     if _cluster_lookup is not None:
         return
+
     data = json.loads(CLUSTERS_PATH.read_text())
     _cluster_lookup = data["lookup"]
     _cluster_info = {}
     for c in data["clusters"]:
         _cluster_info[c["canonical"]] = c
 
+    # Secondary index: Branch A-normalized variant -> canonical cluster.
+    # If multiple canonicals share the same normalized key, mark ambiguous and skip.
+    _cluster_lookup_normalized = {}
+    _cluster_norm_ambiguous = set()
+    for raw_variant, info in _cluster_lookup.items():
+        norm_variant = normalize_person_name(raw_variant)
+        if not norm_variant:
+            continue
+        existing = _cluster_lookup_normalized.get(norm_variant)
+        if existing is None:
+            _cluster_lookup_normalized[norm_variant] = info
+            continue
+        if existing["canonical"] != info["canonical"]:
+            _cluster_norm_ambiguous.add(norm_variant)
+
+    for ambiguous_key in _cluster_norm_ambiguous:
+        _cluster_lookup_normalized.pop(ambiguous_key, None)
+
 
 def resolve_person(raw_name: str) -> dict:
     """Resolve a raw person name to a canonical identity.
 
     Returns dict with: canonical, canonical_zh, family_role, is_resolved.
+    Matching order: exact curated variant -> Branch A-normalized variant.
     """
     _load_clusters()
-    # Direct lookup first
+    # Direct lookup first (exact variant match from curated clusters).
     if raw_name in _cluster_lookup:
-        info = _cluster_lookup[raw_name]
-        canonical = info["canonical"]
-        cluster = _cluster_info.get(canonical, {})
-        return {
-            "canonical": canonical,
-            "canonical_zh": info.get("canonical_zh"),
-            "family_role": cluster.get("family_role"),
-            "is_resolved": True,
-        }
+        return _resolved_person(_cluster_lookup[raw_name])
+
+    # Fallback: Branch A-normalized lookup to catch equivalent forms that were
+    # not explicitly enumerated in person_clusters.json.
+    norm_raw = normalize_person_name(raw_name)
+    if norm_raw and norm_raw in _cluster_lookup_normalized:
+        return _resolved_person(_cluster_lookup_normalized[norm_raw])
+
     # No match — unresolved
     return {
         "canonical": raw_name,

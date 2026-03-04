@@ -46,7 +46,7 @@ Also merged all Chinese-character names into one cluster (21 names), and created
 
 ## Branch C — LLM Clustering
 
-**22 clusters, 156 variants merged.** Correctly identifies:
+**22 clusters, 154 variants merged.** Correctly identifies:
 
 - **Core family:** Feng Kuang Liu (28 variants), Meichu Grace Liu (27), Kenny Peng Liu (12), Karen Peling Liu (13), Melody Tsai (12), Reiling Liao (6)
 - **Maiden/married name links:** Swei-Chih Peng = Suei Chih Ho (same person, maiden/married), Reiling Peng = Reiling Liao

@@ -1,13 +1,6 @@
 {
-  "branch": "C",
-  "method": "llm_clustering",
-  "execution_mode": "inline",
   "model": "claude-opus-4-6 (inline, no API call)",
-  "input_count": 1009,
-  "filtered_input_count": 314,
-  "min_mentions_filter": 2,
-  "cluster_count": 22,
-  "total_variants_merged": 154,
+  "note": "Clustering performed by Claude Opus during experiment session. Focused on names with >=2 mentions. Single-mention names examined but only included where they clearly match a cluster.",
   "clusters": [
     {
       "canonical": "Feng Kuang Liu",
@@ -340,6 +333,5 @@
       "confidence": 0.95,
       "reasoning": "Same person. 'Kin Yu' is abbreviated form."
     }
-  ],
-  "note": "Clustering performed by Claude Opus during experiment session. Focused on names with >=2 mentions. Single-mention names examined but only included where they clearly match a cluster."
+  ]
 }

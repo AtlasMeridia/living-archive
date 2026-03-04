@@ -12,7 +12,26 @@
     "Data recon: photo people_notes is prose description, not names — person-photo linking requires face clusters, not manifests"
   ],
   "outputs": [
-    "brief.md"
+    "brief.md",
+    "runs/p0-setup/notes.md",
+    "runs/p1-person-branches/raw-names.txt",
+    "runs/p1-person-branches/branch-a-clusters.json",
+    "runs/p1-person-branches/branch-b-clusters.json",
+    "runs/p1-person-branches/branch-c-clusters.json",
+    "runs/p1-person-branches/branch-c-inline-clusters.json",
+    "runs/p1-person-branches/comparison.md",
+    "runs/p1-person-branches/README.md",
+    "runs/p1-person-branches/winner.md",
+    "runs/p2-extraction/entity-stats.json",
+    "runs/p2-extraction/date-distribution.json",
+    "runs/p2-extraction/location-inventory.txt",
+    "runs/p2-extraction/notes.md",
+    "runs/p3-cross-reference/person-dossier-feng-kuang-liu.json",
+    "runs/p3-cross-reference/person-dossier-karen-peling-liu.json",
+    "runs/p3-cross-reference/person-dossier-reiling-liao.json",
+    "runs/p3-cross-reference/date-query-1978.json",
+    "runs/p3-cross-reference/date-query-1989.json",
+    "runs/p3-cross-reference/evaluation.md"
   ],
   "branches": {
     "person_dedup": {

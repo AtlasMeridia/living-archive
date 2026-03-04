@@ -24,6 +24,8 @@ The winning strategy for the synthesis layer rebuild:
 
 4. **Human review required.** The Y S Liu-Chen ↔ A Shio Chen cluster (confidence 0.65) needs verification. Additionally, the "Kenny Liu's father (deceased)" and "Kenny Liu's stepmother" entries in the Kenny cluster are relational references, not identity matches — they should be handled differently in extraction.
 
+5. **Reproducibility path is explicit.** `branch_c.py` supports `--mode inline` (default, from curated `branch-c-inline-clusters.json`) and `--mode anthropic` (fresh API clustering). Inline mode matches the original experiment run and keeps rebuild deterministic.
+
 ## Risks accepted
 
 - **Non-deterministic origin.** The clusters were produced by LLM reasoning. Different runs might produce slightly different groupings. Mitigated by freezing the output as a static mapping.

@@ -4,6 +4,26 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-03-04 — Experiment 0002 drift cleanup before Phase 4
+
+Closed pre-Phase-4 drift in `experiments/0002-synthesis-layer` so timeline work starts from a consistent base.
+
+**Changes:**
+- `synthesis.py`: person resolution now does exact cluster lookup first, then Branch A-normalized fallback lookup (with ambiguity guard) to match the Phase 1 winner decision.
+- `branch_c.py`: added explicit execution modes:
+  - `--mode inline` (default): uses curated local cluster file
+  - `--mode anthropic`: fresh API clustering
+- Added `runs/p1-person-branches/branch-c-inline-clusters.json` as the reproducible curated source and `runs/p1-person-branches/README.md` with rerun commands.
+- Synced `experiments/0002-synthesis-layer/manifest.json` outputs list with actual Phase 0-3 artifacts.
+- Updated Phase 1 comparison note to match current Branch C artifact count (`154` variants merged).
+
+**Validation:**
+- `python -m experiments.0002-synthesis-layer.src.branch_c --mode inline ...` regenerates `branch-c-clusters.json`.
+- `python -m experiments.0002-synthesis-layer.src.synthesis stats` unchanged core metrics (2,346 entities / 5,735 links / 0 timeline events).
+- `pytest -q` → 49 passed.
+
+---
+
 ## 2026-03-03 — Contact sheet triage for FastFoto scans (new tool)
 
 Built `src/contact_triage.py` — pre-analysis triage pass for the 7,600+ FastFoto scans. The tool tiles photos into 4×4 numbered grids (contact sheets), sends each to Haiku via the Anthropic API, and saves a JSON keep/skip list to `data/triage/<album>_triage.json`.
