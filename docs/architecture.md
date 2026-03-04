@@ -22,12 +22,17 @@ DATA LAYER (NAS, read-only)                    AI LAYER (local, regeneratable)  
                                          →    data/catalog.db (schema v2)
                                                assets table (inventory + slice grouping)
                                                runs, photo_quality, doc_quality (cache)
-                                               → dashboard reads ONLY from catalog
+                                               → dashboard core metrics
+
+                                         →    data/synthesis.db + data/chronology.json
+                                               entity graph, cross-reference queries,
+                                               timeline/chronology artifacts
+                                               → dashboard synthesis APIs
 ```
 
 Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). Source files read from NAS, results written locally to `data/`. Then pushed to Immich.
 
-**NAS dependency:** Only `scan` (inventorying source files) and pipeline runs (reading sources for analysis) require NAS. The dashboard, stats, and search are fully offline — they query `catalog.db` exclusively. See `_dev/research/2026-03-03 catalog-caching-pivot.md`.
+**NAS dependency:** Only `scan` (inventorying source files) and pipeline runs (reading sources for analysis) require NAS. The dashboard, stats, search, and synthesis APIs are fully offline — they query local `catalog.db`/`synthesis.db` artifacts.
 
 ```
 [Scanned Photos]
@@ -45,7 +50,8 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
 | Source photos | NAS `/volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/` | Canonical, never modified |
 | AI manifests/outputs | Local `data/photos/runs/<timestamp>/` | Regeneratable, fast local reads |
 | Document AI outputs | Local `data/documents/runs/<timestamp>/` | Regeneratable, fast local reads |
-| Asset catalog | Local `data/catalog.db` (schema v2) | Derived index + cache tables; dashboard reads only from here |
+| Asset catalog | Local `data/catalog.db` (schema v2) | Derived index + cache tables for dashboard core views |
+| Synthesis layer | Local `data/synthesis.db`, `data/chronology.json` | Derived entity graph, cross-reference, chronology outputs |
 | People registry | Local `data/people/` | Face clusters and registry |
 | Inference scripts | Repo `src/` | Version controlled |
 | Prompts | Repo `prompts/` | Version controlled, referenced by manifest |
@@ -101,7 +107,7 @@ These are captured in AutoMem but documented here for reference:
 
 1. **Data/AI layer separation**: Source photos at full fidelity (TIFF, PDF) live on NAS and are never modified. AI layer (manifests, catalog, extracted text) lives locally in `data/` for fast reads — all regeneratable as better models emerge.
 
-2. **Catalog as cache**: The dashboard and all interactive tools read exclusively from `catalog.db`. Cache tables (`runs`, `photo_quality`, `doc_quality`) are populated by `python -m src.catalog refresh` from local manifest files. NAS is only needed for `scan` (source inventory) and pipeline runs (reading sources). This makes the dashboard fully offline-capable.
+2. **Local derived caches**: Interactive tools read local derived databases (`catalog.db`, `synthesis.db`) plus generated chronology artifacts. Cache tables (`runs`, `photo_quality`, `doc_quality`) are populated by `python -m src.catalog refresh`; synthesis entities/timeline are populated by `python -m src.synthesis rebuild`. NAS is only needed for `scan` (source inventory) and pipeline runs (reading sources). This keeps dashboard workflows offline-capable.
 
 3. **Confidence-based automation**: AI dating uses thresholds:
    - ≥0.8: Auto-apply to Immich

@@ -121,7 +121,9 @@ Both pipelines default to **CLI mode**, which routes inference through the [Clau
 | `python -m src.doc_scan` | Scan and inventory PDFs |
 | `python -m src.doc_index` | Build/rebuild FTS5 search index |
 | `python -m src.catalog` | Asset catalog: stats, backfill, scan |
+| `python -m src.synthesis` | Synthesis layer: rebuild, stats, dossier/date/location queries, chronology generation |
 | `python -m src.preflight` | Run all preflight checks |
+| `python -m src.dashboard` | Archive dashboard server (`http://localhost:8378`) |
 | `python -m src.review` | Generate review dashboard |
 | `python -m src.sync_people` | Sync people registry to Immich faces |
 

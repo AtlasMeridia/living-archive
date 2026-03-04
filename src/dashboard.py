@@ -1,10 +1,13 @@
-"""Archive Dashboard — read-only overview of pipeline state and archive health.
+"""Archive Dashboard — read-only overview of archive and synthesis health.
 
 Run: python -m src.dashboard
 Opens localhost:8378 with stats, quality metrics, search, and health checks.
 
-All data served from catalog.db cache tables. No NAS access required.
-Populate data first: python -m src.catalog scan && python -m src.catalog refresh
+All data served from local derived artifacts (`catalog.db`, `synthesis.db`,
+`chronology.json`). No NAS access required.
+Populate data first:
+  python -m src.catalog scan && python -m src.catalog refresh
+  python -m src.synthesis rebuild && python -m src.synthesis chronology
 """
 
 import json
@@ -28,6 +31,11 @@ from .dashboard_api import (
     api_doc_corpus,
     api_doc_search,
     api_people,
+    api_synthesis_overview,
+    api_synthesis_person,
+    api_synthesis_date,
+    api_synthesis_location,
+    api_synthesis_chronology,
     api_health,
 )
 from .haptic_api import api_haptic_photos, serve_photo
@@ -109,6 +117,31 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 self._json(api_doc_search(q))
         elif path == "/api/people":
             self._json(cached("people", api_people))
+        elif path == "/api/synthesis/overview":
+            self._json(cached("synthesis-overview", api_synthesis_overview))
+        elif path == "/api/synthesis/person":
+            qs = parse_qs(parsed.query)
+            name = qs.get("name", [""])[0]
+            if not name:
+                self._json({"error": "Missing name parameter"}, 400)
+            else:
+                self._json(api_synthesis_person(name))
+        elif path == "/api/synthesis/date":
+            qs = parse_qs(parsed.query)
+            year = qs.get("year", [""])[0]
+            if not year:
+                self._json({"error": "Missing year parameter"}, 400)
+            else:
+                self._json(api_synthesis_date(year))
+        elif path == "/api/synthesis/location":
+            qs = parse_qs(parsed.query)
+            country = qs.get("country", [""])[0]
+            if not country:
+                self._json({"error": "Missing country parameter"}, 400)
+            else:
+                self._json(api_synthesis_location(country))
+        elif path == "/api/synthesis/chronology":
+            self._json(cached("synthesis-chronology", api_synthesis_chronology))
         elif path == "/api/health":
             self._json(api_health())
         elif m := re.match(r"^/api/immich/thumbnail/([^/]+)$", path):

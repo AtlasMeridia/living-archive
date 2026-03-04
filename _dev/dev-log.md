@@ -4,6 +4,33 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-03-04 — Promote synthesis from experiment to infrastructure
+
+Promoted experiment `0002-synthesis-layer` into main infrastructure with new `src/synthesis.py` and `src/person_clusters.json`.
+
+**Promotion details:**
+- Added production CLI/module path: `python -m src.synthesis` (`rebuild`, `stats`, `dossier`, `date`, `location`, `chronology`).
+- Preserved deterministic Branch C behavior via frozen cluster mapping in `src/person_clusters.json`.
+- Added dashboard synthesis APIs in `src/dashboard_api.py` and routes in `src/dashboard.py`:
+  - `/api/synthesis/overview`
+  - `/api/synthesis/person?name=...`
+  - `/api/synthesis/date?year=...`
+  - `/api/synthesis/location?country=...`
+  - `/api/synthesis/chronology`
+- Updated packaging/docs:
+  - `pyproject.toml` script entry: `synthesis = "src.synthesis:main"`
+  - README CLI table includes `python -m src.synthesis`
+  - architecture doc now reflects `catalog.db + synthesis.db` local dashboard model
+- Marked experiment manifest status as `completed`.
+
+**Validation:**
+- `python -m src.synthesis rebuild` populated 3,012 timeline events.
+- `python -m src.synthesis chronology` generated `data/chronology.json` + `data/chronology.md`.
+- Dashboard API smoke checks succeeded for synthesis overview/person/date/location/chronology.
+- `pytest -q` → 53 passed.
+
+---
+
 ## 2026-03-04 — Experiment 0002 Phase 5 (final report)
 
 Completed the Phase 5 synthesis report at `experiments/0002-synthesis-layer/runs/p5-report/summary.md`.

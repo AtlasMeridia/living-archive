@@ -2,7 +2,7 @@
   "id": "0002-synthesis-layer",
   "title": "Synthesis Layer — Entity Extraction, Cross-Reference, and Timeline",
   "date": "2026-03-03",
-  "status": "active",
+  "status": "completed",
   "thread": "synthesis",
   "tags": ["entity-index", "cross-reference", "timeline", "bilingual", "people", "dates", "locations", "branching", "person-dedup"],
   "description": "Can a useful entity graph be derived from existing photo and document manifests? Three-way branch comparison on person name deduplication (string normalization vs fuzzy/phonetic vs LLM clustering) — the core empirical question given inconsistent romanized Chinese names across documents.",
