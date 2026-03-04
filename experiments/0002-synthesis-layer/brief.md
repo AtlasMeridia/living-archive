@@ -25,12 +25,42 @@ These discoveries turn the experiment from "build a known thing, see if it works
 The synthesis layer is **fully decoupled** from the analysis pipeline:
 
 - Own database: `data/synthesis.db` (dropped and rebuilt on every run)
-- Own module: `src/synthesis.py` (no imports from pipeline code)
+- Own module: lives inside this experiment, not in the main `src/` tree
 - Reads manifest JSON files directly — manifests are the only contract
 - No inline hooks in the analysis pipeline
 - Dashboard joins via SQLite `ATTACH DATABASE`
 
 This means every phase can freely change schemas, extraction rules, and normalization logic. Branching is cheap — swap the matching function, run rebuild, compare stats.
+
+### Experiment-local code
+
+All code lives inside this experiment directory, not in the project's `src/`:
+
+```
+experiments/0002-synthesis-layer/
+├── brief.md
+├── manifest.json
+├── src/
+│   ├── synthesis.py          # core module: schema, rebuild, CLI
+│   ├── branch_a.py           # string normalization dedup
+│   ├── branch_b.py           # fuzzy/phonetic dedup
+│   └── branch_c.py           # LLM-assisted clustering
+└── runs/
+    ├── p0-setup/
+    ├── p1-person-branches/
+    └── ...
+```
+
+**Why:** Experiment code should be runnable and assessable in isolation. Nothing touches the main `src/` until a branch wins and the synthesis layer graduates from experiment to infrastructure. That promotion is an explicit decision — move to `src/synthesis.py`, wire into the dashboard, update the backlog. Until then, the experiment is fully self-contained: delete the directory and nothing else breaks.
+
+**Invocation** from project root:
+
+```
+python -m experiments.0002-synthesis-layer.src.synthesis rebuild
+python -m experiments.0002-synthesis-layer.src.synthesis stats
+```
+
+Or from within the experiment directory with appropriate path setup.
 
 ## Input Data
 
@@ -138,9 +168,9 @@ Extract country names from `location_estimate` using pattern matching for known 
 
 Build the synthesis module with no extraction logic yet.
 
-1. Create `src/synthesis.py` with schema definition, database init, CLI entry point
-2. `python -m src.synthesis rebuild` creates an empty `data/synthesis.db`
-3. `python -m src.synthesis stats` reports zero entities
+1. Create `src/synthesis.py` inside this experiment with schema definition, database init, CLI entry point
+2. `python -m experiments.0002-synthesis-layer.src.synthesis rebuild` creates an empty `data/synthesis.db`
+3. `python -m experiments.0002-synthesis-layer.src.synthesis stats` reports zero entities
 4. Verify: no imports from pipeline code (`analyze.py`, `catalog.py`, etc.)
 
 Output: `runs/p0-setup/`
@@ -243,13 +273,14 @@ Verdict per component: `useful`, `needs-work`, or `not-viable`.
 
 ## Rules
 
-1. Synthesis module must not import from pipeline code — manifests are the only contract
-2. `synthesis.db` is disposable — drop and rebuild on every run
-3. Record metrics after every rebuild
-4. Each branch and phase iteration gets its own output directory
-5. Negative results are valid — document why and propose alternatives
-6. Do not modify existing manifests or pipeline code
-7. Cross-reference evaluation includes human review
-8. Bilingual: person entities store both name_en and name_zh when available; chronology is bilingual with Chinese-first
-9. Branch comparison must be on identical input data — extract raw names once, feed to all three strategies
-10. LLM clustering output (Branch C) must be human-reviewed before adoption — don't auto-trust the clusters
+1. Synthesis code lives in `experiments/0002-synthesis-layer/src/`, not in the main `src/` tree — promoted only after experiment concludes
+2. Synthesis module must not import from pipeline code — manifests are the only contract
+3. `synthesis.db` is disposable — drop and rebuild on every run
+4. Record metrics after every rebuild
+5. Each branch and phase iteration gets its own output directory
+6. Negative results are valid — document why and propose alternatives
+7. Do not modify existing manifests or pipeline code
+8. Cross-reference evaluation includes human review
+9. Bilingual: person entities store both name_en and name_zh when available; chronology is bilingual with Chinese-first
+10. Branch comparison must be on identical input data — extract raw names once, feed to all three strategies
+11. LLM clustering output (Branch C) must be human-reviewed before adoption — don't auto-trust the clusters

@@ -25,14 +25,14 @@ The synthesis layer is **completely decoupled** from the analysis pipeline and a
 
 **`synthesis.db`** — its own SQLite database, separate from `catalog.db`. Own schema, no shared migration path. Can be deleted and rebuilt at any time from manifests + people registry.
 
-**`src/synthesis.py`** — its own module. Does not import from `catalog.py`, `analyze.py`, or any pipeline code. Reads manifest JSON files directly from `data/`. The analysis pipeline does not know it exists.
+**Experiment-local code** — lives inside `experiments/0002-synthesis-layer/src/`, not in the main `src/` tree. Does not import from `catalog.py`, `analyze.py`, or any pipeline code. Reads manifest JSON files directly from `data/`. The analysis pipeline does not know it exists. If the experiment succeeds, the module is promoted to `src/synthesis.py` as an explicit decision.
 
 **Batch rebuild, not inline hooks.** Synthesis is never called during photo/document analysis. It's a post-processing step you run when you want a fresh view:
 
 ```
-python -m src.synthesis rebuild     # full rebuild from all manifests
-python -m src.synthesis stats       # entity/timeline counts
-python -m src.synthesis chronology  # generate timeline artifacts
+python -m experiments.0002-synthesis-layer.src.synthesis rebuild     # full rebuild from all manifests
+python -m experiments.0002-synthesis-layer.src.synthesis stats       # entity/timeline counts
+python -m experiments.0002-synthesis-layer.src.synthesis chronology  # generate timeline artifacts
 ```
 
 **Why this separation matters:**
@@ -68,7 +68,7 @@ The entity index is derived, like the catalog. It can be rebuilt from manifests 
 
 ## Schema: Entity Index
 
-Stored in `data/synthesis.db`. Two tables, extending the Phase 2 design from the unified catalog document. Schema is defined in `src/synthesis.py` and created on every `rebuild` (drop + recreate).
+Stored in `data/synthesis.db`. Two tables, extending the Phase 2 design from the unified catalog document. Schema is defined in the experiment's `src/synthesis.py` and created on every `rebuild` (drop + recreate).
 
 ```sql
 -- Entity: a person, date, or location mentioned across assets
@@ -143,7 +143,7 @@ Unresolved person mentions are kept with `_unresolved:` prefix. As the registry 
 A standalone step that reads all manifests and populates the entity index. Runs as part of `rebuild`, not during analysis.
 
 ```
-python -m src.synthesis rebuild
+python -m experiments.0002-synthesis-layer.src.synthesis rebuild
 ```
 
 Walks all manifests in `data/photos/runs/` and `data/documents/runs/`. Drops and recreates all synthesis tables, then populates from scratch. For each manifest:
@@ -243,7 +243,7 @@ Populated by:
 A synthesis command that reads timeline_events and produces a structured JSON + human-readable markdown:
 
 ```
-python -m src.synthesis chronology
+python -m experiments.0002-synthesis-layer.src.synthesis chronology
 ```
 
 Output: `data/chronology.json` + `data/chronology.md`
@@ -320,13 +320,13 @@ def rebuild(data_dir: Path):
     conn.close()
 ```
 
-Schema changes = edit `SCHEMA_SQL` in `src/synthesis.py`, run `rebuild`. No migration code to maintain.
+Schema changes = edit `SCHEMA_SQL` in the experiment's `synthesis.py`, run `rebuild`. No migration code to maintain.
 
 ---
 
 ## Build Order
 
-1. **`src/synthesis.py`** — module with schema, rebuild logic, entity extraction from manifests
+1. **`experiments/0002-synthesis-layer/src/synthesis.py`** — module with schema, rebuild logic, entity extraction from manifests (promoted to `src/synthesis.py` after experiment concludes)
 2. **First rebuild** — run against existing 121 documents + ~195 photos, validate entity counts
 3. **Cross-reference queries** — person dossier, date query, location query (can be CLI first, API later)
 4. **Timeline population** — timeline_events from entity dates
