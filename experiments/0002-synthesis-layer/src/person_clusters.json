@@ -1,0 +1,917 @@
+{
+  "generated": "2026-03-03",
+  "source": "Branch C (LLM clustering) — human-reviewed",
+  "cluster_count": 21,
+  "variant_count": 152,
+  "clusters": [
+    {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光",
+      "variants": [
+        "Feng Kuang Liu",
+        "Feng-Kuang Liu",
+        "Feng K. Liu",
+        "Feng K Liu",
+        "Feng Kang Liu",
+        "Feng Liu",
+        "Feng K. Liu (Feng Kuang Liu)",
+        "Feng K. Liu (劉逢光)",
+        "Feng K. Liu (劉豐光)",
+        "Feng K. Liu (劉鳳光)",
+        "Feng K. Liu (Liu Keng Kuang)",
+        "Feng K. Liu (patient)",
+        "Feng K. Liu (Feng Kuang Liu / 劉馮匡)",
+        "Feng K Liu (Feng Kuang Liu)",
+        "Feng Kuang Liu (劉逢光)",
+        "Feng Kuang Liu (劉豐光)",
+        "Feng Kuang Liu (劉鳳光)",
+        "Feng Kuang Liu (劉逢光, husband)",
+        "Feng Kuang Liu (劉逢光, POA)",
+        "Feng Kuang Liu (father, Nortel engineer)",
+        "Feng Kuang Liu (spouse)",
+        "Feng-Kuang Liu (劉逢光)",
+        "Feng Liu (Fueng)",
+        "Liu, Feng Kuang",
+        "Liu Feng-Kuang (Liu Feng K)",
+        "F.K. Liu",
+        "Fueng",
+        "劉逢光"
+      ],
+      "confidence": 0.98
+    },
+    {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠",
+      "variants": [
+        "Meichu Grace Liu",
+        "MeiChu Grace Liu",
+        "Meichu Liu",
+        "Meichu G Liu",
+        "Meichu G. Liu",
+        "Meichu G. Liu (MeiChu Grace Liu)",
+        "Meichu (Grace) G. Liu",
+        "M. Grace Liu",
+        "M. Grace Liu (Mei Chu Grace Liu)",
+        "M. Grace Liu (劉彭美珠)",
+        "Mei Chu Grace Liu",
+        "Mei-Chu Grace Liu",
+        "Mei-Chu Liu",
+        "Mei Liu",
+        "Grace Liu",
+        "Grace Liu (agent, United Investments Co.)",
+        "Grace Melchu Liu",
+        "Grace (spouse, CalPERS pensioner)",
+        "Liu, Meichu Grace",
+        "Meichu Grace Liu (劉彭美珠)",
+        "Meichu Grace Liu (劉彭美珠, deceased)",
+        "Meichu Grace Liu (劉美珠)",
+        "Meichu Grace Liu (彭美珠)",
+        "Meichu Grace Liu (deceased)",
+        "Mom (Mrs. Liu)",
+        "Mom/Mrs. Liu (mother)",
+        "Grandma"
+      ],
+      "confidence": 0.97
+    },
+    {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧",
+      "variants": [
+        "Kenny Peng Liu",
+        "Kenny Liu",
+        "Kenny P. Liu",
+        "Kenny P Liu",
+        "Kenny Liu (Kenny Peng Liu)",
+        "Kenny Liu (son/brother)",
+        "Kenny Liu (劉侃寧)",
+        "Kenny P. Liu (son)",
+        "Kenny Peng Liu (劉侃寧)",
+        "Kenny Peng Liu (劉乒肯尼)"
+      ],
+      "confidence": 0.97
+    },
+    {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧",
+      "variants": [
+        "Karen Peling Liu",
+        "Karen Liu",
+        "Karen P. Liu",
+        "Karen P Liu",
+        "Karen Peling",
+        "Karen Peng",
+        "Karen",
+        "Karen Liu (Karen Peling Liu)",
+        "Karen Liu (劉蓓寧)",
+        "Karen P. Liu (daughter)",
+        "Karen P. Liu (Karen Peling Liu)",
+        "Karen Peling Liu (daughter, UC Berkeley student)",
+        "Karen Peling Liu (劉蓓寧)"
+      ],
+      "confidence": 0.97
+    },
+    {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮",
+      "variants": [
+        "Mei Liang Melody Tsai",
+        "Mei Lian Melody Tsai",
+        "Meiliang Melody Tsai",
+        "Meiliang Tsai",
+        "Melliang Tsai (Meiliang Tsai)",
+        "Melody Tsai",
+        "Melody",
+        "Melody (beneficiary)",
+        "Melody (surviving spouse)",
+        "Mei Liang Melody Tsai (蔡美亮)",
+        "Melody Tsai (Mei Liang Melody Tsai)",
+        "Melody Tsai (蔡美亮)"
+      ],
+      "confidence": 0.97
+    },
+    {
+      "canonical": "Reiling Liao",
+      "canonical_zh": "彭瑞玲",
+      "variants": [
+        "Reiling Liao",
+        "Reiling P. Liao",
+        "Reiling Peng",
+        "Reiling Peng (彭瑞玲)",
+        "Liao Reiling (contingent beneficiary)",
+        "Auntie Reiling"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "canonical": "Chen Lee Fei Liu",
+      "canonical_zh": "劉陳麗飛",
+      "variants": [
+        "Chen Lee Fei Liu",
+        "Chenlee Fei Liu",
+        "Liu Chen Lee-Fei",
+        "Liu Chen Lee-Fei (劉陳麗飛)"
+      ],
+      "confidence": 0.98
+    },
+    {
+      "canonical": "Jean M. Kohler",
+      "canonical_zh": null,
+      "variants": [
+        "Jean M. Kohler",
+        "Jean M. Kohler (JMK)",
+        "Jean Kohler",
+        "Jean Kohler (JMK)",
+        "JMK"
+      ],
+      "confidence": 0.99
+    },
+    {
+      "canonical": "Robert A. Froehlich",
+      "canonical_zh": null,
+      "variants": [
+        "Robert A. Froehlich",
+        "Robert Froehlich",
+        "Mr. Froehlich",
+        "Attorney Froehlich",
+        "R. Froelich",
+        "Robert Frehlich"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "canonical": "Rebeccah B. Miller",
+      "canonical_zh": null,
+      "variants": [
+        "Rebeccah B. Miller",
+        "Rebeccah B. Miller (RBM)",
+        "Ms. Miller"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "canonical": "Dawn Pozzobon",
+      "canonical_zh": null,
+      "variants": [
+        "Dawn Pozzobon",
+        "Ms. Pozzobon"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "canonical": "Teresa Cheng",
+      "canonical_zh": null,
+      "variants": [
+        "Teresa Cheng",
+        "Dr. Teresa Cheng"
+      ],
+      "confidence": 0.99
+    },
+    {
+      "canonical": "Burton Weaver",
+      "canonical_zh": null,
+      "variants": [
+        "Burton Weaver",
+        "Burton Weaver MD",
+        "Burton Weaver III, M.D.",
+        "Burton D. Weaver, MD (primary care physician)",
+        "Dr. Burton Weaver"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "canonical": "Feng Shih Liu",
+      "canonical_zh": "劉逢時",
+      "variants": [
+        "Feng Shih Frank Liu",
+        "Feng Shih Liu",
+        "Feng Shih Liu (劉逢時, beneficiary in Taiwan)"
+      ],
+      "confidence": 0.98
+    },
+    {
+      "canonical": "Chia-Chen Peng",
+      "canonical_zh": null,
+      "variants": [
+        "Chia Chen Peng",
+        "Chia-Chen Peng",
+        "Chia Chen Peng (Paul)",
+        "Paul Peng"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "canonical": "Kuo Kwang Peng",
+      "canonical_zh": "彭國祥",
+      "variants": [
+        "Kuo Kwang Peng",
+        "Kuo Kwang Peng (彭國祥)",
+        "Kuo Kwang Peng (父, father of deceased)",
+        "Kuo-Hsiung Peng (彭國祥)"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "canonical": "Swei-Chih Peng",
+      "canonical_zh": "彭水治",
+      "variants": [
+        "Swei-Chih Peng",
+        "Swei Chih Peng (彭水治)",
+        "Swei-Chi Peng",
+        "Peng Ho Shui-Chih (彭何水治)",
+        "Suei Chih Ho",
+        "Suei Chih Ho (何水治)",
+        "Suei Chih Ho (母, mother of deceased)",
+        "彭何水治",
+        "水治 (Suiji)"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "canonical": "Dave Seagraves",
+      "canonical_zh": null,
+      "variants": [
+        "Dave Seagraves",
+        "David Seagraves"
+      ],
+      "confidence": 0.99
+    },
+    {
+      "canonical": "Kang-Yuan Ko",
+      "canonical_zh": null,
+      "variants": [
+        "Kang Ko",
+        "Kang-Yuan Ko"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "canonical": "Joanne Imperial",
+      "canonical_zh": null,
+      "variants": [
+        "Joanne Imperial",
+        "Joanne Imperal",
+        "Joanne C. Imperial"
+      ],
+      "confidence": 0.99
+    },
+    {
+      "canonical": "Kin-Ting Yu",
+      "canonical_zh": null,
+      "variants": [
+        "Kin Yu",
+        "Kin-Ting Yu"
+      ],
+      "confidence": 0.95
+    }
+  ],
+  "lookup": {
+    "Feng Kuang Liu": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng-Kuang Liu": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng K. Liu": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng K Liu": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng Kang Liu": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng Liu": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng K. Liu (Feng Kuang Liu)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng K. Liu (劉逢光)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng K. Liu (劉豐光)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng K. Liu (劉鳳光)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng K. Liu (Liu Keng Kuang)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng K. Liu (patient)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng K. Liu (Feng Kuang Liu / 劉馮匡)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng K Liu (Feng Kuang Liu)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng Kuang Liu (劉逢光)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng Kuang Liu (劉豐光)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng Kuang Liu (劉鳳光)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng Kuang Liu (劉逢光, husband)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng Kuang Liu (劉逢光, POA)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng Kuang Liu (father, Nortel engineer)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng Kuang Liu (spouse)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng-Kuang Liu (劉逢光)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Feng Liu (Fueng)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Liu, Feng Kuang": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Liu Feng-Kuang (Liu Feng K)": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "F.K. Liu": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Fueng": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "劉逢光": {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光"
+    },
+    "Meichu Grace Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "MeiChu Grace Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Meichu Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Meichu G Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Meichu G. Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Meichu G. Liu (MeiChu Grace Liu)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Meichu (Grace) G. Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "M. Grace Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "M. Grace Liu (Mei Chu Grace Liu)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "M. Grace Liu (劉彭美珠)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Mei Chu Grace Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Mei-Chu Grace Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Mei-Chu Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Mei Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Grace Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Grace Liu (agent, United Investments Co.)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Grace Melchu Liu": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Grace (spouse, CalPERS pensioner)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Liu, Meichu Grace": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Meichu Grace Liu (劉彭美珠)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Meichu Grace Liu (劉彭美珠, deceased)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Meichu Grace Liu (劉美珠)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Meichu Grace Liu (彭美珠)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Meichu Grace Liu (deceased)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Mom (Mrs. Liu)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Mom/Mrs. Liu (mother)": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Grandma": {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠"
+    },
+    "Kenny Peng Liu": {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧"
+    },
+    "Kenny Liu": {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧"
+    },
+    "Kenny P. Liu": {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧"
+    },
+    "Kenny P Liu": {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧"
+    },
+    "Kenny Liu (Kenny Peng Liu)": {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧"
+    },
+    "Kenny Liu (son/brother)": {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧"
+    },
+    "Kenny Liu (劉侃寧)": {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧"
+    },
+    "Kenny P. Liu (son)": {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧"
+    },
+    "Kenny Peng Liu (劉侃寧)": {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧"
+    },
+    "Kenny Peng Liu (劉乒肯尼)": {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧"
+    },
+    "Karen Peling Liu": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen Liu": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen P. Liu": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen P Liu": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen Peling": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen Peng": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen Liu (Karen Peling Liu)": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen Liu (劉蓓寧)": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen P. Liu (daughter)": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen P. Liu (Karen Peling Liu)": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen Peling Liu (daughter, UC Berkeley student)": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Karen Peling Liu (劉蓓寧)": {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧"
+    },
+    "Mei Liang Melody Tsai": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Mei Lian Melody Tsai": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Meiliang Melody Tsai": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Meiliang Tsai": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Melliang Tsai (Meiliang Tsai)": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Melody Tsai": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Melody": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Melody (beneficiary)": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Melody (surviving spouse)": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Mei Liang Melody Tsai (蔡美亮)": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Melody Tsai (Mei Liang Melody Tsai)": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Melody Tsai (蔡美亮)": {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮"
+    },
+    "Reiling Liao": {
+      "canonical": "Reiling Liao",
+      "canonical_zh": "彭瑞玲"
+    },
+    "Reiling P. Liao": {
+      "canonical": "Reiling Liao",
+      "canonical_zh": "彭瑞玲"
+    },
+    "Reiling Peng": {
+      "canonical": "Reiling Liao",
+      "canonical_zh": "彭瑞玲"
+    },
+    "Reiling Peng (彭瑞玲)": {
+      "canonical": "Reiling Liao",
+      "canonical_zh": "彭瑞玲"
+    },
+    "Liao Reiling (contingent beneficiary)": {
+      "canonical": "Reiling Liao",
+      "canonical_zh": "彭瑞玲"
+    },
+    "Auntie Reiling": {
+      "canonical": "Reiling Liao",
+      "canonical_zh": "彭瑞玲"
+    },
+    "Chen Lee Fei Liu": {
+      "canonical": "Chen Lee Fei Liu",
+      "canonical_zh": "劉陳麗飛"
+    },
+    "Chenlee Fei Liu": {
+      "canonical": "Chen Lee Fei Liu",
+      "canonical_zh": "劉陳麗飛"
+    },
+    "Liu Chen Lee-Fei": {
+      "canonical": "Chen Lee Fei Liu",
+      "canonical_zh": "劉陳麗飛"
+    },
+    "Liu Chen Lee-Fei (劉陳麗飛)": {
+      "canonical": "Chen Lee Fei Liu",
+      "canonical_zh": "劉陳麗飛"
+    },
+    "Jean M. Kohler": {
+      "canonical": "Jean M. Kohler",
+      "canonical_zh": null
+    },
+    "Jean M. Kohler (JMK)": {
+      "canonical": "Jean M. Kohler",
+      "canonical_zh": null
+    },
+    "Jean Kohler": {
+      "canonical": "Jean M. Kohler",
+      "canonical_zh": null
+    },
+    "Jean Kohler (JMK)": {
+      "canonical": "Jean M. Kohler",
+      "canonical_zh": null
+    },
+    "JMK": {
+      "canonical": "Jean M. Kohler",
+      "canonical_zh": null
+    },
+    "Robert A. Froehlich": {
+      "canonical": "Robert A. Froehlich",
+      "canonical_zh": null
+    },
+    "Robert Froehlich": {
+      "canonical": "Robert A. Froehlich",
+      "canonical_zh": null
+    },
+    "Mr. Froehlich": {
+      "canonical": "Robert A. Froehlich",
+      "canonical_zh": null
+    },
+    "Attorney Froehlich": {
+      "canonical": "Robert A. Froehlich",
+      "canonical_zh": null
+    },
+    "R. Froelich": {
+      "canonical": "Robert A. Froehlich",
+      "canonical_zh": null
+    },
+    "Robert Frehlich": {
+      "canonical": "Robert A. Froehlich",
+      "canonical_zh": null
+    },
+    "Rebeccah B. Miller": {
+      "canonical": "Rebeccah B. Miller",
+      "canonical_zh": null
+    },
+    "Rebeccah B. Miller (RBM)": {
+      "canonical": "Rebeccah B. Miller",
+      "canonical_zh": null
+    },
+    "Ms. Miller": {
+      "canonical": "Rebeccah B. Miller",
+      "canonical_zh": null
+    },
+    "Dawn Pozzobon": {
+      "canonical": "Dawn Pozzobon",
+      "canonical_zh": null
+    },
+    "Ms. Pozzobon": {
+      "canonical": "Dawn Pozzobon",
+      "canonical_zh": null
+    },
+    "Teresa Cheng": {
+      "canonical": "Teresa Cheng",
+      "canonical_zh": null
+    },
+    "Dr. Teresa Cheng": {
+      "canonical": "Teresa Cheng",
+      "canonical_zh": null
+    },
+    "Burton Weaver": {
+      "canonical": "Burton Weaver",
+      "canonical_zh": null
+    },
+    "Burton Weaver MD": {
+      "canonical": "Burton Weaver",
+      "canonical_zh": null
+    },
+    "Burton Weaver III, M.D.": {
+      "canonical": "Burton Weaver",
+      "canonical_zh": null
+    },
+    "Burton D. Weaver, MD (primary care physician)": {
+      "canonical": "Burton Weaver",
+      "canonical_zh": null
+    },
+    "Dr. Burton Weaver": {
+      "canonical": "Burton Weaver",
+      "canonical_zh": null
+    },
+    "Feng Shih Frank Liu": {
+      "canonical": "Feng Shih Liu",
+      "canonical_zh": "劉逢時"
+    },
+    "Feng Shih Liu": {
+      "canonical": "Feng Shih Liu",
+      "canonical_zh": "劉逢時"
+    },
+    "Feng Shih Liu (劉逢時, beneficiary in Taiwan)": {
+      "canonical": "Feng Shih Liu",
+      "canonical_zh": "劉逢時"
+    },
+    "Chia Chen Peng": {
+      "canonical": "Chia-Chen Peng",
+      "canonical_zh": null
+    },
+    "Chia-Chen Peng": {
+      "canonical": "Chia-Chen Peng",
+      "canonical_zh": null
+    },
+    "Chia Chen Peng (Paul)": {
+      "canonical": "Chia-Chen Peng",
+      "canonical_zh": null
+    },
+    "Paul Peng": {
+      "canonical": "Chia-Chen Peng",
+      "canonical_zh": null
+    },
+    "Kuo Kwang Peng": {
+      "canonical": "Kuo Kwang Peng",
+      "canonical_zh": "彭國祥"
+    },
+    "Kuo Kwang Peng (彭國祥)": {
+      "canonical": "Kuo Kwang Peng",
+      "canonical_zh": "彭國祥"
+    },
+    "Kuo Kwang Peng (父, father of deceased)": {
+      "canonical": "Kuo Kwang Peng",
+      "canonical_zh": "彭國祥"
+    },
+    "Kuo-Hsiung Peng (彭國祥)": {
+      "canonical": "Kuo Kwang Peng",
+      "canonical_zh": "彭國祥"
+    },
+    "Swei-Chih Peng": {
+      "canonical": "Swei-Chih Peng",
+      "canonical_zh": "彭水治"
+    },
+    "Swei Chih Peng (彭水治)": {
+      "canonical": "Swei-Chih Peng",
+      "canonical_zh": "彭水治"
+    },
+    "Swei-Chi Peng": {
+      "canonical": "Swei-Chih Peng",
+      "canonical_zh": "彭水治"
+    },
+    "Peng Ho Shui-Chih (彭何水治)": {
+      "canonical": "Swei-Chih Peng",
+      "canonical_zh": "彭水治"
+    },
+    "Suei Chih Ho": {
+      "canonical": "Swei-Chih Peng",
+      "canonical_zh": "彭水治"
+    },
+    "Suei Chih Ho (何水治)": {
+      "canonical": "Swei-Chih Peng",
+      "canonical_zh": "彭水治"
+    },
+    "Suei Chih Ho (母, mother of deceased)": {
+      "canonical": "Swei-Chih Peng",
+      "canonical_zh": "彭水治"
+    },
+    "彭何水治": {
+      "canonical": "Swei-Chih Peng",
+      "canonical_zh": "彭水治"
+    },
+    "水治 (Suiji)": {
+      "canonical": "Swei-Chih Peng",
+      "canonical_zh": "彭水治"
+    },
+    "Dave Seagraves": {
+      "canonical": "Dave Seagraves",
+      "canonical_zh": null
+    },
+    "David Seagraves": {
+      "canonical": "Dave Seagraves",
+      "canonical_zh": null
+    },
+    "Kang Ko": {
+      "canonical": "Kang-Yuan Ko",
+      "canonical_zh": null
+    },
+    "Kang-Yuan Ko": {
+      "canonical": "Kang-Yuan Ko",
+      "canonical_zh": null
+    },
+    "Joanne Imperial": {
+      "canonical": "Joanne Imperial",
+      "canonical_zh": null
+    },
+    "Joanne Imperal": {
+      "canonical": "Joanne Imperial",
+      "canonical_zh": null
+    },
+    "Joanne C. Imperial": {
+      "canonical": "Joanne Imperial",
+      "canonical_zh": null
+    },
+    "Kin Yu": {
+      "canonical": "Kin-Ting Yu",
+      "canonical_zh": null
+    },
+    "Kin-Ting Yu": {
+      "canonical": "Kin-Ting Yu",
+      "canonical_zh": null
+    }
+  }
+}

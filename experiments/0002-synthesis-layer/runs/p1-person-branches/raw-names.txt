@@ -1,0 +1,1013 @@
+# Unique key_people strings from document manifests
+# Total mentions: 1955
+# Unique strings: 1009
+#
+  4x  A Shio Chen
+  1x  A. Anderson
+  1x  A. Boleda
+  1x  A. Kumar
+  1x  A. Liang
+  1x  A. Londhe
+  1x  A. Makleff
+  1x  A. R. Gach
+  1x  A.M. Bruner
+  1x  A.R. Gach
+  2x  Aaron
+  1x  Adele Von Semmler
+  1x  Adrian Tang
+  1x  Ahad Sirizi
+  1x  Aijaz Ahmed
+  2x  Al Chang
+  1x  Al Fylak
+  1x  Alan B. Salisbury
+  2x  Alan Bartholomew
+  1x  Alan Borcic
+  2x  Alan Takahashi
+  1x  Alan Thibodeaux
+  1x  Albert Chan
+  1x  Alex Pierson
+  1x  Alex Varady
+  4x  Alfred E. Carlson
+  1x  Alice Chu (Piano Teacher)
+  1x  Alice Hsueh
+  2x  Allan Whitebone
+  1x  Amit Vaidya
+  1x  Anca Plovie
+  2x  Andre Lortie
+  1x  Andrew Brothers, MD
+  1x  Andrew Corder
+  6x  Andrew P. Holland
+  2x  Andrew Perrin
+  1x  Andrew West
+  1x  André Lortie
+  1x  Andy Chiu
+  1x  Andy Perrin
+  1x  Angela (family)
+  1x  Angelina
+  1x  Angelina (cousin, uncle's daughter)
+  1x  Angelina Liu
+  1x  Anita Gannon
+  2x  Ann Swenson
+  1x  Anne Garrison
+  2x  Annette Lim
+  1x  Anthony Ma
+  1x  Anthony R. Gach
+  1x  Apollinaire Moreno-Borondo
+  1x  Arnold B. Aigen, MD
+  1x  Arthur J. Deex
+  2x  Arun Londhe
+  1x  Attorney Froehlich
+  1x  Auntie Reiling
+  1x  B. Bowen MD
+  1x  B. Saluarte
+  1x  B.R. Carling
+  1x  Barb Hayward
+  1x  Barbara Harpula-Dudek
+  1x  Barbara King
+  1x  Barry Chiverton
+  1x  Barry Dick
+  1x  Barry Hansen, MD
+  2x  Barry O'Connor
+  1x  Barry O'Sullivan
+  2x  Barry Rahn
+  1x  Barry Wallace
+  1x  Bart Kohnhorst
+  1x  Bart Westbrook
+  1x  Bart Yeh (Lily's son)
+  2x  Benjamin Chang
+  1x  Beth (friend)
+  2x  Beth Becerra
+  1x  Betsy Wood
+  2x  Bhanu Nagenthiram
+  2x  Bill Cheal
+  1x  Bill Fearon
+  1x  Bill Jenkins
+  3x  Bill Korbe
+  1x  Bjorn Merinder
+  1x  Blossom Owyang
+  3x  Bob Asdel
+  2x  Bob Leighton
+  1x  Bob Lieberman
+  2x  Bobbie Lemberg
+  1x  Brenda Davis
+  3x  Brendan Noonan
+  1x  BrendanJ Noonan
+  1x  Brian Dal Bello
+  1x  Brian Masterson
+  1x  Brian Mcvicker
+  1x  Brian McVicker
+  1x  Brian Palmer
+  1x  Brian Turton
+  2x  Brice E. Bennett
+  1x  Bryan Hwang, M.D.
+  1x  Burt Bailey
+  1x  Burton D. Weaver, MD (primary care physician)
+  2x  Burton Weaver
+  1x  Burton Weaver III, M.D.
+  1x  Burton Weaver MD
+  1x  C. Chan
+  1x  C. Chiu
+  1x  C. Law
+  1x  Camhuong Le
+  1x  Carleen Dodson
+  1x  Carmen (Karen's advisor in Madrid)
+  1x  Carol Butler
+  2x  Carol L. Weir
+  4x  Caroline Fuller
+  3x  Caroline Fuller's parents
+  2x  Carrie Zee
+  1x  Catherine
+  1x  Catherine Lai
+  1x  Catherine Lai (賴當瑞, teacher)
+  2x  Catherine Mary Wilson
+  1x  Catherine Weiznact
+  2x  Cathy Hook
+  3x  Cecily A. Deex
+  2x  Chad Harper
+  1x  Chandran Kulachandran
+  3x  Charlene Mercadante
+  1x  Charlene Tu
+  2x  Charlene Yu
+  3x  Charles Allen Thomas
+  1x  Charles Bering
+  2x  Charles Ecke
+  3x  Charles Walter
+  2x  Charly Babin
+  3x  Chen Lee Fei Liu
+  1x  Chen Wen-Chen
+  1x  Chenlee Fei Liu
+  1x  Cheryll Cross
+  2x  Cheryll Pickett
+  1x  Chi Wong
+  1x  Chi-Raie Chuang
+  3x  Chia Chen Peng
+  1x  Chia Chen Peng (Paul)
+  3x  Chia-Chen Peng
+  2x  Chok Lam
+  1x  Chris Armour
+  1x  Chris Edgeworth
+  2x  Chris Thompson
+  2x  Christina Caldwell
+  1x  Christina Hattingh
+  1x  Christine Bonilla
+  1x  Christine Chang
+  2x  Christine Mckenna
+  1x  Christine McKenna
+  2x  Christopher Armour
+  1x  Chun Fen Peng
+  1x  Chun Fen Peng (Tina)
+  1x  Chung Wo Chiu
+  3x  Chung-Wo Chiu
+  1x  Claire Stetten
+  1x  Claude Innes
+  1x  Claudia Braus
+  2x  Claudia Hill
+  1x  Clemen (Spanish friend)
+  1x  Cliff Yamagka
+  1x  Clyde W. Yancy
+  1x  Col Mackrory
+  1x  Conway Chan
+  1x  Cuthbert Cheung
+  2x  Cynthia Chou
+  1x  Cynthia L. Nix
+  1x  D. Bir
+  2x  D. Cairns
+  1x  D. Doshi
+  1x  D. Dudley
+  1x  D. Fritsch (Architypes)
+  1x  D. Wasson
+  1x  Dale Dufloth
+  1x  Dalsu Lee
+  1x  Dan Callahan
+  1x  Dan Kalt
+  1x  Dan Kent
+  2x  Daniel Lee Stephenson
+  1x  Danny Maxwell
+  1x  Danny Tice
+  2x  Dave Cairns
+  1x  Dave Coleman
+  2x  Dave Seagraves
+  1x  Dave Ward
+  1x  Dave Williams
+  1x  David
+  1x  David (cousin)
+  1x  David Bingham
+  2x  David Chen (陳德輝)
+  1x  David Chin
+  1x  David Coleman
+  1x  David Erskine
+  2x  David Keddy
+  1x  David Miller
+  3x  David Murray
+  1x  David O'Connell
+  1x  David S. Shields
+  2x  David Seagraves
+  3x  David Smith
+  1x  David Thompson
+  2x  David Trammell
+  3x  David Whitacre
+  1x  David Wu
+ 12x  Dawn Pozzobon
+  1x  Deann Graham
+  1x  Debbie Diersch
+  1x  Debbie Mast
+  4x  Deborah A. Mast
+  1x  Deborah Jones
+  2x  Deborah Meckler
+  1x  Debra L. Denton
+  1x  Denis Bruneau
+  2x  Denis Ross
+  1x  Denise Cinq-Mars
+  2x  Dennis Haggerty
+  2x  Dennis McKenzie
+  1x  Dennis Pothier
+  2x  Dennis S. Lin
+  1x  Derek (friend)
+  1x  Derek Thorslund
+  1x  Dermot Wall
+  2x  Diana Lum
+  1x  Dinker Bir
+  1x  Dipanwita Kali
+  1x  DJ Sproat
+  1x  Dominic Chan
+  1x  Don MacRae
+  1x  Donald Brooks
+  1x  Donald Mac Rae
+  1x  Dorothy Doll (Dean of Curriculum)
+  1x  Dorothy Lenhard
+  1x  Doug Bundgaard
+  2x  Douglas A. Bird
+  1x  Douglas Ingram
+  1x  Douglas Zork
+  3x  Dr. Burton Weaver
+  1x  Dr. David Shield
+  4x  Dr. Li
+  4x  Dr. Tang
+  2x  Dr. Teresa Cheng
+  1x  Dr. Yvette del Prado (Superintendent, Cupertino School District)
+  4x  Dwayne Quenneville
+  1x  E. Chang
+  1x  Ed Wong
+  1x  Eddie Leck
+  1x  Eddie Tan-Atichat
+  2x  Edgar Chang
+  2x  Edmund Sum
+  1x  Edmund Tai, M.D.
+  1x  Edmund Tai, MD (lab director)
+  2x  Edward P. Lin
+  1x  Elder Chris Lin (林彥光)
+  1x  Elder Chris Lin (林彦光)
+  1x  Eleanor Lin
+  2x  Elena Cordero
+  1x  Elizabeth A. Becerra
+  9x  Ellson Chen
+  1x  Ely Kng (teacher)
+  2x  Ena M. Moody
+  1x  Enda Dooley
+  3x  Enda Mongan
+  1x  Eric Davey
+  1x  Erik
+  2x  Erik Hansson
+  2x  Erik Svard
+  1x  Ernie Reyes
+  1x  Ernie Reyes (Tae Kwon Do instructor)
+  1x  Estela E. Pacheco
+  3x  Ethel Green
+  1x  Eugene Black
+  1x  Eugene Garvin
+  1x  Eva Christiansen
+  2x  F. Bossler
+  1x  F. Glave
+  1x  F. Homayoun
+  1x  F.K. Liu
+  1x  F.R. Elevitch MD
+  1x  F.R. Elevitch, M.D.
+  1x  Fangde Lin
+  1x  Felix Huang
+  3x  Feng K Liu
+  1x  Feng K Liu (Feng Kuang Liu)
+ 15x  Feng K. Liu
+  1x  Feng K. Liu (Feng Kuang Liu / 劉馮匡)
+  2x  Feng K. Liu (Feng Kuang Liu)
+  1x  Feng K. Liu (Liu Keng Kuang)
+  1x  Feng K. Liu (patient)
+  1x  Feng K. Liu (劉豐光)
+  5x  Feng K. Liu (劉逢光)
+  1x  Feng K. Liu (劉鳳光)
+  2x  Feng Kang Liu
+ 81x  Feng Kuang Liu
+  1x  Feng Kuang Liu (father, Nortel engineer)
+  1x  Feng Kuang Liu (spouse)
+  4x  Feng Kuang Liu (劉豐光)
+  3x  Feng Kuang Liu (劉逢光)
+  1x  Feng Kuang Liu (劉逢光, husband)
+  1x  Feng Kuang Liu (劉逢光, POA)
+  1x  Feng Kuang Liu (劉鳳光)
+ 10x  Feng Liu
+  1x  Feng Liu (Fueng)
+  4x  Feng Shih Frank Liu
+  3x  Feng Shih Liu
+  1x  Feng Shih Liu (劉逢時, beneficiary in Taiwan)
+ 26x  Feng-Kuang Liu
+  3x  Feng-Kuang Liu (劉逢光)
+  1x  Fernando DeSantos
+  1x  Fernando Quiroz
+  1x  Fionan Daly
+  4x  Francois Audet
+  1x  Francois Blouin
+  1x  Frank Buck
+  1x  Frank Groth
+  2x  Frank Hanley
+  2x  Frank Hong (洪順五)
+  1x  Frank Lee (Frank Lee & Associates)
+  1x  Fred Bossler
+  1x  Fred Lindow
+  1x  Fueng
+  2x  G. Gupta
+  1x  G. Muehle
+  2x  G. Robert Peterson
+  1x  G.E. Stephens
+  1x  Gabby
+  1x  Gabriel Chagnon
+  1x  Galen Jang
+  1x  Gary Longster
+  4x  Gary Lu
+  1x  Gary Tefft
+  1x  Gene Wong
+  1x  George Despinic
+  1x  George E. Clause (Attorney)
+  2x  George Monaco
+  1x  Gerald J. Berry
+  2x  Gev Pestonji
+  1x  Gigi Browning
+  1x  Gilman Cheng
+  1x  Glenn Lidstone
+  1x  Gord Webster
+  1x  Gordon Chen (Jack's father)
+  1x  Gordon McKenzie
+  1x  Grace (spouse, CalPERS pensioner)
+  7x  Grace Liu
+  1x  Grace Liu (agent, United Investments Co.)
+  1x  Grace Melchu Liu
+  1x  Grandma
+  2x  Greg Heidel
+  4x  Greg Hobbs
+  1x  Greg McClendon
+  1x  Gregory M. Taylor (PG&E)
+  1x  Grey Hatcher
+  1x  Guiseppe Estero
+  2x  Gurdip Grewal
+  2x  Gus Cozzi
+  2x  Gwen Clarke
+  1x  H. Theloosen
+  1x  H. Yu
+  2x  Hal Rathbun
+  1x  Halina Nabielec
+  1x  Hao (partner)
+  1x  Happy Liu (二嫂, sister-in-law)
+  1x  Harry Mizutani
+  1x  Helen Johnson
+  1x  Hemant Okade
+  1x  Henri Tallon
+  1x  Henry
+  1x  Henry (friend in Madrid)
+  5x  Hootan C. Roozrokh
+  1x  Hope Meng
+  2x  Howard Chang
+  2x  Howard Vierra
+  1x  Hsiao Lan Hsiu-Mei
+  4x  Hsin Mei Liu
+  1x  Hubert Lee
+  1x  Hung Truong
+  3x  Huy Nguyen
+  1x  Ian Hopper
+  3x  Ian McPherson
+  3x  Ian Sinclair
+  2x  Iman Farag
+  1x  In-Keun Cho
+  2x  Irene Kelly
+  5x  Irene Yeazel
+  1x  Irl Allison (National Guild of Piano Teachers Founder)
+  1x  Izumi Suwa
+  1x  J. Bhatt
+  1x  J. Li, M.D.
+  1x  J. Vij
+  1x  J.-F. Chang
+  1x  J.W. Hoskins
+  1x  Ja Ja (visitor to Madrid)
+  1x  Jack Chen (friend, San Jose)
+  1x  Jack Coward
+  1x  Jack Elliott
+  1x  Jack H. Coward
+  1x  Jack Maurer
+  1x  Jackie Lee
+  2x  Jagat Singh
+  2x  James Bilanski
+  1x  James C. Ghielmetti (Homestead Venture / Architectural Control Committee)
+  1x  James C. Prendergast
+  1x  James C. Prendergast (JCP Geologists)
+  1x  James Chan
+  1x  James D. Teyy
+  1x  James D. Tzy (Principal, West Valley Chinese Language School)
+  1x  James M. McKelvey
+  1x  James Matulevich
+  1x  James Matzger CFP (Securities America Inc.)
+  1x  James R. Ziegler (cemetery counselor)
+  1x  Jan Van Den Kieboom
+  2x  Jan Vandenkieboom
+  1x  Jan VanDenKieboom
+  1x  Jan VanDenkieboom
+  1x  Janelle Hebb MA
+  2x  Janet Chiu
+  2x  Jason B. Lin
+  1x  Jason H Peng (Tzu Hsuan Peng)
+  1x  Jason Hsuan Peng
+  2x  Jason Huan Peng
+  1x  Jason Huan Reng
+  2x  Jay Taugher
+  2x  Jean Kohler
+  1x  Jean Kohler (JMK)
+ 26x  Jean M. Kohler
+  1x  Jean M. Kohler (JMK)
+  1x  Jean Orsini
+  1x  Jeanne M. Pickett
+  2x  Jeff Byer
+  1x  Jeff Chen
+  2x  Jeff Liang
+  2x  Jeff Miller
+  1x  Jeff Van Valer
+  1x  Jeff Warren
+  2x  Jeffrey A. Chen
+  3x  Jeffrey Chen
+  1x  Jeffrey Ridley
+  1x  Jen Cross
+  1x  Jen Crosslin
+  2x  Jennifer Aller
+  2x  Jennifer Chou
+  1x  Jeremy Liou (劉鴻昌)
+  1x  Jerry Vanholst
+  1x  Jiann J. Houng
+  1x  Jiayi Li, MD (gastroenterologist)
+  1x  Jie Liu
+  1x  Jill Brunner Scott
+  1x  Jim Barber
+  1x  Jim Darling (pest inspector, J&M Termite Control)
+  1x  Jim Demarest
+  1x  Jim Eng
+  1x  Jim Hall
+  1x  Jim Matulevich
+  2x  JMK
+  1x  Joanne C. Imperial
+  2x  Joanne Imperal
+  2x  Joanne Imperial
+  1x  Joe Caruso
+  1x  Joe Sun
+  2x  John Behlen
+  1x  John Caruso
+  1x  John Coward
+  1x  John F. Hoffman III
+  1x  John Finnerty
+  2x  John H. Coward
+  1x  John Kinahan
+  4x  John Lynch
+  1x  John Reddington
+  1x  John Spindler
+  1x  John V. Collin, MD (pathologist)
+  2x  Jolly Chiu
+  1x  Jonathan Phillips
+  1x  Joseph Cotter
+  2x  Josephine Tang
+  2x  Josh Fredricks
+  1x  Judi Bliss
+  1x  Judy Chin
+  1x  Judy Henrich
+  1x  Judy Lo
+  1x  Judy McDowell
+  1x  Judy Wellman
+  1x  Julia
+  1x  Julia (Karen's friend, UC Berkeley)
+  2x  Julie Racioppi
+  1x  Julie Tang
+  1x  Julie Tsai (戴瑛瑛)
+  1x  Jung V. Sin
+  1x  K. Ahmad
+  1x  K. Cheng
+  1x  Ka Teo
+  1x  Kai Ti Peng
+  1x  Kai Ti Peng (彭凱娣)
+  3x  Kam Pang
+  2x  Kang Ko
+  2x  Kang-Yuan Ko
+  1x  Karen
+ 25x  Karen Liu
+  1x  Karen Liu (Karen Peling Liu)
+  3x  Karen Liu (劉蓓寧)
+  1x  Karen P Liu
+  2x  Karen P. Liu
+  1x  Karen P. Liu (daughter)
+  1x  Karen P. Liu (Karen Peling Liu)
+  2x  Karen Peling
+ 34x  Karen Peling Liu
+  1x  Karen Peling Liu (daughter, UC Berkeley student)
+  2x  Karen Peling Liu (劉蓓寧)
+  1x  Karen Peng
+  1x  Karl Bermel
+  1x  Kathleen Mears (escrow officer, North American Title)
+  1x  Kathleen Oliver
+  1x  Kathryn Donesa, MD
+  1x  Kathryne Brewington
+  2x  Kathy Bridgman
+  1x  Kathy Gerstin
+  1x  Kathy Rai
+  1x  Keith Hawthorne
+  1x  Kelli Yoshioka
+  2x  Kelly Johnson
+  2x  Ken Furlong
+  1x  Ken Ho
+  1x  Ken Ho (family friend, Hawaii)
+  3x  Ken Pericak
+ 28x  Kenny Liu
+  1x  Kenny Liu (Kenny Peng Liu)
+  1x  Kenny Liu (son/brother)
+  4x  Kenny Liu (劉侃寧)
+  1x  Kenny Liu's father (deceased)
+  1x  Kenny Liu's stepmother
+  1x  Kenny P Liu
+  1x  Kenny P. Liu
+  1x  Kenny P. Liu (son)
+ 50x  Kenny Peng Liu
+  1x  Kenny Peng Liu (劉乒肯尼)
+  2x  Kenny Peng Liu (劉侃寧)
+  1x  Kent Ward
+  1x  Kevin H Truong
+  2x  Kevin H. Truong
+  2x  Kevin J. Conway
+  1x  Kim
+  1x  Kim Ebner
+  2x  Kimberly Jacobs
+  5x  Kimberly Ponder
+  2x  Kin Yu
+  2x  Kin-Ting Yu
+  1x  Kuang Sheng Peng
+  1x  Kuang Sheng Peng (彭匡生)
+  1x  Kuo Kwang Peng
+  1x  Kuo Kwang Peng (彭國祥)
+  1x  Kuo Kwang Peng (父, father of deceased)
+  2x  Kuo-Hsiung Peng (彭國祥)
+  2x  Kwei-San Chan
+  1x  L.A. Reed
+  1x  Larry Conway
+  1x  Larry Doyle
+  1x  Larry Salyers
+  1x  Laura Planting
+  1x  Laura Powers
+  2x  Laurence Chan
+  2x  Laurie Kane
+  1x  Lawrence de Raaf
+  3x  Lawrence E. Stone
+  2x  Lawrence Shapiro
+  1x  Lawrence Shapiro, M.D.
+  1x  Lee
+  2x  Lee Laskin
+  1x  Leigh Thorpe
+  2x  Levino Caravaggio
+  2x  Lewie Ford
+  1x  Li-F. Lin (partner)
+  1x  Liao Reiling (contingent beneficiary)
+  1x  Lily Kong
+  1x  Lily Yeh (family friend, Sunnyvale)
+  2x  Linda Cato
+  2x  Linda J. Bentson
+  5x  Linda Pacheco
+  1x  Lisa Choi
+  1x  Lisa Luke
+  1x  Liu Chen Lee-Fei
+  1x  Liu Chen Lee-Fei (劉陳麗飛)
+  1x  Liu Feng-Kuang (Liu Feng K)
+  1x  Liu, Feng Kuang
+  1x  Liu, Meichu Grace
+  1x  Lola Sweet
+  1x  Lorraine D. Molinari
+  1x  Lou Marcus
+  1x  Louis Au
+  4x  Louis Lanthier
+  1x  Louisa Zheng
+  1x  Luan Dang
+  1x  Lyda Woods
+  2x  Lynda S. Silvey
+  7x  M. Grace Liu
+  1x  M. Grace Liu (Mei Chu Grace Liu)
+  1x  M. Grace Liu (劉彭美珠)
+  1x  M. James Spangler Jr. (mortuary)
+  1x  M. S. Venema
+  1x  M. Zonoun
+  1x  M.V.E. McNulty
+  1x  Makleff
+  1x  Marc Le Roy
+  2x  Margie Hempstead
+  1x  Marjie
+  1x  Mark
+  1x  Mark Ballard
+  2x  Mark Bissell
+  2x  Mark Cheng
+  1x  Mark Hecht
+  1x  Mark Lewis
+  1x  Mark Valentine
+  1x  Martin Bolino
+  1x  Martin Logies
+  2x  Martin Maloney
+  1x  Martin Milner
+  1x  Martin S. Angst
+  1x  Marty Dixon
+  2x  Mary Ann Wakefield
+  1x  Mary Fong
+  2x  Mary Richards
+  1x  Mary Rogers
+  1x  Mary-Anne Milley
+  1x  Matthew Hurley
+  1x  Matthew Wright
+  1x  Maurice R. Johnson
+  2x  Maynie Ho
+  3x  Mei Chu Grace Liu
+  4x  Mei Lian Melody Tsai
+ 28x  Mei Liang Melody Tsai
+  3x  Mei Liang Melody Tsai (蔡美亮)
+  1x  Mei Liu
+  3x  Mei-Chu Grace Liu
+  1x  Mei-Chu Liu
+  3x  Meichu (Grace) G. Liu
+  2x  Meichu G Liu
+  1x  Meichu G. Liu
+  1x  Meichu G. Liu (MeiChu Grace Liu)
+ 65x  Meichu Grace Liu
+  3x  MeiChu Grace Liu
+  1x  Meichu Grace Liu (deceased)
+  6x  Meichu Grace Liu (劉彭美珠)
+  1x  Meichu Grace Liu (劉彭美珠, deceased)
+  1x  Meichu Grace Liu (劉美珠)
+  1x  Meichu Grace Liu (彭美珠)
+  9x  Meichu Liu
+  3x  Meiliang Melody Tsai
+  1x  Meiliang Tsai
+  1x  Melliang Tsai (Meiliang Tsai)
+  3x  Melody
+  1x  Melody (beneficiary)
+  1x  Melody (surviving spouse)
+  4x  Melody Tsai
+  1x  Melody Tsai (Mei Liang Melody Tsai)
+  1x  Melody Tsai (蔡美亮)
+  1x  Melvin Norberg (PG&E)
+  1x  Mervyn D'Cruz
+  1x  Michael (family)
+  3x  Michael Curry
+  1x  Michael Giertych
+  2x  Michael Halligan
+  4x  Michael Salerno
+  2x  Michael W. Malter
+  4x  Michael Yu
+  1x  Michelle Martellotto Strenger
+  1x  Michelle Randolph
+  1x  Mike
+  1x  Mike (szaboworks.com)
+  1x  Mike Kemp
+  1x  Mike Palmieri
+  1x  Mike Piecuch
+  1x  Mike Rosen
+  1x  Mima Suwa
+  1x  Ming Hou
+  3x  Mitchell Coffin
+  1x  Mo Zonoun
+  1x  Mohamed El-Hennawey
+  2x  Mohsen Ismael
+  1x  Mom (Mrs. Liu)
+  1x  Mom/Mrs. Liu (mother)
+  3x  Monica Patel
+  4x  Motaz Farag
+  1x  Mounir
+  2x  Mounir Habib
+  1x  Mr. Chang
+  1x  Mr. Chen
+  1x  Mr. Downer (Principal)
+  2x  Mr. Froehlich
+  1x  Mr. Hong
+  4x  Mr. Kim
+  1x  Mrs. Chang
+  1x  Mrs. Chiu
+  2x  Ms. Miller
+  2x  Ms. Pozzobon
+  3x  Nancy Reskallah
+  2x  Neasa Folan
+  1x  Neil J. Mulholland
+  1x  Nick George
+  1x  Nick Xenios
+  1x  Nicole Nakanishi (staff)
+  1x  Nirdosh
+  1x  Noel Castro
+  1x  Norman W. Rizk
+  1x  O.E. Moharram
+  1x  Oliver Bengtsson
+  1x  Olivier De Reydellet
+  1x  P M Kemp
+  1x  P. Bernstein
+  1x  P. Liu
+  1x  P. Michael Kemp
+  1x  Pao Yu Chang
+  1x  Pat Findlay
+  2x  Pat Rhodes
+  2x  Patra Chiamvimonvat
+  1x  Patricia A. Penul (Piano Judge)
+  1x  Patrick A. Cataldo Jr.
+  1x  Patrick Hession
+  2x  Patrick Hughes
+  1x  Paul Clark
+  2x  Paul Fryer
+  1x  Paul Haig
+  2x  Paul Mercadante
+  2x  Paul Peng
+  1x  Paul Robinson
+  1x  Paul Song
+  1x  Paul Tucker
+  1x  Pauline Esparza
+  1x  Peng Ho Shui-Chih (彭何水治)
+  1x  Penny Dunn
+  1x  Perry Prozeniuk
+  1x  Pete Benoit
+  1x  Pete Reitano
+  1x  Peter Athanasiou
+  1x  Peter Iwanyk
+  1x  Peter Lee
+  1x  Peter Leung
+  3x  Peter Simmons
+  7x  Peter Tarle
+  1x  Peter Wilkins
+  1x  Peter Zen
+  1x  Phil Chin
+  2x  Philippe Douet
+  2x  Phillip Adleson
+  1x  Phillip N. Claxton (bank agent)
+  1x  Pi-chu Lie Hsian
+  1x  Pi-chu Liu Hsian
+  3x  Ping Lin
+  1x  Polly Leonard
+  1x  Prasad Jakkula
+  1x  Priscilla Florentes
+  3x  Priya Kumar
+  4x  R. Cummings
+  1x  R. Dayem
+  1x  R. Faletti
+  1x  R. Foerster
+  1x  R. Froelich
+  1x  R. Hoo
+  1x  R. Marks
+  1x  R. Ravindranath
+  1x  R. Rees
+  1x  R. Vilis
+  1x  R.K. Sibley
+  1x  Rae Ann Berry
+  4x  Rae Ann Hopkins Berry
+  1x  Rae Lynn O'Keefe
+  1x  Raghavendra Rampur
+  2x  Ragu Raghunath
+  3x  Randy Ferguson
+  1x  Ravi Ravindranath
+  1x  Ravindra Nayak
+  2x  Ray Heaton
+  2x  Ray Rowan
+  1x  Ray Sheffield
+  1x  Ray Vilis
+  6x  Raymond Sheffield
+  1x  Rayward Sheffield
+ 25x  Rebeccah B. Miller
+  1x  Rebeccah B. Miller (RBM)
+  1x  Rebekah Chreewitt
+  2x  Regina Alcomendras
+  2x  Regina Moore
+  1x  Reginald Green
+ 26x  Reiling Liao
+  1x  Reiling P. Liao
+  2x  Reiling Peng
+  1x  Reiling Peng (彭瑞玲)
+  2x  Rev. Tim Lee (李子晟)
+  1x  Richard Costello
+  1x  Richard Howard
+  1x  Richard L. Sien
+  2x  Richard Rundstein
+  1x  Richard West
+  2x  Richard Wilson
+  1x  Richard Zhang
+  4x  Rick Gross
+  1x  Rick Kearney
+  2x  Rick Roundy
+  1x  Rob Gramiak
+  1x  Rob Haines
+  1x  Rob Jones
+  2x  Rob March
+  1x  Rob Webber
+ 17x  Robert A. Froehlich
+  1x  Robert C. Cummings
+  3x  Robert Docherty
+  1x  Robert Dolphin
+  2x  Robert E. Moody
+  1x  Robert Frehlich
+  2x  Robert Froehlich
+  3x  Robert Gramiak
+  1x  Robert Leroy
+  1x  Robert LeRoy
+  4x  Robert Lieberman
+  1x  Robert Mwody (Moody)
+  6x  Robert Outram
+  1x  Robert Verkroost
+  1x  Robin
+  2x  Robin Coutelier
+  1x  Rochelle Brocks-Smith
+  1x  Rodney Boyd
+  2x  Roger Brassard
+  1x  Rose O Meara
+  1x  Rose O'Meara
+  1x  Ross Allegro
+  2x  Roy Isaac
+  1x  Rui-Yuan Dong
+  1x  Russ Brookes
+  1x  Russ Chen
+  2x  Russell DePew
+  1x  Ruth Parras
+  1x  S. Chen
+  1x  S. Farag
+  1x  S. Jayaraman
+  1x  S. Kuan
+  1x  S. Weeks (PG&E)
+  1x  S.K. Chang (partner)
+  1x  Sadie (family)
+  1x  Safwat F. Gabalah
+  1x  Safwat F. Gaballah
+  2x  Sally Essenburg
+  1x  Sally Lem
+  1x  Sam Harris
+  1x  Sam Pang
+  1x  Sandra Malueg
+  1x  Sarah
+  1x  Sarah (Karen's friend, went to Chile)
+  4x  Scott M. Toussaint
+  1x  Scott Posell
+  1x  Scott Stone
+  1x  See Chang
+  2x  Seth S. Kurasaki
+  3x  Severin Beauvais
+  3x  Shane O'Neill
+  1x  Shane Parsons
+  1x  Sharon Fong
+  1x  Shean Yuan Wan (Teacher, West Valley Chinese Language School)
+  1x  Sheldon Davis
+  1x  Shih-Chang Liu
+  1x  Shirley Chiu
+  1x  Shuang Chen
+  1x  Si-Wen Wang (Teacher, West Valley Chinese Language School)
+  1x  Silvia Xue
+  1x  Simon Panicker
+  2x  Sky T. Ching
+  1x  Sladjana
+  1x  Sladjana Ocokoljic
+  5x  Sladjana Petrovic
+  1x  Sonny Phans
+  1x  Sophie Chen
+  1x  Souzan Gabalah
+  1x  Souzan Gaballah
+  2x  Spencer Leong
+  3x  Sreten Petrovic
+  1x  Stanley To
+  2x  Stephan Busque
+  2x  Stephan Busque MD
+  1x  Stephan Busque MD (certifying physician)
+  1x  Stephane
+  1x  Stephane (friend in France/Belgium)
+  1x  Stephen Jacobs
+  2x  Stephen McCormack
+  2x  Stephen Sargood
+  1x  Steve Heinen
+  3x  Steve Macklin
+  1x  Steve McElderry
+  1x  Steve Ringer
+  1x  Steve Ting
+  1x  Stu Kuan
+  2x  Stuart M. Wilson
+  2x  Stuart Schuffman
+  1x  Sue Chen
+  1x  Suei Chih Ho
+  1x  Suei Chih Ho (何水治)
+  1x  Suei Chih Ho (母, mother of deceased)
+  1x  Susan Bishop
+  1x  Susan Montgomery
+  1x  Susan Smith
+  1x  Suzanne Havely
+  1x  Suzanne Ratcliff
+  2x  Suzanne Tegio
+  1x  Suzette Bouzane
+  1x  Swei Chih Peng (彭水治)
+  1x  Swei-Chi Peng
+  2x  Swei-Chih Peng
+  2x  Syd Wong
+  1x  T. Sheikh
+  1x  T.-H. Wu
+  1x  Ted Roberson
+  1x  Ted Roehrig
+  2x  Tej Chaddha
+  1x  Teresa
+  9x  Teresa Cheng
+  4x  Terri Couture
+  1x  Terri Sherer
+  4x  Terry Flesch
+  2x  Terry Truckenbrodt
+  2x  Thomas A. Leist
+  1x  Thomas H. Eliot
+  1x  Thomas Moran
+  1x  Thomas Quinlin
+  3x  Thomas Wm. Cain
+  4x  Tie Jia Liu
+  2x  Tim Liu
+  1x  Tim Sherer
+  1x  Tim Yuen
+  1x  Timothy M. Ames
+  1x  Timothy Mendonca
+  1x  Toby Johnston
+  1x  Todd Brinton
+  1x  Todd Richards
+  1x  Tom Cousin
+  1x  Tom Mills
+  1x  Tom Schlicting
+  2x  Tommy Moran
+  1x  Tony
+  1x  Tony (real estate attorney)
+  1x  Tony Armstrong
+  2x  Tony H. Chao
+  1x  Tony Nally
+  1x  Tony Wallbank
+  1x  Tony Yeung
+  1x  Trevor Fahey
+  1x  Tricia Montgomery
+  2x  Trinh Nguyen
+  1x  Trish Shoemaker
+  1x  Trung Bui
+  4x  Trystan Johnson
+  2x  Tse-Yuen Chiu
+  1x  Tyson Kostan
+  1x  Tzu Hsuan Peng (Jason H Peng)
+  2x  Tzu-Hui Yang
+  1x  Uncle Paul
+  1x  V. Gupta
+  1x  Valy Chiou
+  1x  Vanessa
+  1x  Vanessa Dorsey
+  1x  Verna Graham
+  2x  Victor N. Navalta
+  1x  Vince Cannella
+  1x  Vince Ippolito
+  1x  Viola M. Brown (MTAC State President)
+  1x  Vlad Volchegursky
+  1x  Vladimir Volchegursky
+  1x  W. Alexander
+  1x  Walter Volk
+  1x  Wang Xiu-Sheng
+  3x  Wayne Peterson
+  1x  Webster J. Guillory
+  2x  Wee-Thong Choo
+  1x  Wen Ho Hsiao
+  4x  Wendy Yu
+  2x  Wilfred F. Tetreault
+  1x  William E. Bacon
+  1x  William L. Dawson
+  1x  William M. Landers
+  3x  William Tian
+  1x  William Tozer
+  1x  Wing-Man Chan
+  5x  Witold Kaczmarek
+  1x  Wu Ya-Qing
+  2x  Xiaomin Yu
+  5x  Y S Liu-Chen
+  1x  Yi-Shiu Chen and Yen Han Chen (wedding)
+  1x  Yoshimitsu Tsukagoshi
+  1x  Yossi Hirsh
+  1x  Yuri Shtivelman
+  1x  Z. Yamaseki (Teacher)
+  1x  Zlatan Dedic
+  1x  Zohar Lotan
+  1x  Zonoun
+  1x  劉低寧
+  1x  劉碧玉 (sister-in-law)
+  1x  劉禧寧
+  2x  劉逢光
+  1x  劉逢平 (brother-in-law)
+  1x  劉逢春 (brother-in-law)
+  1x  劉逢時 (brother-in-law)
+  1x  吳雅卿
+  2x  奚扙
+  1x  奚枝 (Shu-Hui/Kishi)
+  1x  彭何水治
+  1x  彭光生
+  1x  彭國祥
+  1x  彭瑞玲
+  1x  水治 (Suiji)
+  2x  舒慧
+  1x  舒慧 (Shu-Hui, letter writer)
+  1x  蕭文和
+  1x  藍秀美
+  1x  鄭劉淑敏 (sister-in-law)

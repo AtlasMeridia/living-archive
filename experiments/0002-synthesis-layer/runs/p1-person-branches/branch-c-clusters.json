@@ -1,0 +1,343 @@
+{
+  "branch": "C",
+  "method": "llm_clustering",
+  "model": "claude-opus-4-6 (inline, no API call)",
+  "input_count": 1009,
+  "filtered_input_count": 314,
+  "min_mentions_filter": 2,
+  "cluster_count": 22,
+  "note": "Clustering performed by Claude Opus during experiment session. Focused on names with >=2 mentions. Single-mention names examined but only included where they clearly match a cluster.",
+  "clusters": [
+    {
+      "canonical": "Feng Kuang Liu",
+      "canonical_zh": "劉逢光",
+      "variants": [
+        "Feng Kuang Liu",
+        "Feng-Kuang Liu",
+        "Feng K. Liu",
+        "Feng K Liu",
+        "Feng Kang Liu",
+        "Feng Liu",
+        "Feng K. Liu (Feng Kuang Liu)",
+        "Feng K. Liu (劉逢光)",
+        "Feng K. Liu (劉豐光)",
+        "Feng K. Liu (劉鳳光)",
+        "Feng K. Liu (Liu Keng Kuang)",
+        "Feng K. Liu (patient)",
+        "Feng K. Liu (Feng Kuang Liu / 劉馮匡)",
+        "Feng K Liu (Feng Kuang Liu)",
+        "Feng Kuang Liu (劉逢光)",
+        "Feng Kuang Liu (劉豐光)",
+        "Feng Kuang Liu (劉鳳光)",
+        "Feng Kuang Liu (劉逢光, husband)",
+        "Feng Kuang Liu (劉逢光, POA)",
+        "Feng Kuang Liu (father, Nortel engineer)",
+        "Feng Kuang Liu (spouse)",
+        "Feng-Kuang Liu (劉逢光)",
+        "Feng Liu (Fueng)",
+        "Liu, Feng Kuang",
+        "Liu Feng-Kuang (Liu Feng K)",
+        "F.K. Liu",
+        "Fueng",
+        "劉逢光"
+      ],
+      "confidence": 0.98,
+      "reasoning": "All romanization variants of the same person — father of the family. 'Kang' vs 'Kuang' are romanization variants of the same Chinese character. 'F.K.' is initials. 'Fueng' is an alternate spelling of Feng. Multiple Chinese character variants (逢光, 豐光, 鳳光) appear across documents — likely OCR/transcription differences of the same characters. The parenthetical annotations confirm identity."
+    },
+    {
+      "canonical": "Meichu Grace Liu",
+      "canonical_zh": "劉彭美珠",
+      "variants": [
+        "Meichu Grace Liu",
+        "MeiChu Grace Liu",
+        "Meichu Liu",
+        "Meichu G Liu",
+        "Meichu G. Liu",
+        "Meichu G. Liu (MeiChu Grace Liu)",
+        "Meichu (Grace) G. Liu",
+        "M. Grace Liu",
+        "M. Grace Liu (Mei Chu Grace Liu)",
+        "M. Grace Liu (劉彭美珠)",
+        "Mei Chu Grace Liu",
+        "Mei-Chu Grace Liu",
+        "Mei-Chu Liu",
+        "Mei Liu",
+        "Grace Liu",
+        "Grace Liu (agent, United Investments Co.)",
+        "Grace Melchu Liu",
+        "Grace (spouse, CalPERS pensioner)",
+        "Liu, Meichu Grace",
+        "Meichu Grace Liu (劉彭美珠)",
+        "Meichu Grace Liu (劉彭美珠, deceased)",
+        "Meichu Grace Liu (劉美珠)",
+        "Meichu Grace Liu (彭美珠)",
+        "Meichu Grace Liu (deceased)",
+        "Mom (Mrs. Liu)",
+        "Mom/Mrs. Liu (mother)",
+        "Grandma"
+      ],
+      "confidence": 0.97,
+      "reasoning": "Mother of the family. Maiden name Peng (彭), married name Liu. 'Meichu' / 'Mei Chu' / 'Mei-Chu' are spacing variants. 'Grace' is English name. 'G.' is middle initial for Grace. Chinese characters confirm: 劉彭美珠 = Liu (married) Peng (maiden) Meichu. 'Grandma' and 'Mom' references consistent with family matriarch role."
+    },
+    {
+      "canonical": "Kenny Peng Liu",
+      "canonical_zh": "劉侃寧",
+      "variants": [
+        "Kenny Peng Liu",
+        "Kenny Liu",
+        "Kenny P. Liu",
+        "Kenny P Liu",
+        "Kenny Liu (Kenny Peng Liu)",
+        "Kenny Liu (son/brother)",
+        "Kenny Liu (劉侃寧)",
+        "Kenny P. Liu (son)",
+        "Kenny Peng Liu (劉侃寧)",
+        "Kenny Peng Liu (劉乒肯尼)"
+      ],
+      "confidence": 0.97,
+      "reasoning": "Project owner. 'Peng' is middle name (母姓). All variants confirmed by human review. Note: 'Kenny Liu's father (deceased)' → Feng Kuang Liu; 'Kenny Liu's stepmother' → Mei Liang Melody Tsai. These relational references removed from this cluster."
+    },
+    {
+      "canonical": "Karen Peling Liu",
+      "canonical_zh": "劉蓓寧",
+      "variants": [
+        "Karen Peling Liu",
+        "Karen Liu",
+        "Karen P. Liu",
+        "Karen P Liu",
+        "Karen Peling",
+        "Karen Peng",
+        "Karen",
+        "Karen Liu (Karen Peling Liu)",
+        "Karen Liu (劉蓓寧)",
+        "Karen P. Liu (daughter)",
+        "Karen P. Liu (Karen Peling Liu)",
+        "Karen Peling Liu (daughter, UC Berkeley student)",
+        "Karen Peling Liu (劉蓓寧)"
+      ],
+      "confidence": 0.97,
+      "reasoning": "Daughter of the family. 'Peling' is middle/Chinese name. Annotations confirm identity. 'Karen Peng' likely a typo/variant of 'Karen Peling'. Bare 'Karen' is risky but in this family archive context, the standalone mention likely refers to the daughter."
+    },
+    {
+      "canonical": "Mei Liang Melody Tsai",
+      "canonical_zh": "蔡美亮",
+      "variants": [
+        "Mei Liang Melody Tsai",
+        "Mei Lian Melody Tsai",
+        "Meiliang Melody Tsai",
+        "Meiliang Tsai",
+        "Melliang Tsai (Meiliang Tsai)",
+        "Melody Tsai",
+        "Melody",
+        "Melody (beneficiary)",
+        "Melody (surviving spouse)",
+        "Mei Liang Melody Tsai (蔡美亮)",
+        "Melody Tsai (Mei Liang Melody Tsai)",
+        "Melody Tsai (蔡美亮)"
+      ],
+      "confidence": 0.97,
+      "reasoning": "'Liang' vs 'Lian' is a romanization variant. 'Meiliang' vs 'Mei Liang' is spacing. 'Melliang' is a typo. Bare 'Melody' with annotations like 'beneficiary' and 'surviving spouse' confirm same person. All point to the same family member."
+    },
+    {
+      "canonical": "Reiling Liao",
+      "canonical_zh": "彭瑞玲",
+      "variants": [
+        "Reiling Liao",
+        "Reiling P. Liao",
+        "Reiling Peng",
+        "Reiling Peng (彭瑞玲)",
+        "Liao Reiling (contingent beneficiary)",
+        "Auntie Reiling"
+      ],
+      "confidence": 0.95,
+      "reasoning": "Same person — maiden name Peng (彭), married name Liao. 'Auntie Reiling' is a family reference. The 'P.' in 'Reiling P. Liao' likely stands for Peng (maiden name as middle initial)."
+    },
+    {
+      "canonical": "Y S Liu-Chen",
+      "canonical_zh": null,
+      "variants": [
+        "Y S Liu-Chen",
+        "A Shio Chen"
+      ],
+      "confidence": 0.65,
+      "reasoning": "REJECTED by human review. Kept as separate entities. Insufficient evidence to merge.",
+      "status": "rejected"
+    },
+    {
+      "canonical": "Chen Lee Fei Liu",
+      "canonical_zh": "劉陳麗飛",
+      "variants": [
+        "Chen Lee Fei Liu",
+        "Chenlee Fei Liu",
+        "Liu Chen Lee-Fei",
+        "Liu Chen Lee-Fei (劉陳麗飛)"
+      ],
+      "confidence": 0.98,
+      "reasoning": "Same person with name-order variants. Chinese naming: 劉(Liu, married) 陳(Chen, maiden) 麗飛(Lee-Fei, given). 'Chenlee' is a merged spelling of 'Chen Lee'."
+    },
+    {
+      "canonical": "Jean M. Kohler",
+      "canonical_zh": null,
+      "variants": [
+        "Jean M. Kohler",
+        "Jean M. Kohler (JMK)",
+        "Jean Kohler",
+        "Jean Kohler (JMK)",
+        "JMK"
+      ],
+      "confidence": 0.99,
+      "reasoning": "Same person. 'JMK' is initials for Jean M. Kohler, confirmed by parenthetical annotations."
+    },
+    {
+      "canonical": "Robert A. Froehlich",
+      "canonical_zh": null,
+      "variants": [
+        "Robert A. Froehlich",
+        "Robert Froehlich",
+        "Mr. Froehlich",
+        "Attorney Froehlich",
+        "R. Froelich",
+        "Robert Frehlich"
+      ],
+      "confidence": 0.95,
+      "reasoning": "Family attorney. 'Froelich' and 'Frehlich' are misspellings of 'Froehlich'. 'R. Froelich' matches initials."
+    },
+    {
+      "canonical": "Rebeccah B. Miller",
+      "canonical_zh": null,
+      "variants": [
+        "Rebeccah B. Miller",
+        "Rebeccah B. Miller (RBM)",
+        "Ms. Miller"
+      ],
+      "confidence": 0.90,
+      "reasoning": "Same person. 'Ms. Miller' is less certain but in the context of legal/financial documents where Rebeccah B. Miller appears frequently, likely the same person."
+    },
+    {
+      "canonical": "Dawn Pozzobon",
+      "canonical_zh": null,
+      "variants": [
+        "Dawn Pozzobon",
+        "Ms. Pozzobon"
+      ],
+      "confidence": 0.95,
+      "reasoning": "Same person. Formal vs informal address."
+    },
+    {
+      "canonical": "Teresa Cheng",
+      "canonical_zh": null,
+      "variants": [
+        "Teresa Cheng",
+        "Dr. Teresa Cheng"
+      ],
+      "confidence": 0.99,
+      "reasoning": "Same person with and without honorific."
+    },
+    {
+      "canonical": "Burton Weaver",
+      "canonical_zh": null,
+      "variants": [
+        "Burton Weaver",
+        "Burton Weaver MD",
+        "Burton Weaver III, M.D.",
+        "Burton D. Weaver, MD (primary care physician)",
+        "Dr. Burton Weaver"
+      ],
+      "confidence": 0.95,
+      "reasoning": "Same physician. Various forms of name with title."
+    },
+    {
+      "canonical": "Feng Shih Liu",
+      "canonical_zh": "劉逢時",
+      "variants": [
+        "Feng Shih Frank Liu",
+        "Feng Shih Liu",
+        "Feng Shih Liu (劉逢時, beneficiary in Taiwan)"
+      ],
+      "confidence": 0.98,
+      "reasoning": "Same person — 'Frank' is English name. Brother/relative of Feng Kuang Liu (different given name: 逢時 vs 逢光). NOT the same as Feng Kuang Liu."
+    },
+    {
+      "canonical": "Chia-Chen Peng",
+      "canonical_zh": null,
+      "variants": [
+        "Chia Chen Peng",
+        "Chia-Chen Peng",
+        "Chia Chen Peng (Paul)",
+        "Paul Peng"
+      ],
+      "confidence": 0.95,
+      "reasoning": "Same person. 'Paul' is English name for Chia-Chen, confirmed by parenthetical. Spacing/hyphen variant."
+    },
+    {
+      "canonical": "Kuo Kwang Peng",
+      "canonical_zh": "彭國祥",
+      "variants": [
+        "Kuo Kwang Peng",
+        "Kuo Kwang Peng (彭國祥)",
+        "Kuo Kwang Peng (父, father of deceased)",
+        "Kuo-Hsiung Peng (彭國祥)"
+      ],
+      "confidence": 0.90,
+      "reasoning": "Same Chinese characters 彭國祥 confirm same person despite very different romanizations (Kwang vs Hsiung). The romanization systems differ (Wade-Giles vs other)."
+    },
+    {
+      "canonical": "Swei-Chih Peng",
+      "canonical_zh": "彭水治",
+      "variants": [
+        "Swei-Chih Peng",
+        "Swei Chih Peng (彭水治)",
+        "Swei-Chi Peng",
+        "Peng Ho Shui-Chih (彭何水治)",
+        "Suei Chih Ho",
+        "Suei Chih Ho (何水治)",
+        "Suei Chih Ho (母, mother of deceased)",
+        "彭何水治",
+        "水治 (Suiji)"
+      ],
+      "confidence": 0.85,
+      "reasoning": "Complex case. 水治 (Shui-Chih/Suei Chih/Swei-Chih) is the given name. Peng is maiden name, Ho is married name. So 'Swei-Chih Peng' (maiden) and 'Suei Chih Ho' (married) are the same person. 彭何水治 = Peng(maiden) Ho(married) Shui-Chih(given). Lower confidence because the name switch between Peng and Ho is significant."
+    },
+    {
+      "canonical": "Dave Seagraves",
+      "canonical_zh": null,
+      "variants": [
+        "Dave Seagraves",
+        "David Seagraves"
+      ],
+      "confidence": 0.99,
+      "reasoning": "Dave is a common nickname for David. Same surname."
+    },
+    {
+      "canonical": "Kang-Yuan Ko",
+      "canonical_zh": null,
+      "variants": [
+        "Kang Ko",
+        "Kang-Yuan Ko"
+      ],
+      "confidence": 0.95,
+      "reasoning": "Same person. 'Kang Ko' is the abbreviated form missing the second part of the given name."
+    },
+    {
+      "canonical": "Joanne Imperial",
+      "canonical_zh": null,
+      "variants": [
+        "Joanne Imperial",
+        "Joanne Imperal",
+        "Joanne C. Imperial"
+      ],
+      "confidence": 0.99,
+      "reasoning": "'Imperal' is a misspelling of 'Imperial'. Same person."
+    },
+    {
+      "canonical": "Kin-Ting Yu",
+      "canonical_zh": null,
+      "variants": [
+        "Kin Yu",
+        "Kin-Ting Yu"
+      ],
+      "confidence": 0.95,
+      "reasoning": "Same person. 'Kin Yu' is abbreviated form."
+    }
+  ]
+}

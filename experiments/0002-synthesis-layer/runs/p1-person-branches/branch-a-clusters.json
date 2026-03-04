@@ -1,0 +1,287 @@
+{
+  "branch": "A",
+  "method": "string_normalization",
+  "input_count": 1009,
+  "cluster_count": 910,
+  "merged_cluster_count": 59,
+  "singleton_count": 851,
+  "largest_cluster_size": 10,
+  "merged_clusters": {
+    "feng kuang liu": [
+      "Feng Kuang Liu",
+      "Feng Kuang Liu (father, Nortel engineer)",
+      "Feng Kuang Liu (spouse)",
+      "Feng Kuang Liu (劉豐光)",
+      "Feng Kuang Liu (劉逢光)",
+      "Feng Kuang Liu (劉逢光, POA)",
+      "Feng Kuang Liu (劉逢光, husband)",
+      "Feng Kuang Liu (劉鳳光)",
+      "Feng-Kuang Liu",
+      "Feng-Kuang Liu (劉逢光)"
+    ],
+    "meichu grace liu": [
+      "MeiChu Grace Liu",
+      "Meichu Grace Liu",
+      "Meichu Grace Liu (deceased)",
+      "Meichu Grace Liu (劉彭美珠)",
+      "Meichu Grace Liu (劉彭美珠, deceased)",
+      "Meichu Grace Liu (劉美珠)",
+      "Meichu Grace Liu (彭美珠)"
+    ],
+    "mei liang melody tsai": [
+      "Mei Liang Melody Tsai",
+      "Mei Liang Melody Tsai (蔡美亮)"
+    ],
+    "kuo kwang peng": [
+      "Kuo Kwang Peng",
+      "Kuo Kwang Peng (彭國祥)",
+      "Kuo Kwang Peng (父, father of deceased)"
+    ],
+    "suei chih ho": [
+      "Suei Chih Ho",
+      "Suei Chih Ho (何水治)",
+      "Suei Chih Ho (母, mother of deceased)"
+    ],
+    "stephan busque": [
+      "Stephan Busque",
+      "Stephan Busque MD",
+      "Stephan Busque MD (certifying physician)"
+    ],
+    "karen peling liu": [
+      "Karen Peling Liu",
+      "Karen Peling Liu (daughter, UC Berkeley student)",
+      "Karen Peling Liu (劉蓓寧)"
+    ],
+    "kenny peng liu": [
+      "Kenny Peng Liu",
+      "Kenny Peng Liu (劉乒肯尼)",
+      "Kenny Peng Liu (劉侃寧)"
+    ],
+    "karen liu": [
+      "Karen Liu",
+      "Karen Liu (Karen Peling Liu)",
+      "Karen Liu (劉蓓寧)"
+    ],
+    "mike": [
+      "Mike",
+      "Mike (szaboworks.com)"
+    ],
+    "jan vandenkieboom": [
+      "Jan VanDenKieboom",
+      "Jan VanDenkieboom",
+      "Jan Vandenkieboom"
+    ],
+    "chung wo chiu": [
+      "Chung Wo Chiu",
+      "Chung-Wo Chiu"
+    ],
+    "teresa cheng": [
+      "Dr. Teresa Cheng",
+      "Teresa Cheng"
+    ],
+    "feng k liu": [
+      "Feng K Liu",
+      "Feng K Liu (Feng Kuang Liu)",
+      "Feng K. Liu",
+      "Feng K. Liu (Feng Kuang Liu / 劉馮匡)",
+      "Feng K. Liu (Feng Kuang Liu)",
+      "Feng K. Liu (Liu Keng Kuang)",
+      "Feng K. Liu (patient)",
+      "Feng K. Liu (劉豐光)",
+      "Feng K. Liu (劉逢光)",
+      "Feng K. Liu (劉鳳光)"
+    ],
+    "kenny liu": [
+      "Kenny Liu",
+      "Kenny Liu (Kenny Peng Liu)",
+      "Kenny Liu (son/brother)",
+      "Kenny Liu (劉侃寧)"
+    ],
+    "chia chen peng": [
+      "Chia Chen Peng",
+      "Chia Chen Peng (Paul)",
+      "Chia-Chen Peng"
+    ],
+    "jean m kohler": [
+      "Jean M. Kohler",
+      "Jean M. Kohler (JMK)"
+    ],
+    "rebeccah b miller": [
+      "Rebeccah B. Miller",
+      "Rebeccah B. Miller (RBM)"
+    ],
+    "melody tsai": [
+      "Melody Tsai",
+      "Melody Tsai (Mei Liang Melody Tsai)",
+      "Melody Tsai (蔡美亮)"
+    ],
+    "swei chih peng": [
+      "Swei Chih Peng (彭水治)",
+      "Swei-Chih Peng"
+    ],
+    "kai ti peng": [
+      "Kai Ti Peng",
+      "Kai Ti Peng (彭凱娣)"
+    ],
+    "kuang sheng peng": [
+      "Kuang Sheng Peng",
+      "Kuang Sheng Peng (彭匡生)"
+    ],
+    "liu chen lee fei": [
+      "Liu Chen Lee-Fei",
+      "Liu Chen Lee-Fei (劉陳麗飛)"
+    ],
+    "m grace liu": [
+      "M. Grace Liu",
+      "M. Grace Liu (Mei Chu Grace Liu)",
+      "M. Grace Liu (劉彭美珠)"
+    ],
+    "catherine lai": [
+      "Catherine Lai",
+      "Catherine Lai (賴當瑞, teacher)"
+    ],
+    "ernie reyes": [
+      "Ernie Reyes",
+      "Ernie Reyes (Tae Kwon Do instructor)"
+    ],
+    "kevin h truong": [
+      "Kevin H Truong",
+      "Kevin H. Truong"
+    ],
+    "a r gach": [
+      "A. R. Gach",
+      "A.R. Gach"
+    ],
+    "reiling peng": [
+      "Reiling Peng",
+      "Reiling Peng (彭瑞玲)"
+    ],
+    "feng shih liu": [
+      "Feng Shih Liu",
+      "Feng Shih Liu (劉逢時, beneficiary in Taiwan)"
+    ],
+    "feng liu": [
+      "Feng Liu",
+      "Feng Liu (Fueng)"
+    ],
+    "grace liu": [
+      "Grace Liu",
+      "Grace Liu (agent, United Investments Co.)"
+    ],
+    "kim": [
+      "Kim",
+      "Mr. Kim"
+    ],
+    "meichu g liu": [
+      "Meichu (Grace) G. Liu",
+      "Meichu G Liu",
+      "Meichu G. Liu",
+      "Meichu G. Liu (MeiChu Grace Liu)"
+    ],
+    "chris lin": [
+      "Elder Chris Lin (林彥光)",
+      "Elder Chris Lin (林彦光)"
+    ],
+    "jean kohler": [
+      "Jean Kohler",
+      "Jean Kohler (JMK)"
+    ],
+    "tony": [
+      "Tony",
+      "Tony (real estate attorney)"
+    ],
+    "burton weaver": [
+      "Burton Weaver",
+      "Burton Weaver MD",
+      "Dr. Burton Weaver"
+    ],
+    "lawrence shapiro": [
+      "Lawrence Shapiro",
+      "Lawrence Shapiro, M.D."
+    ],
+    "mei chu grace liu": [
+      "Mei Chu Grace Liu",
+      "Mei-Chu Grace Liu"
+    ],
+    "melody": [
+      "Melody",
+      "Melody (beneficiary)",
+      "Melody (surviving spouse)"
+    ],
+    "christine mckenna": [
+      "Christine McKenna",
+      "Christine Mckenna"
+    ],
+    "brian mcvicker": [
+      "Brian McVicker",
+      "Brian Mcvicker"
+    ],
+    "robert leroy": [
+      "Robert LeRoy",
+      "Robert Leroy"
+    ],
+    "karen p liu": [
+      "Karen P Liu",
+      "Karen P. Liu",
+      "Karen P. Liu (Karen Peling Liu)",
+      "Karen P. Liu (daughter)"
+    ],
+    "sarah": [
+      "Sarah",
+      "Sarah (Karen's friend, went to Chile)"
+    ],
+    "angelina": [
+      "Angelina",
+      "Angelina (cousin, uncle's daughter)"
+    ],
+    "david": [
+      "David",
+      "David (cousin)"
+    ],
+    "henry": [
+      "Henry",
+      "Henry (friend in Madrid)"
+    ],
+    "ken ho": [
+      "Ken Ho",
+      "Ken Ho (family friend, Hawaii)"
+    ],
+    "julia": [
+      "Julia",
+      "Julia (Karen's friend, UC Berkeley)"
+    ],
+    "stephane": [
+      "Stephane",
+      "Stephane (friend in France/Belgium)"
+    ],
+    "chang": [
+      "Mr. Chang",
+      "Mrs. Chang"
+    ],
+    "kenny p liu": [
+      "Kenny P Liu",
+      "Kenny P. Liu",
+      "Kenny P. Liu (son)"
+    ],
+    "james c prendergast": [
+      "James C. Prendergast",
+      "James C. Prendergast (JCP Geologists)"
+    ],
+    "edmund tai": [
+      "Edmund Tai, M.D.",
+      "Edmund Tai, MD (lab director)"
+    ],
+    "f r elevitch": [
+      "F.R. Elevitch MD",
+      "F.R. Elevitch, M.D."
+    ],
+    "chun fen peng": [
+      "Chun Fen Peng",
+      "Chun Fen Peng (Tina)"
+    ],
+    "舒慧": [
+      "舒慧",
+      "舒慧 (Shu-Hui, letter writer)"
+    ]
+  }
+}
