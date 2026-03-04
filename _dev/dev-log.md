@@ -21,6 +21,20 @@ Refactored synthesis query paths to reduce coupling and keep schema access centr
 - Synthesis is now integrated via a thinner boundary: producers (`src.synthesis`) and consumers (`src.dashboard_api`) share one query contract module.
 - Future synthesis DB/schema or chronology changes can be isolated mostly to `src/synthesis_queries.py`.
 
+**Validation + build output:**
+- `pytest -q` → 57 passed.
+- Dashboard synthesis smoke checks after refactor:
+  - `overview_available=True`
+  - `person_total_links=90` (`Feng Kuang Liu`)
+  - `date_total_assets=26` (`1989`)
+  - `location_total_photos=484` (`Taiwan`)
+  - `chronology_decade_count=10`
+- CLI smoke checks still succeed:
+  - `python -m src.synthesis dossier "Feng Kuang Liu"`
+  - `python -m src.synthesis date 1989`
+  - `python -m src.synthesis location Taiwan`
+- Commit: `b2a133a` — `Refactor synthesis queries into shared service module`.
+
 ---
 
 ## 2026-03-04 — Promote synthesis from experiment to infrastructure
