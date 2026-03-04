@@ -23,6 +23,7 @@ Both projects share the same arc (source media → AI vision → JSON manifests 
 ## Now — Synthesis Layer (Experiment 0002)
 
 - [x] **Clean pre-Phase-4 drift in experiment 0002** — aligned person cluster lookup with Branch A normalization fallback, added explicit Branch C inline/API reproducibility path, synced experiment manifest outputs with produced artifacts — 2026-03-04
+- [x] **Implement Phase 4 timeline + chronology artifacts (experiment 0002)** — timeline events now populated during rebuild (`3012`), added `chronology` command, generated `data/chronology.{json,md}` and `runs/p4-timeline/*` with gate pass across 10 decades — 2026-03-04
 
 ## Now — Project Self-Awareness
 

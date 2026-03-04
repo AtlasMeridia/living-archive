@@ -31,7 +31,10 @@
     "runs/p3-cross-reference/person-dossier-reiling-liao.json",
     "runs/p3-cross-reference/date-query-1978.json",
     "runs/p3-cross-reference/date-query-1989.json",
-    "runs/p3-cross-reference/evaluation.md"
+    "runs/p3-cross-reference/evaluation.md",
+    "runs/p4-timeline/chronology.json",
+    "runs/p4-timeline/chronology.md",
+    "runs/p4-timeline/evaluation.md"
   ],
   "branches": {
     "person_dedup": {

@@ -4,6 +4,32 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-03-04 — Experiment 0002 Phase 4 (timeline + chronology)
+
+Implemented Phase 4 in `experiments/0002-synthesis-layer/src/synthesis.py`.
+
+**What changed:**
+- `rebuild` now populates `timeline_events` from date entity links plus manifest labels (photo: `description_en/zh`; document: `summary_en/zh`).
+- Added `chronology` command:
+  - Reads `timeline_events`
+  - Generates `data/chronology.json` and `data/chronology.md` (Chinese-first markdown)
+  - Writes run snapshots to `experiments/0002-synthesis-layer/runs/p4-timeline/`
+  - Writes `runs/p4-timeline/evaluation.md` with gate result
+
+**Run metrics (Phase 4 generation):**
+- `python -m experiments.0002-synthesis-layer.src.synthesis rebuild`
+  - Timeline events populated: **3,012**
+- `python -m experiments.0002-synthesis-layer.src.synthesis chronology`
+  - Decades: **10** (`1940s` through `2040s`)
+  - Event groups (date+type grouped): **1,532**
+  - Gate: **Pass** (>=3 decades with events)
+
+**Validation:**
+- `python -m experiments.0002-synthesis-layer.src.synthesis stats` shows timeline events populated.
+- `pytest -q` → 49 passed.
+
+---
+
 ## 2026-03-04 — Experiment 0002 drift cleanup before Phase 4
 
 Closed pre-Phase-4 drift in `experiments/0002-synthesis-layer` so timeline work starts from a consistent base.

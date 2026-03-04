@@ -12,12 +12,19 @@ import json
 import re
 import sqlite3
 import sys
+from collections import Counter, defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
+EXPERIMENT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 DB_PATH = DATA_DIR / "synthesis.db"
 CLUSTERS_PATH = Path(__file__).resolve().parent / "person_clusters.json"
+RUNS_DIR = EXPERIMENT_ROOT / "runs"
+P4_TIMELINE_DIR = RUNS_DIR / "p4-timeline"
+CHRONOLOGY_JSON_PATH = DATA_DIR / "chronology.json"
+CHRONOLOGY_MD_PATH = DATA_DIR / "chronology.md"
 
 PHOTO_MANIFEST_GLOB = "photos/runs/*/manifests/*.json"
 DOC_MANIFEST_GLOB = "documents/runs/*/manifests/*.json"
@@ -383,6 +390,281 @@ def extract_from_photo(conn, manifest: dict, sha256: str):
             link_entity_asset(conn, eid, sha256, "vision", loc_conf, loc_est)
 
 
+# --- Timeline population + chronology ---
+
+def _shorten_label(value: str, limit: int = 120) -> str:
+    """Trim a label to a bounded length for timeline readability."""
+    s = (value or "").strip()
+    if len(s) <= limit:
+        return s
+    return s[: limit - 1].rstrip() + "…"
+
+
+def _event_labels_from_manifest(manifest: dict, is_photo: bool) -> tuple[str, str, str]:
+    """Return (label_en, label_zh, event_type) for a manifest timeline event."""
+    analysis = manifest.get("analysis", {})
+    if is_photo:
+        label_en = (
+            analysis.get("description_en")
+            or analysis.get("location_estimate")
+            or "Family photo"
+        )
+        label_zh = analysis.get("description_zh") or ""
+        return _shorten_label(label_en), _shorten_label(label_zh), "photo"
+
+    label_en = (
+        analysis.get("summary_en")
+        or analysis.get("title")
+        or analysis.get("document_type")
+        or "Family document"
+    )
+    label_zh = analysis.get("summary_zh") or ""
+    return _shorten_label(label_en), _shorten_label(label_zh), "document"
+
+
+def populate_timeline_events(conn, photos_by_sha: dict[str, Path], docs_by_sha: dict[str, Path]) -> int:
+    """Populate timeline_events from date entities + manifest labels."""
+    conn.execute("DELETE FROM timeline_events")
+
+    manifests_by_sha = {}
+    manifests_by_sha.update(docs_by_sha)
+    manifests_by_sha.update(photos_by_sha)
+
+    date_links = conn.execute("""
+        SELECT ea.asset_sha256, ea.source, e.normalized_value
+        FROM entity_assets ea
+        JOIN entities e ON e.entity_id = ea.entity_id
+        WHERE e.entity_type = 'date'
+        ORDER BY e.normalized_value, ea.asset_sha256
+    """).fetchall()
+
+    inserted = 0
+    for asset_sha, source, normalized_date in date_links:
+        path = manifests_by_sha.get(asset_sha)
+        if not path:
+            continue
+
+        manifest = load_manifest(path)
+        if not manifest:
+            continue
+
+        is_photo = "photos" in str(path)
+        label_en, label_zh, event_type = _event_labels_from_manifest(manifest, is_photo)
+        norm_date, precision = normalize_date(normalized_date)
+        if precision == "unknown":
+            continue
+
+        decade = date_to_decade(norm_date)
+        conn.execute(
+            """INSERT INTO timeline_events
+               (date_normalized, date_precision, era_decade, label_en, label_zh,
+                event_type, asset_sha256, source)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+            (norm_date, precision, decade, label_en or None, label_zh or None,
+             event_type, asset_sha, source),
+        )
+        inserted += 1
+
+    return inserted
+
+
+def _decade_sort_key(decade: str) -> int:
+    m = re.match(r"^(\d{4})s$", decade)
+    if m:
+        return int(m.group(1))
+    return 9999
+
+
+def _top_people_for_decade(conn, decade: str, limit: int = 8) -> list[str]:
+    """Return top people for a decade, preferring curated family-role entities."""
+    rows = conn.execute("""
+        SELECT COALESCE(NULLIF(e.name_zh, ''), e.entity_value) as display_name,
+               COUNT(DISTINCT ea.asset_sha256) AS asset_count
+        FROM entities e
+        JOIN entity_assets ea ON e.entity_id = ea.entity_id
+        JOIN timeline_events te ON te.asset_sha256 = ea.asset_sha256
+        WHERE e.entity_type = 'person'
+          AND te.era_decade = ?
+          AND e.metadata IS NOT NULL
+        GROUP BY e.entity_id
+        ORDER BY asset_count DESC, display_name
+        LIMIT ?
+    """, (decade, limit)).fetchall()
+
+    if not rows:
+        rows = conn.execute("""
+            SELECT COALESCE(NULLIF(e.name_zh, ''), e.entity_value) as display_name,
+                   COUNT(DISTINCT ea.asset_sha256) AS asset_count
+            FROM entities e
+            JOIN entity_assets ea ON e.entity_id = ea.entity_id
+            JOIN timeline_events te ON te.asset_sha256 = ea.asset_sha256
+            WHERE e.entity_type = 'person'
+              AND te.era_decade = ?
+            GROUP BY e.entity_id
+            ORDER BY asset_count DESC, display_name
+            LIMIT ?
+        """, (decade, limit)).fetchall()
+
+    return [name for name, _ in rows if name]
+
+
+def build_chronology_data(conn) -> dict:
+    """Build structured chronology JSON from timeline_events."""
+    rows = conn.execute("""
+        SELECT date_normalized, date_precision, era_decade, label_en, label_zh,
+               event_type, asset_sha256
+        FROM timeline_events
+        ORDER BY date_normalized, event_type, asset_sha256
+    """).fetchall()
+
+    decade_groups = defaultdict(dict)
+    decade_assets = defaultdict(lambda: {"photo": set(), "document": set()})
+
+    for date_norm, precision, decade, label_en, label_zh, event_type, sha in rows:
+        if not decade:
+            continue
+        key = (date_norm, precision, event_type)
+        group = decade_groups[decade].setdefault(
+            key,
+            {"assets": set(), "label_en": Counter(), "label_zh": Counter()},
+        )
+        group["assets"].add(sha)
+        if label_en:
+            group["label_en"][label_en] += 1
+        if label_zh:
+            group["label_zh"][label_zh] += 1
+        if event_type in decade_assets[decade]:
+            decade_assets[decade][event_type].add(sha)
+
+    decades = []
+    for decade in sorted(decade_groups.keys(), key=_decade_sort_key):
+        grouped_events = decade_groups[decade]
+        events = []
+        for (date_norm, precision, event_type), payload in sorted(grouped_events.items()):
+            labels_en = payload["label_en"].most_common(1)
+            labels_zh = payload["label_zh"].most_common(1)
+            label_en = labels_en[0][0] if labels_en else f"{event_type.title()} event"
+            label_zh = labels_zh[0][0] if labels_zh else ("照片事件" if event_type == "photo" else "文件事件")
+            events.append(
+                {
+                    "date": date_norm,
+                    "precision": precision,
+                    "label_en": label_en,
+                    "label_zh": label_zh,
+                    "type": event_type,
+                    "asset_count": len(payload["assets"]),
+                }
+            )
+
+        photo_count = len(decade_assets[decade]["photo"])
+        document_count = len(decade_assets[decade]["document"])
+        photo_word = "photo" if photo_count == 1 else "photos"
+        document_word = "document" if document_count == 1 else "documents"
+        group_word = "group" if len(events) == 1 else "groups"
+        summary_zh = (
+            f"{decade} 收錄 {photo_count} 張照片、{document_count} 份文件，"
+            f"整理為 {len(events)} 個時間事件群組。"
+        )
+        summary_en = (
+            f"{decade} includes {photo_count} {photo_word} and {document_count} {document_word}, "
+            f"organized into {len(events)} timeline event {group_word}."
+        )
+        decades.append(
+            {
+                "decade": decade,
+                "summary_en": summary_en,
+                "summary_zh": summary_zh,
+                "photo_count": photo_count,
+                "document_count": document_count,
+                "events": events,
+                "key_people": _top_people_for_decade(conn, decade),
+            }
+        )
+
+    total_events = sum(len(d["events"]) for d in decades)
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "source_db": str(DB_PATH),
+        "decade_count": len(decades),
+        "total_events": total_events,
+        "decades": decades,
+    }
+
+
+def render_chronology_markdown(chronology: dict, event_limit_per_decade: int = 40) -> str:
+    """Render chronology markdown (Chinese-first, readable table-of-contents style)."""
+    lines = [
+        "# 家族年表 / Family Chronology",
+        "",
+        f"生成時間 / Generated: {chronology['generated_at']}",
+        f"來源 / Source: `{chronology['source_db']}`",
+        f"十年分段 / Decades: {chronology['decade_count']}",
+        f"事件群組 / Event groups: {chronology['total_events']}",
+        "",
+    ]
+
+    for decade in chronology["decades"]:
+        lines.append(f"## {decade['decade']}")
+        lines.append("")
+        lines.append(f"- 中文摘要：{decade['summary_zh']}")
+        lines.append(f"- English summary: {decade['summary_en']}")
+        lines.append(f"- 照片 / Photos: {decade['photo_count']}")
+        lines.append(f"- 文件 / Documents: {decade['document_count']}")
+        if decade["key_people"]:
+            lines.append(f"- 關鍵人物 / Key people: {', '.join(decade['key_people'])}")
+        else:
+            lines.append("- 關鍵人物 / Key people: (none)")
+        lines.append("")
+        lines.append("| 日期 | 類型 | 中文標籤 | English label | 資產數 |")
+        lines.append("|---|---|---|---|---:|")
+
+        events = decade["events"]
+        for event in events[:event_limit_per_decade]:
+            lines.append(
+                f"| {event['date']} | {event['type']} | "
+                f"{event['label_zh']} | {event['label_en']} | {event['asset_count']} |"
+            )
+        remaining = len(events) - event_limit_per_decade
+        if remaining > 0:
+            lines.append(f"| ... | ... | 另有 {remaining} 項 | {remaining} additional events | ... |")
+        lines.append("")
+
+    return "\n".join(lines) + "\n"
+
+
+def write_phase4_artifacts(chronology: dict, chronology_markdown: str) -> Path:
+    """Write p4 timeline artifacts and return evaluation path."""
+    P4_TIMELINE_DIR.mkdir(parents=True, exist_ok=True)
+    (P4_TIMELINE_DIR / "chronology.json").write_text(
+        json.dumps(chronology, indent=2, ensure_ascii=False) + "\n"
+    )
+    (P4_TIMELINE_DIR / "chronology.md").write_text(chronology_markdown)
+
+    decades_with_events = [d for d in chronology["decades"] if d["events"]]
+    gate_pass = len(decades_with_events) >= 3
+    gate_text = "Pass" if gate_pass else "Fail"
+    decades_list = ", ".join(d["decade"] for d in decades_with_events) or "(none)"
+
+    eval_md = (
+        "# Phase 4 — Timeline + Chronology Evaluation\n\n"
+        f"**Date:** {datetime.now(timezone.utc).date().isoformat()}\n"
+        f"**Status:** {'Complete' if gate_pass else 'Needs work'}\n\n"
+        "## Gate check\n\n"
+        "| Criterion | Result |\n"
+        "|---|---|\n"
+        f"| Chronology covers at least 3 decades with events in each | "
+        f"**{gate_text}** — {len(decades_with_events)} decades ({decades_list}) |\n\n"
+        "## Artifact summary\n\n"
+        f"- Decades: {chronology['decade_count']}\n"
+        f"- Event groups: {chronology['total_events']}\n"
+        f"- Outputs: `data/chronology.json`, `data/chronology.md`, "
+        "`runs/p4-timeline/chronology.json`, `runs/p4-timeline/chronology.md`\n"
+    )
+    evaluation_path = P4_TIMELINE_DIR / "evaluation.md"
+    evaluation_path.write_text(eval_md)
+    return evaluation_path
+
+
 # --- Commands ---
 
 def rebuild():
@@ -416,6 +698,9 @@ def rebuild():
             extract_from_photo(conn, manifest, sha)
             photo_ok += 1
     print(f"  Extracted from {photo_ok} photos")
+
+    timeline_count = populate_timeline_events(conn, photos_by_sha, docs_by_sha)
+    print(f"  Timeline events populated: {timeline_count}")
 
     conn.commit()
     conn.close()
@@ -766,9 +1051,39 @@ def location_query(country: str):
     print(json.dumps(result, indent=2, ensure_ascii=False))
 
 
+def chronology():
+    """Generate chronology artifacts from populated timeline_events."""
+    conn = _open_db()
+    total_timeline_events = conn.execute("SELECT COUNT(*) FROM timeline_events").fetchone()[0]
+    if total_timeline_events == 0:
+        conn.close()
+        print("No timeline events found. Run 'rebuild' first.")
+        sys.exit(1)
+
+    chronology_data = build_chronology_data(conn)
+    conn.close()
+
+    chronology_markdown = render_chronology_markdown(chronology_data)
+    CHRONOLOGY_JSON_PATH.write_text(json.dumps(chronology_data, indent=2, ensure_ascii=False) + "\n")
+    CHRONOLOGY_MD_PATH.write_text(chronology_markdown)
+
+    evaluation_path = write_phase4_artifacts(chronology_data, chronology_markdown)
+
+    print(f"Wrote {CHRONOLOGY_JSON_PATH}")
+    print(f"Wrote {CHRONOLOGY_MD_PATH}")
+    print(f"Wrote {P4_TIMELINE_DIR / 'chronology.json'}")
+    print(f"Wrote {P4_TIMELINE_DIR / 'chronology.md'}")
+    print(f"Wrote {evaluation_path}")
+    print(
+        f"Chronology generated: {chronology_data['decade_count']} decades, "
+        f"{chronology_data['total_events']} event groups."
+    )
+
+
 COMMANDS = {
     "rebuild": rebuild,
     "stats": stats,
+    "chronology": chronology,
     "dossier": lambda: dossier(sys.argv[2]) if len(sys.argv) > 2 else print("Usage: ... dossier <name>"),
     "date": lambda: date_query(sys.argv[2]) if len(sys.argv) > 2 else print("Usage: ... date <year>"),
     "location": lambda: location_query(sys.argv[2]) if len(sys.argv) > 2 else print("Usage: ... location <country>"),
