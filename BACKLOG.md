@@ -26,6 +26,7 @@ Both projects share the same arc (source media → AI vision → JSON manifests 
 - [x] **Implement Phase 4 timeline + chronology artifacts (experiment 0002)** — timeline events now populated during rebuild (`3012`), added `chronology` command, generated `data/chronology.{json,md}` and `runs/p4-timeline/*` with gate pass across 10 decades — 2026-03-04
 - [x] **Complete Phase 5 final report (experiment 0002)** — added `runs/p5-report/summary.md` with branch outcomes, extraction/timeline metrics, query precision by type, design retrospective, and next-step recommendations — 2026-03-04
 - [x] **Promote synthesis module to `src/` + wire dashboard synthesis APIs** — promoted `src/synthesis.py` + `src/person_clusters.json`, added dashboard endpoints (`/api/synthesis/overview|person|date|location|chronology`), and marked experiment 0002 complete — 2026-03-04
+- [x] **Extract shared synthesis query service for modularity** — added `src/synthesis_queries.py` and rewired both `src/synthesis.py` (CLI queries) and `src/dashboard_api.py` (synthesis endpoints) to use shared DB + chronology access helpers, reducing duplicated SQL and tightening the synthesis boundary — 2026-03-04
 
 ## Now — Project Self-Awareness
 

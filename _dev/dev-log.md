@@ -4,6 +4,25 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-03-04 — Synthesis modularity refactor (shared query service)
+
+Refactored synthesis query paths to reduce coupling and keep schema access centralized.
+
+**What changed:**
+- Added `src/synthesis_queries.py` as a shared data-access layer for:
+  - synthesis DB connection/open checks
+  - person/date/location/overview query helpers
+  - chronology metadata/payload file readers
+- Rewired `src/synthesis.py` CLI query commands (`dossier`, `date`, `location`) to use shared query helpers instead of inline SQL.
+- Rewired dashboard synthesis APIs in `src/dashboard_api.py` to use the same helpers, removing duplicate SQL blocks and direct chronology parsing logic from the API layer.
+- Added tests in `tests/test_synthesis_queries.py` for overview/person/date/location queries and chronology metadata/payload behavior.
+
+**Outcome:**
+- Synthesis is now integrated via a thinner boundary: producers (`src.synthesis`) and consumers (`src.dashboard_api`) share one query contract module.
+- Future synthesis DB/schema or chronology changes can be isolated mostly to `src/synthesis_queries.py`.
+
+---
+
 ## 2026-03-04 — Promote synthesis from experiment to infrastructure
 
 Promoted experiment `0002-synthesis-layer` into main infrastructure with new `src/synthesis.py` and `src/person_clusters.json`.

@@ -17,6 +17,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from . import config
+from .synthesis_queries import (
+    open_synthesis_db,
+    query_date_entities,
+    query_location_entity,
+    query_person_entity,
+)
 
 DATA_DIR = config.DATA_DIR
 DB_PATH = DATA_DIR / "synthesis.db"
@@ -752,10 +758,11 @@ def stats():
 # --- Cross-reference queries ---
 
 def _open_db():
-    if not DB_PATH.exists():
+    try:
+        return open_synthesis_db()
+    except FileNotFoundError:
         print(f"No database at {DB_PATH}. Run 'rebuild' first.", file=sys.stderr)
         sys.exit(1)
-    return sqlite3.connect(str(DB_PATH))
 
 
 def _manifest_summary(sha256: str) -> dict | None:
@@ -858,44 +865,27 @@ def _fast_manifest_summary(sha256: str) -> dict | None:
 def dossier(name: str):
     """Person dossier — all documents and photos linked to a person."""
     conn = _open_db()
-
-    # Find entity by name (case-insensitive partial match)
-    rows = conn.execute("""
-        SELECT entity_id, entity_value, name_zh, metadata
-        FROM entities WHERE entity_type = 'person'
-        AND (entity_value LIKE ? OR name_zh LIKE ? OR normalized_value LIKE ?)
-    """, (f"%{name}%", f"%{name}%", f"%{name.lower()}%")).fetchall()
-
-    if not rows:
-        print(f"No person entity matching '{name}'")
-        conn.close()
-        return
-
-    # Use first match (most specific)
-    eid, ename, name_zh, metadata = rows[0]
-    meta = json.loads(metadata) if metadata else {}
-
-    # Get all linked assets
-    links = conn.execute("""
-        SELECT asset_sha256, source, confidence, context
-        FROM entity_assets WHERE entity_id = ?
-        ORDER BY confidence DESC
-    """, (eid,)).fetchall()
-
+    person = query_person_entity(conn, name)
     conn.close()
+    if not person:
+        print(f"No person entity matching '{name}'")
+        return
 
     # Build manifest index and resolve
     print(f"Building manifest index...", file=sys.stderr)
     assets = []
-    for sha, source, conf, context in links:
+    for link in person["links"]:
+        sha = link["asset_sha256"]
         summary = _fast_manifest_summary(sha)
-        assets.append({
-            "sha256": sha[:12],
-            "source": source,
-            "confidence": conf,
-            "context": context,
-            **(summary or {"type": "unknown"}),
-        })
+        assets.append(
+            {
+                "sha256": sha[:12],
+                "source": link["source"],
+                "confidence": link["confidence"],
+                "context": link["context"],
+                **(summary or {"type": "unknown"}),
+            }
+        )
 
     # Sort by date
     def sort_key(a):
@@ -904,9 +894,9 @@ def dossier(name: str):
     assets.sort(key=sort_key)
 
     result = {
-        "person": ename,
-        "name_zh": name_zh,
-        "family_role": meta.get("family_role"),
+        "person": person["entity_value"],
+        "name_zh": person["name_zh"],
+        "family_role": person["family_role"],
         "total_links": len(assets),
         "documents": [a for a in assets if a.get("type") == "document"],
         "photos": [a for a in assets if a.get("type") == "photo"],
@@ -918,48 +908,30 @@ def dossier(name: str):
 def date_query(year: str):
     """Date query — all assets linked to dates in a given year."""
     conn = _open_db()
-
-    # Find date entities matching the year
-    rows = conn.execute("""
-        SELECT e.entity_id, e.normalized_value
-        FROM entities e WHERE e.entity_type = 'date'
-        AND e.normalized_value LIKE ?
-    """, (f"{year}%",)).fetchall()
-
-    if not rows:
-        print(f"No date entities matching '{year}'")
-        conn.close()
-        return
-
-    entity_ids = [r[0] for r in rows]
-    dates_found = [r[1] for r in rows]
-
-    # Get all linked assets
-    placeholders = ",".join("?" * len(entity_ids))
-    links = conn.execute(f"""
-        SELECT ea.asset_sha256, ea.source, ea.confidence, e.normalized_value
-        FROM entity_assets ea JOIN entities e ON ea.entity_id = e.entity_id
-        WHERE ea.entity_id IN ({placeholders})
-        ORDER BY e.normalized_value
-    """, entity_ids).fetchall()
-
+    date_result = query_date_entities(conn, year)
     conn.close()
+    if not date_result:
+        print(f"No date entities matching '{year}'")
+        return
 
     print(f"Building manifest index...", file=sys.stderr)
     assets = []
-    for sha, source, conf, date_val in links:
+    for link in date_result["links"]:
+        sha = link["asset_sha256"]
         summary = _fast_manifest_summary(sha)
-        assets.append({
-            "sha256": sha[:12],
-            "date": date_val,
-            "source": source,
-            "confidence": conf,
-            **(summary or {"type": "unknown"}),
-        })
+        assets.append(
+            {
+                "sha256": sha[:12],
+                "date": link["normalized_value"],
+                "source": link["source"],
+                "confidence": link["confidence"],
+                **(summary or {"type": "unknown"}),
+            }
+        )
 
     result = {
         "query": year,
-        "dates_matched": sorted(set(dates_found)),
+        "dates_matched": date_result["dates_matched"],
         "total_assets": len(assets),
         "documents": [a for a in assets if a.get("type") == "document"],
         "photos": [a for a in assets if a.get("type") == "photo"],
@@ -971,44 +943,31 @@ def date_query(year: str):
 def location_query(country: str):
     """Location query — all photos linked to a country."""
     conn = _open_db()
-
-    rows = conn.execute("""
-        SELECT entity_id, entity_value FROM entities
-        WHERE entity_type = 'location'
-        AND (entity_value LIKE ? OR normalized_value LIKE ?)
-    """, (f"%{country}%", f"%{country.lower()}%")).fetchall()
-
-    if not rows:
-        print(f"No location entity matching '{country}'")
-        conn.close()
-        return
-
-    eid, loc_name = rows[0]
-
-    links = conn.execute("""
-        SELECT asset_sha256, source, confidence, context
-        FROM entity_assets WHERE entity_id = ?
-        ORDER BY confidence DESC
-    """, (eid,)).fetchall()
-
+    location = query_location_entity(conn, country)
     conn.close()
+    if not location:
+        print(f"No location entity matching '{country}'")
+        return
 
     print(f"Building manifest index...", file=sys.stderr)
     assets = []
-    for sha, source, conf, context in links:
+    for link in location["links"]:
+        sha = link["asset_sha256"]
         summary = _fast_manifest_summary(sha)
-        assets.append({
-            "sha256": sha[:12],
-            "confidence": conf,
-            "location_detail": context,
-            **(summary or {"type": "unknown"}),
-        })
+        assets.append(
+            {
+                "sha256": sha[:12],
+                "confidence": link["confidence"],
+                "location_detail": link["context"],
+                **(summary or {"type": "unknown"}),
+            }
+        )
 
     # Sort by date
     assets.sort(key=lambda a: a.get("date") or "")
 
     result = {
-        "location": loc_name,
+        "location": location["location"],
         "total_photos": len(assets),
         "photos": assets,
     }

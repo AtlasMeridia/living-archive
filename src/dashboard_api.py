@@ -9,10 +9,18 @@ import json
 import logging
 import sqlite3
 import time
-from pathlib import Path
 
 from . import config
 from .catalog import get_catalog_db, init_catalog, get_stats, get_meta
+from .synthesis_queries import (
+    chronology_metadata,
+    chronology_payload,
+    open_synthesis_db,
+    query_date_entities,
+    query_location_entity,
+    query_overview,
+    query_person_entity,
+)
 
 log = logging.getLogger("living_archive")
 
@@ -23,16 +31,6 @@ def _get_conn() -> sqlite3.Connection:
     if not db_path.exists():
         raise FileNotFoundError(f"Catalog not found: {db_path}")
     return init_catalog(db_path)
-
-
-def _get_synthesis_conn() -> sqlite3.Connection:
-    """Return a synthesis.db connection."""
-    db_path = config.DATA_DIR / "synthesis.db"
-    if not db_path.exists():
-        raise FileNotFoundError(f"Synthesis DB not found: {db_path}")
-    conn = sqlite3.connect(str(db_path))
-    conn.row_factory = sqlite3.Row
-    return conn
 
 
 def _catalog_asset_map(sha_values: list[str]) -> dict[str, dict]:
@@ -415,96 +413,35 @@ def api_people() -> dict:
 def api_synthesis_overview() -> dict:
     """Top-level synthesis metrics for dashboard use."""
     try:
-        conn = _get_synthesis_conn()
+        conn = open_synthesis_db()
     except FileNotFoundError as e:
         return {"available": False, "error": str(e)}
-
-    entity_counts = conn.execute("""
-        SELECT entity_type, COUNT(*) AS cnt
-        FROM entities
-        GROUP BY entity_type
-    """).fetchall()
-    total_entities = sum(r["cnt"] for r in entity_counts)
-    total_links = conn.execute("SELECT COUNT(*) FROM entity_assets").fetchone()[0]
-    total_events = conn.execute("SELECT COUNT(*) FROM timeline_events").fetchone()[0]
-    top_people = conn.execute("""
-        SELECT e.entity_value, e.name_zh, COUNT(ea.asset_sha256) AS link_count
-        FROM entities e
-        JOIN entity_assets ea ON e.entity_id = ea.entity_id
-        WHERE e.entity_type = 'person'
-        GROUP BY e.entity_id
-        ORDER BY link_count DESC
-        LIMIT 10
-    """).fetchall()
-    conn.close()
-
-    chronology_path = config.DATA_DIR / "chronology.json"
-    chronology_exists = chronology_path.exists()
-    chronology_meta = None
-    if chronology_exists:
-        try:
-            payload = json.loads(chronology_path.read_text())
-            chronology_meta = {
-                "generated_at": payload.get("generated_at"),
-                "decade_count": payload.get("decade_count"),
-                "total_events": payload.get("total_events"),
-            }
-        except Exception:
-            chronology_meta = {"error": "Failed to parse chronology.json"}
+    try:
+        overview = query_overview(conn)
+    finally:
+        conn.close()
 
     return {
         "available": True,
-        "entity_counts": {r["entity_type"]: r["cnt"] for r in entity_counts},
-        "total_entities": total_entities,
-        "entity_asset_links": total_links,
-        "timeline_events": total_events,
-        "top_people": [
-            {
-                "name_en": r["entity_value"],
-                "name_zh": r["name_zh"],
-                "link_count": r["link_count"],
-            }
-            for r in top_people
-        ],
-        "chronology": {
-            "exists": chronology_exists,
-            "meta": chronology_meta,
-            "path": str(chronology_path),
-        },
+        **overview,
+        "chronology": chronology_metadata(),
     }
 
 
 def api_synthesis_person(name: str) -> dict:
     """Person dossier query via synthesis.db + catalog context."""
     try:
-        conn = _get_synthesis_conn()
+        conn = open_synthesis_db()
     except FileNotFoundError as e:
         return {"error": str(e)}
-
-    rows = conn.execute("""
-        SELECT entity_id, entity_value, name_zh, metadata
-        FROM entities
-        WHERE entity_type = 'person'
-          AND (entity_value LIKE ? OR name_zh LIKE ? OR normalized_value LIKE ?)
-        ORDER BY LENGTH(entity_value) ASC
-        LIMIT 1
-    """, (f"%{name}%", f"%{name}%", f"%{name.lower()}%")).fetchall()
-    if not rows:
+    try:
+        person = query_person_entity(conn, name)
+    finally:
         conn.close()
+    if not person:
         return {"error": f"No person entity matching '{name}'"}
 
-    row = rows[0]
-    entity_id = row["entity_id"]
-    metadata = json.loads(row["metadata"]) if row["metadata"] else {}
-
-    links = conn.execute("""
-        SELECT asset_sha256, source, confidence, context
-        FROM entity_assets
-        WHERE entity_id = ?
-        ORDER BY confidence DESC
-    """, (entity_id,)).fetchall()
-    conn.close()
-
+    links = person["links"]
     shas = [r["asset_sha256"] for r in links]
     catalog_map = _catalog_asset_map(shas)
 
@@ -532,9 +469,9 @@ def api_synthesis_person(name: str) -> dict:
     documents.sort(key=lambda x: x.get("date") or "")
     photos.sort(key=lambda x: x.get("date") or "")
     return {
-        "person": row["entity_value"],
-        "name_zh": row["name_zh"],
-        "family_role": metadata.get("family_role"),
+        "person": person["entity_value"],
+        "name_zh": person["name_zh"],
+        "family_role": person["family_role"],
         "total_links": len(links),
         "documents": documents,
         "photos": photos,
@@ -544,31 +481,17 @@ def api_synthesis_person(name: str) -> dict:
 def api_synthesis_date(year: str) -> dict:
     """Date query in synthesis layer."""
     try:
-        conn = _get_synthesis_conn()
+        conn = open_synthesis_db()
     except FileNotFoundError as e:
         return {"error": str(e)}
-
-    date_rows = conn.execute("""
-        SELECT entity_id, normalized_value
-        FROM entities
-        WHERE entity_type = 'date'
-          AND normalized_value LIKE ?
-    """, (f"{year}%",)).fetchall()
-    if not date_rows:
+    try:
+        date_result = query_date_entities(conn, year)
+    finally:
         conn.close()
+    if not date_result:
         return {"error": f"No date entities matching '{year}'"}
 
-    entity_ids = [r["entity_id"] for r in date_rows]
-    placeholders = ",".join("?" * len(entity_ids))
-    links = conn.execute(f"""
-        SELECT ea.asset_sha256, ea.source, ea.confidence, e.normalized_value
-        FROM entity_assets ea
-        JOIN entities e ON ea.entity_id = e.entity_id
-        WHERE ea.entity_id IN ({placeholders})
-        ORDER BY e.normalized_value
-    """, entity_ids).fetchall()
-    conn.close()
-
+    links = date_result["links"]
     shas = [r["asset_sha256"] for r in links]
     catalog_map = _catalog_asset_map(shas)
     documents: list[dict] = []
@@ -591,7 +514,7 @@ def api_synthesis_date(year: str) -> dict:
 
     return {
         "query": year,
-        "dates_matched": sorted({r["normalized_value"] for r in date_rows}),
+        "dates_matched": date_result["dates_matched"],
         "total_assets": len(links),
         "documents": documents,
         "photos": photos,
@@ -601,31 +524,16 @@ def api_synthesis_date(year: str) -> dict:
 def api_synthesis_location(country: str) -> dict:
     """Location query in synthesis layer."""
     try:
-        conn = _get_synthesis_conn()
+        conn = open_synthesis_db()
     except FileNotFoundError as e:
         return {"error": str(e)}
-
-    loc_rows = conn.execute("""
-        SELECT entity_id, entity_value
-        FROM entities
-        WHERE entity_type = 'location'
-          AND (entity_value LIKE ? OR normalized_value LIKE ?)
-        ORDER BY entity_value
-        LIMIT 1
-    """, (f"%{country}%", f"%{country.lower()}%")).fetchall()
-    if not loc_rows:
+    try:
+        location_result = query_location_entity(conn, country)
+    finally:
         conn.close()
+    if not location_result:
         return {"error": f"No location entity matching '{country}'"}
-
-    entity_id, location_name = loc_rows[0]["entity_id"], loc_rows[0]["entity_value"]
-    links = conn.execute("""
-        SELECT asset_sha256, confidence, context
-        FROM entity_assets
-        WHERE entity_id = ?
-        ORDER BY confidence DESC
-    """, (entity_id,)).fetchall()
-    conn.close()
-
+    links = location_result["links"]
     shas = [r["asset_sha256"] for r in links]
     catalog_map = _catalog_asset_map(shas)
     photos = []
@@ -641,7 +549,7 @@ def api_synthesis_location(country: str) -> dict:
         })
     photos.sort(key=lambda x: x.get("date") or "")
     return {
-        "location": location_name,
+        "location": location_result["location"],
         "total_photos": len(photos),
         "photos": photos,
     }
@@ -649,18 +557,7 @@ def api_synthesis_location(country: str) -> dict:
 
 def api_synthesis_chronology() -> dict:
     """Return generated chronology if present."""
-    path = config.DATA_DIR / "chronology.json"
-    if not path.exists():
-        return {
-            "available": False,
-            "error": f"Chronology not found: {path}. Run `python -m src.synthesis chronology`.",
-        }
-    try:
-        payload = json.loads(path.read_text())
-    except Exception as e:
-        return {"available": False, "error": f"Failed to parse chronology: {e}"}
-    payload["available"] = True
-    return payload
+    return chronology_payload()
 
 
 def api_health() -> dict:
