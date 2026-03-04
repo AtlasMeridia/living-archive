@@ -4,6 +4,24 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-03-04 — Experiment 0002 Phase 5 (final report)
+
+Completed the Phase 5 synthesis report at `experiments/0002-synthesis-layer/runs/p5-report/summary.md`.
+
+**Included in report:**
+- Final person dedup branch table (A/B/C metrics + verdicts)
+- Entity extraction + timeline metrics from current rebuild
+- Cross-reference precision by query type (person/date/location)
+- Design retrospective (assumptions vs observed data)
+- Verdict per component (`useful` / `needs-work` / `not-viable`)
+- Next-step recommendations: face cluster naming, chronology quality controls, dashboard wiring, unresolved-name reconciliation, personal-branch integration
+
+**Additional artifacts generated for query-type evaluation:**
+- `runs/p3-cross-reference/location-query-taiwan.json`
+- `runs/p3-cross-reference/location-query-italy.json`
+
+---
+
 ## 2026-03-04 — Experiment 0002 Phase 4 (timeline + chronology)
 
 Implemented Phase 4 in `experiments/0002-synthesis-layer/src/synthesis.py`.
