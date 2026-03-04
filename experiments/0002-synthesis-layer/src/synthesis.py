@@ -465,9 +465,279 @@ def stats():
     conn.close()
 
 
+# --- Cross-reference queries ---
+
+def _open_db():
+    if not DB_PATH.exists():
+        print(f"No database at {DB_PATH}. Run 'rebuild' first.", file=sys.stderr)
+        sys.exit(1)
+    return sqlite3.connect(str(DB_PATH))
+
+
+def _manifest_summary(sha256: str) -> dict | None:
+    """Load the manifest for an asset and return a compact summary."""
+    # Try documents first, then photos
+    for glob in [DOC_MANIFEST_GLOB, PHOTO_MANIFEST_GLOB]:
+        for p in DATA_DIR.glob(glob):
+            try:
+                m = json.loads(p.read_text())
+            except (json.JSONDecodeError, OSError):
+                continue
+            if m.get("source_sha256") == sha256:
+                analysis = m.get("analysis", {})
+                source_file = m.get("source_file", "")
+                # Determine content type from glob
+                is_photo = "photos" in str(p)
+                if is_photo:
+                    return {
+                        "type": "photo",
+                        "source_file": source_file,
+                        "date": analysis.get("date_estimate"),
+                        "description_en": analysis.get("description_en", "")[:150],
+                        "description_zh": analysis.get("description_zh", "")[:150],
+                        "location": analysis.get("location_estimate"),
+                    }
+                else:
+                    return {
+                        "type": "document",
+                        "source_file": source_file,
+                        "title": analysis.get("title", ""),
+                        "date": analysis.get("date"),
+                        "summary_en": analysis.get("summary_en", "")[:200],
+                        "document_type": analysis.get("document_type", ""),
+                    }
+    return None
+
+
+# Cache sha→manifest to avoid re-scanning for each asset
+_manifest_cache: dict[str, dict | None] = {}
+
+
+def _cached_manifest_summary(sha256: str) -> dict | None:
+    if sha256 not in _manifest_cache:
+        _manifest_cache[sha256] = _manifest_summary(sha256)
+    return _manifest_cache[sha256]
+
+
+def _build_manifest_index() -> dict[str, Path]:
+    """Build sha256 → manifest path index for fast lookups."""
+    index = {}
+    for glob in [DOC_MANIFEST_GLOB, PHOTO_MANIFEST_GLOB]:
+        for p in sorted(DATA_DIR.glob(glob)):
+            try:
+                m = json.loads(p.read_text())
+            except (json.JSONDecodeError, OSError):
+                continue
+            sha = m.get("source_sha256", "")
+            if sha:
+                index[sha] = p  # latest wins
+    return index
+
+
+_manifest_index: dict[str, Path] | None = None
+
+
+def _fast_manifest_summary(sha256: str) -> dict | None:
+    """Look up manifest using pre-built index."""
+    global _manifest_index
+    if _manifest_index is None:
+        _manifest_index = _build_manifest_index()
+    p = _manifest_index.get(sha256)
+    if not p:
+        return None
+    try:
+        m = json.loads(p.read_text())
+    except (json.JSONDecodeError, OSError):
+        return None
+    analysis = m.get("analysis", {})
+    source_file = m.get("source_file", "")
+    is_photo = "photos" in str(p)
+    if is_photo:
+        return {
+            "type": "photo",
+            "source_file": source_file,
+            "date": analysis.get("date_estimate"),
+            "description_en": analysis.get("description_en", "")[:150],
+            "description_zh": analysis.get("description_zh", "")[:150],
+            "location": analysis.get("location_estimate"),
+        }
+    return {
+        "type": "document",
+        "source_file": source_file,
+        "title": analysis.get("title", ""),
+        "date": analysis.get("date"),
+        "summary_en": analysis.get("summary_en", "")[:200],
+        "document_type": analysis.get("document_type", ""),
+    }
+
+
+def dossier(name: str):
+    """Person dossier — all documents and photos linked to a person."""
+    conn = _open_db()
+
+    # Find entity by name (case-insensitive partial match)
+    rows = conn.execute("""
+        SELECT entity_id, entity_value, name_zh, metadata
+        FROM entities WHERE entity_type = 'person'
+        AND (entity_value LIKE ? OR name_zh LIKE ? OR normalized_value LIKE ?)
+    """, (f"%{name}%", f"%{name}%", f"%{name.lower()}%")).fetchall()
+
+    if not rows:
+        print(f"No person entity matching '{name}'")
+        conn.close()
+        return
+
+    # Use first match (most specific)
+    eid, ename, name_zh, metadata = rows[0]
+    meta = json.loads(metadata) if metadata else {}
+
+    # Get all linked assets
+    links = conn.execute("""
+        SELECT asset_sha256, source, confidence, context
+        FROM entity_assets WHERE entity_id = ?
+        ORDER BY confidence DESC
+    """, (eid,)).fetchall()
+
+    conn.close()
+
+    # Build manifest index and resolve
+    print(f"Building manifest index...", file=sys.stderr)
+    assets = []
+    for sha, source, conf, context in links:
+        summary = _fast_manifest_summary(sha)
+        assets.append({
+            "sha256": sha[:12],
+            "source": source,
+            "confidence": conf,
+            "context": context,
+            **(summary or {"type": "unknown"}),
+        })
+
+    # Sort by date
+    def sort_key(a):
+        d = a.get("date") or ""
+        return d
+    assets.sort(key=sort_key)
+
+    result = {
+        "person": ename,
+        "name_zh": name_zh,
+        "family_role": meta.get("family_role"),
+        "total_links": len(assets),
+        "documents": [a for a in assets if a.get("type") == "document"],
+        "photos": [a for a in assets if a.get("type") == "photo"],
+    }
+
+    print(json.dumps(result, indent=2, ensure_ascii=False))
+
+
+def date_query(year: str):
+    """Date query — all assets linked to dates in a given year."""
+    conn = _open_db()
+
+    # Find date entities matching the year
+    rows = conn.execute("""
+        SELECT e.entity_id, e.normalized_value
+        FROM entities e WHERE e.entity_type = 'date'
+        AND e.normalized_value LIKE ?
+    """, (f"{year}%",)).fetchall()
+
+    if not rows:
+        print(f"No date entities matching '{year}'")
+        conn.close()
+        return
+
+    entity_ids = [r[0] for r in rows]
+    dates_found = [r[1] for r in rows]
+
+    # Get all linked assets
+    placeholders = ",".join("?" * len(entity_ids))
+    links = conn.execute(f"""
+        SELECT ea.asset_sha256, ea.source, ea.confidence, e.normalized_value
+        FROM entity_assets ea JOIN entities e ON ea.entity_id = e.entity_id
+        WHERE ea.entity_id IN ({placeholders})
+        ORDER BY e.normalized_value
+    """, entity_ids).fetchall()
+
+    conn.close()
+
+    print(f"Building manifest index...", file=sys.stderr)
+    assets = []
+    for sha, source, conf, date_val in links:
+        summary = _fast_manifest_summary(sha)
+        assets.append({
+            "sha256": sha[:12],
+            "date": date_val,
+            "source": source,
+            "confidence": conf,
+            **(summary or {"type": "unknown"}),
+        })
+
+    result = {
+        "query": year,
+        "dates_matched": sorted(set(dates_found)),
+        "total_assets": len(assets),
+        "documents": [a for a in assets if a.get("type") == "document"],
+        "photos": [a for a in assets if a.get("type") == "photo"],
+    }
+
+    print(json.dumps(result, indent=2, ensure_ascii=False))
+
+
+def location_query(country: str):
+    """Location query — all photos linked to a country."""
+    conn = _open_db()
+
+    rows = conn.execute("""
+        SELECT entity_id, entity_value FROM entities
+        WHERE entity_type = 'location'
+        AND (entity_value LIKE ? OR normalized_value LIKE ?)
+    """, (f"%{country}%", f"%{country.lower()}%")).fetchall()
+
+    if not rows:
+        print(f"No location entity matching '{country}'")
+        conn.close()
+        return
+
+    eid, loc_name = rows[0]
+
+    links = conn.execute("""
+        SELECT asset_sha256, source, confidence, context
+        FROM entity_assets WHERE entity_id = ?
+        ORDER BY confidence DESC
+    """, (eid,)).fetchall()
+
+    conn.close()
+
+    print(f"Building manifest index...", file=sys.stderr)
+    assets = []
+    for sha, source, conf, context in links:
+        summary = _fast_manifest_summary(sha)
+        assets.append({
+            "sha256": sha[:12],
+            "confidence": conf,
+            "location_detail": context,
+            **(summary or {"type": "unknown"}),
+        })
+
+    # Sort by date
+    assets.sort(key=lambda a: a.get("date") or "")
+
+    result = {
+        "location": loc_name,
+        "total_photos": len(assets),
+        "photos": assets,
+    }
+
+    print(json.dumps(result, indent=2, ensure_ascii=False))
+
+
 COMMANDS = {
     "rebuild": rebuild,
     "stats": stats,
+    "dossier": lambda: dossier(sys.argv[2]) if len(sys.argv) > 2 else print("Usage: ... dossier <name>"),
+    "date": lambda: date_query(sys.argv[2]) if len(sys.argv) > 2 else print("Usage: ... date <year>"),
+    "location": lambda: location_query(sys.argv[2]) if len(sys.argv) > 2 else print("Usage: ... location <country>"),
 }
 
 
