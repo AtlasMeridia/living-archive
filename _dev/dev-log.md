@@ -4,6 +4,20 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-03-03 — Contact sheet triage for FastFoto scans (new tool)
+
+Built `src/contact_triage.py` — pre-analysis triage pass for the 7,600+ FastFoto scans. The tool tiles photos into 4×4 numbered grids (contact sheets), sends each to Haiku via the Anthropic API, and saves a JSON keep/skip list to `data/triage/<album>_triage.json`.
+
+**Rationale:** Full analysis runs ~30s/photo via Claude CLI. With 7,600 scans, that's 60+ hours of compute. Bulk scanning also produces duplicates (same photo scanned twice) and occasional blank sheets. A Haiku triage pass (~2s/grid, 16 photos) can catch these cheaply before the expensive pass.
+
+**CLI:** `python -m src.contact_triage <album_dir> [--grid-size 16] [--dry-run]`
+
+**Output schema:** `data/triage/<album>_triage.json` with `keep`, `skip`, `skip_reasons`, token counts, model. Future: `run_batch.py` can consult skip lists before queueing full analysis.
+
+**Verified:** PIL tiling smoke-tested on workspace photos — contact sheets render correctly at 1200×1096px (243 KB JPEG).
+
+---
+
 ## 2026-03-03 — Catalog caching pivot (architecture)
 
 Rewrote the dashboard to read exclusively from `catalog.db` instead of walking the NAS filesystem. The trigger: after moving the AI layer local (2026-03-02), the dashboard was still doing 30+ second cold loads because `/api/batch-progress` imported `discover.py` and walked the NAS media tree.

@@ -30,12 +30,14 @@ from .dashboard_api import (
     api_people,
     api_health,
 )
+from .haptic_api import api_haptic_photos, serve_photo
 from .tokens import generate_css
 
 log = logging.getLogger("living_archive")
 
 PORT = 8378
 HTML_PATH = Path(__file__).resolve().parent.parent / "dashboard.html"
+HAPTIC_HTML_PATH = Path(__file__).resolve().parent.parent / "haptic.html"
 
 # --- In-memory TTL cache ---
 
@@ -78,6 +80,14 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
         if path == "/":
             self._serve_html()
+        elif path == "/haptic":
+            self._serve_haptic()
+        elif path == "/api/haptic/photos":
+            self._json(cached("haptic-photos", api_haptic_photos))
+        elif path == "/api/haptic/photo":
+            qs = parse_qs(parsed.query)
+            source_file = qs.get("path", [""])[0]
+            self._serve_haptic_photo(source_file)
         elif path == "/tokens.css":
             self._serve_tokens_css()
         elif path == "/api/overview":
@@ -124,6 +134,30 @@ class DashboardHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+    def _serve_haptic(self):
+        if not HAPTIC_HTML_PATH.exists():
+            self.send_error(HTTPStatus.NOT_FOUND, "haptic.html not found")
+            return
+        body = HAPTIC_HTML_PATH.read_bytes()
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _serve_haptic_photo(self, source_file: str):
+        result = serve_photo(source_file)
+        if result is None:
+            self.send_error(HTTPStatus.NOT_FOUND)
+            return
+        data, content_type = result
+        self.send_response(200)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Length", str(len(data)))
+        self.send_header("Cache-Control", "public, max-age=3600")
+        self.end_headers()
+        self.wfile.write(data)
 
     def _serve_tokens_css(self):
         try:

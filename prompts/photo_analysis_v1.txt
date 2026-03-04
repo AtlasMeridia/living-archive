@@ -25,6 +25,8 @@ Guidelines:
 - The folder name "{folder_hint}" may hint at the date, but verify against visual evidence
 - For date_confidence: 0.9+ only if there's a visible date or very strong evidence; 0.5-0.8 for reasonable estimates; below 0.5 if mostly guessing
 - description_zh should be natural Traditional Chinese, not a word-for-word translation
-- For tags, use lowercase, include relevant categories like: family, portrait, outdoor, indoor, celebration, school, travel, group, child, formal, casual
+- For tags, use lowercase. Include relevant categories like: family, portrait, outdoor, indoor, celebration, school, travel, group, child, formal, casual
+- Relationship tags — use these exact terms when applicable: parent-child, couple, siblings, grandparent, elder-youth, mother, father, together, group-portrait, solo-portrait
+- Condition tags — if condition_notes describes any physical state, that state MUST also appear in tags. Use these exact terms: faded, torn, damaged, water-damaged, overexposed, underexposed, blurry, poor-condition, cracked, creased, discolored, scratched, stained, vintage-damage
 - If the image is actually a document (letter, certificate, etc.), set is_document to true and put any readable text in ocr_text
-- If the image is damaged or very low quality, note this in condition_notes
+- If the image is damaged or very low quality, note this in condition_notes AND add condition tags

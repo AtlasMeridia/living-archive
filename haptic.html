@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Living Archive — Haptic Browser</title>
+<link rel="stylesheet" href="/tokens.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg-primary); color: var(--text-primary); font-family: var(--font-ui); font-size: 14px; min-height: 100vh; }
+
+/* Header */
+.header { background: var(--bg-elevated); border-bottom: 1px solid var(--border-color); padding: 10px 20px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 50; }
+.header h1 { font-family: var(--font-display); font-weight: 500; font-size: 1.3rem; color: var(--cream-50); white-space: nowrap; }
+.header a { color: var(--text-muted); text-decoration: none; font-size: 13px; }
+.header a:hover { color: var(--text-primary); }
+.header-search { flex: 1; max-width: 320px; background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 4px; font-size: 13px; font-family: var(--font-ui); }
+.header-search:focus { outline: none; border-color: var(--accent); }
+.result-count { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+
+/* Layout */
+.app-body { display: flex; height: calc(100vh - 49px); }
+.sidebar { width: 220px; flex-shrink: 0; border-right: 1px solid var(--border-color); overflow-y: auto; padding: 16px 12px; background: var(--bg-elevated); }
+.main { flex: 1; overflow-y: auto; padding: 16px; }
+
+/* Sidebar */
+.section-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 6px; margin-top: 16px; }
+.section-label:first-child { margin-top: 0; }
+.pill-group { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; }
+.pill { background: var(--bg-primary); color: var(--text-secondary); border: 1px solid var(--border-color); padding: 3px 8px; border-radius: 12px; font-size: 12px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.pill:hover { border-color: var(--accent); color: var(--text-primary); }
+.pill.active { background: var(--accent-dark); border-color: var(--accent); color: var(--cream-50); }
+.pill .count { opacity: 0.7; margin-left: 3px; font-family: var(--font-mono); font-size: 10px; }
+.confidence-high { border-color: #4a7a50; }
+.confidence-high.active { background: #2a4a30; border-color: #6aaa70; }
+.confidence-medium { border-color: #7a6030; }
+.confidence-medium.active { background: #4a3a1a; border-color: #c9924a; }
+.confidence-low { border-color: #7a3030; }
+.confidence-low.active { background: #4a2020; border-color: #c05050; }
+.clear-btn { display: block; width: 100%; text-align: center; background: none; border: 1px solid var(--border-color); color: var(--text-muted); padding: 5px; border-radius: 4px; font-size: 12px; cursor: pointer; margin-top: 12px; }
+.clear-btn:hover { border-color: var(--accent); color: var(--accent); }
+.tag-input { width: 100%; background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border-color); padding: 5px 8px; border-radius: 4px; font-size: 12px; margin-top: 4px; }
+.tag-input:focus { outline: none; border-color: var(--accent); }
+.active-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.active-tag { background: var(--accent-dark); color: var(--cream-50); border: none; padding: 2px 8px; border-radius: 10px; font-size: 11px; cursor: pointer; }
+.active-tag::after { content: " ×"; }
+
+/* Grid */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.card { background: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; cursor: pointer; transition: border-color 0.15s, transform 0.1s; }
+.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.card-img { width: 100%; aspect-ratio: 4/3; object-fit: cover; background: var(--bg-primary); display: block; }
+.card-img-placeholder { width: 100%; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; background: var(--bg-primary); color: var(--text-muted); font-size: 11px; }
+.card-meta { padding: 8px; }
+.card-date { font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); margin-bottom: 3px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 2px; }
+.card-tag { background: var(--bg-primary); color: var(--text-muted); padding: 1px 5px; border-radius: 3px; font-size: 10px; }
+.card-conf { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; }
+.conf-high { background: #6aaa70; }
+.conf-medium { background: #c9924a; }
+.conf-low { background: #c05050; }
+.empty-state { text-align: center; color: var(--text-muted); padding: 60px; }
+.empty-state h2 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 400; color: var(--text-secondary); margin-bottom: 8px; }
+
+/* Modal */
+.modal-overlay { position: fixed; inset: 0; background: #00000090; z-index: 200; display: none; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--bg-elevated); border: 1px solid var(--border-color); border-radius: 8px; width: 90vw; max-width: 960px; max-height: 90vh; display: flex; overflow: hidden; }
+.modal-img-panel { flex: 0 0 55%; display: flex; align-items: center; justify-content: center; background: var(--bg-primary); padding: 16px; }
+.modal-img-panel img { max-width: 100%; max-height: calc(90vh - 32px); object-fit: contain; }
+.modal-img-placeholder { color: var(--text-muted); text-align: center; padding: 40px; }
+.modal-detail { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.modal-close { position: absolute; top: 16px; right: 16px; background: #00000050; color: var(--cream-50); border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { background: #00000090; }
+.modal-overlay { position: relative; }
+.field-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 3px; }
+.field-val { color: var(--text-primary); font-size: 14px; line-height: 1.5; }
+.field-val.mono { font-family: var(--font-mono); font-size: 12px; }
+.field-group { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; }
+.modal-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.modal-tag { background: var(--bg-elevated); color: var(--text-secondary); padding: 2px 8px; border-radius: 3px; font-size: 12px; }
+.confidence-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-family: var(--font-mono); font-size: 12px; }
+.badge-high { background: #2a4a3090; color: #8acc90; }
+.badge-medium { background: #4a3a1a90; color: #c9924a; }
+.badge-low { background: #4a202090; color: #c05050; }
+.nav-hint { font-size: 11px; color: var(--text-muted); text-align: center; padding-top: 4px; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <h1>Haptic</h1>
+  <input type="text" id="text-search" class="header-search" placeholder="Search descriptions…" autocomplete="off">
+  <span class="result-count" id="result-count"></span>
+  <nav style="display:flex; gap:16px; margin-left:auto;">
+    <a href="/haptic">Haptic</a>
+    <a href="/">Dashboard</a>
+  </nav>
+</header>
+
+<div class="app-body">
+  <aside class="sidebar">
+    <div class="section-label">Confidence</div>
+    <div class="pill-group" id="conf-filter"></div>
+
+    <div class="section-label">Era</div>
+    <div class="pill-group" id="era-filter"></div>
+
+    <div class="section-label">People</div>
+    <div class="pill-group" id="people-filter"></div>
+
+    <div class="section-label">Tags</div>
+    <input type="text" id="tag-input" class="tag-input" placeholder="Filter by tag…" autocomplete="off">
+    <div class="active-tags" id="active-tags"></div>
+
+    <button class="clear-btn" id="clear-btn">Clear all filters</button>
+  </aside>
+
+  <main class="main" id="main">
+    <div class="empty-state"><h2>Loading…</h2></div>
+  </main>
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-img-panel" id="modal-img-panel">
+      <div class="modal-img-placeholder">No photo available<br>(NAS not mounted)</div>
+    </div>
+    <div class="modal-detail" id="modal-detail"></div>
+  </div>
+</div>
+
+<script>
+const state = {
+  photos: [],
+  filtered: [],
+  filters: { confidence: new Set(), era: new Set(), people: null, tags: [], query: '' },
+  facetCounts: {},
+  tagIndex: {},
+  currentIdx: -1,
+  nasAvailable: false,
+};
+
+// ── Load ──────────────────────────────────────────────────────
+
+async function init() {
+  try {
+    const res = await fetch('/api/haptic/photos');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    state.photos = data.photos || [];
+    state.nasAvailable = data.stats?.nas_available || false;
+    buildTagIndex();
+    applyFilters();
+    renderSidebar();
+    loadUrlState();
+  } catch (e) {
+    document.getElementById('main').innerHTML =
+      `<div class="empty-state"><h2>Error loading photos</h2><p>${e.message}</p></div>`;
+  }
+}
+
+function buildTagIndex() {
+  const idx = {};
+  for (const p of state.photos) {
+    for (const t of (p.tags || [])) {
+      idx[t] = (idx[t] || 0) + 1;
+    }
+  }
+  state.tagIndex = idx;
+}
+
+// ── Filters ──────────────────────────────────────────────────
+
+function applyFilters() {
+  const f = state.filters;
+  let photos = state.photos;
+
+  if (f.confidence.size) photos = photos.filter(p => f.confidence.has(p.confidence));
+  if (f.era.size) photos = photos.filter(p => f.era.has(p.era));
+  if (f.people !== null) {
+    photos = photos.filter(p => {
+      const n = p.people_count || 0;
+      if (f.people === '0') return n === 0;
+      if (f.people === '1') return n === 1;
+      if (f.people === '2-5') return n >= 2 && n <= 5;
+      if (f.people === '6+') return n >= 6;
+      return true;
+    });
+  }
+  if (f.tags.length) {
+    photos = photos.filter(p => {
+      const pt = new Set(p.tags || []);
+      return f.tags.every(t => pt.has(t));
+    });
+  }
+  if (f.query) {
+    const q = f.query.toLowerCase();
+    photos = photos.filter(p =>
+      (p.description_en || '').toLowerCase().includes(q) ||
+      (p.people_notes || '').toLowerCase().includes(q) ||
+      (p.location_estimate || '').toLowerCase().includes(q) ||
+      (p.tags || []).some(t => t.toLowerCase().includes(q))
+    );
+  }
+
+  // Compute facet counts for sidebar
+  const counts = { confidence: {}, era: {}, people: { '0': 0, '1': 0, '2-5': 0, '6+': 0 } };
+  for (const p of photos) {
+    counts.confidence[p.confidence] = (counts.confidence[p.confidence] || 0) + 1;
+    if (p.era) counts.era[p.era] = (counts.era[p.era] || 0) + 1;
+    const n = p.people_count || 0;
+    const bin = n === 0 ? '0' : n === 1 ? '1' : n <= 5 ? '2-5' : '6+';
+    counts.people[bin]++;
+  }
+  state.facetCounts = counts;
+  state.filtered = photos;
+
+  document.getElementById('result-count').textContent =
+    `${photos.length} / ${state.photos.length} photos`;
+
+  renderGrid();
+  renderSidebar();
+  saveUrlState();
+}
+
+function toggleFilter(dim, value) {
+  const f = state.filters;
+  if (dim === 'confidence' || dim === 'era') {
+    f[dim].has(value) ? f[dim].delete(value) : f[dim].add(value);
+  } else if (dim === 'people') {
+    f.people = f.people === value ? null : value;
+  }
+  applyFilters();
+}
+
+function addTag(tag) {
+  if (!state.filters.tags.includes(tag)) {
+    state.filters.tags.push(tag);
+    applyFilters();
+  }
+}
+
+function removeTag(tag) {
+  state.filters.tags = state.filters.tags.filter(t => t !== tag);
+  applyFilters();
+}
+
+function clearAll() {
+  state.filters = { confidence: new Set(), era: new Set(), people: null, tags: [], query: '' };
+  document.getElementById('text-search').value = '';
+  document.getElementById('tag-input').value = '';
+  applyFilters();
+}
+
+// ── Sidebar rendering ─────────────────────────────────────────
+
+function renderSidebar() {
+  const cc = state.facetCounts.confidence || {};
+  const ec = state.facetCounts.era || {};
+  const pc = state.facetCounts.people || {};
+  const f = state.filters;
+
+  // Confidence
+  const confEl = document.getElementById('conf-filter');
+  confEl.innerHTML = ['high', 'medium', 'low'].map(v =>
+    `<button class="pill confidence-${v}${f.confidence.has(v) ? ' active' : ''}"
+             onclick="toggleFilter('confidence','${v}')">${v} <span class="count">${cc[v] || 0}</span></button>`
+  ).join('');
+
+  // Era
+  const eraEl = document.getElementById('era-filter');
+  const eras = Object.entries(ec).sort((a, b) => a[0] < b[0] ? -1 : 1);
+  eraEl.innerHTML = eras.map(([era, n]) =>
+    `<button class="pill${f.era.has(era) ? ' active' : ''}"
+             onclick="toggleFilter('era','${era}')">${era} <span class="count">${n}</span></button>`
+  ).join('');
+  if (!eras.length) eraEl.innerHTML = '<span style="color:var(--text-muted);font-size:12px">No data</span>';
+
+  // People
+  const peopleEl = document.getElementById('people-filter');
+  peopleEl.innerHTML = [['0','none'],['1','solo'],['2-5','small'],['6+','crowd']].map(([val, label]) =>
+    `<button class="pill${f.people === val ? ' active' : ''}"
+             onclick="toggleFilter('people','${val}')">${label} <span class="count">${pc[val] || 0}</span></button>`
+  ).join('');
+
+  // Active tags
+  const tagsEl = document.getElementById('active-tags');
+  tagsEl.innerHTML = f.tags.map(t =>
+    `<button class="active-tag" onclick="removeTag('${t}')">${t}</button>`
+  ).join('');
+}
+
+// ── Grid rendering ────────────────────────────────────────────
+
+function renderGrid() {
+  const main = document.getElementById('main');
+  if (!state.filtered.length) {
+    main.innerHTML = '<div class="empty-state"><h2>No photos match</h2><p>Adjust your filters.</p></div>';
+    return;
+  }
+
+  const cards = state.filtered.map((p, i) => {
+    const tags = (p.tags || []).slice(0, 3).map(t =>
+      `<span class="card-tag">${escHtml(t)}</span>`).join('');
+    const imgEl = state.nasAvailable
+      ? `<img class="card-img" src="/api/haptic/photo?path=${encodeURIComponent(p.source_file)}"
+              loading="lazy" alt="">`
+      : `<div class="card-img-placeholder">No NAS</div>`;
+    return `
+      <div class="card" onclick="openModal(${i})" data-idx="${i}">
+        ${imgEl}
+        <div class="card-meta">
+          <div class="card-date">
+            <span class="card-conf conf-${p.confidence}"></span>
+            ${escHtml(p.date_estimate || '—')}
+          </div>
+          <div class="card-tags">${tags}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  main.innerHTML = `<div class="grid">${cards}</div>`;
+}
+
+// ── Modal ─────────────────────────────────────────────────────
+
+function openModal(filteredIdx) {
+  state.currentIdx = filteredIdx;
+  const p = state.filtered[filteredIdx];
+  if (!p) return;
+
+  const overlay = document.getElementById('modal-overlay');
+  const imgPanel = document.getElementById('modal-img-panel');
+  const detail = document.getElementById('modal-detail');
+
+  // Photo
+  imgPanel.innerHTML = state.nasAvailable
+    ? `<img src="/api/haptic/photo?path=${encodeURIComponent(p.source_file)}" alt="">`
+    : `<div class="modal-img-placeholder">Photo not available<br>NAS not mounted</div>`;
+
+  // Badge
+  const badgeCls = { high: 'badge-high', medium: 'badge-medium', low: 'badge-low' }[p.confidence] || '';
+  const confLabel = `${p.confidence} (${(p.date_confidence * 100).toFixed(0)}%)`;
+
+  // Tags
+  const tagsHtml = (p.tags || []).map(t =>
+    `<span class="modal-tag" onclick="addTag('${t}');closeModal()" style="cursor:pointer">${escHtml(t)}</span>`
+  ).join('');
+
+  detail.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <div style="font-family:var(--font-display); font-size:1.1rem; color:var(--cream-50);">
+          ${escHtml(p.date_estimate || 'Unknown date')}
+        </div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
+          ${escHtml(p.date_precision)} &bull; run ${escHtml(p.run_id)}
+        </div>
+      </div>
+      <button onclick="closeModal()" style="background:none;border:none;color:var(--text-muted);font-size:18px;cursor:pointer;padding:0 4px;">✕</button>
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">Date confidence</div>
+      <span class="confidence-badge ${badgeCls}">${confLabel}</span>
+    </div>
+
+    ${p.description_en ? `
+    <div class="field-group">
+      <div class="field-label">Description</div>
+      <div class="field-val">${escHtml(p.description_en)}</div>
+      ${p.description_zh ? `<div class="field-val" style="margin-top:6px; color:var(--text-secondary);">${escHtml(p.description_zh)}</div>` : ''}
+    </div>` : ''}
+
+    ${p.people_notes ? `
+    <div class="field-group">
+      <div class="field-label">People</div>
+      <div class="field-val">${escHtml(p.people_notes)}</div>
+    </div>` : ''}
+
+    ${p.location_estimate ? `
+    <div class="field-group">
+      <div class="field-label">Location</div>
+      <div class="field-val">${escHtml(p.location_estimate)}</div>
+    </div>` : ''}
+
+    <div class="field-group">
+      <div class="field-label">Tags <span style="color:var(--text-muted);font-size:10px">(click to filter)</span></div>
+      <div class="modal-tags">${tagsHtml || '<em style="color:var(--text-muted)">none</em>'}</div>
+    </div>
+
+    <div class="field-group">
+      <div class="field-label">File</div>
+      <div class="field-val mono">${escHtml(p.source_file)}</div>
+    </div>
+
+    <div class="nav-hint">← → navigate &nbsp;&nbsp; Esc close</div>
+  `;
+
+  overlay.classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  state.currentIdx = -1;
+}
+
+function escHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── URL state ─────────────────────────────────────────────────
+
+function saveUrlState() {
+  const f = state.filters;
+  const p = new URLSearchParams();
+  if (f.confidence.size) p.set('conf', [...f.confidence].join(','));
+  if (f.era.size) p.set('era', [...f.era].join(','));
+  if (f.people) p.set('people', f.people);
+  if (f.tags.length) p.set('tags', f.tags.join(','));
+  if (f.query) p.set('q', f.query);
+  const str = p.toString();
+  history.replaceState(null, '', str ? '?' + str : window.location.pathname);
+}
+
+function loadUrlState() {
+  const p = new URLSearchParams(window.location.search);
+  const f = state.filters;
+  if (p.get('conf')) p.get('conf').split(',').forEach(v => f.confidence.add(v));
+  if (p.get('era')) p.get('era').split(',').forEach(v => f.era.add(v));
+  if (p.get('people')) f.people = p.get('people');
+  if (p.get('tags')) f.tags = p.get('tags').split(',').filter(Boolean);
+  if (p.get('q')) { f.query = p.get('q'); document.getElementById('text-search').value = f.query; }
+  if (Object.values(f).some(v => v instanceof Set ? v.size : Array.isArray(v) ? v.length : v)) {
+    applyFilters();
+  }
+}
+
+// ── Event wiring ──────────────────────────────────────────────
+
+document.getElementById('text-search').addEventListener('input', e => {
+  state.filters.query = e.target.value;
+  applyFilters();
+});
+
+document.getElementById('tag-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const val = e.target.value.trim();
+    if (val) { addTag(val); e.target.value = ''; }
+  }
+});
+
+document.getElementById('tag-input').addEventListener('input', e => {
+  // Simple tag autocomplete from tag index
+  const val = e.target.value.toLowerCase();
+  if (!val) return;
+  const matches = Object.entries(state.tagIndex)
+    .filter(([t]) => t.toLowerCase().includes(val) && !state.filters.tags.includes(t))
+    .sort((a, b) => b[1] - a[1]).slice(0, 8).map(([t]) => t);
+  // Could show autocomplete dropdown here; for now enter to confirm
+});
+
+document.getElementById('clear-btn').addEventListener('click', clearAll);
+
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+});
+
+document.addEventListener('keydown', e => {
+  const open = document.getElementById('modal-overlay').classList.contains('open');
+  if (e.key === 'Escape' && open) { closeModal(); return; }
+  if (open) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = Math.min(state.currentIdx + 1, state.filtered.length - 1);
+      if (next !== state.currentIdx) openModal(next);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = Math.max(state.currentIdx - 1, 0);
+      if (prev !== state.currentIdx) openModal(prev);
+    }
+  }
+});
+
+init();
+</script>
+</body>
+</html>
