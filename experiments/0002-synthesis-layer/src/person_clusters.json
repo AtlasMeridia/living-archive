@@ -37,7 +37,8 @@
         "Fueng",
         "劉逢光"
       ],
-      "confidence": 0.98
+      "confidence": 0.98,
+      "family_role": "father (deceased)"
     },
     {
       "canonical": "Meichu Grace Liu",
@@ -71,7 +72,8 @@
         "Mom/Mrs. Liu (mother)",
         "Grandma"
       ],
-      "confidence": 0.97
+      "confidence": 0.97,
+      "family_role": "mother (deceased)"
     },
     {
       "canonical": "Kenny Peng Liu",
@@ -88,7 +90,8 @@
         "Kenny Peng Liu (劉侃寧)",
         "Kenny Peng Liu (劉乒肯尼)"
       ],
-      "confidence": 0.97
+      "confidence": 0.97,
+      "family_role": "project owner (self)"
     },
     {
       "canonical": "Karen Peling Liu",
@@ -108,7 +111,8 @@
         "Karen Peling Liu (daughter, UC Berkeley student)",
         "Karen Peling Liu (劉蓓寧)"
       ],
-      "confidence": 0.97
+      "confidence": 0.97,
+      "family_role": "sister"
     },
     {
       "canonical": "Mei Liang Melody Tsai",
@@ -127,7 +131,8 @@
         "Melody Tsai (Mei Liang Melody Tsai)",
         "Melody Tsai (蔡美亮)"
       ],
-      "confidence": 0.97
+      "confidence": 0.97,
+      "family_role": "stepmother"
     },
     {
       "canonical": "Reiling Liao",
@@ -140,7 +145,8 @@
         "Liao Reiling (contingent beneficiary)",
         "Auntie Reiling"
       ],
-      "confidence": 0.95
+      "confidence": 0.95,
+      "family_role": "aunt"
     },
     {
       "canonical": "Chen Lee Fei Liu",
@@ -151,7 +157,8 @@
         "Liu Chen Lee-Fei",
         "Liu Chen Lee-Fei (劉陳麗飛)"
       ],
-      "confidence": 0.98
+      "confidence": 0.98,
+      "family_role": "unknown — unidentified family member or associate"
     },
     {
       "canonical": "Jean M. Kohler",
@@ -226,7 +233,8 @@
         "Feng Shih Liu",
         "Feng Shih Liu (劉逢時, beneficiary in Taiwan)"
       ],
-      "confidence": 0.98
+      "confidence": 0.98,
+      "family_role": "uncle"
     },
     {
       "canonical": "Chia-Chen Peng",
@@ -248,7 +256,8 @@
         "Kuo Kwang Peng (父, father of deceased)",
         "Kuo-Hsiung Peng (彭國祥)"
       ],
-      "confidence": 0.9
+      "confidence": 0.9,
+      "family_role": "maternal grandfather"
     },
     {
       "canonical": "Swei-Chih Peng",
@@ -264,7 +273,8 @@
         "彭何水治",
         "水治 (Suiji)"
       ],
-      "confidence": 0.85
+      "confidence": 0.85,
+      "family_role": "maternal grandmother"
     },
     {
       "canonical": "Dave Seagraves",
