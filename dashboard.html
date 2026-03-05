@@ -270,6 +270,18 @@ td.num { font-family: var(--font-mono); text-align: right; }
 }
 .search-box input:focus { border-color: var(--accent); }
 .search-box input::placeholder { color: var(--text-muted); }
+.search-box button {
+  background: var(--accent-dark);
+  border: 1px solid var(--accent-dark);
+  color: var(--cream-50);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.search-box button:hover { filter: brightness(1.07); }
 
 .search-result {
   background: var(--bg-surface);
@@ -415,6 +427,129 @@ td.num { font-family: var(--font-mono); text-align: right; }
   color: var(--text-muted);
   font-size: 13px;
 }
+
+/* --- Synthesis --- */
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+@media (max-width: 1100px) { .three-col { grid-template-columns: 1fr; } }
+
+.mini-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.mini-table td, .mini-table th {
+  border-bottom: 1px solid var(--border-color);
+  padding: 6px 8px;
+}
+.mini-table tr:last-child td { border-bottom: none; }
+.mini-table .num { text-align: right; font-family: var(--font-mono); }
+
+.query-result {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 10px 12px;
+  min-height: 120px;
+}
+.query-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.scroll-y {
+  max-height: 220px;
+  overflow-y: auto;
+}
+.quality-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+/* --- Toolbox --- */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 14px;
+}
+.tool-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 16px 18px;
+  transition: border-color var(--transition-fast);
+}
+.tool-card:hover { border-color: var(--border-hover); }
+.tool-card .tool-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.tool-card .tool-name {
+  font-weight: 500;
+  color: var(--cream-100);
+  font-size: 14px;
+}
+.tool-card .tool-cat {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-text);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  margin-left: auto;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--bg-surface);
+}
+.tool-card .tool-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.tool-card .tool-cmd {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  padding: 6px 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.tool-card .tool-args {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+.tool-filter-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.tool-filter-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  padding: 4px 10px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.tool-filter-btn:hover { color: var(--text-primary); border-color: var(--text-muted); }
+.tool-filter-btn.active { color: var(--cream-50); background: var(--accent-dark); border-color: var(--accent-dark); }
 </style>
 </head>
 <body>
@@ -426,6 +561,8 @@ td.num { font-family: var(--font-mono); text-align: right; }
     <button class="tab-btn" data-tab="photos"><i class="ph-light ph-image"></i> Photos</button>
     <button class="tab-btn" data-tab="documents"><i class="ph-light ph-file-text"></i> Documents</button>
     <button class="tab-btn" data-tab="people"><i class="ph-light ph-users"></i> People</button>
+    <button class="tab-btn" data-tab="synthesis"><i class="ph-light ph-arrows-clockwise"></i> Synthesis</button>
+    <button class="tab-btn" data-tab="toolbox"><i class="ph-light ph-wrench"></i> Toolbox</button>
     <button class="tab-btn" data-tab="health"><i class="ph-light ph-heartbeat"></i> Health</button>
   </nav>
   <button class="refresh-btn" id="refreshBtn"><i class="ph-light ph-arrows-clockwise"></i> Refresh</button>
@@ -498,6 +635,79 @@ td.num { font-family: var(--font-mono); text-align: right; }
     <div class="people-grid" id="peopleGrid"><div class="loading">Loading...</div></div>
   </section>
 
+  <!-- ==================== SYNTHESIS ==================== -->
+  <section id="tab-synthesis" class="tab-content">
+    <div class="stat-cards" id="synthesisSummary"><div class="loading">Loading...</div></div>
+
+    <div class="two-col">
+      <div class="section">
+        <h3>Entity Coverage</h3>
+        <div id="synthesisEntities"><div class="loading">Loading...</div></div>
+      </div>
+      <div class="section">
+        <h3>Chronology Quality</h3>
+        <div id="synthesisQuality"><div class="loading">Loading...</div></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="section">
+        <h3>Top Linked People</h3>
+        <div id="synthesisTopPeople"><div class="loading">Loading...</div></div>
+      </div>
+      <div class="section">
+        <h3>Unresolved Name Queue</h3>
+        <div id="synthesisUnresolved"><div class="loading">Loading...</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Chronology Snapshot</h3>
+      <div id="synthesisChronology"><div class="loading">Loading...</div></div>
+    </div>
+
+    <div class="three-col">
+      <div class="section">
+        <h3>Person Dossier Query</h3>
+        <div class="search-box">
+          <input type="text" id="synPersonInput" placeholder="e.g. Feng Kuang Liu or 劉逢光">
+          <button id="synPersonBtn">Query</button>
+        </div>
+        <div id="synPersonResult" class="query-result">
+          <div class="empty">Enter a person name to load linked photos and documents.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Date Query</h3>
+        <div class="search-box">
+          <input type="text" id="synDateInput" placeholder="e.g. 1978">
+          <button id="synDateBtn">Query</button>
+        </div>
+        <div id="synDateResult" class="query-result">
+          <div class="empty">Enter a year to list linked assets.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Location Query</h3>
+        <div class="search-box">
+          <input type="text" id="synLocationInput" placeholder="e.g. Taiwan">
+          <button id="synLocationBtn">Query</button>
+        </div>
+        <div id="synLocationResult" class="query-result">
+          <div class="empty">Enter a country/location keyword to list linked photos.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TOOLBOX ==================== -->
+  <section id="tab-toolbox" class="tab-content">
+    <div class="tool-filter-bar" id="toolFilterBar"></div>
+    <div class="tool-grid" id="toolGrid"></div>
+  </section>
+
   <!-- ==================== HEALTH ==================== -->
   <section id="tab-health" class="tab-content">
     <div class="section">
@@ -545,6 +755,14 @@ function fmt(n) {
 function pct(n, total) {
   if (!total) return '0%';
   return Math.round(n / total * 100) + '%';
+}
+function esc(v) {
+  return String(v == null ? '' : v)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 // --- Bar helper ---
@@ -774,6 +992,20 @@ document.getElementById('docSearchInput').addEventListener('input', (e) => {
   }, 300);
 });
 
+document.getElementById('synPersonBtn').addEventListener('click', runSynthesisPersonQuery);
+document.getElementById('synDateBtn').addEventListener('click', runSynthesisDateQuery);
+document.getElementById('synLocationBtn').addEventListener('click', runSynthesisLocationQuery);
+
+document.getElementById('synPersonInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') runSynthesisPersonQuery();
+});
+document.getElementById('synDateInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') runSynthesisDateQuery();
+});
+document.getElementById('synLocationInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') runSynthesisLocationQuery();
+});
+
 // --- People ---
 async function loadPeople() {
   try {
@@ -812,6 +1044,209 @@ async function loadPeople() {
   }
 }
 
+// --- Synthesis ---
+function asMiniRows(items, columns, maxRows = 10) {
+  const rows = items.slice(0, maxRows);
+  if (rows.length === 0) return '<div class="empty">No data</div>';
+  let html = '<table class="mini-table"><thead><tr>';
+  for (const c of columns) html += `<th>${esc(c.label)}</th>`;
+  html += '</tr></thead><tbody>';
+  for (const row of rows) {
+    html += '<tr>';
+    for (const c of columns) {
+      const cls = c.num ? ' class="num"' : '';
+      const value = c.value(row);
+      html += `<td${cls}>${esc(value == null || value === '' ? '—' : value)}</td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  if (items.length > maxRows) {
+    html += `<div class="quality-note">Showing ${maxRows} of ${items.length}</div>`;
+  }
+  return html;
+}
+
+async function loadSynthesis() {
+  try {
+    const [overview, chronology] = await Promise.all([
+      api('/api/synthesis/overview'),
+      api('/api/synthesis/chronology'),
+    ]);
+
+    if (!overview.available) {
+      document.getElementById('synthesisSummary').innerHTML = `<div class="empty">${esc(overview.error || 'Synthesis unavailable')}</div>`;
+      return;
+    }
+
+    const entityCounts = overview.entity_counts || {};
+    const totalPeople = entityCounts.person || 0;
+    document.getElementById('synthesisSummary').innerHTML = `
+      <div class="stat-card"><div class="value">${fmt(overview.total_entities)}</div><div class="label">Entities</div></div>
+      <div class="stat-card"><div class="value">${fmt(overview.entity_asset_links)}</div><div class="label">Entity Links</div></div>
+      <div class="stat-card"><div class="value">${fmt(overview.timeline_events)}</div><div class="label">Timeline Rows</div></div>
+      <div class="stat-card"><div class="value">${fmt(overview.unresolved_people || 0)}</div><div class="label">Unresolved People</div></div>
+      <div class="stat-card"><div class="value">${pct(overview.resolved_people || 0, totalPeople)}</div><div class="label">Resolved People</div></div>
+    `;
+
+    const entityMax = Math.max(...Object.values(entityCounts), 1);
+    let entityHtml = '';
+    for (const [kind, count] of Object.entries(entityCounts)) {
+      entityHtml += hBar(kind, count, entityMax, 'var(--accent-dark)');
+    }
+    document.getElementById('synthesisEntities').innerHTML = entityHtml || '<div class="empty">No entities</div>';
+
+    const q = chronology.quality || {};
+    let qHtml = '';
+    if (!chronology.available) {
+      qHtml = `<div class="empty">${esc(chronology.error || 'Chronology unavailable')}</div>`;
+    } else {
+      qHtml += `<div class="quality-note">Generated: ${esc((chronology.generated_at || '').split('T')[0] || '—')}</div>`;
+      qHtml += `<div class="quality-note">Raw rows: <b>${fmt(q.raw_timeline_rows || 0)}</b> &middot; Grouped events: <b>${fmt(chronology.total_events || 0)}</b></div>`;
+      qHtml += `<div class="quality-note">Compacted rows: <b>${fmt(q.compacted_rows || 0)}</b></div>`;
+      qHtml += `<div class="quality-note">Date outliers: <b>${fmt(q.outlier_event_count || 0)}</b></div>`;
+
+      const outliers = (q.outliers || []).slice(0, 8);
+      if (outliers.length > 0) {
+        qHtml += asMiniRows(outliers, [
+          { label: 'Date', value: r => r.date },
+          { label: 'Type', value: r => r.type },
+          { label: 'Reason', value: r => r.reason },
+        ], 8);
+      }
+    }
+    document.getElementById('synthesisQuality').innerHTML = qHtml;
+
+    const topPeople = overview.top_people || [];
+    document.getElementById('synthesisTopPeople').innerHTML = asMiniRows(topPeople, [
+      { label: 'Name', value: r => r.name_zh || r.name_en },
+      { label: 'Links', value: r => r.link_count, num: true },
+    ], 12);
+
+    const unresolved = overview.top_unresolved || [];
+    document.getElementById('synthesisUnresolved').innerHTML = asMiniRows(unresolved, [
+      { label: 'Unresolved Name', value: r => r.entity_value },
+      { label: 'Assets', value: r => r.asset_count, num: true },
+      { label: 'Links', value: r => r.link_count, num: true },
+    ], 12);
+
+    const decades = chronology.available ? (chronology.decades || []) : [];
+    if (decades.length === 0) {
+      document.getElementById('synthesisChronology').innerHTML = '<div class="empty">No chronology data</div>';
+    } else {
+      document.getElementById('synthesisChronology').innerHTML = asMiniRows(decades, [
+        { label: 'Decade', value: r => r.decade },
+        { label: 'Photos', value: r => r.photo_count, num: true },
+        { label: 'Docs', value: r => r.document_count, num: true },
+        { label: 'Event Groups', value: r => (r.events || []).length, num: true },
+      ], 10);
+    }
+  } catch (e) {
+    document.getElementById('synthesisSummary').innerHTML = `<div class="empty">Error: ${esc(e.message)}</div>`;
+  }
+}
+
+function renderSynthesisAssetList(items, fields, limit = 8) {
+  const rows = items.slice(0, limit);
+  if (rows.length === 0) return '<div class="empty">No linked assets</div>';
+  let html = '<div class="scroll-y"><table class="mini-table"><tbody>';
+  for (const r of rows) {
+    html += '<tr>';
+    for (const f of fields) {
+      const cls = f.num ? ' class="num"' : '';
+      html += `<td${cls}>${esc(f(r))}</td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table></div>';
+  return html;
+}
+
+async function runSynthesisPersonQuery() {
+  const input = document.getElementById('synPersonInput');
+  const out = document.getElementById('synPersonResult');
+  const name = input.value.trim();
+  if (!name) {
+    out.innerHTML = '<div class="empty">Enter a person name.</div>';
+    return;
+  }
+  out.innerHTML = '<div class="loading">Loading...</div>';
+  try {
+    const data = await api(`/api/synthesis/person?name=${encodeURIComponent(name)}`);
+    if (data.error) {
+      out.innerHTML = `<div class="empty">${esc(data.error)}</div>`;
+      return;
+    }
+    let html = `<div class="query-meta">${esc(data.person)}${data.name_zh ? ` / ${esc(data.name_zh)}` : ''}`;
+    html += ` &middot; links: ${fmt(data.total_links)} &middot; photos: ${fmt((data.photos || []).length)} &middot; docs: ${fmt((data.documents || []).length)}</div>`;
+    const rows = [
+      ...(data.photos || []).map(r => ({ ...r, kind: 'photo' })),
+      ...(data.documents || []).map(r => ({ ...r, kind: 'document' })),
+    ].sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+    html += renderSynthesisAssetList(rows, [
+      r => r.date || 'undated',
+      r => r.kind,
+      r => r.source_file || '—',
+    ]);
+    out.innerHTML = html;
+  } catch (e) {
+    out.innerHTML = `<div class="empty">Error: ${esc(e.message)}</div>`;
+  }
+}
+
+async function runSynthesisDateQuery() {
+  const input = document.getElementById('synDateInput');
+  const out = document.getElementById('synDateResult');
+  const year = input.value.trim();
+  if (!year) {
+    out.innerHTML = '<div class="empty">Enter a year (e.g. 1978).</div>';
+    return;
+  }
+  out.innerHTML = '<div class="loading">Loading...</div>';
+  try {
+    const data = await api(`/api/synthesis/date?year=${encodeURIComponent(year)}`);
+    if (data.error) {
+      out.innerHTML = `<div class="empty">${esc(data.error)}</div>`;
+      return;
+    }
+    let html = `<div class="query-meta">Matched dates: ${esc((data.dates_matched || []).join(', ') || '—')} &middot; total assets: ${fmt(data.total_assets)}</div>`;
+    html += renderSynthesisAssetList(
+      [...(data.photos || []), ...(data.documents || [])],
+      [r => r.date || 'undated', r => r.source, r => r.source_file || '—'],
+    );
+    out.innerHTML = html;
+  } catch (e) {
+    out.innerHTML = `<div class="empty">Error: ${esc(e.message)}</div>`;
+  }
+}
+
+async function runSynthesisLocationQuery() {
+  const input = document.getElementById('synLocationInput');
+  const out = document.getElementById('synLocationResult');
+  const country = input.value.trim();
+  if (!country) {
+    out.innerHTML = '<div class="empty">Enter a country or location keyword.</div>';
+    return;
+  }
+  out.innerHTML = '<div class="loading">Loading...</div>';
+  try {
+    const data = await api(`/api/synthesis/location?country=${encodeURIComponent(country)}`);
+    if (data.error) {
+      out.innerHTML = `<div class="empty">${esc(data.error)}</div>`;
+      return;
+    }
+    let html = `<div class="query-meta">${esc(data.location)} &middot; photos: ${fmt(data.total_photos)}</div>`;
+    html += renderSynthesisAssetList(data.photos || [], [
+      r => r.date || 'undated',
+      r => r.location_detail || '—',
+      r => r.source_file || '—',
+    ]);
+    out.innerHTML = html;
+  } catch (e) {
+    out.innerHTML = `<div class="empty">Error: ${esc(e.message)}</div>`;
+  }
+}
+
 // --- Health ---
 async function loadHealth() {
   try {
@@ -844,6 +1279,176 @@ async function loadHealth() {
   }
 }
 
+// --- Toolbox ---
+const TOOLS = [
+  {
+    name: 'Photo Batch Runner',
+    cmd: 'python -m src.run_batch',
+    desc: 'Process unprocessed photo slices with time-budget controls, triage filtering, and Immich push.',
+    args: '--hours H  --push  --dry-run  --resume RUN_ID  --slices PATTERN  --triage {off,auto,require}',
+    cat: 'pipeline',
+    icon: 'ph-play-circle',
+  },
+  {
+    name: 'Single Slice Runner',
+    cmd: 'python -m src.run_slice',
+    desc: 'Run the full pipeline on one photo slice: convert, analyze, write manifest, push to Immich.',
+    args: '',
+    cat: 'pipeline',
+    icon: 'ph-film-strip',
+  },
+  {
+    name: 'Document Extractor',
+    cmd: 'python -m src.run_doc_extract',
+    desc: 'Extract text and metadata from PDFs. Supports batched runs with pacing and cost estimation.',
+    args: '--auto  --batch N  --delay SECS  --dry-run  --resume RUN_ID  --status [RUN_ID]  --new-run',
+    cat: 'pipeline',
+    icon: 'ph-file-pdf',
+  },
+  {
+    name: 'Document Scanner',
+    cmd: 'python -m src.doc_scan',
+    desc: 'Discover PDFs on the NAS, compute SHA-256 hashes, count pages, detect changes since last scan.',
+    args: '',
+    cat: 'pipeline',
+    icon: 'ph-magnifying-glass',
+  },
+  {
+    name: 'Document Index',
+    cmd: 'python -m src.doc_index',
+    desc: 'Build or query the SQLite FTS5 full-text search index over extracted document text.',
+    args: 'build RUN_ID  |  search RUN_ID "query"',
+    cat: 'pipeline',
+    icon: 'ph-text-aa',
+  },
+  {
+    name: 'Contact Sheet Triage',
+    cmd: 'python -m src.contact_triage <album_dir>',
+    desc: 'Tile photos into grids and send to Haiku for cheap duplicate/blank detection before full analysis.',
+    args: '--grid-size N  --dry-run',
+    cat: 'pipeline',
+    icon: 'ph-grid-four',
+  },
+  {
+    name: 'Synthesis Engine',
+    cmd: 'python -m src.synthesis',
+    desc: 'Cross-reference photo and document manifests. Entity extraction, person dossiers, timeline, chronology.',
+    args: 'rebuild  |  stats  |  chronology  |  dossier NAME  |  date YEAR  |  location COUNTRY  |  unresolved [LIMIT]  |  reconcile NAME CANONICAL',
+    cat: 'analysis',
+    icon: 'ph-arrows-clockwise',
+  },
+  {
+    name: 'Tag Audit',
+    cmd: 'python -m src.audit_tags',
+    desc: 'Audit photo tags against prose descriptions to surface under-tagging gaps across 7 concept categories.',
+    args: '--verbose  --json',
+    cat: 'analysis',
+    icon: 'ph-tag',
+  },
+  {
+    name: 'Dedup Report',
+    cmd: 'python -m src.dedup_report',
+    desc: 'Find duplicate photos within and across media sources using SHA-256 and filename stem comparison.',
+    args: '--output FILE',
+    cat: 'analysis',
+    icon: 'ph-copy',
+  },
+  {
+    name: 'Catalog Manager',
+    cmd: 'python -m src.catalog',
+    desc: 'Manage the unified asset catalog. Scan filesystem, backfill from manifests, refresh dashboard cache tables.',
+    args: 'stats  |  backfill  |  scan [--type photo|document]  |  refresh',
+    cat: 'infra',
+    icon: 'ph-database',
+  },
+  {
+    name: 'People Sync',
+    cmd: 'python -m src.sync_people',
+    desc: 'Sync between Immich face clusters and the AI layer people registry.',
+    args: 'status  |  pull  |  push',
+    cat: 'infra',
+    icon: 'ph-users',
+  },
+  {
+    name: 'Preflight Checks',
+    cmd: 'python -m src.preflight',
+    desc: 'Verify NAS mount, Immich connectivity, and config before pipeline runs. Auto-mounts NAS if needed.',
+    args: '',
+    cat: 'infra',
+    icon: 'ph-checks',
+  },
+  {
+    name: 'Archive Dashboard',
+    cmd: 'python -m src.dashboard',
+    desc: 'This dashboard. Read-only overview of catalog, synthesis, and system health on port 8378.',
+    args: '',
+    cat: 'review',
+    icon: 'ph-chart-bar',
+  },
+  {
+    name: 'Haptic Browser',
+    cmd: 'localhost:8378/haptic',
+    desc: 'Faceted photo browser with confidence tiers, era/decade filtering, tag sidebar, and keyboard navigation.',
+    args: '',
+    cat: 'review',
+    icon: 'ph-hand-pointing',
+  },
+  {
+    name: 'Review Dashboard',
+    cmd: 'python -m src.review',
+    desc: 'Human-in-the-loop review interface for AI photo analysis results on port 8377.',
+    args: '',
+    cat: 'review',
+    icon: 'ph-eye',
+  },
+  {
+    name: 'NAS Migration',
+    cmd: 'python -m src.migrate_local',
+    desc: 'One-time migration: copy AI layer data from NAS to local data/ directory.',
+    args: '--execute',
+    cat: 'infra',
+    icon: 'ph-hard-drives',
+  },
+];
+
+const CAT_LABELS = { pipeline: 'Pipeline', analysis: 'Analysis', infra: 'Infrastructure', review: 'Review' };
+
+function loadToolbox() {
+  // Filter bar
+  const cats = ['all', ...Object.keys(CAT_LABELS)];
+  const bar = document.getElementById('toolFilterBar');
+  bar.innerHTML = cats.map(c =>
+    `<button class="tool-filter-btn${c === 'all' ? ' active' : ''}" data-cat="${c}">${c === 'all' ? 'All' : CAT_LABELS[c]}</button>`
+  ).join('');
+
+  bar.addEventListener('click', (e) => {
+    const btn = e.target.closest('.tool-filter-btn');
+    if (!btn) return;
+    bar.querySelectorAll('.tool-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTools(btn.dataset.cat);
+  });
+
+  renderTools('all');
+}
+
+function renderTools(cat) {
+  const filtered = cat === 'all' ? TOOLS : TOOLS.filter(t => t.cat === cat);
+  const grid = document.getElementById('toolGrid');
+  grid.innerHTML = filtered.map(t => `
+    <div class="tool-card">
+      <div class="tool-header">
+        <i class="ph-light ${t.icon}" style="font-size:18px;color:var(--accent-text)"></i>
+        <span class="tool-name">${esc(t.name)}</span>
+        <span class="tool-cat">${esc(CAT_LABELS[t.cat])}</span>
+      </div>
+      <div class="tool-desc">${esc(t.desc)}</div>
+      <div class="tool-cmd">${esc(t.cmd)}</div>
+      ${t.args ? `<div class="tool-args">${esc(t.args)}</div>` : ''}
+    </div>
+  `).join('');
+}
+
 // --- Tab loader ---
 function loadTab(tab) {
   switch (tab) {
@@ -851,6 +1456,8 @@ function loadTab(tab) {
     case 'photos': loadPhotos(); break;
     case 'documents': loadDocuments(); break;
     case 'people': loadPeople(); break;
+    case 'synthesis': loadSynthesis(); break;
+    case 'toolbox': loadToolbox(); break;
     case 'health': loadHealth(); break;
   }
 }
