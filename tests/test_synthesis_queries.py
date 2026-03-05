@@ -53,6 +53,12 @@ def _seed_conn() -> sqlite3.Connection:
     )
     conn.execute(
         """
+        INSERT INTO entities (entity_id, entity_type, entity_value, normalized_value)
+        VALUES (4, 'person', 'Unknown Cousin', 'unknown cousin')
+        """
+    )
+    conn.execute(
+        """
         INSERT INTO entity_assets (entity_id, asset_sha256, source, confidence, context)
         VALUES (1, 'aaa111', 'document', 1.0, 'will')
         """
@@ -67,6 +73,12 @@ def _seed_conn() -> sqlite3.Connection:
         """
         INSERT INTO entity_assets (entity_id, asset_sha256, source, confidence, context)
         VALUES (3, 'ccc333', 'vision', 0.6, 'Taipei, Taiwan')
+        """
+    )
+    conn.execute(
+        """
+        INSERT INTO entity_assets (entity_id, asset_sha256, source, confidence, context)
+        VALUES (4, 'ddd444', 'document', 0.9, 'letter')
         """
     )
     conn.execute(
@@ -114,9 +126,12 @@ def test_query_location_entity():
 def test_query_overview_and_chronology(monkeypatch, tmp_path):
     conn = _seed_conn()
     overview = synthesis_queries.query_overview(conn)
-    assert overview["total_entities"] == 3
-    assert overview["entity_asset_links"] == 3
+    assert overview["total_entities"] == 4
+    assert overview["entity_asset_links"] == 4
     assert overview["timeline_events"] == 1
+    assert overview["resolved_people"] == 1
+    assert overview["unresolved_people"] == 1
+    assert overview["top_unresolved"][0]["entity_value"] == "Unknown Cousin"
     conn.close()
 
     monkeypatch.setattr(synthesis_queries.config, "DATA_DIR", tmp_path)
@@ -132,6 +147,16 @@ def test_query_overview_and_chronology(monkeypatch, tmp_path):
     meta = synthesis_queries.chronology_metadata()
     assert meta["exists"] is True
     assert meta["meta"]["decade_count"] == 1
+    assert meta["meta"]["quality"] == {}
     full = synthesis_queries.chronology_payload()
     assert full["available"] is True
     assert full["total_events"] == 2
+
+
+def test_query_unresolved_people():
+    conn = _seed_conn()
+    rows = synthesis_queries.query_unresolved_people(conn)
+    assert len(rows) == 1
+    assert rows[0]["entity_value"] == "Unknown Cousin"
+    assert rows[0]["asset_count"] == 1
+    conn.close()

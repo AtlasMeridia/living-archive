@@ -56,11 +56,27 @@ def query_overview(conn: sqlite3.Connection, top_people_limit: int = 10) -> dict
         """,
         (top_people_limit,),
     ).fetchall()
+    resolved_people = conn.execute(
+        """
+        SELECT COUNT(*)
+        FROM entities
+        WHERE entity_type = 'person' AND metadata IS NOT NULL
+        """
+    ).fetchone()[0]
+    unresolved_people = conn.execute(
+        """
+        SELECT COUNT(*)
+        FROM entities
+        WHERE entity_type = 'person' AND metadata IS NULL
+        """
+    ).fetchone()[0]
     return {
         "entity_counts": entity_counts,
         "total_entities": total_entities,
         "entity_asset_links": total_links,
         "timeline_events": total_events,
+        "resolved_people": resolved_people,
+        "unresolved_people": unresolved_people,
         "top_people": [
             {
                 "name_en": r["entity_value"],
@@ -69,6 +85,7 @@ def query_overview(conn: sqlite3.Connection, top_people_limit: int = 10) -> dict
             }
             for r in top_people_rows
         ],
+        "top_unresolved": query_unresolved_people(conn, limit=10),
     }
 
 
@@ -225,6 +242,7 @@ def chronology_metadata() -> dict:
             "generated_at": payload.get("generated_at"),
             "decade_count": payload.get("decade_count"),
             "total_events": payload.get("total_events"),
+            "quality": payload.get("quality") or {},
         },
         "path": str(path),
     }
@@ -244,3 +262,34 @@ def chronology_payload() -> dict:
         return {"available": False, "error": f"Failed to parse chronology: {e}"}
     payload["available"] = True
     return payload
+
+
+def query_unresolved_people(conn: sqlite3.Connection, limit: int = 25) -> list[dict]:
+    """List unresolved person entities ranked by linked-asset count."""
+    rows = conn.execute(
+        """
+        SELECT e.entity_id,
+               e.entity_value,
+               e.normalized_value,
+               COUNT(DISTINCT ea.asset_sha256) AS asset_count,
+               COUNT(ea.asset_sha256) AS link_count
+        FROM entities e
+        LEFT JOIN entity_assets ea ON ea.entity_id = e.entity_id
+        WHERE e.entity_type = 'person'
+          AND e.metadata IS NULL
+        GROUP BY e.entity_id
+        ORDER BY asset_count DESC, link_count DESC, e.entity_value ASC
+        LIMIT ?
+        """,
+        (limit,),
+    ).fetchall()
+    return [
+        {
+            "entity_id": r["entity_id"],
+            "entity_value": r["entity_value"],
+            "normalized_value": r["normalized_value"],
+            "asset_count": r["asset_count"],
+            "link_count": r["link_count"],
+        }
+        for r in rows
+    ]

@@ -22,6 +22,7 @@ from .synthesis_queries import (
     query_date_entities,
     query_location_entity,
     query_person_entity,
+    query_unresolved_people,
 )
 
 DATA_DIR = config.DATA_DIR
@@ -32,6 +33,9 @@ CHRONOLOGY_MD_PATH = DATA_DIR / "chronology.md"
 
 PHOTO_MANIFEST_GLOB = "photos/runs/*/manifests/*.json"
 DOC_MANIFEST_GLOB = "documents/runs/*/manifests/*.json"
+
+CHRONOLOGY_OUTLIER_MIN_YEAR = 1900
+CHRONOLOGY_OUTLIER_MAX_FUTURE_YEARS = 1
 
 SCHEMA_SQL = """
 CREATE TABLE entities (
@@ -204,6 +208,77 @@ def _load_clusters():
 
     for ambiguous_key in _cluster_norm_ambiguous:
         _cluster_lookup_normalized.pop(ambiguous_key, None)
+
+
+def _clear_cluster_cache():
+    """Clear in-memory cluster cache after reconciliation updates."""
+    global _cluster_lookup, _cluster_info
+    global _cluster_lookup_normalized, _cluster_norm_ambiguous
+    _cluster_lookup = None
+    _cluster_info = None
+    _cluster_lookup_normalized = None
+    _cluster_norm_ambiguous = None
+
+
+def _load_cluster_doc(path: Path = CLUSTERS_PATH) -> dict:
+    """Load the cluster JSON document."""
+    return json.loads(path.read_text())
+
+
+def _save_cluster_doc(data: dict, path: Path = CLUSTERS_PATH):
+    """Write cluster JSON with refreshed summary counters."""
+    data["cluster_count"] = len(data.get("clusters", []))
+    data["variant_count"] = len(data.get("lookup", {}))
+    data["generated"] = datetime.now(timezone.utc).date().isoformat()
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+    _clear_cluster_cache()
+
+
+def reconcile_cluster_variant(unresolved_name: str, canonical_name: str, path: Path = CLUSTERS_PATH) -> dict:
+    """Map an unresolved person variant to an existing canonical cluster."""
+    unresolved_name = unresolved_name.strip()
+    canonical_name = canonical_name.strip()
+    if not unresolved_name:
+        raise ValueError("Unresolved name is empty.")
+    if not canonical_name:
+        raise ValueError("Canonical name is empty.")
+
+    data = _load_cluster_doc(path)
+    clusters = data.get("clusters", [])
+    lookup = data.setdefault("lookup", {})
+
+    target_cluster = next((c for c in clusters if c.get("canonical") == canonical_name), None)
+    if target_cluster is None:
+        raise ValueError(f"Canonical cluster not found: {canonical_name}")
+
+    existing = lookup.get(unresolved_name)
+    if existing and existing.get("canonical") != canonical_name:
+        raise ValueError(
+            f"Variant '{unresolved_name}' already maps to '{existing.get('canonical')}'."
+        )
+
+    canonical_zh = target_cluster.get("canonical_zh")
+    changed = False
+    variants = target_cluster.setdefault("variants", [])
+    if unresolved_name not in variants:
+        variants.append(unresolved_name)
+        changed = True
+
+    desired_lookup = {"canonical": canonical_name, "canonical_zh": canonical_zh}
+    if lookup.get(unresolved_name) != desired_lookup:
+        lookup[unresolved_name] = desired_lookup
+        changed = True
+
+    if changed:
+        _save_cluster_doc(data, path)
+
+    return {
+        "changed": changed,
+        "variant": unresolved_name,
+        "canonical": canonical_name,
+        "canonical_zh": canonical_zh,
+        "path": str(path),
+    }
 
 
 def resolve_person(raw_name: str) -> dict:
@@ -443,6 +518,7 @@ def populate_timeline_events(conn, photos_by_sha: dict[str, Path], docs_by_sha: 
     """).fetchall()
 
     inserted = 0
+    seen_event_keys = set()
     for asset_sha, source, normalized_date in date_links:
         path = manifests_by_sha.get(asset_sha)
         if not path:
@@ -457,6 +533,11 @@ def populate_timeline_events(conn, photos_by_sha: dict[str, Path], docs_by_sha: 
         norm_date, precision = normalize_date(normalized_date)
         if precision == "unknown":
             continue
+
+        event_key = (asset_sha, norm_date, event_type)
+        if event_key in seen_event_keys:
+            continue
+        seen_event_keys.add(event_key)
 
         decade = date_to_decade(norm_date)
         conn.execute(
@@ -477,6 +558,24 @@ def _decade_sort_key(decade: str) -> int:
     if m:
         return int(m.group(1))
     return 9999
+
+
+def _label_group_key(label_en: str | None, label_zh: str | None, event_type: str) -> str:
+    """Normalize labels for duplicate-event compaction within chronology groups."""
+    raw = (label_zh or label_en or event_type or "").lower()
+    raw = re.sub(r"\b\d{4}[-/]\d{1,2}([-/]\d{1,2})?\b", " ", raw)
+    raw = re.sub(r"\b\d+\b", " ", raw)
+    raw = re.sub(r"[^0-9a-z\u4e00-\u9fff]+", " ", raw)
+    raw = re.sub(r"\s+", " ", raw).strip()
+    return raw[:120] or event_type
+
+
+def _extract_year(date_value: str) -> int | None:
+    """Extract a 4-digit year from date-like strings."""
+    m = re.match(r"^(\d{4})", date_value or "")
+    if not m:
+        return None
+    return int(m.group(1))
 
 
 def _top_people_for_decade(conn, decade: str, limit: int = 8) -> list[str]:
@@ -523,11 +622,14 @@ def build_chronology_data(conn) -> dict:
 
     decade_groups = defaultdict(dict)
     decade_assets = defaultdict(lambda: {"photo": set(), "document": set()})
+    current_year = datetime.now(timezone.utc).year
+    max_year = current_year + CHRONOLOGY_OUTLIER_MAX_FUTURE_YEARS
+    outlier_entries = []
 
     for date_norm, precision, decade, label_en, label_zh, event_type, sha in rows:
         if not decade:
             continue
-        key = (date_norm, precision, event_type)
+        key = (date_norm, precision, event_type, _label_group_key(label_en, label_zh, event_type))
         group = decade_groups[decade].setdefault(
             key,
             {"assets": set(), "label_en": Counter(), "label_zh": Counter()},
@@ -540,11 +642,29 @@ def build_chronology_data(conn) -> dict:
         if event_type in decade_assets[decade]:
             decade_assets[decade][event_type].add(sha)
 
+        year = _extract_year(date_norm)
+        if year is not None and (year < CHRONOLOGY_OUTLIER_MIN_YEAR or year > max_year):
+            reason = (
+                f"future year > {max_year}"
+                if year > max_year
+                else f"year < {CHRONOLOGY_OUTLIER_MIN_YEAR}"
+            )
+            outlier_entries.append(
+                {
+                    "date": date_norm,
+                    "type": event_type,
+                    "reason": reason,
+                    "label_en": label_en or "",
+                    "label_zh": label_zh or "",
+                    "asset_sha256": sha,
+                }
+            )
+
     decades = []
     for decade in sorted(decade_groups.keys(), key=_decade_sort_key):
         grouped_events = decade_groups[decade]
         events = []
-        for (date_norm, precision, event_type), payload in sorted(grouped_events.items()):
+        for (date_norm, precision, event_type, _label_key), payload in sorted(grouped_events.items()):
             labels_en = payload["label_en"].most_common(1)
             labels_zh = payload["label_zh"].most_common(1)
             label_en = labels_en[0][0] if labels_en else f"{event_type.title()} event"
@@ -586,17 +706,26 @@ def build_chronology_data(conn) -> dict:
         )
 
     total_events = sum(len(d["events"]) for d in decades)
+    raw_timeline_rows = len(rows)
+    compacted_rows = max(raw_timeline_rows - total_events, 0)
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "source_db": str(DB_PATH),
         "decade_count": len(decades),
         "total_events": total_events,
+        "quality": {
+            "raw_timeline_rows": raw_timeline_rows,
+            "compacted_rows": compacted_rows,
+            "outlier_event_count": len(outlier_entries),
+            "outliers": outlier_entries[:50],
+        },
         "decades": decades,
     }
 
 
 def render_chronology_markdown(chronology: dict, event_limit_per_decade: int = 40) -> str:
     """Render chronology markdown (Chinese-first, readable table-of-contents style)."""
+    quality = chronology.get("quality", {}) or {}
     lines = [
         "# 家族年表 / Family Chronology",
         "",
@@ -604,8 +733,30 @@ def render_chronology_markdown(chronology: dict, event_limit_per_decade: int = 4
         f"來源 / Source: `{chronology['source_db']}`",
         f"十年分段 / Decades: {chronology['decade_count']}",
         f"事件群組 / Event groups: {chronology['total_events']}",
+        f"原始事件列 / Raw timeline rows: {quality.get('raw_timeline_rows', chronology['total_events'])}",
+        f"壓縮列數 / Compacted rows: {quality.get('compacted_rows', 0)}",
+        f"日期離群 / Date outliers: {quality.get('outlier_event_count', 0)}",
         "",
     ]
+
+    outliers = quality.get("outliers", [])
+    if outliers:
+        lines.append("## 品質提示 / Quality Notes")
+        lines.append("")
+        lines.append("| 日期 | 類型 | 原因 | 中文標籤 | English label |")
+        lines.append("|---|---|---|---|---|")
+        for outlier in outliers[:10]:
+            lines.append(
+                f"| {outlier.get('date', '')} | {outlier.get('type', '')} | "
+                f"{outlier.get('reason', '')} | {outlier.get('label_zh', '')} | "
+                f"{outlier.get('label_en', '')} |"
+            )
+        remaining_outliers = len(outliers) - 10
+        if remaining_outliers > 0:
+            lines.append(
+                f"| ... | ... | 另有 {remaining_outliers} 項 | {remaining_outliers} additional | ... |"
+            )
+        lines.append("")
 
     for decade in chronology["decades"]:
         lines.append(f"## {decade['decade']}")
@@ -975,6 +1126,42 @@ def location_query(country: str):
     print(json.dumps(result, indent=2, ensure_ascii=False))
 
 
+def unresolved(limit_arg: str | None = None):
+    """List unresolved person entities ranked by impact."""
+    limit = 25
+    if limit_arg:
+        try:
+            limit = max(int(limit_arg), 1)
+        except ValueError:
+            print(f"Invalid limit '{limit_arg}', using default {limit}.", file=sys.stderr)
+
+    conn = _open_db()
+    rows = query_unresolved_people(conn, limit=limit)
+    conn.close()
+    payload = {
+        "total": len(rows),
+        "items": rows,
+    }
+    print(json.dumps(payload, indent=2, ensure_ascii=False))
+
+
+def reconcile(unresolved_name: str, canonical_name: str):
+    """Map an unresolved person string to an existing canonical cluster."""
+    try:
+        result = reconcile_cluster_variant(unresolved_name, canonical_name, CLUSTERS_PATH)
+    except ValueError as e:
+        print(f"Reconcile error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    status = "updated" if result["changed"] else "unchanged"
+    print(
+        f"{status}: '{result['variant']}' → '{result['canonical']}' "
+        f"({result['canonical_zh'] or 'no zh'})"
+    )
+    print(f"Saved: {result['path']}")
+    print("Next: run `python -m src.synthesis rebuild` to apply the mapping.")
+
+
 def chronology():
     """Generate chronology artifacts from populated timeline_events."""
     conn = _open_db()
@@ -1006,6 +1193,12 @@ COMMANDS = {
     "dossier": lambda: dossier(sys.argv[2]) if len(sys.argv) > 2 else print("Usage: ... dossier <name>"),
     "date": lambda: date_query(sys.argv[2]) if len(sys.argv) > 2 else print("Usage: ... date <year>"),
     "location": lambda: location_query(sys.argv[2]) if len(sys.argv) > 2 else print("Usage: ... location <country>"),
+    "unresolved": lambda: unresolved(sys.argv[2] if len(sys.argv) > 2 else None),
+    "reconcile": lambda: (
+        reconcile(sys.argv[2], sys.argv[3])
+        if len(sys.argv) > 3
+        else print("Usage: ... reconcile <unresolved_name> <canonical_name>")
+    ),
 }
 
 
