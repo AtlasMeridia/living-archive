@@ -18,6 +18,7 @@ Both projects share the same arc (source media → AI vision → JSON manifests 
 - [x] **Port tag audit pattern from NR** — `src/audit_tags.py`: 7 concept categories (relationship, condition/damage, activity, group, outdoor, indoor, era). Audited 2358 photos — `condition/damage` 100% gap rate, `group/crowd` 46%, `setting/indoor` 18%. — 2026-03-03
 - [x] **Adapt haptic browser for photo/doc review** — `haptic.html` + `src/haptic_api.py` + routes in `src/dashboard.py`: faceted sidebar (confidence tiers, era/decade, people count, tags), photo grid, modal with full analysis + keyboard navigation. Accessible at `/haptic` on the dashboard server (port 8378). — 2026-03-03
 - [x] **Contact sheet triage for FastFoto scans** — `src/contact_triage.py`: tiles up to 20 photos into 4×4 numbered grids, sends to Haiku via API, saves keep/skip lists to `data/triage/<album>_triage.json`; CLI `python -m src.contact_triage <album_dir>` — 2026-03-03
+- [x] **Wire triage skip lists into batch photo processing** — `src/run_batch.py` now supports `--triage off|auto|require`, auto-loads matching `data/triage/*_triage.json`, filters album queues by keep/skip decisions, and records triage counts/files in `run_meta.json`; covered by new `tests/test_run_batch.py` — 2026-03-04
 - [x] **Anti-euphemization prompting** — add explicit vocabulary examples to photo prompts ("include relationship tags: parent-child, couple, siblings" / "include condition tags: faded, torn, water-damaged") — 2026-03-03
 
 ## Now — Synthesis Layer (Experiment 0002)
@@ -27,6 +28,7 @@ Both projects share the same arc (source media → AI vision → JSON manifests 
 - [x] **Complete Phase 5 final report (experiment 0002)** — added `runs/p5-report/summary.md` with branch outcomes, extraction/timeline metrics, query precision by type, design retrospective, and next-step recommendations — 2026-03-04
 - [x] **Promote synthesis module to `src/` + wire dashboard synthesis APIs** — promoted `src/synthesis.py` + `src/person_clusters.json`, added dashboard endpoints (`/api/synthesis/overview|person|date|location|chronology`), and marked experiment 0002 complete — 2026-03-04
 - [x] **Extract shared synthesis query service for modularity** — added `src/synthesis_queries.py` and rewired both `src/synthesis.py` (CLI queries) and `src/dashboard_api.py` (synthesis endpoints) to use shared DB + chronology access helpers, reducing duplicated SQL and tightening the synthesis boundary — 2026-03-04
+- [x] **Synthesis UX + quality sprint** — added dashboard `Synthesis` tab (overview + person/date/location query tools + chronology snapshot), chronology quality controls (`quality` block with outlier audit and compaction metrics), and unresolved-name reconciliation workflow (`python -m src.synthesis unresolved|reconcile`) — 2026-03-04
 
 ## Now — Project Self-Awareness
 
@@ -39,6 +41,7 @@ The codebase, architecture, and documentation need to catch up to what the proje
 - [x] Sketch personal branch in `docs/architecture.md` — document intent, integration points, and how pipeline improvements benefit both Family and Personal branches — 2026-02-12
 - [ ] Review medium-confidence photos in Immich "Needs Review" albums — 5 from 1978 run, 34 from 1980-1982 run (human task)
 - [x] Document local LLM inference mode — added Inference Modes section to README (env vars, provider table, all three backends), updated architecture.md with Inference Routing section (CLI mechanics, chunking, rate limits, CLAUDECODE env var) — 2026-02-20
+- [x] Fix People dashboard data path + fail-open latency — `src/people.py` now reads canonical `data/people/registry.json` (with legacy fallback from `data/photos/people/registry.json`), `sync_people status` reports canonical path, `api_people()` now fails open fast when Immich is offline and avoids per-person N+1 stats calls, and the UI now surfaces offline `~N photos` hints from registry notes with unknown-first sorting; regressions covered in `tests/test_people.py` + `tests/test_dashboard_api_people.py` — 2026-03-05
 
 ## Next — Focused Conversations
 
@@ -97,7 +100,7 @@ Processing the 7,629 FastFoto scans. Pipeline needs adaptation since JPEGs alrea
 
 - [x] Adapt photo pipeline for JPEG source input — skip TIFF-to-JPEG conversion when source is already JPEG, hash the JPEG source instead — 2026-02-25
 - [x] Run test batch on a small album — `Albumpage/` (33 photos), 31/33 succeeded, 2 timed out — 2026-02-25
-- [ ] Process 1st Round albums — Albumpage (31/33), Gold_Album (145/145), Wedding (195/195) done; remaining: Pink_Flower_Album (338), Red_Album_1 (390), Big_Red_Album (557)
+- [ ] Process 1st Round albums — Albumpage (31/33), Gold_Album (145/145), Wedding (195/195), Pink_Flower_Album (338/338), Big_Red_Album (557/557) done; remaining: Red_Album_1 (60/390 processed, 330 remaining; run `20260305T011118Z` in progress).
 - [ ] Process 2nd Round albums (3,599 photos across 10 albums)
 - [ ] Process 3rd Round albums (2,372 photos across 6 albums)
 
@@ -115,6 +118,7 @@ Steps 1-4 done. Steps 5-6 blocked on human activity. See `_dev/research/2026-02-
 - [x] 2. Investigate Immich face/person API — full CRUD available — 2026-02-06
 - [x] 3. Create people registry in AI layer — `_ai-layer/people/registry.json` — 2026-02-06
 - [x] 4. Build Immich sync script — `python -m src.sync_people`, 794 clusters imported — 2026-02-06
+- [x] 4.1 Build naming queue + import workflow — `python -m src.sync_people queue [--limit N] [--csv [PATH]]` prioritizes unknown clusters by estimated asset count and exports elder-session worksheets; `python -m src.sync_people import-csv [PATH|--csv PATH] [--dry-run]` applies filled naming sheets back into registry (generated `data/people/identification_queue.csv`) — 2026-03-05
 - [ ] 5. Elder knowledge capture session — get faces in front of family elders
 - [ ] 6. Evaluate elder UX — Immich native face tagging vs. custom tool
 

@@ -117,15 +117,17 @@ Both pipelines default to **CLI mode**, which routes inference through the [Clau
 | Command | Description |
 |---------|-------------|
 | `python -m src.run_slice` | Run photo pipeline on a configured slice |
+| `python -m src.run_batch` | Batch photo pipeline over unprocessed albums (`--slices`, `--triage off|auto|require`) |
 | `python -m src.run_doc_extract` | Document extraction orchestrator |
 | `python -m src.doc_scan` | Scan and inventory PDFs |
 | `python -m src.doc_index` | Build/rebuild FTS5 search index |
 | `python -m src.catalog` | Asset catalog: stats, backfill, scan |
-| `python -m src.synthesis` | Synthesis layer: rebuild, stats, dossier/date/location queries, chronology generation |
+| `python -m src.synthesis` | Synthesis layer: rebuild, stats, dossier/date/location queries, chronology generation, unresolved-name reconciliation (`unresolved`, `reconcile`) |
+| `python -m src.contact_triage` | Build contact sheets and generate keep/skip triage lists for FastFoto albums |
 | `python -m src.preflight` | Run all preflight checks |
 | `python -m src.dashboard` | Archive dashboard server (`http://localhost:8378`) |
 | `python -m src.review` | Generate review dashboard |
-| `python -m src.sync_people` | Sync people registry to Immich faces |
+| `python -m src.sync_people` | People sync toolkit: `status`, `pull`, `push`, `queue` (prioritized unknown-face naming list), `import-csv` (apply naming sheet updates) |
 
 ## Background
 

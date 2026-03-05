@@ -7,8 +7,11 @@ synthesis/cross-reference metrics come from `synthesis.db` and
 
 import json
 import logging
+import re
 import sqlite3
 import time
+
+import httpx
 
 from . import config
 from .catalog import get_catalog_db, init_catalog, get_stats, get_meta
@@ -354,58 +357,109 @@ def api_doc_search(query: str) -> list[dict]:
     return results
 
 
+def _immich_quick_check(timeout: float = 1.5) -> bool:
+    """Fast connectivity check so dashboard endpoints fail open quickly."""
+    if not config.IMMICH_URL or not config.IMMICH_API_KEY:
+        return False
+    ping_url = config.IMMICH_URL.rstrip("/") + "/api/server/ping"
+    try:
+        resp = httpx.get(
+            ping_url,
+            headers={"x-api-key": config.IMMICH_API_KEY},
+            timeout=timeout,
+        )
+        return resp.status_code < 500
+    except Exception:
+        return False
+
+
+def _asset_count_from_immich_person(person_row: dict) -> int:
+    """Extract asset count if present in list_people payload rows."""
+    for key in ("assetCount", "assets", "faceCount", "faces"):
+        value = person_row.get(key)
+        if isinstance(value, int):
+            return value
+    return 0
+
+
+def _asset_count_hint_from_notes(notes: str) -> int:
+    """Extract '(N assets)' hint from auto-import notes."""
+    match = re.search(r"\((\d+)\s+assets\)", notes or "")
+    return int(match.group(1)) if match else 0
+
+
 def api_people() -> dict:
-    """People registry with Immich photo counts (unchanged — live data)."""
+    """People registry with optional Immich enrichment.
+
+    Designed to fail open quickly: the people grid should render from registry data
+    even if Immich is unavailable.
+    """
     from .people import load_registry
     from . import immich
 
     registry = load_registry()
-    people_list = []
+    people_list: list[dict] = []
+    registry_count = len(registry.people)
     total_clusters = 0
+    immich_available = False
+    immich_by_id: dict[str, dict] = {}
 
-    try:
-        client = immich._client()
-        all_people = immich.list_people(client)
-        total_clusters = len(all_people)
+    if _immich_quick_check():
+        try:
+            client = immich._client()
+            all_people = immich.list_people(client)
+            total_clusters = len(all_people)
+            immich_available = True
+            immich_by_id = {p["id"]: p for p in all_people if p.get("id")}
+            client.close()
+        except Exception as e:
+            log.warning("People API — Immich unavailable: %s", e)
 
-        for person in registry.people:
-            asset_count = 0
-            primary_immich_id = None
-            for pid in person.immich_person_ids:
-                primary_immich_id = primary_immich_id or pid
-                try:
-                    stats = immich.get_person_statistics(client, pid)
-                    asset_count += stats.get("assets", 0)
-                except Exception:
-                    pass
-            people_list.append({
-                "person_id": person.person_id,
-                "name_en": person.name_en,
-                "name_zh": person.name_zh,
-                "relationship": person.relationship,
-                "birth_year": person.birth_year,
-                "immich_person_id": primary_immich_id,
-                "photo_count": asset_count,
-            })
-        client.close()
-    except Exception as e:
-        log.warning("People API — Immich unavailable: %s", e)
-        for person in registry.people:
-            people_list.append({
-                "person_id": person.person_id,
-                "name_en": person.name_en,
-                "name_zh": person.name_zh,
-                "relationship": person.relationship,
-                "birth_year": person.birth_year,
-                "immich_person_id": person.immich_person_ids[0] if person.immich_person_ids else None,
-                "photo_count": 0,
-            })
+    for person in registry.people:
+        primary_immich_id = None
+        photo_count = 0
+        photo_count_is_estimate = False
+        for pid in person.immich_person_ids:
+            if primary_immich_id is None:
+                primary_immich_id = pid
+            row = immich_by_id.get(pid)
+            if row is not None:
+                primary_immich_id = pid
+                photo_count += _asset_count_from_immich_person(row)
+        if photo_count == 0:
+            hint = _asset_count_hint_from_notes(person.notes)
+            if hint > 0:
+                photo_count = hint
+                photo_count_is_estimate = True
+        people_list.append({
+            "person_id": person.person_id,
+            "name_en": person.name_en,
+            "name_zh": person.name_zh,
+            "relationship": person.relationship,
+            "birth_year": person.birth_year,
+            "immich_person_id": primary_immich_id,
+            "photo_count": photo_count,
+            "photo_count_is_estimate": photo_count_is_estimate,
+        })
 
-    named = sum(1 for p in people_list if p["name_en"])
+    people_list.sort(
+        key=lambda p: (
+            1 if (p["name_en"] or p["name_zh"]) else 0,
+            -(p["photo_count"] or 0),
+            (p["name_en"] or p["name_zh"] or "").lower(),
+        )
+    )
+
+    named = sum(1 for p in people_list if p["name_en"] or p["name_zh"])
+    if not immich_available:
+        total_clusters = registry_count
+    unnamed = max(total_clusters - named, 0)
     return {
+        "immich_available": immich_available,
+        "registry_count": registry_count,
         "total_clusters": total_clusters,
         "named": named,
-        "unnamed": total_clusters - named,
+        "unnamed": unnamed,
         "people": people_list,
     }
 

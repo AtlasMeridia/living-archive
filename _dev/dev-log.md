@@ -4,6 +4,160 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-03-04 — Batch run
+**Run:** `20260305T011118Z` — batch mode, 1 slices attempted
+**Result:** 15/390 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 701s (~0.2 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1` | 390 | 15/390 (partial) | 569s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-03-04 — Batch run
+**Run:** `20260305T011118Z` — batch mode, 1 slices attempted
+**Result:** 1/390 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 194s (~0.1 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1` | 390 | 1/390 (partial) | 62s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-03-05 — People dashboard empty-state fix (registry path regression)
+
+Resolved a regression where the Archive Dashboard `People` tab showed no rows even though `data/people/registry.json` contained imported Immich clusters.
+
+**Root cause:**
+- `src/people.py` still pointed at `config.AI_LAYER_DIR / "people"` (`data/photos/people/registry.json`), but the local-data migration moved the registry to `data/people/registry.json`.
+
+**What changed:**
+- `src/people.py`
+  - Set canonical registry path to `config.DATA_DIR / "people" / "registry.json"`.
+  - Added backward-compatible read fallback to legacy `data/photos/people/registry.json`.
+  - Kept writes canonical so future updates consolidate on `data/people/`.
+- `src/sync_people.py`
+  - `status` now logs `src.people.REGISTRY_PATH` instead of reconstructing a stale path.
+- `src/dashboard_api.py` + `dashboard.html`
+  - Added fast Immich reachability check so `/api/people` fails open immediately when Immich is offline.
+  - Removed expensive per-person `get_person_statistics()` loop (N+1 calls over large registries).
+  - Added offline photo-count hints by parsing registry notes (`Auto-imported from Immich (N assets)`) and use `~N photos` in UI when counts are estimated.
+  - Sorted People grid payload with unnamed people first, then largest clusters, to prioritize elder-identification workflow.
+  - People summary now reports both `registry_count` and Immich cluster status (`Immich Clusters` vs `Immich Clusters (Offline)`), preventing misleading zero-cluster summaries during outages.
+- Added `tests/test_people.py`
+  - canonical path preference
+  - legacy fallback behavior
+  - canonical save target
+- Added `tests/test_dashboard_api_people.py`
+  - offline fail-open behavior
+  - Immich list payload enrichment behavior
+  - offline asset-hint parsing + unknown-first sorting behavior
+
+**Validation:**
+- `pytest -q tests/test_people.py tests/test_dashboard_api_people.py tests/test_synthesis_queries.py tests/test_models.py` → **24 passed**
+- Function-level smoke:
+  - live `/api/people` after dashboard restart: **0.01s**, `immich_available=false`, `registry_count=794`, `people_len=794`.
+
+## 2026-03-05 — People naming queue + CSV import workflow (elder-session prep)
+
+Added a queue + import workflow to move from "dashboard shows unknown faces" to "actionable naming list for elder review" and back into registry updates.
+
+**What changed:**
+- `src/sync_people.py`
+  - Added `queue` command:
+    - `python -m src.sync_people queue`
+    - `python -m src.sync_people queue --limit 100`
+    - `python -m src.sync_people queue --csv` (writes default `data/people/identification_queue.csv`)
+    - `python -m src.sync_people queue --csv <path>` (custom export path)
+  - Added `import-csv` command:
+    - `python -m src.sync_people import-csv` (reads default `data/people/identification_queue.csv`)
+    - `python -m src.sync_people import-csv --dry-run` (preview only)
+    - `python -m src.sync_people import-csv <path>` (custom input)
+  - Queue ranking:
+    - unknown people first
+    - largest estimated clusters first (parsed from `notes`, e.g. `(2485 assets)`)
+  - Added optional `--include-named` for full-registry review.
+- `README.md`
+  - Updated CLI table entry for `sync_people` to include `queue` + `import-csv`.
+- Added `tests/test_sync_people.py`
+  - note asset-count parsing
+  - unknown-first + descending-size queue ordering
+  - include-named behavior
+  - CSV row update application + birth-year parsing behavior
+
+**Validation:**
+- `pytest -q tests/test_sync_people.py tests/test_people.py tests/test_dashboard_api_people.py tests/test_synthesis_queries.py tests/test_models.py` → **31 passed**
+- Live queue generation:
+  - `python -m src.sync_people queue --csv`
+  - wrote `data/people/identification_queue.csv` with top 50 unknown clusters.
+- Import dry-run checks:
+  - `python -m src.sync_people import-csv --dry-run` → `Updated: 0 / Unchanged: 10 / Missing IDs: 0`
+  - `python -m src.sync_people import-csv /tmp/living-archive-identification-sample.csv --dry-run` (with one edited name) → `Updated: 1 / Unchanged: 2 / Missing IDs: 0`
+
+## 2026-03-04 — Triage-aware batch processing integration
+
+Integrated `contact_triage` outputs directly into the photo batch runner so expensive analysis can skip obvious duplicates/blanks.
+
+**What changed:**
+- `src/run_batch.py`:
+  - Added `--triage` mode with `off|auto|require` (default `auto`)
+  - Added triage loader that resolves matching files from `data/triage/*_triage.json` using slice path + album-name fallback scoring
+  - Added keep/skip filtering before conversion/analysis work
+  - Added per-slice triage stats in results (`triage_applied`, `triage_skipped`, `triage_file`, `photos_considered`)
+  - Added triage fields to batch `run_meta.json` and triage skip totals in appended dev-log batch summaries
+- `README.md` CLI table now includes `run_batch` and `contact_triage` entries.
+- Added `tests/test_run_batch.py` for triage match resolution, filtering semantics, and `triage_mode=require` failure behavior.
+
+**Validation:**
+- `pytest -q tests/test_run_batch.py` → **5 passed**
+- `pytest -q` → **66 passed**
+- `python -m src.run_batch --help` confirms `--triage {off,auto,require}` is available.
+
+## 2026-03-04 — Synthesis UX + quality sprint
+
+Implemented the post-promotion synthesis follow-through: usable dashboard surface + chronology quality controls + unresolved-name reconciliation workflow.
+
+**What changed:**
+- Added a new `Synthesis` tab in `dashboard.html`:
+  - synthesis overview cards and entity coverage bars
+  - chronology quality panel (raw rows, compacted rows, outlier count + sample outliers)
+  - unresolved-name queue and top-linked-people tables
+  - interactive query tools for person dossier, date, and location endpoints
+- Extended synthesis shared query layer (`src/synthesis_queries.py`):
+  - overview now includes `resolved_people`, `unresolved_people`, and `top_unresolved`
+  - added `query_unresolved_people()`
+  - chronology metadata now surfaces `quality` when available
+- Added chronology quality controls in `src/synthesis.py`:
+  - duplicate-event suppression during `timeline_events` population (same asset/date/type)
+  - chronology grouping key normalization for duplicate compaction
+  - date outlier audit (`<1900` and future dates beyond `current_year + 1`)
+  - emitted `quality` block in `data/chronology.json` and markdown header
+- Added unresolved-name reconciliation workflow in `src/synthesis.py`:
+  - `python -m src.synthesis unresolved [limit]`
+  - `python -m src.synthesis reconcile "<unresolved_name>" "<canonical_name>"`
+  - reconcile updates `src/person_clusters.json` safely and refreshes summary counters.
+- Updated README synthesis CLI entry to include reconciliation commands.
+
+**Validation:**
+- `pytest -q` → **61 passed**.
+- `python -m src.synthesis chronology` regenerated chronology artifacts with quality block.
+- API smoke (function-level):
+  - `api_synthesis_overview()` now returns unresolved metrics and queue.
+  - `api_synthesis_chronology()` now includes `quality` (`outlier_event_count=1` in current data snapshot).
+
+**Notes:**
+- Existing dashboard server was already bound on port `8378`, so verification used function-level API calls instead of launching a second server instance.
+
 ## 2026-03-04 — Synthesis modularity refactor (shared query service)
 
 Refactored synthesis query paths to reduce coupling and keep schema access centralized.

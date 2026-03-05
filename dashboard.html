@@ -1011,9 +1011,11 @@ async function loadPeople() {
   try {
     const data = await api('/api/people');
     const people = data.people || [];
+    const immichLabel = data.immich_available ? 'Immich Clusters' : 'Immich Clusters (Offline)';
 
     document.getElementById('peopleSummary').innerHTML = `
-      <div class="stat-card"><div class="value">${fmt(data.total_clusters)}</div><div class="label">Total Clusters</div></div>
+      <div class="stat-card"><div class="value">${fmt(data.registry_count || people.length)}</div><div class="label">Registry People</div></div>
+      <div class="stat-card"><div class="value">${fmt(data.total_clusters)}</div><div class="label">${immichLabel}</div></div>
       <div class="stat-card"><div class="value">${fmt(data.named)}</div><div class="label">Named</div></div>
       <div class="stat-card"><div class="value">${fmt(data.unnamed)}</div><div class="label">Unnamed</div></div>
     `;
@@ -1034,7 +1036,7 @@ async function loadPeople() {
         ${p.name_zh ? `<div class="name-zh">${p.name_zh}</div>` : ''}
         ${p.relationship ? `<div class="relation">${p.relationship}</div>` : ''}
         ${p.birth_year ? `<div class="relation">b. ${p.birth_year}</div>` : ''}
-        ${p.photo_count ? `<div class="photo-count">${p.photo_count} photos</div>` : ''}
+        ${p.photo_count ? `<div class="photo-count">${p.photo_count_is_estimate ? '~' : ''}${p.photo_count} photos</div>` : ''}
       </div>`;
     }
     document.getElementById('peopleGrid').innerHTML = html;

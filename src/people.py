@@ -1,6 +1,7 @@
 """People registry: durable identity store independent of Immich.
 
-Registry lives at: _ai-layer/people/registry.json
+Canonical registry location: data/people/registry.json
+Legacy location (pre-local-migration): data/photos/people/registry.json
 """
 
 import json
@@ -14,15 +15,32 @@ from .models import PeopleRegistry, Person
 
 log = logging.getLogger("living_archive")
 
-PEOPLE_DIR = config.AI_LAYER_DIR / "people"
+PEOPLE_DIR = config.DATA_DIR / "people"
+LEGACY_PEOPLE_DIR = config.AI_LAYER_DIR / "people"
 REGISTRY_PATH = PEOPLE_DIR / "registry.json"
+LEGACY_REGISTRY_PATH = LEGACY_PEOPLE_DIR / "registry.json"
+
+
+def _registry_path_for_read() -> Path:
+    """Resolve registry path with backward-compatible fallback."""
+    if REGISTRY_PATH.exists():
+        return REGISTRY_PATH
+    if LEGACY_REGISTRY_PATH.exists():
+        log.warning(
+            "Using legacy people registry path: %s (expected: %s)",
+            LEGACY_REGISTRY_PATH,
+            REGISTRY_PATH,
+        )
+        return LEGACY_REGISTRY_PATH
+    return REGISTRY_PATH
 
 
 def load_registry() -> PeopleRegistry:
     """Load the people registry from disk. Returns empty registry if missing."""
-    if not REGISTRY_PATH.exists():
+    path = _registry_path_for_read()
+    if not path.exists():
         return PeopleRegistry()
-    data = json.loads(REGISTRY_PATH.read_text())
+    data = json.loads(path.read_text())
     return PeopleRegistry.model_validate(data)
 
 
