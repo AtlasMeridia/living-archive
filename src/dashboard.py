@@ -31,6 +31,7 @@ from .dashboard_api import (
     api_doc_corpus,
     api_doc_search,
     api_people,
+    api_update_person,
     api_synthesis_overview,
     api_synthesis_person,
     api_synthesis_date,
@@ -145,7 +146,25 @@ class DashboardHandler(BaseHTTPRequestHandler):
         elif path == "/api/health":
             self._json(api_health())
         elif m := re.match(r"^/api/immich/thumbnail/([^/]+)$", path):
-            self._proxy_thumbnail(m.group(1))
+            self._serve_face_thumbnail(m.group(1))
+        else:
+            self.send_error(HTTPStatus.NOT_FOUND)
+
+    def do_PUT(self):
+        parsed = urlparse(self.path)
+        path = parsed.path
+        m = re.match(r"^/api/people/([^/]+)$", path)
+        if m:
+            person_id = m.group(1)
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                self._json({"ok": False, "error": "Invalid JSON"}, 400)
+                return
+            result = api_update_person(person_id, body)
+            if result.get("ok"):
+                _cache.pop("people", None)
+            self._json(result, 200 if result.get("ok") else 404)
         else:
             self.send_error(HTTPStatus.NOT_FOUND)
 
@@ -205,7 +224,19 @@ class DashboardHandler(BaseHTTPRequestHandler):
         except FileNotFoundError as e:
             self.send_error(HTTPStatus.NOT_FOUND, str(e))
 
-    def _proxy_thumbnail(self, person_id: str):
+    def _serve_face_thumbnail(self, person_id: str):
+        """Serve face thumbnail from local cache, falling back to Immich proxy."""
+        local_path = config.DATA_DIR / "people" / "thumbnails" / f"{person_id}.jpg"
+        if local_path.exists():
+            data = local_path.read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", "image/jpeg")
+            self.send_header("Content-Length", str(len(data)))
+            self.send_header("Cache-Control", "public, max-age=86400")
+            self.end_headers()
+            self.wfile.write(data)
+            return
+        # Fallback: proxy from Immich
         try:
             url = config.IMMICH_URL.rstrip("/") + f"/api/people/{person_id}/thumbnail"
             resp = httpx.get(
@@ -221,8 +252,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(resp.content)
         except Exception as e:
-            log.warning("Thumbnail proxy failed for %s: %s", person_id, e)
-            self.send_error(HTTPStatus.BAD_GATEWAY, str(e))
+            log.warning("Thumbnail failed for %s: %s", person_id, e)
+            self.send_error(HTTPStatus.NOT_FOUND)
 
 
 # --- Entry point ---

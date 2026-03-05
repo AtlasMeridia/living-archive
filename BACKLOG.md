@@ -119,8 +119,10 @@ Steps 1-4 done. Steps 5-6 blocked on human activity. See `_dev/research/2026-02-
 - [x] 3. Create people registry in AI layer — `_ai-layer/people/registry.json` — 2026-02-06
 - [x] 4. Build Immich sync script — `python -m src.sync_people`, 794 clusters imported — 2026-02-06
 - [x] 4.1 Build naming queue + import workflow — `python -m src.sync_people queue [--limit N] [--csv [PATH]]` prioritizes unknown clusters by estimated asset count and exports elder-session worksheets; `python -m src.sync_people import-csv [PATH|--csv PATH] [--dry-run]` applies filled naming sheets back into registry (generated `data/people/identification_queue.csv`) — 2026-03-05
-- [ ] 5. Elder knowledge capture session — get faces in front of family elders
-- [ ] 6. Evaluate elder UX — Immich native face tagging vs. custom tool
+- [x] 4.2 In-browser naming modal + local thumbnail cache — People tab cards are clickable with naming form (name_en/zh, relationship, birth_year), keyboard nav (Enter=save+next, arrows=navigate), `PUT /api/people/<id>` saves to registry + auto-pushes to Immich; `python -m src.sync_people thumbnails` bulk-downloads face crops locally; fixed Immich external mount path and configured `.env` with API key — 2026-03-04
+- [ ] 5. Elder knowledge capture session — get faces in front of family elders (People tab now usable as the naming tool)
+- [ ] 5.1 Add merge-on-duplicate-name UX — when naming a cluster with a name that already exists, offer to merge (handles same person at different ages)
+- [x] 6. Evaluate elder UX — Immich native face tagging vs. custom tool — decided: custom dashboard naming modal is the UX; Immich stays as clustering engine, not user-facing — 2026-03-04
 
 ## Later — Personal Data Integration
 

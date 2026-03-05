@@ -379,6 +379,70 @@ td.num { font-family: var(--font-mono); text-align: right; }
   margin-top: 6px;
 }
 
+/* --- People naming modal --- */
+.person-card { cursor: pointer; }
+.naming-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.65);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000;
+}
+.naming-modal {
+  background: var(--bg-surface); border: 1px solid var(--border-color);
+  border-radius: var(--border-radius); padding: 28px; width: 420px;
+  max-width: 90vw; position: relative;
+}
+.naming-modal .face-large {
+  width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+  display: block; margin: 0 auto 16px; background: var(--navy-700);
+}
+.naming-modal .face-large-placeholder {
+  width: 120px; height: 120px; border-radius: 50%; background: var(--navy-700);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px; color: var(--text-muted); font-size: 48px;
+}
+.naming-modal .photo-hint {
+  text-align: center; font-size: 12px; color: var(--text-muted); margin-bottom: 16px;
+}
+.naming-modal label {
+  display: block; font-size: 12px; color: var(--text-secondary);
+  margin-bottom: 4px; margin-top: 12px;
+}
+.naming-modal label:first-of-type { margin-top: 0; }
+.naming-modal input {
+  width: 100%; padding: 8px 10px; border-radius: 6px;
+  border: 1px solid var(--border-color); background: var(--bg-primary);
+  color: var(--cream-100); font-size: 14px; box-sizing: border-box;
+  font-family: inherit;
+}
+.naming-modal input:focus {
+  outline: none; border-color: var(--accent);
+}
+.naming-modal .btn-row {
+  display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;
+}
+.naming-modal .btn-row button {
+  padding: 8px 18px; border-radius: 6px; font-size: 13px;
+  cursor: pointer; border: 1px solid var(--border-color);
+  font-family: inherit;
+}
+.naming-modal .btn-cancel {
+  background: transparent; color: var(--text-secondary);
+}
+.naming-modal .btn-save {
+  background: var(--accent); color: var(--bg-primary); border-color: var(--accent);
+  font-weight: 600;
+}
+.naming-modal .btn-save:disabled {
+  opacity: .4; cursor: default;
+}
+.naming-modal .save-status {
+  font-size: 12px; color: var(--accent-text); margin-top: 8px; text-align: center;
+  min-height: 18px;
+}
+.naming-modal .nav-hint {
+  text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 8px;
+}
+
 /* --- Health checks --- */
 .health-row {
   display: flex;
@@ -1007,42 +1071,155 @@ document.getElementById('synLocationInput').addEventListener('keydown', (e) => {
 });
 
 // --- People ---
+let _peopleData = [];
+
 async function loadPeople() {
   try {
     const data = await api('/api/people');
-    const people = data.people || [];
+    _peopleData = data.people || [];
     const immichLabel = data.immich_available ? 'Immich Clusters' : 'Immich Clusters (Offline)';
 
     document.getElementById('peopleSummary').innerHTML = `
-      <div class="stat-card"><div class="value">${fmt(data.registry_count || people.length)}</div><div class="label">Registry People</div></div>
+      <div class="stat-card"><div class="value">${fmt(data.registry_count || _peopleData.length)}</div><div class="label">Registry People</div></div>
       <div class="stat-card"><div class="value">${fmt(data.total_clusters)}</div><div class="label">${immichLabel}</div></div>
       <div class="stat-card"><div class="value">${fmt(data.named)}</div><div class="label">Named</div></div>
       <div class="stat-card"><div class="value">${fmt(data.unnamed)}</div><div class="label">Unnamed</div></div>
     `;
 
-    if (people.length === 0) {
+    if (_peopleData.length === 0) {
       document.getElementById('peopleGrid').innerHTML = '<div class="empty">No people in registry</div>';
       return;
     }
 
-    let html = '';
-    for (const p of people) {
-      const face = p.immich_person_id
-        ? `<img class="face" src="/api/immich/thumbnail/${p.immich_person_id}" alt="${p.name_en}" loading="lazy">`
-        : `<div class="face-placeholder"><i class="ph-light ph-user"></i></div>`;
-      html += `<div class="person-card">
-        ${face}
-        <div class="name-en">${p.name_en || 'Unknown'}</div>
-        ${p.name_zh ? `<div class="name-zh">${p.name_zh}</div>` : ''}
-        ${p.relationship ? `<div class="relation">${p.relationship}</div>` : ''}
-        ${p.birth_year ? `<div class="relation">b. ${p.birth_year}</div>` : ''}
-        ${p.photo_count ? `<div class="photo-count">${p.photo_count_is_estimate ? '~' : ''}${p.photo_count} photos</div>` : ''}
-      </div>`;
-    }
-    document.getElementById('peopleGrid').innerHTML = html;
+    renderPeopleGrid();
   } catch (e) {
     document.getElementById('peopleSummary').innerHTML = `<div class="empty">Error: ${e.message}</div>`;
     document.getElementById('peopleGrid').innerHTML = '';
+  }
+}
+
+function renderPeopleGrid() {
+  let html = '';
+  for (let i = 0; i < _peopleData.length; i++) {
+    const p = _peopleData[i];
+    const face = p.immich_person_id
+      ? `<img class="face" src="/api/immich/thumbnail/${p.immich_person_id}" alt="${esc(p.name_en)}" loading="lazy">`
+      : `<div class="face-placeholder"><i class="ph-light ph-user"></i></div>`;
+    html += `<div class="person-card" data-idx="${i}">
+      ${face}
+      <div class="name-en">${esc(p.name_en) || 'Unknown'}</div>
+      ${p.name_zh ? `<div class="name-zh">${esc(p.name_zh)}</div>` : ''}
+      ${p.relationship ? `<div class="relation">${esc(p.relationship)}</div>` : ''}
+      ${p.birth_year ? `<div class="relation">b. ${p.birth_year}</div>` : ''}
+      ${p.photo_count ? `<div class="photo-count">${p.photo_count_is_estimate ? '~' : ''}${p.photo_count} photos</div>` : ''}
+    </div>`;
+  }
+  document.getElementById('peopleGrid').innerHTML = html;
+  document.querySelectorAll('.person-card[data-idx]').forEach(card => {
+    card.addEventListener('click', () => openNamingModal(parseInt(card.dataset.idx)));
+  });
+}
+
+function openNamingModal(idx) {
+  const p = _peopleData[idx];
+  if (!p) return;
+  const face = p.immich_person_id
+    ? `<img class="face-large" src="/api/immich/thumbnail/${p.immich_person_id}" alt="">`
+    : `<div class="face-large-placeholder"><i class="ph-light ph-user"></i></div>`;
+  const photoText = p.photo_count
+    ? `${p.photo_count_is_estimate ? '~' : ''}${p.photo_count} photos`
+    : '';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'naming-overlay';
+  overlay.innerHTML = `<div class="naming-modal">
+    ${face}
+    ${photoText ? `<div class="photo-hint">${photoText}</div>` : ''}
+    <label>English Name</label>
+    <input id="nm-name-en" value="${esc(p.name_en)}" placeholder="e.g. John Liu" autofocus>
+    <label>Chinese Name</label>
+    <input id="nm-name-zh" value="${esc(p.name_zh)}" placeholder="e.g. &#x5289;&#x5927;&#x660E;">
+    <label>Relationship</label>
+    <input id="nm-relationship" value="${esc(p.relationship)}" placeholder="e.g. paternal grandfather">
+    <label>Birth Year</label>
+    <input id="nm-birth-year" value="${p.birth_year || ''}" placeholder="e.g. 1942" type="number" min="1850" max="2030">
+    <div class="btn-row">
+      <button class="btn-cancel" id="nm-cancel">Cancel</button>
+      <button class="btn-save" id="nm-save">Save</button>
+    </div>
+    <div class="save-status" id="nm-status"></div>
+    <div class="nav-hint">${idx > 0 ? '\u2190 prev' : ''} ${idx < _peopleData.length - 1 ? 'next \u2192' : ''}</div>
+  </div>`;
+  document.body.appendChild(overlay);
+
+  const nameEnInput = document.getElementById('nm-name-en');
+  nameEnInput.focus();
+  nameEnInput.select();
+
+  const close = () => overlay.remove();
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+  document.getElementById('nm-cancel').addEventListener('click', close);
+  document.getElementById('nm-save').addEventListener('click', () => saveNaming(idx, overlay));
+
+  // Keyboard: Escape to close, left/right arrows to navigate (when not focused on input)
+  const onKey = e => {
+    if (e.key === 'Escape') { close(); document.removeEventListener('keydown', onKey); }
+    if (e.key === 'ArrowLeft' && idx > 0 && document.activeElement.tagName !== 'INPUT') {
+      close(); document.removeEventListener('keydown', onKey); openNamingModal(idx - 1);
+    }
+    if (e.key === 'ArrowRight' && idx < _peopleData.length - 1 && document.activeElement.tagName !== 'INPUT') {
+      close(); document.removeEventListener('keydown', onKey); openNamingModal(idx + 1);
+    }
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); saveNaming(idx, overlay).then(ok => {
+        if (ok && idx < _peopleData.length - 1) {
+          close(); document.removeEventListener('keydown', onKey); openNamingModal(idx + 1);
+        }
+      });
+    }
+  };
+  document.addEventListener('keydown', onKey);
+}
+
+async function saveNaming(idx, overlay) {
+  const btn = document.getElementById('nm-save');
+  const status = document.getElementById('nm-status');
+  btn.disabled = true;
+  status.textContent = 'Saving...';
+
+  const body = {
+    name_en: document.getElementById('nm-name-en').value,
+    name_zh: document.getElementById('nm-name-zh').value,
+    relationship: document.getElementById('nm-relationship').value,
+    birth_year: document.getElementById('nm-birth-year').value || null,
+  };
+
+  try {
+    const resp = await fetch(`/api/people/${_peopleData[idx].person_id}`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    });
+    const result = await resp.json();
+    if (!result.ok) throw new Error(result.error || 'Update failed');
+
+    // Update local data
+    Object.assign(_peopleData[idx], result.person);
+    renderPeopleGrid();
+
+    const extras = [];
+    if (result.pushed_to_immich) extras.push('pushed to Immich');
+    if (result.changed.length === 0) {
+      status.textContent = 'No changes';
+    } else {
+      status.textContent = 'Saved' + (extras.length ? ` (${extras.join(', ')})` : '');
+    }
+    btn.disabled = false;
+    return true;
+  } catch (e) {
+    status.textContent = 'Error: ' + e.message;
+    btn.disabled = false;
+    return false;
   }
 }
 

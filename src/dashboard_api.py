@@ -464,6 +464,68 @@ def api_people() -> dict:
     }
 
 
+def api_update_person(person_id: str, data: dict) -> dict:
+    """Update a person's fields in the registry and optionally push to Immich."""
+    from .people import load_registry, save_registry
+
+    registry = load_registry()
+    person = None
+    for p in registry.people:
+        if p.person_id == person_id:
+            person = p
+            break
+    if person is None:
+        return {"ok": False, "error": f"Person {person_id} not found"}
+
+    changed = []
+    for field in ("name_en", "name_zh", "relationship"):
+        if field in data:
+            new_val = str(data[field]).strip()
+            if getattr(person, field) != new_val:
+                setattr(person, field, new_val)
+                changed.append(field)
+    if "birth_year" in data:
+        raw = data["birth_year"]
+        new_by = int(raw) if raw not in (None, "", "null") else None
+        if person.birth_year != new_by:
+            person.birth_year = new_by
+            changed.append("birth_year")
+
+    if not changed:
+        return {"ok": True, "changed": [], "message": "No changes"}
+
+    from datetime import datetime, timezone
+    person.updated_at = datetime.now(timezone.utc).isoformat()
+    save_registry(registry)
+
+    # Push name to Immich if available and person has a name now
+    pushed = False
+    display_name = person.name_en or person.name_zh
+    if display_name and person.immich_person_ids and _immich_quick_check():
+        try:
+            from . import immich
+            client = immich._client()
+            for pid in person.immich_person_ids:
+                immich.update_person(client, pid, name=display_name)
+            client.close()
+            pushed = True
+        except Exception as e:
+            log.warning("Failed to push name to Immich: %s", e)
+
+    return {
+        "ok": True,
+        "changed": changed,
+        "pushed_to_immich": pushed,
+        "person": {
+            "person_id": person.person_id,
+            "name_en": person.name_en,
+            "name_zh": person.name_zh,
+            "relationship": person.relationship,
+            "birth_year": person.birth_year,
+        },
+    }
+
+
 def api_synthesis_overview() -> dict:
     """Top-level synthesis metrics for dashboard use."""
     try:

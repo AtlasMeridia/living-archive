@@ -19,6 +19,7 @@ from . import config
 from .immich import (
     _client as immich_client,
     get_person_statistics,
+    get_person_thumbnail,
     list_people,
     update_person,
 )
@@ -36,6 +37,22 @@ log = config.setup_logging()
 MIN_ASSETS_FOR_IMPORT = 3
 DEFAULT_QUEUE_LIMIT = 50
 DEFAULT_QUEUE_CSV = config.DATA_DIR / "people" / "identification_queue.csv"
+THUMBNAIL_DIR = config.DATA_DIR / "people" / "thumbnails"
+
+
+def _download_thumbnail(client, immich_person_id: str) -> bool:
+    """Download face thumbnail from Immich to local cache. Returns True on success."""
+    out_path = THUMBNAIL_DIR / f"{immich_person_id}.jpg"
+    if out_path.exists():
+        return True
+    try:
+        data = get_person_thumbnail(client, immich_person_id)
+        THUMBNAIL_DIR.mkdir(parents=True, exist_ok=True)
+        out_path.write_bytes(data)
+        return True
+    except Exception as e:
+        log.debug("Thumbnail download failed for %s: %s", immich_person_id[:8], e)
+        return False
 
 
 def _is_named(person) -> bool:
@@ -187,6 +204,9 @@ def cmd_pull():
         label = name if name else "(unnamed)"
         log.info("  Imported: %s — %d assets [%s]", label, asset_count, person.person_id[:8])
 
+        # Download face thumbnail
+        _download_thumbnail(client, pid)
+
     save_registry(registry)
     log.info("")
     log.info("  Imported: %d", imported)
@@ -321,6 +341,36 @@ def cmd_queue(args: list[str]):
         log.info("  Wrote CSV: %s", out_csv)
 
 
+def cmd_thumbnails():
+    """Download missing face thumbnails for all registry people from Immich."""
+    log.info("People Sync — Download Thumbnails")
+    log.info("")
+
+    client = immich_client()
+    registry = load_registry()
+
+    downloaded = 0
+    skipped = 0
+    failed = 0
+
+    for person in registry.people:
+        for pid in person.immich_person_ids:
+            out_path = THUMBNAIL_DIR / f"{pid}.jpg"
+            if out_path.exists():
+                skipped += 1
+                continue
+            if _download_thumbnail(client, pid):
+                downloaded += 1
+            else:
+                failed += 1
+
+    client.close()
+    log.info("  Downloaded: %d", downloaded)
+    log.info("  Already cached: %d", skipped)
+    log.info("  Failed: %d", failed)
+    log.info("  Thumbnail dir: %s", THUMBNAIL_DIR)
+
+
 def cmd_import_csv(args: list[str]):
     """Apply naming updates from a queue CSV into registry.json.
 
@@ -408,15 +458,17 @@ def cmd_import_csv(args: list[str]):
 
 
 def main():
-    commands = {"status": cmd_status, "pull": cmd_pull, "push": cmd_push}
+    commands = {"status": cmd_status, "pull": cmd_pull, "push": cmd_push,
+                "thumbnails": cmd_thumbnails}
     if len(sys.argv) < 2:
-        log.info("Usage: python -m src.sync_people [status|pull|push|queue|import-csv]")
+        log.info("Usage: python -m src.sync_people [status|pull|push|queue|import-csv|thumbnails]")
         log.info("")
-        log.info("  status  — Show people counts in registry and Immich")
-        log.info("  pull    — Import Immich face clusters into registry")
-        log.info("  push    — Apply registry names to Immich clusters")
-        log.info("  queue   — Show naming queue (top unknown clusters by size)")
+        log.info("  status     — Show people counts in registry and Immich")
+        log.info("  pull       — Import Immich face clusters into registry")
+        log.info("  push       — Apply registry names to Immich clusters")
+        log.info("  queue      — Show naming queue (top unknown clusters by size)")
         log.info("  import-csv — Apply naming updates from queue CSV")
+        log.info("  thumbnails — Download missing face thumbnails from Immich")
         sys.exit(1)
 
     cmd = sys.argv[1]

@@ -4,6 +4,30 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-03-04 — People naming workflow + Immich infrastructure
+
+**Goal:** Make the People dashboard page a self-contained naming workstation so face identification can happen in-browser without CSV round-trips or elder-specific tooling.
+
+**What was built:**
+- **In-browser naming modal** — click any person card on the People tab to open a modal with large face thumbnail, editable fields (English name, Chinese name, relationship, birth year). Keyboard workflow: Enter saves and advances, arrow keys navigate between people, Escape closes.
+- **`PUT /api/people/<person_id>`** — new dashboard endpoint that saves to `registry.json` and auto-pushes names to Immich when online. Covered by new tests in `test_dashboard_api_people.py`.
+- **Local thumbnail cache** — `python -m src.sync_people thumbnails` bulk-downloads face crops from Immich to `data/people/thumbnails/`. Dashboard serves these locally first, falling back to Immich proxy. Future `pull` runs auto-download thumbnails for new clusters.
+
+**Infrastructure fixed:**
+- **Immich external mount** — `immich_server` container was failing because path changed from `.../Living Archive/Media` to `.../Living Archive/Family/Media`. Fixed in `/volume1/docker/immich/docker-compose.yml`.
+- **SSH access to NAS** — confirmed `mneme_admin` user, SSH key already installed. Docker requires root on Synology so container management stays in DSM Container Manager UI.
+- **`.env` created** — `IMMICH_URL` and `IMMICH_API_KEY` now configured locally (gitignored). Fresh API key generated in Immich.
+- **All 794 face thumbnails downloaded** — zero failures, served from local disk.
+
+**Design decisions:**
+- **Local-first thumbnails over live proxy** — dashboard shouldn't depend on Immich being online. Thumbnails are small and rarely change.
+- **Hold on Immich update (v2.4.1 → v2.5.6)** — everything needed works. Updates risk re-clustering which could scramble 794 synced IDs.
+- **Immich as engine, not source of truth** — registry.json is canonical. Immich provides face clustering and photo browsing.
+
+**Open question:** Multiple clusters for same person at different ages. Registry supports multiple `immich_person_ids` per person and `immich.py` has `merge_people()`. Next step: add merge-on-duplicate-name UX to naming modal.
+
+---
+
 ## 2026-03-04 — Batch run
 **Run:** `20260305T011118Z` — batch mode, 1 slices attempted
 **Result:** 15/390 succeeded, 0 failures
