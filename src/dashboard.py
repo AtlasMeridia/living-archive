@@ -12,6 +12,7 @@ Populate data first:
 
 import json
 import logging
+import os
 import re
 import time
 import webbrowser
@@ -44,9 +45,14 @@ from .tokens import generate_css
 
 log = logging.getLogger("living_archive")
 
-PORT = 8378
-HTML_PATH = Path(__file__).resolve().parent.parent / "dashboard.html"
-HAPTIC_HTML_PATH = Path(__file__).resolve().parent.parent / "haptic.html"
+PORT = int(os.environ.get("DASHBOARD_PORT", "8378"))
+HEADLESS = os.environ.get("DASHBOARD_HEADLESS", "").lower() in ("1", "true", "yes")
+READONLY = os.environ.get("DASHBOARD_READONLY", "").lower() in ("1", "true", "yes")
+
+_ROOT = Path(__file__).resolve().parent.parent
+HTML_PATH = _ROOT / "dashboard.html"
+HAPTIC_HTML_PATH = _ROOT / "haptic.html"
+TOKENS_CSS_PATH = _ROOT / "tokens.css"
 
 # --- In-memory TTL cache ---
 
@@ -151,6 +157,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.send_error(HTTPStatus.NOT_FOUND)
 
     def do_PUT(self):
+        if READONLY:
+            self._json({"ok": False, "error": "Dashboard is in read-only mode"}, 403)
+            return
         parsed = urlparse(self.path)
         path = parsed.path
         m = re.match(r"^/api/people/([^/]+)$", path)
@@ -169,6 +178,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.send_error(HTTPStatus.NOT_FOUND)
 
     def do_POST(self):
+        if READONLY:
+            self._json({"ok": False, "error": "Dashboard is in read-only mode"}, 403)
+            return
         path = self.path.split("?")[0]
         if path == "/api/cache/flush":
             _cache.clear()
@@ -214,15 +226,20 @@ class DashboardHandler(BaseHTTPRequestHandler):
     def _serve_tokens_css(self):
         try:
             css = generate_css()
-            body = css.encode("utf-8")
-            self.send_response(200)
-            self.send_header("Content-Type", "text/css; charset=utf-8")
-            self.send_header("Content-Length", str(len(body)))
-            self.send_header("Cache-Control", "no-cache")
-            self.end_headers()
-            self.wfile.write(body)
-        except FileNotFoundError as e:
-            self.send_error(HTTPStatus.NOT_FOUND, str(e))
+        except FileNotFoundError:
+            # Fallback: serve static tokens.css (e.g. on VPS without style guide)
+            if TOKENS_CSS_PATH.exists():
+                css = TOKENS_CSS_PATH.read_text()
+            else:
+                self.send_error(HTTPStatus.NOT_FOUND, "tokens.css not found")
+                return
+        body = css.encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "text/css; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-cache")
+        self.end_headers()
+        self.wfile.write(body)
 
     def _serve_face_thumbnail(self, person_id: str):
         """Serve face thumbnail from local cache, falling back to Immich proxy."""
@@ -263,10 +280,13 @@ def main():
     config.setup_logging()
     log.info("Living Archive — Archive Dashboard")
     log.info("  Data: %s", config.DATA_DIR)
+    if READONLY:
+        log.info("  Mode: read-only")
     log.info("  Starting server on http://0.0.0.0:%d", PORT)
 
     server = ThreadingHTTPServer(("0.0.0.0", PORT), DashboardHandler)
-    webbrowser.open(f"http://localhost:{PORT}")
+    if not HEADLESS:
+        webbrowser.open(f"http://localhost:{PORT}")
 
     try:
         server.serve_forever()

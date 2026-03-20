@@ -1,0 +1,10 @@
+services:
+  dashboard:
+    build: .
+    container_name: la-dashboard
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./app:/app:ro
+      - /home/atlas/living-archive-data:/app/data:ro
+    env_file: .env
