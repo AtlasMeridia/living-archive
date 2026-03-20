@@ -1,6 +1,6 @@
 # Living Archive
 
-AI-assisted pipeline for organizing family photos, documents, and personal archives. Scanned photos and PDFs on a NAS are analyzed by Claude, producing structured metadata that flows into [Immich](https://immich.app/) for browsing and sharing.
+AI-assisted pipeline for organizing family photos, documents, and personal archives. Scanned photos and PDFs on a NAS are analyzed by Claude, producing structured metadata that flows into [Immich](https://immich.app/) for browsing and sharing. Live at `living-archive.kennyliu.io`.
 
 ## What It Does
 
@@ -16,15 +16,15 @@ AI-assisted pipeline for organizing family photos, documents, and personal archi
 
 ## Architecture
 
-Three-layer separation:
+Four-machine topology with three logical layers:
 
 | Layer | Location | Contents |
 |-------|----------|----------|
 | **Data** | NAS (read-only) | Source TIFFs, PDFs — never modified |
-| **AI** | NAS (regeneratable) | JSON manifests, extracted text, FTS index, asset catalog — keyed by SHA-256 |
-| **Presentation** | Immich | Metadata, albums, face tags — populated via API |
+| **AI** | Local Mac (regeneratable) | JSON manifests, extracted text, FTS index, asset catalog, synthesis DB, people registry — keyed by SHA-256 |
+| **Presentation** | VPS (Immich v2.5.6) | Photos, metadata, albums, face tags — public via Cloudflare Tunnel |
 
-AI outputs are versioned per inference run and designed to be regenerated as models improve.
+AI outputs are versioned per inference run and designed to be regenerated as models improve. The dashboard and synthesis APIs run fully offline from local databases — no NAS required.
 
 ## Quick Start
 
@@ -51,31 +51,40 @@ python -m src.run_doc_extract --new-run
 ## Repository Structure
 
 ```
-src/
-├── run_slice.py          # Photo pipeline orchestrator
-├── run_doc_extract.py    # Document pipeline orchestrator
-├── analyze.py            # Photo analysis (CLI or API mode)
-├── convert.py            # TIFF → JPEG conversion, SHA-256 hashing
-├── manifest.py           # Photo manifest read/write (AI layer)
-├── doc_manifest.py       # Document manifest read/write
-├── doc_analyze.py        # Document analysis (multi-provider: Claude CLI, Codex, Ollama)
-├── doc_scan.py           # PDF discovery and change detection
-├── doc_index.py          # SQLite FTS5 index builder
-├── catalog.py            # Unified asset catalog (SQLite)
-├── immich.py             # Immich API client (metadata push, albums)
-├── people.py             # People registry management
-├── sync_people.py        # Immich face ↔ registry sync
-├── review.py             # Review dashboard generator
-├── preflight.py          # NAS mount, Immich health, config checks
-├── config.py             # Environment and path configuration
-└── models.py             # Pydantic models for manifests
+src/                              # Pipeline code (35 modules)
+├── run_slice.py                  # Photo pipeline orchestrator (single slice)
+├── run_batch.py                  # Batch photo pipeline (multi-slice, triage-aware)
+├── run_doc_extract.py            # Document pipeline orchestrator
+├── analyze.py                    # Photo analysis (CLI or API mode)
+├── convert.py                    # TIFF/JPEG → JPEG conversion, SHA-256 hashing
+├── manifest.py / doc_manifest.py # Manifest read/write (per-asset JSON)
+├── doc_analyze.py                # Document analysis (Claude CLI, Codex, Ollama)
+├── doc_scan.py / doc_index.py    # PDF discovery, FTS5 index builder
+├── catalog.py / catalog_cli.py   # Unified asset catalog (SQLite v2 schema)
+├── catalog_refresh.py            # Cache population (runs, quality tables)
+├── synthesis.py                  # Entity extraction, cross-reference, timeline
+├── synthesis_queries.py          # Shared query service (synthesis + dashboard APIs)
+├── dashboard.py / dashboard_api.py # Web UI + REST API (6 tabs)
+├── haptic_api.py                 # Faceted review browser API
+├── immich.py                     # Immich REST API client (upload, metadata, rotation)
+├── people.py / sync_people.py    # People registry + Immich face sync + naming queue
+├── contact_triage.py             # FastFoto scan triage (4×4 grids → Haiku)
+├── dedup_report.py               # SHA-256 cross-source dedup analysis
+├── cost.py                       # Token + dollar estimation for --dry-run
+├── preflight.py                  # NAS mount, Immich health, config checks
+├── config.py / models.py         # Environment config, Pydantic schemas
+└── review.py                     # Review dashboard generator
 prompts/
-├── photo_analysis_v1.txt # Vision prompt for photo analysis
-└── document_analysis_v1.txt # Prompt for document extraction
-tests/                    # pytest suite (37 tests)
+├── photo_analysis_v1.txt         # Vision prompt for photo analysis
+└── document_analysis_v1.txt      # Prompt for document extraction
+tests/                            # pytest suite (82 tests, 11 files)
+experiments/                      # Self-contained trials with explicit promotion
+├── 0002-synthesis-layer/         # Complete — promoted to src/synthesis.py
+├── 0003-multimodal-embeddings/   # Complete — Gemini Embedding 2, semantic search
+└── 0004-model-comparison/        # Active — Claude Opus 4.6 vs GPT 5.4
 docs/
-└── architecture.md       # Infrastructure and data flow
-_dev/                     # Development notes and research
+└── architecture.md               # Infrastructure topology and data flow
+_dev/                             # Dev log, research sessions, utilities
 ```
 
 ## Inference Modes
@@ -109,8 +118,8 @@ Both pipelines default to **CLI mode**, which routes inference through the [Clau
 
 - Python 3.11+
 - Claude Code CLI installed (for default CLI inference mode), **or** Anthropic API key (for API mode)
-- Synology NAS with AFP mount (stores source media and AI layer)
-- Immich instance (for photo browsing and metadata)
+- Synology NAS with AFP mount (source media, read-only)
+- Immich instance (VPS or local — for photo browsing and metadata)
 
 ## CLI Entry Points
 

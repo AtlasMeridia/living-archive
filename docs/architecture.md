@@ -2,21 +2,22 @@
 
 Infrastructure documentation for the Living Archive project.
 
-## Three-Machine Topology
+## Four-Machine Topology
 
 | Machine | Hostname | Role | Access |
 |---------|----------|------|--------|
-| **NAS (DS923+)** | `mneme` | Storage + Immich runtime | SSH, Tailscale |
+| **NAS (DS923+)** | `mneme` | Storage (source media, read-only) | SSH, Tailscale |
 | **EllisAgent (M3 Pro)** | `ellis-mbp` | Execution, scripts, Claude Code | Local, Tailscale |
 | **Atlas (M4 Max)** | `atlas` | Strategy, Claude Desktop | Local, Tailscale |
+| **VPS (Hetzner CPX21)** | `living-archive-vps` | Immich v2.5.6, presentation | Tailscale, Cloudflare Tunnel |
 
 ## Data Flow
 
 ```
-DATA LAYER (NAS, read-only)                    AI LAYER (local, regeneratable)            PRESENTATION (Immich)
-/Living Archive/Family/Media/            →    data/photos/runs/manifests/         →    Immich REST API
+DATA LAYER (NAS, read-only)                    AI LAYER (local, regeneratable)            PRESENTATION (VPS)
+/Living Archive/Family/Media/            →    data/photos/runs/manifests/         →    Immich v2.5.6 REST API
   Source TIFFs/JPEGs, never modified           one JSON per photo, keyed by SHA-256     PUT /assets, POST /albums
-/Living Archive/Family/Documents/        →    data/documents/runs/manifests/
+/Living Archive/Family/Documents/        →    data/documents/runs/manifests/           https://living-archive.kennyliu.io
   Source PDFs, never modified                  doc manifests, extracted text, FTS5
 
                                          →    data/catalog.db (schema v2)
@@ -30,17 +31,18 @@ DATA LAYER (NAS, read-only)                    AI LAYER (local, regeneratable)  
                                                → dashboard synthesis APIs
 ```
 
-Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). Source files read from NAS, results written locally to `data/`. Then pushed to Immich.
+Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). Source files read from NAS, results written locally to `data/`. Photos uploaded to VPS Immich via CLI, then metadata pushed via API.
 
 **NAS dependency:** Only `scan` (inventorying source files) and pipeline runs (reading sources for analysis) require NAS. The dashboard, stats, search, and synthesis APIs are fully offline — they query local `catalog.db`/`synthesis.db` artifacts.
 
 ```
 [Scanned Photos]
     → NAS: /volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/
-    → Immich (read-only external library, mounted at /external/photos)
-    → AI Layer: local data/ directory (was NAS _ai-layer/, moved for latency)
-    → Immich API (date/description metadata sync)
-    → Family Access: archives.kennyliu.io (Cloudflare Tunnel)
+    → Pipeline: TIFF→JPEG conversion + Claude Vision analysis (local Mac)
+    → AI Layer: local data/ directory (manifests, catalog, synthesis)
+    → Immich CLI upload: processed JPEGs → VPS Immich (living-archive-vps)
+    → Immich API: metadata push (dates, descriptions, albums)
+    → Public Access: https://living-archive.kennyliu.io (Cloudflare Tunnel)
 ```
 
 ## Code vs Data Separation
@@ -56,17 +58,17 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
 | Inference scripts | Repo `src/` | Version controlled |
 | Prompts | Repo `prompts/` | Version controlled, referenced by manifest |
 | Methodology docs | Repo `docs/` | Public-facing content source |
-| Working notes | Obsidian `10 AEON/MANIFOLD/Active/living-archive.md` | Transient state |
 
 ## Access Patterns
 
 **Kenny (admin):**
-- Tailscale → `http://mneme:2283` for Immich admin
-- SSH → `mneme_admin@mneme.local` for NAS operations
-- EllisAgent runs scripts that SSH to NAS
+- `https://living-archive.kennyliu.io` for Immich admin (Cloudflare Tunnel → VPS)
+- Tailscale → `living-archive-vps` for SSH/direct access
+- SSH → `mneme_admin@mneme.local` for NAS source media operations
+- Local Mac runs pipeline scripts
 
-**Family (view/comment):**
-- `https://archives.kennyliu.io` → Cloudflare Access (email OTP) → Immich
+**Family/friends (view/comment):**
+- `https://living-archive.kennyliu.io` → Immich user accounts (invite-based)
 
 ## Key Paths Reference
 
@@ -75,7 +77,6 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
 /volume1/MNEME/05_PROJECTS/Living Archive/Family/Media/           # Source photos
 /volume1/MNEME/05_PROJECTS/Living Archive/Family/Documents/       # Family documents
 /volume1/MNEME/05_PROJECTS/Living Archive/Personal/               # Apple data export (726 GB)
-/volume1/docker/immich/                                           # Immich installation
 
 # Mac (AFP mount) — same NAS paths
 /Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/           # Mounted source
@@ -88,18 +89,20 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
                                                    #   runs, photo_quality, doc_quality (cache)
   photos/runs/<timestamp>/manifests/               # Photo manifests
   documents/runs/<timestamp>/manifests/            # Doc manifests + extracted text
-  people/registry.json                             # People registry
+  people/registry.json                             # People registry (linked to VPS Immich IDs)
 
-# EllisAgent
+# VPS (Hetzner CPX21 — living-archive-vps)
+/opt/stacks/immich/                                # Immich Docker Compose stack
+/opt/stacks/immich/upload/                         # Uploaded photo storage
+/opt/stacks/immich/.env                            # DB credentials (chmod 600)
+/home/atlas/living-archive-data/                   # Synced AI layer mirror (rsync target)
+
+# Local
 ~/Projects/living-archive/                         # This repo
-.env                                               # API keys (gitignored)
-
-# Obsidian (synced via Dropbox)
-10 AEON/MANIFOLD/Active/living-archive.md         # Working thread
-10 AEON/_CHANNEL/from-web/                        # Handoffs to Local Claude
+.env                                               # IMMICH_URL + API keys (gitignored)
 ```
 
-Note: NAS `_ai-layer/` directories are inert backups from before the local migration. All new AI output writes to `data/`.
+Note: NAS `_ai-layer/` directories are inert backups from before the local migration. All new AI output writes to `data/`. NAS Immich installation (`/volume1/docker/immich/`, v2.4.1) is superseded by VPS Immich (v2.5.6).
 
 ## Architectural Principles
 
@@ -114,7 +117,7 @@ These are captured in AutoMem but documented here for reference:
    - 0.5-0.8: Flag for human review
    - <0.5: Mark as undated
 
-4. **Hybrid access model**: Tailscale for admin (technical users), Cloudflare Tunnel + Access for family (email OTP, minimal friction).
+4. **Hybrid access model**: Tailscale for admin SSH, Cloudflare Tunnel for public Immich access (`living-archive.kennyliu.io`). Family/friends invited as Immich users.
 
 5. **Quarterly reindex**: AI manifests are versioned per inference run. Plan to reindex as models improve.
 
@@ -205,7 +208,7 @@ Run via `python -m src.run_slice` from repo root.
 
 1. **Convert** — Read TIFFs from NAS, convert to JPEG (quality 85, max 2048px) in `private/slice_workspace/`, compute SHA-256 of originals
 2. **Analyze** — Send JPEGs to Claude via CLI or API, parse structured JSON response (date, descriptions, tags, confidence)
-3. **Write Manifests** — Write per-photo JSON to `_ai-layer/runs/<timestamp>/manifests/<sha256-first12>.json`, crash-safe (one write per photo)
+3. **Write Manifests** — Write per-photo JSON to `data/photos/runs/<timestamp>/manifests/<sha256-first12>.json`, crash-safe (one write per photo)
 4. **Push to Immich** — Match manifests to Immich assets by filename, update dateTimeOriginal + description, create "Needs Review" and "Low Confidence" albums by confidence threshold
 5. **Verify** — Re-hash source TIFFs to confirm they were not modified
 
@@ -215,4 +218,4 @@ Per-photo JSON keyed by SHA-256 of the original TIFF. Contains `analysis` (date 
 
 ---
 
-*Last updated: 2026-03-03*
+*Last updated: 2026-03-17*

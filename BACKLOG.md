@@ -100,7 +100,7 @@ Processing the 7,629 FastFoto scans. Pipeline needs adaptation since JPEGs alrea
 
 - [x] Adapt photo pipeline for JPEG source input — skip TIFF-to-JPEG conversion when source is already JPEG, hash the JPEG source instead — 2026-02-25
 - [x] Run test batch on a small album — `Albumpage/` (33 photos), 31/33 succeeded, 2 timed out — 2026-02-25
-- [ ] Process 1st Round albums — Albumpage (31/33), Gold_Album (145/145), Wedding (195/195), Pink_Flower_Album (338/338), Big_Red_Album (557/557) done; remaining: Red_Album_1 (60/390 processed, 330 remaining; run `20260305T011118Z` in progress).
+- [x] Process 1st Round albums — 1,656/1,658 photos across 6 albums (2 Albumpage timeouts). All pushed to Immich. — 2026-03-05
 - [ ] Process 2nd Round albums (3,599 photos across 10 albums)
 - [ ] Process 3rd Round albums (2,372 photos across 6 albums)
 
@@ -145,10 +145,15 @@ See `_dev/research/2026-02-18 presentation-layer.md` for full design session.
 - [ ] Co-write first 2-3 posts with openclaw agent — establish voice, format, and what a good post looks like; posts should document current AI tooling practices (see `_dev/research/ai-tooling-snapshot.md`)
 - [ ] Transition to agent-drafted posts — agent drafts from `_dev/research/` docs and dev sessions, Kenny reviews
 
+## Next — Infrastructure
+
+- [x] Upgrade Immich from v2.4.1 to current — fresh v2.5.6 deployed on dedicated VPS (`living-archive-vps`), 895 photos uploaded, metadata migrated, face clusters re-synced. Rotation API now available. Old NAS instance (v2.4.1) superseded. — 2026-03-17
+- [ ] Deduplicate photos in Immich — use Immich's built-in duplicate detection UI to clean up presentation layer; safe since source files on NAS are untouched
+
 ## Later — Public Presence (Other)
 
-- [ ] Remote access for review dashboard — expose via Cloudflare Tunnel or Tailscale so collaborators outside LAN can view and use the review UI
-- [ ] Family access — Cloudflare Tunnel + Access for secure remote Immich viewing
+- [ ] Remote access for review dashboard — deploy `dashboard.py` on VPS alongside Immich, expose via Cloudflare Tunnel
+- [x] Family/friend access to Immich — `living-archive.kennyliu.io` live via Cloudflare Tunnel on dedicated VPS; invite users as Immich accounts — 2026-03-17
 - [ ] Family photo uploads — find an easy upload system (existing app) for family members to contribute photos
 - [ ] Privacy defaults for published content — opt-in vs. opt-out for people in photos, deceased vs. living distinction
 - [ ] Decide what's public repo vs. private — methodology public, family-specific data private
@@ -165,10 +170,10 @@ See `_dev/research/2026-02-18 presentation-layer.md` for full design session.
 
 - [x] Move AI layer off NAS to local `data/` — config rewired, migration script added, architecture docs updated — 2026-03-02
 - [x] NAS-independent dashboard via catalog caching — schema v2 (slice column + cache tables), `refresh` command, dashboard rewritten as SQL queries, no NAS needed for dashboard — 2026-03-03
-- [x] Build unified asset catalog (Phase 1) — `catalog.db` with 136 indexed assets (62 photo + 74 document), backfill/scan/stats CLI, 
-- [x] `python -m src.run_doc_extract --auto --batch 20 --delay 2` — Process up to 20 unprocessed documents with 2s pacing — 2026-03-02inline manif
-
-- [x] `python -m src.run_batch --hours 2 --push` — Process unprocessed photo slices with 2-hour time budget, push metadata to Immich — 2026-03-02est updates — 2026-02-16
+- [x] Build unified asset catalog (Phase 1) — `catalog.db` with 136 indexed assets (62 photo + 74 document), backfill/scan/stats CLI, inline manifest updates — 2026-02-16
+- [x] Process 2nd Round Digital Revolution Scans (partial) — batch runs in progress — 2026-03-05
+- [x] `python -m src.run_doc_extract --auto --batch 20 --delay 2` — Process up to 20 unprocessed documents with 2s pacing — 2026-03-02
+- [x] `python -m src.run_batch --hours 2 --push` — Process unprocessed photo slices with 2-hour time budget, push metadata to Immich — 2026-03-02
 - [x] Harden NAS auto-mount with retry logic, fix stale smb:// references, add mount to doc pipeline — 2026-02-11
 - [x] Run document pipeline on Liu Family Trust — 72 docs, 468 pages, 26 doc types, FTS5 index built — 2026-02-07
 - [x] Run photo pipeline on `1980-1982/` — 36 TIFFs, 36 succeeded, 369.8s — 2026-02-06

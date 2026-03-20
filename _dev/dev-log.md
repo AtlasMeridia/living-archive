@@ -4,6 +4,222 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-03-17 — Immich migration to VPS
+
+### What happened
+
+Moved the Immich presentation layer from the NAS (v2.4.1) to a dedicated Hetzner VPS (fresh v2.5.6 install). The NAS remains the source-of-truth for raw media; the VPS now serves Immich publicly at `living-archive.kennyliu.io`.
+
+### Infrastructure
+
+Provisioned `living-archive-vps` (Hetzner CPX21, 4GB RAM, Hillsboro OR, ~€8/mo). Full hardening: SSH key-only, fail2ban, Tailscale (`100.75.83.37`), UFW zero public ports, Docker 29.3.0. Cloudflare Tunnel (`atlas-archive`, ID `4e9bde29-7af5-4a0b-8c1f-9faf898d213e`) routes `living-archive.kennyliu.io` to `localhost:2283`.
+
+Three-box fleet: agent (€14), public/Ghost (€4), archive/Immich (€8) = €26/mo total.
+
+### Migration
+
+- **Photos:** 895 processed JPEGs uploaded via Immich CLI (516 MB, 0 failures)
+- **Metadata:** Custom migration script (`_dev/migrate_metadata.py`) matched manifests to assets by `originalFileName` since CLI-uploaded photos have UUID-based paths, not NAS external library paths. 895/895 updated, 0 failures. Review albums created (149 needs-review, 114 low-confidence).
+- **Faces:** Triggered ML face detection on VPS. 85 clusters detected. Registry reset and re-pulled with new person IDs. All thumbnails re-downloaded.
+- **Config:** `.env` updated to `IMMICH_URL=https://living-archive.kennyliu.io` with new API key. Old NAS key preserved as comment.
+
+### Architecture change
+
+The three-layer model now spans four machines:
+
+| Layer | Before | After |
+|-------|--------|-------|
+| Data (source media) | NAS | NAS (unchanged) |
+| AI (manifests, DBs) | Mac local | Mac local (unchanged), synced to VPS |
+| Processing (pipeline) | Mac local | Mac local (unchanged) |
+| Presentation (Immich) | NAS (v2.4.1, LAN only) | VPS (v2.5.6, public via Cloudflare) |
+
+Key benefit: Immich v2.5.6 includes the rotation push API (`PUT /assets/{id}/edits`) that was blocking the rotation feature on v2.4.1.
+
+### What didn't change
+
+- Pipeline still runs locally on Mac, reads source files from NAS
+- AI layer (`data/`) still lives locally, `catalog.db`/`synthesis.db` unchanged
+- Dashboard (`src/dashboard.py`) still runs locally — VPS deployment is next
+
+---
+
+## 2026-03-17 — Batch run
+**Run:** `20260317T120002Z` — batch mode, 4 slices attempted
+**Result:** 57/202 succeeded, 2 failures
+**Triage skips:** 0
+**Elapsed:** 3,594s (~1.0 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2009 Scanned Media` | 1 | 1/1 | 41s |
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Albumpage` | 33 | 0/33 | 926s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Yellow_Album` | 51 | 22/51 | 951s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Orange_Textured_Album` | 117 | 34/117 (partial) | 1509s |
+
+2 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-03-14 — Batch run
+**Run:** `20260314T120001Z` — batch mode, 3 slices attempted
+**Result:** 0/85 succeeded, 9 failures
+**Triage skips:** 0
+**Elapsed:** 3,722s (~1.0 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2009 Scanned Media` | 1 | 0/1 | 368s |
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Albumpage` | 33 | 0/33 | 935s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Yellow_Album` | 51 | 0/51 (partial) | 2232s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-03-13 — Batch run
+**Run:** `20260313T120001Z` — batch mode, 3 slices attempted
+**Result:** 0/85 succeeded, 9 failures
+**Triage skips:** 0
+**Elapsed:** 3,693s (~1.0 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2009 Scanned Media` | 1 | 0/1 | 368s |
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Albumpage` | 33 | 0/33 | 917s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Yellow_Album` | 51 | 0/51 (partial) | 2231s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-03-12 — Batch run
+**Run:** `20260312T120001Z` — batch mode, 3 slices attempted
+**Result:** 0/85 succeeded, 9 failures
+**Triage skips:** 0
+**Elapsed:** 3,700s (~1.0 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2009 Scanned Media` | 1 | 0/1 | 368s |
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Albumpage` | 33 | 0/33 | 928s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Yellow_Album` | 51 | 0/51 (partial) | 2231s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-03-11 — Experiment 0003: Multimodal Embeddings
+
+Implemented and ran all 5 phases of experiment 0003 (Gemini Embedding 2 for semantic search).
+
+**Setup:** Model is `gemini-embedding-2-preview` (3072-dim natively multimodal). Required `apsw` for sqlite-vec loading (macOS Python compiled with `OMIT_LOAD_EXTENSION`). Test set: 50 assets (40 photos, 10 documents) curated from catalog.db.
+
+**Results — all gates passed:**
+- Text-to-image precision@1 = 0.70 (7/10 queries find relevant top-1 image)
+- Image-to-image similarity very tight (distances 0.07-0.18 within visual themes)
+- 768d Matryoshka retains 90% top-1 agreement vs 3072d — recommended for production
+- Search latency: 1-9ms. Storage: 29 MB for 10k photos at 768d
+- Cost: $0 (free tier). Full corpus embeddable in ~3 hours
+- Embedding clusters discover visual themes (weddings, indoor family) invisible to synthesis entities — complementary axes
+
+**Verdict:** `useful` — ready for promotion to `src/`. Key integration points: dashboard semantic search, "similar photos" panel, pre-analysis search for unanalyzed photos.
+
+**Files:** `experiments/0003-multimodal-embeddings/` (6 source modules, 5 phase output dirs)
+
+---
+
+## 2026-03-05 — Batch run
+**Run:** `20260306T061339Z` — batch mode, 2 slices attempted
+**Result:** 74/96 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 3,603s (~1.0 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Misc` | 45 | 45/45 | 2023s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Yellow_Album` | 51 | 29/51 (partial) | 1350s |
+
+1 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-03-05 — Batch run
+**Run:** `20260306T004523Z` — batch mode, 1 slices attempted
+**Result:** 165/390 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 6,393s (~1.8 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1` | 390 | 165/390 | 6253s |
+
+---
+
+## 2026-03-05 — Bulk Immich metadata push (entire backlog)
+
+Pushed all analyzed photo metadata to Immich for the first time. Every prior run had `push=no` due to a chain of config issues: missing API key, missing `.env`, `mneme.local` hostname resolution failures, and Tailscale being stopped on the NAS.
+
+**Root causes fixed:**
+- **Tailscale stopped on NAS** — the Synology Tailscale package was "Manually Stopped". Started it via Package Center.
+- **`.env` hostname** — changed `IMMICH_URL` from `http://mneme.local:2283` to `http://100.99.179.23:2283` (Tailscale IP). The mDNS hostname resolved but HTTP connections timed out; Tailscale is more reliable.
+
+**Push results:** 19 runs, 1,773 unique photos matched and updated, 0 skipped, 0 errors.
+
+| Source | Photos pushed |
+|--------|-------------|
+| 2009 Scanned Media (8 slices) | 195 |
+| 2022 Swei Chi (3 slices) | 87 |
+| Digital Revolution — Albumpage | 31 |
+| Digital Revolution — Gold_Album | 145 |
+| Digital Revolution — Pink_Flower_Album | 338 |
+| Digital Revolution — Big_Red_Album | 557 |
+| Digital Revolution — Wedding | 195 |
+| Digital Revolution — Red_Album_1 (partial) | 225 |
+| **Total** | **1,773** |
+
+Each photo received: AI-estimated date (`dateTimeOriginal`), bilingual description (EN + ZH). Review albums auto-created per run for medium-confidence and low-confidence date estimates.
+
+**Note:** Red_Album_1 was pushed from 3 additive runs, each creating its own Needs Review / Low Confidence albums — consolidate later. Duplicate runs (same photos re-analyzed) were excluded from the push.
+
+---
+
+## 2026-03-05 — Batch run
+**Run:** `20260305T200532Z` — batch mode, 1 slices attempted
+**Result:** 81/390 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 3,623s (~1.0 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1` | 390 | 81/390 (partial) | 3473s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-03-05 — Batch run
+**Run:** `20260305T175159Z` — batch mode, 1 slices attempted
+**Result:** 84/390 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 3,594s (~1.0 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1` | 390 | 84/390 (partial) | 3446s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
 ## 2026-03-04 — People naming workflow + Immich infrastructure
 
 **Goal:** Make the People dashboard page a self-contained naming workstation so face identification can happen in-browser without CSV round-trips or elder-specific tooling.

@@ -2,8 +2,8 @@
 
 **Project Name:** Living Archive
 **Project Owner:** Kenny Liu / ATLAS Meridia LLC
-**Last Updated:** February 11, 2026
-**Status:** Active — pipelines running, documentation catching up
+**Last Updated:** March 19, 2026
+**Status:** Active — pipelines running, publicly accessible, family onboarding in progress
 
 ---
 
@@ -11,7 +11,7 @@
 
 Living Archive is two things at once:
 
-1. **A working system** — AI-assisted pipelines that analyze scanned photos and family documents, produce structured metadata, and push it into Immich for browsing and sharing. Built on a Synology NAS with a three-layer architecture separating source data, AI-generated metadata, and presentation.
+1. **A working system** — AI-assisted pipelines that analyze scanned photos and family documents, produce structured metadata, and push it into Immich for browsing and sharing. Four-machine architecture: NAS (source data), local Mac (pipeline execution), VPS (Immich presentation at `living-archive.kennyliu.io`), with AI-generated metadata stored locally and synced.
 
 2. **A methodology experiment** — can a single person, aided by AI, meaningfully organize a family's worth of analog and digital records? The system validates the methodology; the methodology gives the system purpose.
 
@@ -40,13 +40,13 @@ AI changes the equation. An agent can analyze photos, extract text from document
 
 ### Architecture
 
-Three-layer separation on a Synology NAS (DS923+), with inference running on a MacBook Pro (M3 Pro):
+Four-machine topology: NAS for source data, Mac for pipeline execution, VPS for public presentation.
 
 | Layer | Location | Contents |
 |-------|----------|----------|
 | **Data** | NAS (read-only) | Source TIFFs, PDFs — canonical, never modified |
-| **AI** | NAS (regeneratable) | JSON manifests, extracted text, FTS5 index, people registry — keyed by SHA-256 |
-| **Presentation** | Immich | Metadata, albums, face tags — populated via API |
+| **AI** | Local Mac (regeneratable) | JSON manifests, extracted text, FTS5 index, asset catalog, synthesis DB, people registry — keyed by SHA-256 |
+| **Presentation** | VPS (Immich v2.5.6) | Photos, metadata, albums, face tags — public at `living-archive.kennyliu.io` |
 
 ### Photo Pipeline
 
@@ -60,12 +60,21 @@ PDFs → Claude text extraction and analysis (document type, dates, key people, 
 
 Immich's ML-based face clustering (buffalo_l model) linked to a people registry in the AI layer, with a sync script to map clusters to named people.
 
+### Synthesis Layer
+
+Reads all manifests to build an entity graph — person deduplication (normalization, fuzzy matching, LLM clustering), timeline chronology with quality controls, and cross-referencing across people, photos, dates, and locations. Promoted from experiment 0002, fully integrated with the dashboard.
+
+### Dashboard
+
+Interactive single-page web UI with six tabs: Overview (stats, coverage), Photos, Documents, Synthesis (entity queries, chronology), People (face cluster naming), and Toolbox (CLI inventory). Runs locally, queries `catalog.db` and `synthesis.db` — fully offline, no NAS required.
+
 ### Infrastructure
 
+- Immich v2.5.6 on Hetzner VPS, public via Cloudflare Tunnel
 - NAS auto-mount via AFP with retry logic
 - Preflight checks (NAS mount, Immich health, config validation)
-- CLI entry points for each pipeline stage
-- Pydantic models, structured logging, 37 tests
+- CLI entry points for each pipeline stage (12 commands)
+- Pydantic models, structured logging, 82 tests across 11 files
 
 ---
 
@@ -74,23 +83,26 @@ Immich's ML-based face clustering (buffalo_l model) linked to a people registry 
 The ongoing work of digitizing and organizing the Liu family history drives development and serves as proof of concept.
 
 **Completed:**
-- 62 scanned photos processed (1978, 1980–1982 slices) with bilingual metadata
-- 72 family documents analyzed (Liu Family Trust — 468 pages, 26 document types)
-- Full-text search index built over extracted document text
-- Face recognition running — 1,241 clusters from Immich ML, people registry seeded
-- Metadata live in Immich with confidence-based review albums
+- 1,773 photos processed and pushed to Immich across 19+ pipeline runs
+- 121 family documents analyzed (Liu Family Trust — 468 pages, 26 document types)
+- Full-text search index built over extracted document text (FTS5)
+- Face recognition running — 85 clusters on VPS Immich, people registry synced
+- Synthesis layer operational — entity graph, timeline chronology, cross-referencing
+- In-browser people naming modal ready for elder knowledge capture
+- Immich live at `living-archive.kennyliu.io` with invite-based family access
 
 **In progress:**
-- 6 more photo slices from 2009 Scanned Media (~133 photos)
-- 44 medium/large documents needing page-range chunking
-- Elder knowledge capture for face identification
-- Epson FastFoto FF-680W acquired for bulk scanning of remaining physical photos
+- 2nd Round Digital Revolution Scans (3,599 photos, 10 albums)
+- 3rd Round Digital Revolution Scans (2,372 photos, 6 albums)
+- Liu Family Scans non-overlapping folders (~2,806 photos)
+- Elder knowledge capture session for face naming (blocked on scheduling)
 
 **Future:**
 - 726 GB Apple data export (personal photos, iCloud Drive, Notes, Mail)
 - Red book (族譜) — traditional Chinese genealogy OCR (April 2026)
 - Elder interview capture — oral history
 - Day One journal cross-referencing (918 entries, 1999–2024)
+- Public blog launch at `kennyliu.io/living-archive`
 
 ---
 
@@ -119,11 +131,13 @@ The ongoing work of digitizing and organizing the Liu family history drives deve
 
 1. **Personal data branch:** The system was built for the family archive. 726 GB of personal Apple data needs a different approach — HEIC not TIFF, different directory structure, dedup against existing family photos. How does the three-layer model extend?
 
-2. **UI beyond Immich:** Immich covers photo browsing, but there's no interface for document search (FTS5 index is SQLite-only), no cross-collection browsing, no unified dashboard. What does "showing this publicly" look like?
+2. **Curation layer:** Immich shows everything including low-confidence items (149 "Needs Review", 114 "Low Confidence"). For family and public audiences, curated albums (by decade, event, or person) would make the first experience more meaningful than raw pipeline output.
 
-3. **Public vs. private:** The methodology and code are public. Family-specific data (manifests, registry, extracted text) stays on the NAS. But where's the line for blog content? How much of the family story is shareable?
+3. **Public vs. private:** The methodology and code are public. Family-specific data (manifests, registry, extracted text) stays local. But where's the line for blog content? How much of the family story is shareable?
 
 4. **Content strategy:** The blog exists in concept but has zero posts. What's the first piece — a methodology overview, a technical walkthrough of the pipeline, or a personal narrative about why this matters?
+
+5. **Dashboard deployment:** The local dashboard (`src/dashboard.py`) has rich UX for browsing photos, documents, synthesis, and people. Deploying it on the VPS alongside Immich would give remote collaborators access to the admin/review tools.
 
 ---
 
@@ -150,6 +164,7 @@ The ongoing work of digitizing and organizing the Liu family history drives deve
 | 2025-12-16 | Initial project brief as "Every Branch Archive" |
 | 2026-01-11 | Major reframe: renamed to "Living Archive," shifted from family archive to methodology/content project |
 | 2026-02-11 | Reconciled with reality: acknowledged working system alongside methodology, added architecture and case study sections, removed completed action items (now in BACKLOG.md) |
+| 2026-03-19 | Updated to reflect VPS migration, current scale (1,773 photos, 121 docs), synthesis layer, dashboard, and public access |
 
 ---
 

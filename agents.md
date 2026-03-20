@@ -28,10 +28,11 @@ Each document captures the thinking behind a decision or exploration — the "wh
 
 ### Code
 
-- Python source in `src/`, one module per concern
+- Python source in `src/`, one module per concern (35 modules)
 - Target 200-300 lines per file
-- AI layer outputs on NAS at `_ai-layer/` paths, keyed by SHA-256
+- AI layer outputs in local `data/` directory, keyed by SHA-256
 - Never modify source data (TIFFs, PDFs)
+- Presentation layer served by Immich on VPS (`living-archive.kennyliu.io`)
 
 ### Content drafting
 

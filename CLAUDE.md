@@ -1,6 +1,6 @@
 # Living Archive
 
-AI-assisted archival system. Three-layer architecture: data (NAS, read-only), AI (NAS, regeneratable metadata), presentation (Immich + blog).
+AI-assisted archival system. Four-machine architecture: data (NAS, read-only), AI (local Mac, regeneratable metadata), presentation (Immich v2.5.6 on VPS at `living-archive.kennyliu.io`).
 
 ## Key paths
 
