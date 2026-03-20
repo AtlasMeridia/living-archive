@@ -69,7 +69,6 @@ body {
 .tab-btn.active { color: var(--cream-50); background: var(--accent-dark); }
 
 .refresh-btn {
-  margin-left: auto;
   background: none;
   border: 1px solid var(--border-color);
   color: var(--text-muted);
@@ -84,6 +83,20 @@ body {
   transition: all var(--transition-fast);
 }
 .refresh-btn:hover { color: var(--text-primary); border-color: var(--text-muted); }
+
+.lang-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-left: auto;
+}
+.lang-btn:hover { color: var(--text-primary); border-color: var(--text-muted); }
 
 /* --- Main --- */
 main {
@@ -629,6 +642,7 @@ td.num { font-family: var(--font-mono); text-align: right; }
     <button class="tab-btn" data-tab="toolbox"><i class="ph-light ph-wrench"></i> Toolbox</button>
     <button class="tab-btn" data-tab="health"><i class="ph-light ph-heartbeat"></i> Health</button>
   </nav>
+  <button class="lang-btn" id="langBtn">中文</button>
   <button class="refresh-btn" id="refreshBtn"><i class="ph-light ph-arrows-clockwise"></i> Refresh</button>
 </header>
 
@@ -638,12 +652,12 @@ td.num { font-family: var(--font-mono); text-align: right; }
     <div class="stat-cards" id="overviewCards"><div class="loading">Loading...</div></div>
 
     <div class="section" id="backlogSection">
-      <h3>Backlog Progress</h3>
+      <h3 data-i18n="Backlog Progress">Backlog Progress</h3>
       <div id="backlogContent"><div class="loading">Loading...</div></div>
     </div>
 
     <div class="section">
-      <h3>Recent Runs</h3>
+      <h3 data-i18n="Recent Runs">Recent Runs</h3>
       <div id="runHistory"><div class="loading">Loading...</div></div>
     </div>
   </section>
@@ -652,21 +666,21 @@ td.num { font-family: var(--font-mono); text-align: right; }
   <section id="tab-photos" class="tab-content">
     <div class="two-col">
       <div class="section">
-        <h3>Date Confidence</h3>
+        <h3 data-i18n="Date Confidence">Date Confidence</h3>
         <div id="confidenceBars"><div class="loading">Loading...</div></div>
       </div>
       <div class="section">
-        <h3>Era Breakdown</h3>
+        <h3 data-i18n="Era Breakdown">Era Breakdown</h3>
         <div id="eraBreakdown"><div class="loading">Loading...</div></div>
       </div>
     </div>
     <div class="two-col">
       <div class="section">
-        <h3>People per Photo</h3>
+        <h3 data-i18n="People per Photo">People per Photo</h3>
         <div id="peopleHistogram"><div class="loading">Loading...</div></div>
       </div>
       <div class="section">
-        <h3>Top Tags</h3>
+        <h3 data-i18n="Top Tags">Top Tags</h3>
         <div id="tagCloud"><div class="loading">Loading...</div></div>
       </div>
     </div>
@@ -677,17 +691,17 @@ td.num { font-family: var(--font-mono); text-align: right; }
     <div class="two-col">
       <div>
         <div class="section">
-          <h3>Corpus Summary</h3>
+          <h3 data-i18n="Corpus Summary">Corpus Summary</h3>
           <div id="docCorpus"><div class="loading">Loading...</div></div>
         </div>
       </div>
       <div>
         <div class="section">
-          <h3>Document Search</h3>
+          <h3 data-i18n="Document Search">Document Search</h3>
           <div class="search-box">
-            <input type="text" id="docSearchInput" placeholder="Search documents...">
+            <input type="text" id="docSearchInput" placeholder="Search documents..." data-i18n-placeholder="Search documents...">
           </div>
-          <div id="docSearchResults"><div class="empty">Type to search across all indexed documents</div></div>
+          <div id="docSearchResults"><div class="empty" data-i18n-empty="Type to search across all indexed documents">Type to search across all indexed documents</div></div>
         </div>
       </div>
     </div>
@@ -705,62 +719,62 @@ td.num { font-family: var(--font-mono); text-align: right; }
 
     <div class="two-col">
       <div class="section">
-        <h3>Entity Coverage</h3>
+        <h3 data-i18n="Entity Coverage">Entity Coverage</h3>
         <div id="synthesisEntities"><div class="loading">Loading...</div></div>
       </div>
       <div class="section">
-        <h3>Chronology Quality</h3>
+        <h3 data-i18n="Chronology Quality">Chronology Quality</h3>
         <div id="synthesisQuality"><div class="loading">Loading...</div></div>
       </div>
     </div>
 
     <div class="two-col">
       <div class="section">
-        <h3>Top Linked People</h3>
+        <h3 data-i18n="Top Linked People">Top Linked People</h3>
         <div id="synthesisTopPeople"><div class="loading">Loading...</div></div>
       </div>
       <div class="section">
-        <h3>Unresolved Name Queue</h3>
+        <h3 data-i18n="Unresolved Name Queue">Unresolved Name Queue</h3>
         <div id="synthesisUnresolved"><div class="loading">Loading...</div></div>
       </div>
     </div>
 
     <div class="section">
-      <h3>Chronology Snapshot</h3>
+      <h3 data-i18n="Chronology Snapshot">Chronology Snapshot</h3>
       <div id="synthesisChronology"><div class="loading">Loading...</div></div>
     </div>
 
     <div class="three-col">
       <div class="section">
-        <h3>Person Dossier Query</h3>
+        <h3 data-i18n="Person Dossier Query">Person Dossier Query</h3>
         <div class="search-box">
           <input type="text" id="synPersonInput" placeholder="e.g. Feng Kuang Liu or 劉逢光">
-          <button id="synPersonBtn">Query</button>
+          <button id="synPersonBtn" data-i18n-text="Query">Query</button>
         </div>
         <div id="synPersonResult" class="query-result">
-          <div class="empty">Enter a person name to load linked photos and documents.</div>
+          <div class="empty" data-i18n-empty="Enter a person name to load linked photos and documents.">Enter a person name to load linked photos and documents.</div>
         </div>
       </div>
 
       <div class="section">
-        <h3>Date Query</h3>
+        <h3 data-i18n="Date Query">Date Query</h3>
         <div class="search-box">
           <input type="text" id="synDateInput" placeholder="e.g. 1978">
-          <button id="synDateBtn">Query</button>
+          <button id="synDateBtn" data-i18n-text="Query">Query</button>
         </div>
         <div id="synDateResult" class="query-result">
-          <div class="empty">Enter a year to list linked assets.</div>
+          <div class="empty" data-i18n-empty="Enter a year to list linked assets.">Enter a year to list linked assets.</div>
         </div>
       </div>
 
       <div class="section">
-        <h3>Location Query</h3>
+        <h3 data-i18n="Location Query">Location Query</h3>
         <div class="search-box">
           <input type="text" id="synLocationInput" placeholder="e.g. Taiwan">
-          <button id="synLocationBtn">Query</button>
+          <button id="synLocationBtn" data-i18n-text="Query">Query</button>
         </div>
         <div id="synLocationResult" class="query-result">
-          <div class="empty">Enter a country/location keyword to list linked photos.</div>
+          <div class="empty" data-i18n-empty="Enter a country or location keyword.">Enter a country/location keyword to list linked photos.</div>
         </div>
       </div>
     </div>
@@ -775,17 +789,203 @@ td.num { font-family: var(--font-mono); text-align: right; }
   <!-- ==================== HEALTH ==================== -->
   <section id="tab-health" class="tab-content">
     <div class="section">
-      <h3>System Checks</h3>
+      <h3 data-i18n="System Checks">System Checks</h3>
       <div id="healthChecks"><div class="loading">Loading...</div></div>
     </div>
     <div class="section">
-      <h3>Configuration</h3>
+      <h3 data-i18n="Configuration">Configuration</h3>
       <div id="configTable"><div class="loading">Loading...</div></div>
     </div>
   </section>
 </main>
 
 <script>
+// --- Translation ---
+let _lang = localStorage.getItem('archive-lang') || 'en';
+
+const ZH = {
+  // Header & tabs
+  'Archive Dashboard': '檔案儀表板',
+  'Overview': '總覽',
+  'Photos': '照片',
+  'Documents': '文件',
+  'People': '人物',
+  'Synthesis': '綜合分析',
+  'Toolbox': '工具箱',
+  'Health': '健康狀態',
+  'Refresh': '重新整理',
+
+  // Overview
+  'Photos Indexed': '已索引照片',
+  'Documents Analyzed': '已分析文件',
+  'People in Registry': '登錄人物',
+  'Pipeline Runs': '管線執行次數',
+  'Backlog Progress': '積壓進度',
+  'Recent Runs': '近期執行',
+  'No runs found': '未找到執行記錄',
+  'All slices complete': '所有切片已完成',
+  'Date': '日期',
+  'Slice': '切片',
+  'Count': '數量',
+  'Failed': '失敗',
+  'Time': '時間',
+  'Photos/hr': '照片/時',
+  'Loading...': '載入中…',
+
+  // Photos
+  'Date Confidence': '日期可信度',
+  'Era Breakdown': '年代分佈',
+  'People per Photo': '每張照片人數',
+  'Top Tags': '熱門標籤',
+  'Location coverage': '地點涵蓋率',
+  'No date data': '無日期資料',
+  'No data': '無資料',
+  'No tags': '無標籤',
+  'person': '人',
+  'people': '人',
+
+  // Documents
+  'Corpus Summary': '語料庫摘要',
+  'Document Search': '文件搜尋',
+  'Search documents...': '搜尋文件…',
+  'Type to search across all indexed documents': '輸入以搜尋所有已索引文件',
+  'Searching...': '搜尋中…',
+  'No results found': '未找到結果',
+  'Document Types': '文件類型',
+
+  // People
+  'Registry People': '登錄人物',
+  'Immich Clusters': 'Immich 人臉群組',
+  'Immich Clusters (Offline)': 'Immich 人臉群組（離線）',
+  'Named': '已命名',
+  'Unnamed': '未命名',
+  'Unknown': '未知',
+  'No people in registry': '登錄中無人物',
+  'English Name': '英文名',
+  'Chinese Name': '中文名',
+  'Relationship': '關係',
+  'Birth Year': '出生年',
+  'Cancel': '取消',
+  'Save': '儲存',
+  'Saving...': '儲存中…',
+  'No changes': '無變更',
+  'Saved': '已儲存',
+  'pushed to Immich': '已推送至 Immich',
+  'photos': '張照片',
+
+  // Synthesis
+  'Entities': '實體',
+  'Entity Links': '實體連結',
+  'Timeline Rows': '時間線列數',
+  'Unresolved People': '未解析人物',
+  'Resolved People': '已解析人物',
+  'Entity Coverage': '實體涵蓋',
+  'Chronology Quality': '年表品質',
+  'Top Linked People': '連結最多人物',
+  'Unresolved Name Queue': '未解析名稱佇列',
+  'Chronology Snapshot': '年表概覽',
+  'No entities': '無實體',
+  'No chronology data': '無年表資料',
+  'No data': '無資料',
+  'No linked assets': '無關聯資產',
+  'Person Dossier Query': '人物檔案查詢',
+  'Date Query': '日期查詢',
+  'Location Query': '地點查詢',
+  'Query': '查詢',
+  'Enter a person name to load linked photos and documents.': '輸入姓名以載入關聯的照片和文件。',
+  'Enter a year to list linked assets.': '輸入年份以列出關聯資產。',
+  'Enter a country or location keyword.': '輸入國家或地點關鍵字。',
+  'Enter a person name.': '輸入姓名。',
+  'Name': '姓名',
+  'Links': '連結數',
+  'Unresolved Name': '未解析名稱',
+  'Assets': '資產',
+  'Decade': '年代',
+  'Docs': '文件',
+  'Event Groups': '事件群組',
+
+  // Health
+  'System Checks': '系統檢查',
+  'Configuration': '設定',
+
+  // Toolbox
+  'Pipeline': '管線',
+  'Analysis': '分析',
+  'Infrastructure': '基礎設施',
+  'Review': '審閱',
+  'All': '全部',
+
+  // Misc
+  'Showing': '顯示',
+  'of': '/',
+  'prev': '上一個',
+  'next': '下一個',
+};
+
+function t(key) {
+  if (_lang === 'en') return key;
+  return ZH[key] || key;
+}
+
+function updateLangButton() {
+  document.getElementById('langBtn').textContent = _lang === 'en' ? '中文' : 'EN';
+}
+
+function translateStaticHTML() {
+  // Translate tab buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    const tab = btn.dataset.tab;
+    const map = { overview: 'Overview', photos: 'Photos', documents: 'Documents',
+      people: 'People', synthesis: 'Synthesis', toolbox: 'Toolbox', health: 'Health' };
+    const icon = btn.querySelector('i');
+    btn.textContent = '';
+    if (icon) btn.appendChild(icon);
+    btn.append(' ' + t(map[tab] || tab));
+  });
+
+  // Translate title
+  document.querySelector('.header h1').textContent = t('Archive Dashboard');
+
+  // Translate refresh button
+  const refreshBtn = document.getElementById('refreshBtn');
+  const refreshIcon = refreshBtn.querySelector('i');
+  refreshBtn.textContent = '';
+  if (refreshIcon) refreshBtn.appendChild(refreshIcon);
+  refreshBtn.append(' ' + t('Refresh'));
+
+  // Translate static headings
+  document.querySelectorAll('h3[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+
+  // Translate placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+
+  // Translate button text
+  document.querySelectorAll('[data-i18n-text]').forEach(el => {
+    el.textContent = t(el.dataset.i18nText);
+  });
+
+  // Translate empty state text
+  document.querySelectorAll('[data-i18n-empty]').forEach(el => {
+    el.textContent = t(el.dataset.i18nEmpty);
+  });
+}
+
+function switchLanguage() {
+  _lang = _lang === 'en' ? 'zh' : 'en';
+  localStorage.setItem('archive-lang', _lang);
+  updateLangButton();
+  translateStaticHTML();
+  // Re-render active tabs
+  loadedTabs.clear();
+  const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+  loadedTabs.add(activeTab);
+  loadTab(activeTab);
+}
+
 // --- Tab navigation ---
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabContents = document.querySelectorAll('.tab-content');
@@ -848,18 +1048,18 @@ async function loadOverview() {
     const docCount = Object.values(stats.document || {}).reduce((a, b) => a + b, 0);
 
     document.getElementById('overviewCards').innerHTML = `
-      <div class="stat-card"><div class="value">${fmt(photoCount)}</div><div class="label">Photos Indexed</div></div>
-      <div class="stat-card"><div class="value">${fmt(docCount)}</div><div class="label">Documents Analyzed</div></div>
-      <div class="stat-card"><div class="value">${fmt(overview.people_count)}</div><div class="label">People in Registry</div></div>
-      <div class="stat-card"><div class="value">${fmt(overview.photo_runs + overview.doc_runs)}</div><div class="label">Pipeline Runs</div></div>
+      <div class="stat-card"><div class="value">${fmt(photoCount)}</div><div class="label">${t('Photos Indexed')}</div></div>
+      <div class="stat-card"><div class="value">${fmt(docCount)}</div><div class="label">${t('Documents Analyzed')}</div></div>
+      <div class="stat-card"><div class="value">${fmt(overview.people_count)}</div><div class="label">${t('People in Registry')}</div></div>
+      <div class="stat-card"><div class="value">${fmt(overview.photo_runs + overview.doc_runs)}</div><div class="label">${t('Pipeline Runs')}</div></div>
     `;
 
     // Run history table
     const recent = runs.slice(0, 10);
     if (recent.length === 0) {
-      document.getElementById('runHistory').innerHTML = '<div class="empty">No runs found</div>';
+      document.getElementById('runHistory').innerHTML = `<div class="empty">${t('No runs found')}</div>`;
     } else {
-      let html = `<table><thead><tr><th>Date</th><th>Slice</th><th>Count</th><th>Failed</th><th>Time</th><th>Photos/hr</th></tr></thead><tbody>`;
+      let html = `<table><thead><tr><th>${t('Date')}</th><th>${t('Slice')}</th><th>${t('Count')}</th><th>${t('Failed')}</th><th>${t('Time')}</th><th>${t('Photos/hr')}</th></tr></thead><tbody>`;
       for (const r of recent) {
         const date = r.date ? r.date.split('T')[0] : r.run_id.split('T')[0];
         const mins = r.elapsed_seconds > 0 ? Math.round(r.elapsed_seconds / 60) + 'm' : '—';
@@ -921,7 +1121,7 @@ async function loadPhotos() {
       hBar('Medium (0.5–0.8)', c.medium || 0, total, 'var(--bar-medium)') +
       hBar('Low (< 0.5)', c.low || 0, total, 'var(--bar-low)') +
       `<div style="margin-top:8px;font-size:12px;color:var(--text-muted);">
-        Location coverage: ${fmt(q.location_coverage)} / ${fmt(total)} (${pct(q.location_coverage, total)})
+        ${t('Location coverage')}: ${fmt(q.location_coverage)} / ${fmt(total)} (${pct(q.location_coverage, total)})
       </div>`;
 
     // Era breakdown
@@ -931,21 +1131,21 @@ async function loadPhotos() {
     for (const [decade, count] of Object.entries(eras)) {
       eraHtml += hBar(decade, count, eraMax, 'var(--accent-dark)');
     }
-    document.getElementById('eraBreakdown').innerHTML = eraHtml || '<div class="empty">No date data</div>';
+    document.getElementById('eraBreakdown').innerHTML = eraHtml || `<div class="empty">${t('No date data')}</div>`;
 
     // People histogram
     const ph = q.people_histogram || {};
     const phMax = Math.max(...Object.values(ph), 1);
     let phHtml = '';
     for (const [bin, count] of Object.entries(ph)) {
-      phHtml += hBar(bin + (bin === '1' ? ' person' : ' people'), count, phMax, 'var(--accent)');
+      phHtml += hBar(bin + ' ' + (bin === '1' ? t('person') : t('people')), count, phMax, 'var(--accent)');
     }
-    document.getElementById('peopleHistogram').innerHTML = phHtml || '<div class="empty">No data</div>';
+    document.getElementById('peopleHistogram').innerHTML = phHtml || `<div class="empty">${t('No data')}</div>`;
 
     // Tag cloud
     const tags = q.top_tags || [];
     if (tags.length === 0) {
-      document.getElementById('tagCloud').innerHTML = '<div class="empty">No tags</div>';
+      document.getElementById('tagCloud').innerHTML = `<div class="empty">${t('No tags')}</div>`;
     } else {
       const maxCount = tags[0].count;
       const minSize = 12, maxSize = 24;
@@ -972,7 +1172,7 @@ async function loadDocuments() {
     const types = corpus.types || {};
     if (Object.keys(types).length > 0) {
       const typeMax = Math.max(...Object.values(types), 1);
-      html += '<h4 style="font-size:12px;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">Document Types</h4>';
+      html += `<h4 style="font-size:12px;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">${t('Document Types')}</h4>`;
       for (const [type, count] of Object.entries(types)) {
         html += hBar(type, count, typeMax, 'var(--accent-dark)');
       }
@@ -1020,15 +1220,15 @@ document.getElementById('docSearchInput').addEventListener('input', (e) => {
   clearTimeout(searchTimer);
   const q = e.target.value.trim();
   if (!q) {
-    document.getElementById('docSearchResults').innerHTML = '<div class="empty">Type to search across all indexed documents</div>';
+    document.getElementById('docSearchResults').innerHTML = `<div class="empty">${t('Type to search across all indexed documents')}</div>`;
     return;
   }
   searchTimer = setTimeout(async () => {
-    document.getElementById('docSearchResults').innerHTML = '<div class="loading">Searching...</div>';
+    document.getElementById('docSearchResults').innerHTML = `<div class="loading">${t('Searching...')}</div>`;
     try {
       const results = await api(`/api/doc-search?q=${encodeURIComponent(q)}`);
       if (results.length === 0) {
-        document.getElementById('docSearchResults').innerHTML = '<div class="empty">No results found</div>';
+        document.getElementById('docSearchResults').innerHTML = `<div class="empty">${t('No results found')}</div>`;
         return;
       }
       let html = '';
@@ -1077,17 +1277,17 @@ async function loadPeople() {
   try {
     const data = await api('/api/people');
     _peopleData = data.people || [];
-    const immichLabel = data.immich_available ? 'Immich Clusters' : 'Immich Clusters (Offline)';
+    const immichLabel = data.immich_available ? t('Immich Clusters') : t('Immich Clusters (Offline)');
 
     document.getElementById('peopleSummary').innerHTML = `
-      <div class="stat-card"><div class="value">${fmt(data.registry_count || _peopleData.length)}</div><div class="label">Registry People</div></div>
+      <div class="stat-card"><div class="value">${fmt(data.registry_count || _peopleData.length)}</div><div class="label">${t('Registry People')}</div></div>
       <div class="stat-card"><div class="value">${fmt(data.total_clusters)}</div><div class="label">${immichLabel}</div></div>
-      <div class="stat-card"><div class="value">${fmt(data.named)}</div><div class="label">Named</div></div>
-      <div class="stat-card"><div class="value">${fmt(data.unnamed)}</div><div class="label">Unnamed</div></div>
+      <div class="stat-card"><div class="value">${fmt(data.named)}</div><div class="label">${t('Named')}</div></div>
+      <div class="stat-card"><div class="value">${fmt(data.unnamed)}</div><div class="label">${t('Unnamed')}</div></div>
     `;
 
     if (_peopleData.length === 0) {
-      document.getElementById('peopleGrid').innerHTML = '<div class="empty">No people in registry</div>';
+      document.getElementById('peopleGrid').innerHTML = `<div class="empty">${t('No people in registry')}</div>`;
       return;
     }
 
@@ -1107,11 +1307,11 @@ function renderPeopleGrid() {
       : `<div class="face-placeholder"><i class="ph-light ph-user"></i></div>`;
     html += `<div class="person-card" data-idx="${i}">
       ${face}
-      <div class="name-en">${esc(p.name_en) || 'Unknown'}</div>
-      ${p.name_zh ? `<div class="name-zh">${esc(p.name_zh)}</div>` : ''}
+      <div class="name-en">${_lang === 'zh' && p.name_zh ? esc(p.name_zh) : (esc(p.name_en) || t('Unknown'))}</div>
+      ${_lang === 'zh' && p.name_en ? `<div class="name-zh">${esc(p.name_en)}</div>` : (p.name_zh ? `<div class="name-zh">${esc(p.name_zh)}</div>` : '')}
       ${p.relationship ? `<div class="relation">${esc(p.relationship)}</div>` : ''}
       ${p.birth_year ? `<div class="relation">b. ${p.birth_year}</div>` : ''}
-      ${p.photo_count ? `<div class="photo-count">${p.photo_count_is_estimate ? '~' : ''}${p.photo_count} photos</div>` : ''}
+      ${p.photo_count ? `<div class="photo-count">${p.photo_count_is_estimate ? '~' : ''}${p.photo_count} ${t('photos')}</div>` : ''}
     </div>`;
   }
   document.getElementById('peopleGrid').innerHTML = html;
@@ -1135,17 +1335,17 @@ function openNamingModal(idx) {
   overlay.innerHTML = `<div class="naming-modal">
     ${face}
     ${photoText ? `<div class="photo-hint">${photoText}</div>` : ''}
-    <label>English Name</label>
+    <label>${t('English Name')}</label>
     <input id="nm-name-en" value="${esc(p.name_en)}" placeholder="e.g. John Liu" autofocus>
-    <label>Chinese Name</label>
+    <label>${t('Chinese Name')}</label>
     <input id="nm-name-zh" value="${esc(p.name_zh)}" placeholder="e.g. &#x5289;&#x5927;&#x660E;">
-    <label>Relationship</label>
+    <label>${t('Relationship')}</label>
     <input id="nm-relationship" value="${esc(p.relationship)}" placeholder="e.g. paternal grandfather">
-    <label>Birth Year</label>
+    <label>${t('Birth Year')}</label>
     <input id="nm-birth-year" value="${p.birth_year || ''}" placeholder="e.g. 1942" type="number" min="1850" max="2030">
     <div class="btn-row">
-      <button class="btn-cancel" id="nm-cancel">Cancel</button>
-      <button class="btn-save" id="nm-save">Save</button>
+      <button class="btn-cancel" id="nm-cancel">${t('Cancel')}</button>
+      <button class="btn-save" id="nm-save">${t('Save')}</button>
     </div>
     <div class="save-status" id="nm-status"></div>
     <div class="nav-hint">${idx > 0 ? '\u2190 prev' : ''} ${idx < _peopleData.length - 1 ? 'next \u2192' : ''}</div>
@@ -1185,7 +1385,7 @@ async function saveNaming(idx, overlay) {
   const btn = document.getElementById('nm-save');
   const status = document.getElementById('nm-status');
   btn.disabled = true;
-  status.textContent = 'Saving...';
+  status.textContent = t('Saving...');
 
   const body = {
     name_en: document.getElementById('nm-name-en').value,
@@ -1208,11 +1408,11 @@ async function saveNaming(idx, overlay) {
     renderPeopleGrid();
 
     const extras = [];
-    if (result.pushed_to_immich) extras.push('pushed to Immich');
+    if (result.pushed_to_immich) extras.push(t('pushed to Immich'));
     if (result.changed.length === 0) {
-      status.textContent = 'No changes';
+      status.textContent = t('No changes');
     } else {
-      status.textContent = 'Saved' + (extras.length ? ` (${extras.join(', ')})` : '');
+      status.textContent = t('Saved') + (extras.length ? ` (${extras.join(', ')})` : '');
     }
     btn.disabled = false;
     return true;
@@ -1226,7 +1426,7 @@ async function saveNaming(idx, overlay) {
 // --- Synthesis ---
 function asMiniRows(items, columns, maxRows = 10) {
   const rows = items.slice(0, maxRows);
-  if (rows.length === 0) return '<div class="empty">No data</div>';
+  if (rows.length === 0) return `<div class="empty">${t('No data')}</div>`;
   let html = '<table class="mini-table"><thead><tr>';
   for (const c of columns) html += `<th>${esc(c.label)}</th>`;
   html += '</tr></thead><tbody>';
@@ -1241,7 +1441,7 @@ function asMiniRows(items, columns, maxRows = 10) {
   }
   html += '</tbody></table>';
   if (items.length > maxRows) {
-    html += `<div class="quality-note">Showing ${maxRows} of ${items.length}</div>`;
+    html += `<div class="quality-note">${t('Showing')} ${maxRows} ${t('of')} ${items.length}</div>`;
   }
   return html;
 }
@@ -1261,11 +1461,11 @@ async function loadSynthesis() {
     const entityCounts = overview.entity_counts || {};
     const totalPeople = entityCounts.person || 0;
     document.getElementById('synthesisSummary').innerHTML = `
-      <div class="stat-card"><div class="value">${fmt(overview.total_entities)}</div><div class="label">Entities</div></div>
-      <div class="stat-card"><div class="value">${fmt(overview.entity_asset_links)}</div><div class="label">Entity Links</div></div>
-      <div class="stat-card"><div class="value">${fmt(overview.timeline_events)}</div><div class="label">Timeline Rows</div></div>
-      <div class="stat-card"><div class="value">${fmt(overview.unresolved_people || 0)}</div><div class="label">Unresolved People</div></div>
-      <div class="stat-card"><div class="value">${pct(overview.resolved_people || 0, totalPeople)}</div><div class="label">Resolved People</div></div>
+      <div class="stat-card"><div class="value">${fmt(overview.total_entities)}</div><div class="label">${t('Entities')}</div></div>
+      <div class="stat-card"><div class="value">${fmt(overview.entity_asset_links)}</div><div class="label">${t('Entity Links')}</div></div>
+      <div class="stat-card"><div class="value">${fmt(overview.timeline_events)}</div><div class="label">${t('Timeline Rows')}</div></div>
+      <div class="stat-card"><div class="value">${fmt(overview.unresolved_people || 0)}</div><div class="label">${t('Unresolved People')}</div></div>
+      <div class="stat-card"><div class="value">${pct(overview.resolved_people || 0, totalPeople)}</div><div class="label">${t('Resolved People')}</div></div>
     `;
 
     const entityMax = Math.max(...Object.values(entityCounts), 1);
@@ -1273,7 +1473,7 @@ async function loadSynthesis() {
     for (const [kind, count] of Object.entries(entityCounts)) {
       entityHtml += hBar(kind, count, entityMax, 'var(--accent-dark)');
     }
-    document.getElementById('synthesisEntities').innerHTML = entityHtml || '<div class="empty">No entities</div>';
+    document.getElementById('synthesisEntities').innerHTML = entityHtml || `<div class="empty">${t('No entities')}</div>`;
 
     const q = chronology.quality || {};
     let qHtml = '';
@@ -1298,26 +1498,26 @@ async function loadSynthesis() {
 
     const topPeople = overview.top_people || [];
     document.getElementById('synthesisTopPeople').innerHTML = asMiniRows(topPeople, [
-      { label: 'Name', value: r => r.name_zh || r.name_en },
-      { label: 'Links', value: r => r.link_count, num: true },
+      { label: t('Name'), value: r => _lang === 'zh' ? (r.name_zh || r.name_en) : (r.name_en || r.name_zh) },
+      { label: t('Links'), value: r => r.link_count, num: true },
     ], 12);
 
     const unresolved = overview.top_unresolved || [];
     document.getElementById('synthesisUnresolved').innerHTML = asMiniRows(unresolved, [
-      { label: 'Unresolved Name', value: r => r.entity_value },
-      { label: 'Assets', value: r => r.asset_count, num: true },
-      { label: 'Links', value: r => r.link_count, num: true },
+      { label: t('Unresolved Name'), value: r => r.entity_value },
+      { label: t('Assets'), value: r => r.asset_count, num: true },
+      { label: t('Links'), value: r => r.link_count, num: true },
     ], 12);
 
     const decades = chronology.available ? (chronology.decades || []) : [];
     if (decades.length === 0) {
-      document.getElementById('synthesisChronology').innerHTML = '<div class="empty">No chronology data</div>';
+      document.getElementById('synthesisChronology').innerHTML = `<div class="empty">${t('No chronology data')}</div>`;
     } else {
       document.getElementById('synthesisChronology').innerHTML = asMiniRows(decades, [
-        { label: 'Decade', value: r => r.decade },
-        { label: 'Photos', value: r => r.photo_count, num: true },
-        { label: 'Docs', value: r => r.document_count, num: true },
-        { label: 'Event Groups', value: r => (r.events || []).length, num: true },
+        { label: t('Decade'), value: r => r.decade },
+        { label: t('Photos'), value: r => r.photo_count, num: true },
+        { label: t('Docs'), value: r => r.document_count, num: true },
+        { label: t('Event Groups'), value: r => (r.events || []).length, num: true },
       ], 10);
     }
   } catch (e) {
@@ -1327,7 +1527,7 @@ async function loadSynthesis() {
 
 function renderSynthesisAssetList(items, fields, limit = 8) {
   const rows = items.slice(0, limit);
-  if (rows.length === 0) return '<div class="empty">No linked assets</div>';
+  if (rows.length === 0) return `<div class="empty">${t('No linked assets')}</div>`;
   let html = '<div class="scroll-y"><table class="mini-table"><tbody>';
   for (const r of rows) {
     html += '<tr>';
@@ -1346,7 +1546,7 @@ async function runSynthesisPersonQuery() {
   const out = document.getElementById('synPersonResult');
   const name = input.value.trim();
   if (!name) {
-    out.innerHTML = '<div class="empty">Enter a person name.</div>';
+    out.innerHTML = `<div class="empty">${t('Enter a person name.')}</div>`;
     return;
   }
   out.innerHTML = '<div class="loading">Loading...</div>';
@@ -1378,7 +1578,7 @@ async function runSynthesisDateQuery() {
   const out = document.getElementById('synDateResult');
   const year = input.value.trim();
   if (!year) {
-    out.innerHTML = '<div class="empty">Enter a year (e.g. 1978).</div>';
+    out.innerHTML = `<div class="empty">${t('Enter a year to list linked assets.')}</div>`;
     return;
   }
   out.innerHTML = '<div class="loading">Loading...</div>';
@@ -1404,7 +1604,7 @@ async function runSynthesisLocationQuery() {
   const out = document.getElementById('synLocationResult');
   const country = input.value.trim();
   if (!country) {
-    out.innerHTML = '<div class="empty">Enter a country or location keyword.</div>';
+    out.innerHTML = `<div class="empty">${t('Enter a country or location keyword.')}</div>`;
     return;
   }
   out.innerHTML = '<div class="loading">Loading...</div>';
@@ -1590,14 +1790,17 @@ const TOOLS = [
   },
 ];
 
-const CAT_LABELS = { pipeline: 'Pipeline', analysis: 'Analysis', infra: 'Infrastructure', review: 'Review' };
+function catLabels() {
+  return { pipeline: t('Pipeline'), analysis: t('Analysis'), infra: t('Infrastructure'), review: t('Review') };
+}
 
 function loadToolbox() {
   // Filter bar
-  const cats = ['all', ...Object.keys(CAT_LABELS)];
+  const labels = catLabels();
+  const cats = ['all', ...Object.keys(labels)];
   const bar = document.getElementById('toolFilterBar');
   bar.innerHTML = cats.map(c =>
-    `<button class="tool-filter-btn${c === 'all' ? ' active' : ''}" data-cat="${c}">${c === 'all' ? 'All' : CAT_LABELS[c]}</button>`
+    `<button class="tool-filter-btn${c === 'all' ? ' active' : ''}" data-cat="${c}">${c === 'all' ? t('All') : labels[c]}</button>`
   ).join('');
 
   bar.addEventListener('click', (e) => {
@@ -1612,18 +1815,19 @@ function loadToolbox() {
 }
 
 function renderTools(cat) {
-  const filtered = cat === 'all' ? TOOLS : TOOLS.filter(t => t.cat === cat);
+  const filtered = cat === 'all' ? TOOLS : TOOLS.filter(tool => tool.cat === cat);
+  const labels = catLabels();
   const grid = document.getElementById('toolGrid');
-  grid.innerHTML = filtered.map(t => `
+  grid.innerHTML = filtered.map(tool => `
     <div class="tool-card">
       <div class="tool-header">
-        <i class="ph-light ${t.icon}" style="font-size:18px;color:var(--accent-text)"></i>
-        <span class="tool-name">${esc(t.name)}</span>
-        <span class="tool-cat">${esc(CAT_LABELS[t.cat])}</span>
+        <i class="ph-light ${tool.icon}" style="font-size:18px;color:var(--accent-text)"></i>
+        <span class="tool-name">${esc(tool.name)}</span>
+        <span class="tool-cat">${esc(labels[tool.cat])}</span>
       </div>
-      <div class="tool-desc">${esc(t.desc)}</div>
-      <div class="tool-cmd">${esc(t.cmd)}</div>
-      ${t.args ? `<div class="tool-args">${esc(t.args)}</div>` : ''}
+      <div class="tool-desc">${esc(tool.desc)}</div>
+      <div class="tool-cmd">${esc(tool.cmd)}</div>
+      ${tool.args ? `<div class="tool-args">${esc(tool.args)}</div>` : ''}
     </div>
   `).join('');
 }
@@ -1655,6 +1859,11 @@ document.getElementById('refreshBtn').addEventListener('click', async () => {
     btn.disabled = false;
   }
 });
+
+// --- Language toggle ---
+document.getElementById('langBtn').addEventListener('click', switchLanguage);
+updateLangButton();
+if (_lang !== 'en') translateStaticHTML();
 
 // --- Boot ---
 loadOverview();

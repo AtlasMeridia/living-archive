@@ -175,6 +175,37 @@ def get_person_thumbnail(client: httpx.Client, person_id: str) -> bytes:
     return resp.content
 
 
+@retry()
+def apply_rotation(
+    client: httpx.Client,
+    asset_id: str,
+    angle: int,
+) -> dict:
+    """Apply a rotation edit to an asset via PUT /assets/{id}/edits.
+
+    angle: clockwise degrees (90, 180, 270). 0 clears existing edits.
+    """
+    if angle == 0:
+        # No rotation needed — clear any existing edits
+        resp = client.delete(f"/assets/{asset_id}/edits")
+        resp.raise_for_status()
+        return {"cleared": True}
+
+    resp = client.put(
+        f"/assets/{asset_id}/edits",
+        json={
+            "edits": [
+                {
+                    "action": "rotate",
+                    "parameters": {"angle": angle},
+                }
+            ]
+        },
+    )
+    resp.raise_for_status()
+    return resp.json()
+
+
 def date_estimate_to_iso(date_str: str) -> str:
     """Convert a date estimate like '1978-06' or '1978' to ISO datetime.
 

@@ -1,0 +1,42 @@
+{
+  "analysis": {
+    "document_type": "personal/certificate",
+    "title": "Master of Science diplomas for Feng-Kuang Liu from Washington University and Illinois Institute of Technology",
+    "date": "1974-05-12",
+    "date_confidence": 0.96,
+    "summary_en": "This file contains two university diploma texts issued to Feng-Kuang Liu. One diploma shows Washington University in St. Louis conferring the Master of Science degree on January 21, 1970, and the other shows Illinois Institute of Technology conferring the Master of Science in Industrial Engineering on May 12, 1974. The document records academic credentials and includes the names of university officials who signed or authorized the degrees.",
+    "summary_zh": "這份文件包含兩份頒給劉鳳光的碩士文憑文字內容。其一為華盛頓大學於1970年1月21日授予理學碩士學位，其二為伊利諾理工學院於1974年5月12日授予工業工程理學碩士學位。文件主要記錄其學歷資格，並列出核發或簽署學位的校方主管姓名。",
+    "key_people": [
+      "Feng-Kuang Liu",
+      "Thomas H. Eliot",
+      "James M. McKelvey",
+      "Charles Allen Thomas",
+      "Joe F. Evans",
+      "M. S. Venema",
+      "J. A. Sunderlich"
+    ],
+    "key_dates": [
+      "1970-01-21",
+      "1974-05-12"
+    ],
+    "sensitivity": {
+      "has_ssn": false,
+      "has_financial": false,
+      "has_medical": false
+    },
+    "tags": [
+      "personal",
+      "certificate"
+    ],
+    "language": "English",
+    "quality": "good"
+  },
+  "inference": {
+    "provider": "gpt",
+    "model": "gpt-5.4",
+    "prompt_version": "document_analysis_v2",
+    "timestamp": "2026-03-12T22:38:25.240181+00:00",
+    "input_tokens": 17838,
+    "output_tokens": 642
+  }
+}

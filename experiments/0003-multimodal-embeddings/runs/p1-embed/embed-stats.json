@@ -1,0 +1,367 @@
+{
+  "total": 50,
+  "succeeded": 40,
+  "failed": 10,
+  "assets": [
+    {
+      "sha256": "88d8bb4227c2d6f24aece46d9a0d6a4b4318241d4c6679c64ffb3c307b570081",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1068.559917039238,
+      "text_latency_ms": 350.41466704569757
+    },
+    {
+      "sha256": "db9567e401f1fd62ece108a515a0214f69d22330363a354ecce510cd532aaa93",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1155.2499589743093,
+      "text_latency_ms": 334.5451250206679
+    },
+    {
+      "sha256": "82aaae108f8941569af97b0aee1bad789d70fd45293c6b9640f9a3a55547c7a2",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1789.4512079656124,
+      "text_latency_ms": 422.7276250021532
+    },
+    {
+      "sha256": "993b6e4880768ca19685cb036402ca2dd96f76344f644a1c4e9d6559d9d57de1",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1963.9139169594273,
+      "text_latency_ms": 363.70808398351073
+    },
+    {
+      "sha256": "3741ee41be142dc6f779d51fbf1cabdc72052c2acc8f1b12360c2089b8db4480",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1102.730083046481,
+      "text_latency_ms": 444.61250002495944
+    },
+    {
+      "sha256": "ff1d0999b2945b3ed898b172dbd3e67b874819ec2fe6aa800f055e8f1ddb5ec7",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1199.1973330732435,
+      "text_latency_ms": 378.56904207728803
+    },
+    {
+      "sha256": "d20b9dc9b9dceb8955b05483f5de318e1c164610ccf40c6a38a544a05a5c5cda",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1039.2763749696314,
+      "text_latency_ms": 216.02299995720387
+    },
+    {
+      "sha256": "84e4e5f5dc08635735240b4870e4a2dfcb829cb53a1ff5327fb044abf5ed9081",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1193.6144590144977,
+      "text_latency_ms": 421.03008297272027
+    },
+    {
+      "sha256": "a141361bab97b64ec880d5c3018131dd75ba5bf3c1b3c02d2206e39916645279",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1215.0665000081062,
+      "text_latency_ms": 377.7412499766797
+    },
+    {
+      "sha256": "e1956600cc9032cdb9b58e4dd7bbe552de3215ae602d9cf09584a949f53f4f68",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1401.426750002429,
+      "text_latency_ms": 567.8836669540033
+    },
+    {
+      "sha256": "17f7a83586bf2129473550ec86266121d108e6daf595dcd5f3f02c51dfb35d95",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 983.1754160113633,
+      "text_latency_ms": 341.8872080510482
+    },
+    {
+      "sha256": "aed2b2230cd3e7d1fca928bb37f49b736c7b2e41c37f5158794fa7007a7e917e",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 952.2927500074729,
+      "text_latency_ms": 431.44033395219594
+    },
+    {
+      "sha256": "48c23be94d6c3fbc82a8d2d7e2073c0baf63fb78744aabfa2b5e74333ef64a03",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1037.0542500168085,
+      "text_latency_ms": 323.7620840081945
+    },
+    {
+      "sha256": "3b6bc8667e21734b0ba4c7386c4f691328ad21a65a196f7c3a78b3310b08a326",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 860.8278329484165,
+      "text_latency_ms": 439.6084169857204
+    },
+    {
+      "sha256": "7afc35bd06a06a74b7ce3d155cfc88b0069f5129767628b04f8e9cc119a712f4",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 765.7722500152886,
+      "text_latency_ms": 335.5000829324126
+    },
+    {
+      "sha256": "b19af35129db3ae83d6525af0f89be8d856e6cc9ba6e6dd2a93d6be39e68f300",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 847.2610829630867,
+      "text_latency_ms": 173.52691607084125
+    },
+    {
+      "sha256": "7adb3d25d2b61e6a1bb3dd6dfb6f5b03db3258a1436e09ae75a32b0e42d97e10",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 939.0529999509454,
+      "text_latency_ms": 448.12779198400676
+    },
+    {
+      "sha256": "824000e2396d63d7a5cf33d3dbc8887092182445692e06a20984a69552102e76",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1461.7130419937894,
+      "text_latency_ms": 380.82070904783905
+    },
+    {
+      "sha256": "23416e80035557e9d451890d740e091462f8f234d5506a91856e67dab357b1a6",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1530.1118330098689,
+      "text_latency_ms": 392.3657500417903
+    },
+    {
+      "sha256": "e3092febab0d054fbe80b85a452398c6be30c6bab41716d58dc1c6b429ed08e4",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1018.8993340125307,
+      "text_latency_ms": 331.8513750564307
+    },
+    {
+      "sha256": "e442106f6574e6e8b9c16160573a3f81382f82cb54033b8e31a0d789f3943038",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 913.3261248935014,
+      "text_latency_ms": 314.72579191904515
+    },
+    {
+      "sha256": "63787287be8998b2272bbf013c2c75958efdaf84f4965a43361d601d7a8c1531",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1569.1299999598414,
+      "text_latency_ms": 302.37391707487404
+    },
+    {
+      "sha256": "dca49cf66bc012526f57375e87fe70121a505d2a5c3e927bcb0858d2cdf8a275",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1124.6305420063436,
+      "text_latency_ms": 314.8711249232292
+    },
+    {
+      "sha256": "97c506539febd4f3276c7c3519dde0e31b59ec6bebe832274aac9496ff42c9e3",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 802.9708330286667,
+      "text_latency_ms": 333.2982079591602
+    },
+    {
+      "sha256": "9008a08cb31141bb119aca5b68cf4509daa357a5700b65b70c01b439f1ee07b6",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 917.6731660263613,
+      "text_latency_ms": 377.42383393924683
+    },
+    {
+      "sha256": "65696f124b64a4cedcaae15584ea5dfcad1fc150ddb66ee8a8289fa106604ac0",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1523.3149159466848,
+      "text_latency_ms": 316.62404199596494
+    },
+    {
+      "sha256": "eb74934bdbce4259a538e18ad6d3f67cf45e0adea15704ab7b7744a7034a54c4",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 937.0171250775456,
+      "text_latency_ms": 303.46170894335955
+    },
+    {
+      "sha256": "445665e66a50bdd8951e6e24b37d4b2761582473fc49d867b952797ab811c508",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1027.8274590382352,
+      "text_latency_ms": 341.467541991733
+    },
+    {
+      "sha256": "8d05679a8b1ea8b08b463881f739a7ca594cbf97ce773b8f4b64ed976f0dbd4d",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 738.836208009161,
+      "text_latency_ms": 405.1138749346137
+    },
+    {
+      "sha256": "84697c2f97881b65a68501dcaaef9273a4026bb07e2ab4c5cd951b896606782b",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 888.8404159806669,
+      "text_latency_ms": 299.42662501707673
+    },
+    {
+      "sha256": "9b2fe39ea34af8591a56eb16bdd129d1afd97b3e5cc6c44de9ec50bb89a1161a",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 989.2697080504149,
+      "text_latency_ms": 335.0531250471249
+    },
+    {
+      "sha256": "c326ea27c2ec45bcabb0b92c93a461ae1d83566ae2f7c5dbb074218579744180",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1060.2185409516096,
+      "text_latency_ms": 389.2232079524547
+    },
+    {
+      "sha256": "69b06540ddc243229dc3d90a9a39e656a6b1706ac0f040bfca520dbbd8432a61",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1110.8604581095278,
+      "text_latency_ms": 231.6589169204235
+    },
+    {
+      "sha256": "c8960c0027aedf75a08e75adeb8877079d61dded4d41a25daa4ccf271a8cd6bf",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1114.0517499297857,
+      "text_latency_ms": 317.3228340456262
+    },
+    {
+      "sha256": "3bd9419cb255f8c5e426e21b2e59f87a7de32f6d3a9dd6d853c3e06cc7ec43eb",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1813.8323340099305,
+      "text_latency_ms": 398.21812498848885
+    },
+    {
+      "sha256": "1d09f43421aa49c9a0f41c9e769bca318e0e9d7e9e0bb261000915e251497716",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 931.5729580121115,
+      "text_latency_ms": 299.4083749363199
+    },
+    {
+      "sha256": "36ad41fc920388143f4b9a71b6f32b709ad18f9ce45572b016db0b4ae6f4f2aa",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 792.395707918331,
+      "text_latency_ms": 309.47862507309765
+    },
+    {
+      "sha256": "b5d7f4564e5e97d34d4829eee33e3cd26b0c21e4e5f6ed82cba725054e4eee70",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 769.6438330458477,
+      "text_latency_ms": 405.76962498016655
+    },
+    {
+      "sha256": "0b9b3eb1a4168e3829667a677dbc7f1f739dce8435f32798da1f4e07ad82f67b",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 788.7108749710023,
+      "text_latency_ms": 309.44195797201246
+    },
+    {
+      "sha256": "317119d3174580c37a4fe02d15ec5e7d807bfa77c69473dcb0726fdcdbacc981",
+      "content_type": "photo",
+      "errors": [],
+      "image_latency_ms": 1295.9060419816524,
+      "text_latency_ms": 389.41991690080613
+    },
+    {
+      "sha256": "55438517013b80ab64ae10d08a462398029765f5667394553a93014df4dcc814",
+      "content_type": "document",
+      "errors": [
+        "pdf: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'Request contains an invalid argument.', 'status': 'INVALID_ARGUMENT'}}"
+      ],
+      "text_latency_ms": 321.3065000018105
+    },
+    {
+      "sha256": "4578c9c33065442b7250ac797dc2f7fd45b340c5343f8f9a8a1fd8b587e4b7a6",
+      "content_type": "document",
+      "errors": [
+        "pdf: UNIQUE constraint failed on vec_documents primary key"
+      ],
+      "text_latency_ms": 377.32462491840124
+    },
+    {
+      "sha256": "852881cea05fa9d0a6b4f662053748ab0c27bfa27af2ad3c456bdcf879fd467f",
+      "content_type": "document",
+      "errors": [
+        "pdf: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'Request contains an invalid argument.', 'status': 'INVALID_ARGUMENT'}}"
+      ],
+      "text_latency_ms": 366.61191703751683
+    },
+    {
+      "sha256": "74efb60b15d89ef140f1fb4e5158b4746efd77c7599a815b48a3225c6c747dd2",
+      "content_type": "document",
+      "errors": [
+        "pdf: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'Request contains an invalid argument.', 'status': 'INVALID_ARGUMENT'}}"
+      ],
+      "text_latency_ms": 401.6873330110684
+    },
+    {
+      "sha256": "a9cfaf21e66d9e9d9e77c37f0d2cb94509fed220d82f242a37a57b8f0bda610c",
+      "content_type": "document",
+      "errors": [
+        "pdf: UNIQUE constraint failed on vec_documents primary key"
+      ],
+      "text_latency_ms": 364.5267089596018
+    },
+    {
+      "sha256": "191e25b99dbb03c0c29679b4f58628f9c05a6691c1e508a33f347b63cbea9687",
+      "content_type": "document",
+      "errors": [
+        "pdf: UNIQUE constraint failed on vec_documents primary key"
+      ],
+      "text_latency_ms": 474.5050830533728
+    },
+    {
+      "sha256": "baa84d68df28df1e74837eb6eaa6aa42be1ad1782c827d2ee986b2b137c0dfea",
+      "content_type": "document",
+      "errors": [
+        "pdf: UNIQUE constraint failed on vec_documents primary key"
+      ],
+      "text_latency_ms": 655.3527499781922
+    },
+    {
+      "sha256": "920df846c730bcdfcb3ce209d05ce2f2259771a40dcbbdce0d92e6ad03771d1b",
+      "content_type": "document",
+      "errors": [
+        "pdf: UNIQUE constraint failed on vec_documents primary key"
+      ],
+      "text_latency_ms": 329.1737079853192
+    },
+    {
+      "sha256": "ddeb92080ec52237a4ea0631ca2a8ae5839d27eac46aa766286deed71813e1c1",
+      "content_type": "document",
+      "errors": [
+        "pdf: UNIQUE constraint failed on vec_documents primary key"
+      ],
+      "text_latency_ms": 343.42495899181813
+    },
+    {
+      "sha256": "43b9fb4062bece7235c02ae2da5efdc839b795e47084a62a4003984045183594",
+      "content_type": "document",
+      "errors": [
+        "pdf: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'Request contains an invalid argument.', 'status': 'INVALID_ARGUMENT'}}"
+      ],
+      "text_latency_ms": 318.7672500498593
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "analysis": {
+    "date_estimate": "1978-12",
+    "date_precision": "month",
+    "date_confidence": 0.72,
+    "date_reasoning": "Folder labeled \"1978\" is consistent with visual evidence: late-1970s clothing, hairstyles, tile-top table, and wall-mounted phone. A Christmas tree with lights is visible in the background, suggesting December. Photo color characteristics and fading are typical of late-1970s prints.",
+    "description_en": "A family of four poses together at a tile-top dining table inside their home during the Christmas season. From left to right: the mother in a dark blazer, the father in a white shirt, a daughter holding a small white poodle, and a young son in a blue striped shirt. A decorated Christmas tree with lights is visible in the background, along with a display cabinet and wall-mounted telephone.",
+    "description_zh": "一家四口在聖誕節期間圍坐在家中的磁磚餐桌旁合影。由左至右為穿深色外套的母親、穿白襯衫的父親、抱著白色小貴賓犬的女兒，以及穿藍色條紋上衣的小兒子。背景可見裝飾了燈飾的聖誕樹、展示櫃和壁掛式電話。",
+    "people_count": 4,
+    "people_notes": "Mother (mid-30s to 40s, dark blazer, watch on wrist), father (mid-30s to 40s, white collared shirt), daughter (approximately 8-10 years old, holding a small white poodle), son (approximately 5-7 years old, blue striped shirt). All are smiling warmly at the camera in a relaxed family pose.",
+    "location_estimate": "United States - indoors, family home kitchen/dining area",
+    "location_confidence": 0.8,
+    "tags": [
+      "family",
+      "portrait",
+      "indoor",
+      "group-portrait",
+      "parent-child",
+      "christmas",
+      "holiday",
+      "home",
+      "casual",
+      "pet",
+      "dog",
+      "1970s",
+      "faded"
+    ],
+    "condition_notes": "Moderate edge darkening/vignetting around all four corners. Slight overall color fading and warm color shift typical of 1970s prints. Minor wear visible at corners. Image is otherwise well-preserved with good focus and exposure.",
+    "ocr_text": "",
+    "is_document": false
+  },
+  "inference": {
+    "provider": "claude",
+    "model": "opus",
+    "prompt_version": "photo_analysis_v1",
+    "timestamp": "2026-03-12T22:37:08.183833+00:00",
+    "input_tokens": 5,
+    "output_tokens": 1342
+  }
+}

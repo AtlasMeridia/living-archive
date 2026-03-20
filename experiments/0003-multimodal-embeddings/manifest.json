@@ -1,0 +1,41 @@
+{
+  "id": "0003-multimodal-embeddings",
+  "title": "Multimodal Embeddings — Gemini Embedding 2 for Semantic Search",
+  "date": "2026-03-11",
+  "status": "completed",
+  "thread": "search",
+  "tags": ["embeddings", "multimodal", "gemini", "vector-search", "semantic-search", "cross-modal", "sqlite-vec"],
+  "description": "Can Gemini Embedding 2's natively multimodal embeddings enable semantic and cross-modal search across archival family photos and documents without requiring prior Claude Vision analysis?",
+  "key_findings": [
+    "Text-to-image retrieval works: precision@1 = 0.70, precision@5 ≈ 0.50 on family queries",
+    "Image-to-image similarity is strong: distances 0.07-0.18 within thematic clusters",
+    "768d Matryoshka retains 90% top-1 agreement vs 3072d baseline — 4.5x faster, 4x smaller",
+    "Embedding clusters discover visual themes (weddings, indoor family) invisible to structured metadata",
+    "Zero overlap between embedding clusters and synthesis entities — complementary, not competing",
+    "Cost is $0 (free tier). Full corpus (10k photos) embeddable in ~3 hours",
+    "Search latency: 1-9ms — well under 100ms threshold",
+    "macOS Python needs apsw for sqlite-vec (OMIT_LOAD_EXTENSION in stdlib sqlite3)"
+  ],
+  "outputs": [
+    "brief.md",
+    "runs/p0-setup/api-validation.md",
+    "runs/p0-setup/locked-inputs.json",
+    "runs/p0-setup/dependencies.txt",
+    "runs/p1-embed/embed-stats.json",
+    "runs/p1-embed/cost-projection.md",
+    "runs/p2-retrieval/text-to-image-results.json",
+    "runs/p2-retrieval/image-to-image-results.json",
+    "runs/p2-retrieval/cross-modal-results.json",
+    "runs/p2-retrieval/evaluation.md",
+    "runs/p3-dimensions/dimension-comparison.json",
+    "runs/p3-dimensions/storage-benchmarks.md",
+    "runs/p4-clusters/cluster-analysis.json",
+    "runs/p4-clusters/cluster-vs-synthesis.md",
+    "runs/p5-report/summary.md"
+  ],
+  "branches": {},
+  "cost_usd": 0,
+  "budget_cap_usd": 5,
+  "related_experiments": ["0002-synthesis-layer"],
+  "design_doc": null
+}

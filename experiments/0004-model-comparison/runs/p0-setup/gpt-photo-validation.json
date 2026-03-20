@@ -1,0 +1,39 @@
+{
+  "analysis": {
+    "date_estimate": "1991",
+    "date_precision": "year",
+    "date_confidence": 0.62,
+    "date_reasoning": "Although the folder was labeled 1978, the visual evidence suggests a later date: the color snapshot quality, casual indoor family pose, clothing, children's hairstyles, and the overall look of the print are more consistent with the late 1980s to early 1990s than the late 1970s.",
+    "description_en": "A family of four sits closely together indoors around a tiled table, with a small white dog held near the center. Two adults and two young children face the camera in a relaxed home setting, suggesting an informal family portrait or gathering.",
+    "description_zh": "照片中一家四口在室內的磁磚餐桌旁靠坐在一起，中間還抱著一隻小白狗。兩位大人和兩位年幼孩子一起看向鏡頭，氣氛輕鬆自然，像是在家中留下的家庭合照或聚會紀錄。",
+    "people_count": 4,
+    "people_notes": "Two adults, likely mother and father, with two young children, likely siblings. All are seated closely together and smiling or posing calmly toward the camera; a small dog is also visible.",
+    "location_estimate": "United States, indoors - home",
+    "location_confidence": 0.63,
+    "tags": [
+      "family",
+      "indoor",
+      "group",
+      "casual",
+      "child",
+      "together",
+      "group-portrait",
+      "parent-child",
+      "couple",
+      "siblings",
+      "mother",
+      "father"
+    ],
+    "condition_notes": "Slightly underexposed with mild softness and typical aging of a scanned color print; no major physical damage visible.",
+    "ocr_text": null,
+    "is_document": false
+  },
+  "inference": {
+    "provider": "gpt",
+    "model": "gpt-5.4",
+    "prompt_version": "photo_analysis_v1",
+    "timestamp": "2026-03-12T22:37:47.557444+00:00",
+    "input_tokens": 18012,
+    "output_tokens": 483
+  }
+}

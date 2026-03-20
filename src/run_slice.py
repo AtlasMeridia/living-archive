@@ -19,6 +19,7 @@ from .immich import (
 )
 from .manifest import load_manifest, list_manifests, write_manifest, write_run_meta
 from .preflight import run_preflight
+from .review import load_review
 
 log = config.setup_logging()
 
@@ -130,10 +131,22 @@ def step_push_to_immich(run_id: str, slice_path: str | None = None) -> dict:
     needs_review_ids = []
     low_confidence_ids = []
 
+    reviewed_skipped = 0
+
     for manifest_path in manifests:
         m = load_manifest(manifest_path)
         source_file = m.source_file
         analysis = m.analysis
+        sha = m.source_sha256[:12]
+
+        # Check for human review overlay — human edits are sacred
+        review = load_review(run_id, sha)
+        if review and review.status == "skipped":
+            skipped += 1
+            continue
+        if review and review.status in ("corrected", "approved"):
+            reviewed_skipped += 1
+            continue
 
         # Try to find matching Immich asset by filename
         asset_id = None
@@ -200,7 +213,10 @@ def step_push_to_immich(run_id: str, slice_path: str | None = None) -> dict:
         except Exception as e:
             log.error("  Failed to create Low Confidence album: %s", e)
 
-    return {"matched": matched, "updated": updated, "skipped": skipped}
+    if reviewed_skipped:
+        log.info("  Skipped %d human-reviewed assets (not overwritten)", reviewed_skipped)
+
+    return {"matched": matched, "updated": updated, "skipped": skipped, "reviewed_skipped": reviewed_skipped}
 
 
 def verify_source_integrity(photos: list[dict]) -> bool:

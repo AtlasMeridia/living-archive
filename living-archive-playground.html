@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Living Archive — Architecture Playground</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1117;--surface:#1a1d27;--surface2:#242836;--border:#2e3346;--text:#e2e4eb;--text2:#8b8fa3;--accent:#6c8cff;--accent2:#4ecdc4;--green:#34d399;--amber:#fbbf24;--pink:#f472b6;--red:#ef4444;--purple:#a78bfa;--orange:#fb923c;--blue:#60a5fa;--font:system-ui,-apple-system,sans-serif;--mono:'SF Mono',Menlo,monospace}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.layout{display:flex;flex:1;overflow:hidden}
+.sidebar{width:280px;min-width:280px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+.sidebar h2{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text2);padding:16px 16px 8px;font-weight:600}
+.sidebar h3{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);padding:12px 16px 6px;font-weight:500}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.canvas-wrap{flex:1;position:relative;overflow:hidden;background:var(--bg)}
+.canvas-wrap svg{width:100%;height:100%}
+.bottom-bar{background:var(--surface);border-top:1px solid var(--border);max-height:180px;overflow-y:auto;padding:12px 16px}
+.bottom-bar .label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:6px}
+.bottom-bar pre{font-family:var(--mono);font-size:11.5px;color:var(--text);white-space:pre-wrap;line-height:1.5}
+.copy-btn{position:absolute;top:8px;right:16px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;font-family:var(--font)}
+.copy-btn:hover{background:var(--border);color:var(--text)}
+.bottom-wrap{position:relative}
+
+/* Presets */
+.presets{display:flex;flex-wrap:wrap;gap:4px;padding:4px 16px 8px}
+.preset-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:5px 10px;border-radius:4px;font-size:11px;cursor:pointer;font-family:var(--font)}
+.preset-btn:hover{border-color:var(--accent);color:var(--text)}
+.preset-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* Checkboxes */
+.check-group{padding:2px 16px}
+.check-item{display:flex;align-items:center;gap:8px;padding:4px 0;cursor:pointer;user-select:none}
+.check-item input{display:none}
+.check-box{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.check-item input:checked+.check-box{border-color:var(--accent);background:var(--accent)}
+.check-item input:checked+.check-box::after{content:'\2713';font-size:9px;color:#fff}
+.check-item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.check-item span{font-size:12px;color:var(--text)}
+
+/* Stats bar */
+.stats{padding:12px 16px;border-top:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--text2);line-height:1.8}
+.stats .val{color:var(--accent)}
+.stat-row{display:flex;justify-content:space-between}
+
+/* Comments */
+.comments-list{padding:0 16px 12px}
+.comment-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;margin-bottom:6px;position:relative}
+.comment-item .target{font-size:10px;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.comment-item .body{font-size:11.5px;margin-top:3px;color:var(--text)}
+.comment-item .del{position:absolute;top:6px;right:8px;background:none;border:none;color:var(--text2);cursor:pointer;font-size:13px;line-height:1}
+.comment-item .del:hover{color:var(--red)}
+.no-comments{color:var(--text2);font-size:11px;padding:0 16px 12px;font-style:italic}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:100}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;width:380px;max-width:90vw}
+.modal h3{font-size:14px;margin-bottom:2px}
+.modal .subtitle{font-size:11px;color:var(--text2);font-family:var(--mono);margin-bottom:4px}
+.modal .desc{font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.modal textarea{width:100%;height:80px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:12px;padding:8px;resize:vertical}
+.modal textarea:focus{outline:none;border-color:var(--accent)}
+.modal-btns{display:flex;gap:8px;margin-top:10px;justify-content:flex-end}
+.modal-btns button{padding:6px 14px;border-radius:5px;font-size:12px;cursor:pointer;font-family:var(--font);border:1px solid var(--border)}
+.btn-cancel{background:var(--surface2);color:var(--text2)}
+.btn-save{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Zoom controls */
+.zoom-controls{position:absolute;bottom:12px;right:12px;display:flex;gap:4px}
+.zoom-btn{background:var(--surface);border:1px solid var(--border);color:var(--text2);width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.zoom-btn:hover{background:var(--surface2);color:var(--text)}
+
+/* Legend */
+.legend{position:absolute;bottom:12px;left:12px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:10px}
+.legend-item{display:flex;align-items:center;gap:6px;margin:3px 0}
+.legend-line{width:20px;height:2px;border-radius:1px}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <div class="sidebar">
+    <h2>Living Archive</h2>
+    <div style="padding:0 16px 8px;font-size:11px;color:var(--text2);line-height:1.5">
+      AI-assisted family archival system.<br>Three layers: Data, AI, Presentation.
+    </div>
+
+    <h3>Views</h3>
+    <div class="presets" id="presets"></div>
+
+    <h3>Layers</h3>
+    <div class="check-group" id="layer-checks"></div>
+
+    <h3>Connections</h3>
+    <div class="check-group" id="conn-checks"></div>
+
+    <h3>Comments <span id="comment-count" style="color:var(--accent)"></span></h3>
+    <div id="comments-container"><div class="no-comments">Click a component to add feedback</div></div>
+
+    <div class="stats">
+      <div class="stat-row"><span>Python modules</span><span class="val">34</span></div>
+      <div class="stat-row"><span>Total lines (src/)</span><span class="val">9,337</span></div>
+      <div class="stat-row"><span>Photos embedded</span><span class="val">2,012</span></div>
+      <div class="stat-row"><span>Documents analyzed</span><span class="val">121</span></div>
+      <div class="stat-row"><span>Immich face clusters</span><span class="val">1,241</span></div>
+      <div class="stat-row"><span>Experiments</span><span class="val">3</span></div>
+      <div class="stat-row"><span>External integrations</span><span class="val">8</span></div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="canvas-wrap" id="canvas-wrap">
+      <svg id="diagram" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="zoom-controls">
+        <button class="zoom-btn" onclick="zoom(1.15)">+</button>
+        <button class="zoom-btn" onclick="zoom(1/1.15)">&minus;</button>
+        <button class="zoom-btn" onclick="resetZoom()" style="font-size:11px">1:1</button>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="bottom-wrap">
+      <div class="bottom-bar">
+        <div class="label">Prompt Output</div>
+        <pre id="prompt-output"></pre>
+      </div>
+      <button class="copy-btn" onclick="copyPrompt()">Copy</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h3 id="modal-title"></h3>
+    <div class="subtitle" id="modal-subtitle"></div>
+    <div class="desc" id="modal-desc"></div>
+    <textarea id="modal-text" placeholder="Add your feedback or question about this component..."></textarea>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveComment()">Add Comment</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Layer definitions ──
+const LAYERS = {
+  external:  { label: 'External Services', color: '#fce4ec', textColor: '#333', border: '#f48fb1' },
+  source:    { label: 'Source Data (NAS)',  color: '#fff3e0', textColor: '#333', border: '#ffb74d' },
+  pipeline:  { label: 'Pipeline Modules',  color: '#e8eaf6', textColor: '#333', border: '#9fa8da' },
+  data:      { label: 'Data Stores',       color: '#e0f2f1', textColor: '#333', border: '#80cbc4' },
+  present:   { label: 'Presentation',      color: '#f3e5f5', textColor: '#333', border: '#ce93d8' },
+  experiment:{ label: 'Experiments',        color: '#e8f5e9', textColor: '#333', border: '#81c784' },
+};
+
+// ── Connection types ──
+const CONN_TYPES = {
+  'data-flow':  { label: 'Data Flow',   color: '#60a5fa', dash: '' },
+  'api-call':   { label: 'API Call',     color: '#34d399', dash: '6,3' },
+  'reads':      { label: 'Reads',        color: '#fbbf24', dash: '4,4' },
+  'writes':     { label: 'Writes',       color: '#f472b6', dash: '' },
+  'serves':     { label: 'Serves',       color: '#a78bfa', dash: '8,4' },
+};
+
+// ── Node definitions ──
+const nodes = [
+  // External Services (y: 20)
+  { id:'claude',      label:'Claude',         subtitle:'Anthropic API / CLI',     desc:'Photo analysis (Sonnet), document analysis (Opus). CLI subprocess mode with structured JSON output.', x:100, y:20, w:140, h:50, layer:'external' },
+  { id:'gemini',      label:'Gemini Embed',   subtitle:'google-genai API',        desc:'Multimodal embeddings (text + image + PDF) in 3072-dim vector space. Free tier.', x:280, y:20, w:140, h:50, layer:'external' },
+  { id:'immich-srv',  label:'Immich Server',  subtitle:'mneme:2283',              desc:'Photo management, face clustering (ML), album organization. REST API on Synology NAS via Tailscale.', x:460, y:20, w:140, h:50, layer:'external' },
+  { id:'ghost',       label:'Ghost CMS',      subtitle:'kennyliu.io',             desc:'Blog publishing for Living Archive stories. Headless CMS via Next.js + Vercel.', x:640, y:20, w:130, h:50, layer:'external' },
+  { id:'cloudflare',  label:'Cloudflare',     subtitle:'Tunnel + Access',         desc:'Remote family access via archives.kennyliu.io. Email OTP auth.', x:800, y:20, w:130, h:50, layer:'external' },
+
+  // Source Data (y: 110)
+  { id:'nas-photos',  label:'NAS / Media',    subtitle:'/Volumes/MNEME/.../Media', desc:'Read-only source: 7,629+ scanned photos (TIFF/JPEG). FastFoto bulk scans across 22+ albums spanning 1970s-2020s.', x:100, y:110, w:155, h:50, layer:'source' },
+  { id:'nas-docs',    label:'NAS / Documents', subtitle:'/Volumes/MNEME/.../Docs', desc:'Read-only source: 121+ PDFs. Trust filings, insurance, deeds, medical records, letters, certificates.', x:300, y:110, w:170, h:50, layer:'source' },
+  { id:'nas-personal',label:'Personal Branch', subtitle:'(planned)',               desc:'726 GB Apple export: iCloud Drive, Notes, Mail, Day One journal (918 entries). Same architecture, different root.', x:520, y:110, w:145, h:50, layer:'source' },
+
+  // Pipeline Modules (y: 200-290)
+  { id:'run-batch',   label:'run_batch.py',   subtitle:'523 lines',               desc:'Main batch orchestrator: discovers slices, manages time budget, routes to Claude, writes manifests, pushes to Immich. Supports --hours, --triage, --push.', x:60, y:200, w:140, h:50, layer:'pipeline' },
+  { id:'convert',     label:'convert.py',     subtitle:'52 lines',                desc:'TIFF to JPEG conversion (quality 85, max 2048px edge). SHA-256 hashing for source integrity.', x:60, y:270, w:130, h:45, layer:'pipeline' },
+  { id:'analyze',     label:'analyze.py',     subtitle:'159 lines',               desc:'Photo analysis via Claude. CLI mode (subprocess with --output-format json) or API mode. Returns bilingual descriptions, dates, people, location, tags.', x:210, y:200, w:135, h:50, layer:'pipeline' },
+  { id:'manifest',    label:'manifest.py',    subtitle:'142 lines',               desc:'Photo manifest I/O. Per-photo JSON keyed by SHA-256[:12] in data/photos/runs/<timestamp>/manifests/.', x:210, y:270, w:130, h:45, layer:'pipeline' },
+  { id:'doc-extract', label:'run_doc_extract', subtitle:'495 lines',              desc:'Document batch pipeline. Discovers PDFs, sends to Claude (Opus), extracts text, chunks >100k chars into 50-page segments, merges analysis.', x:380, y:200, w:150, h:50, layer:'pipeline' },
+  { id:'doc-analyze', label:'doc_analyze.py', subtitle:'421 lines',               desc:'Multi-provider document analysis. Claude CLI (default), Codex, or Ollama. Handles chunk splitting and merge logic.', x:380, y:270, w:140, h:45, layer:'pipeline' },
+  { id:'synthesis',   label:'synthesis.py',   subtitle:'1,215 lines',             desc:'Entity graph: extracts persons, dates, locations from manifests. LLM-assisted person dedup (romanization variants). Cross-reference queries, bilingual chronology generation.', x:560, y:200, w:145, h:50, layer:'pipeline' },
+  { id:'discover',    label:'discover.py',    subtitle:'96 lines',                desc:'Finds unprocessed source directories. Prioritizes smallest slices first for quick wins.', x:60, y:340, w:125, h:40, layer:'pipeline' },
+  { id:'triage',      label:'contact_triage', subtitle:'283 lines',               desc:'Contact sheet triage for FastFoto bulk scans. Tiles 20 photos into grid, sends to Haiku for keep/skip decisions.', x:210, y:340, w:140, h:40, layer:'pipeline' },
+  { id:'sync-people', label:'sync_people.py', subtitle:'488 lines',               desc:'Immich face cluster to registry sync. Imports unnamed clusters, exports CSV for elder naming, applies naming sheets back to Immich.', x:560, y:270, w:145, h:45, layer:'pipeline' },
+  { id:'immich-py',   label:'immich.py',      subtitle:'220 lines',               desc:'Immich REST client. Search by path, update metadata (dateTimeOriginal, description), create albums, manage people, apply rotation.', x:740, y:200, w:130, h:50, layer:'pipeline' },
+
+  // Data Stores (y: 420)
+  { id:'catalog-db',  label:'catalog.db',     subtitle:'SQLite, schema v2',       desc:'Unified asset index. Tables: assets (2,140 rows), runs, photo_quality, doc_quality. Derived from manifests, regeneratable.', x:80, y:420, w:135, h:50, layer:'data' },
+  { id:'manifests',   label:'Manifests',      subtitle:'data/photos + documents', desc:'Per-asset JSON files: PhotoAnalysis (date, description, people, location, tags) + InferenceMetadata. Source of truth for the AI layer.', x:260, y:420, w:135, h:50, layer:'data' },
+  { id:'synthesis-db',label:'synthesis.db',   subtitle:'SQLite, entity graph',    desc:'Entity graph: entities (person/date/location), entity_assets links, timeline_events. Built by synthesis.py rebuild command.', x:440, y:420, w:145, h:50, layer:'data' },
+  { id:'embeddings-db',label:'embeddings.db', subtitle:'SQLite + sqlite-vec',     desc:'Gemini Embedding 2 vectors. 2,012 photos (3072d + 768d) + 2,012 text descriptions + 121 doc summaries. KNN search via apsw.', x:620, y:420, w:145, h:50, layer:'data' },
+  { id:'registry',    label:'registry.json',  subtitle:'data/people/',            desc:'People registry: Person objects with name_en/zh, relationship, birth_year, linked Immich face cluster IDs. 1,241 clusters.', x:800, y:420, w:135, h:50, layer:'data' },
+  { id:'chronology',  label:'chronology.json',subtitle:'data/',                   desc:'Bilingual timeline artifact (Chinese-first). Events by decade with associated people, locations, and documents. 1.7 MB.', x:440, y:490, w:145, h:40, layer:'data' },
+  { id:'fts-index',   label:'FTS5 Index',     subtitle:'SQLite full-text',        desc:'Full-text search over extracted document text. Powers /api/doc-search in the dashboard.', x:260, y:490, w:120, h:40, layer:'data' },
+
+  // Presentation (y: 570)
+  { id:'dashboard',   label:'Dashboard',      subtitle:'dashboard.py + API',      desc:'Main UI: 11 tabs (Overview, Photo Runs, Quality, Batch, Doc Corpus, Doc Search, People, Synthesis 5x, Toolbox). 40+ API routes. Port 8378.', x:180, y:570, w:155, h:50, layer:'present' },
+  { id:'review',      label:'Review Site',    subtitle:'review.py + HTML',        desc:'Human-in-the-loop metadata review. Dual-pane: photo + correction form. Keyboard shortcuts (A=approve, S=skip). Push to Immich. Port 8377.', x:380, y:570, w:145, h:50, layer:'present' },
+  { id:'immich-ui',   label:'Immich UI',      subtitle:'archives.kennyliu.io',    desc:'Photo browsing, face recognition, album organization. Family access via Cloudflare tunnel with email OTP.', x:570, y:570, w:145, h:50, layer:'present' },
+  { id:'blog',        label:'Blog',           subtitle:'kennyliu.io/living-archive',desc:'Public-facing stories and methodology writeups. Drafted by content agent (openclaw), published via Ghost CMS.', x:760, y:570, w:140, h:50, layer:'present' },
+
+  // Experiments (y: 340)
+  { id:'exp-0002',    label:'Exp 0002',       subtitle:'Synthesis Layer',         desc:'Entity extraction experiment (completed, promoted to src/). Tested 3 person dedup branches: string normalization, fuzzy/phonetic, LLM clustering. LLM won.', x:400, y:340, w:130, h:40, layer:'experiment' },
+  { id:'exp-0003',    label:'Exp 0003',       subtitle:'Multimodal Embeddings',   desc:'Gemini Embedding 2 experiment (completed). Text-to-image precision@1=0.70. 768d Matryoshka retains 90% quality. Full corpus embedded: 2,133 assets.', x:560, y:340, w:150, h:40, layer:'experiment' },
+  { id:'search-cli',  label:'search.py',      subtitle:'Semantic search CLI',     desc:'Interactive search: text queries find photos, --similar finds visual neighbors by SHA256 or image path. 13-19ms per query over 2k vectors.', x:730, y:340, w:130, h:40, layer:'experiment' },
+];
+
+// ── Connections ──
+const connections = [
+  // Source → Pipeline
+  { from:'nas-photos', to:'run-batch',   type:'data-flow', label:'TIFFs/JPEGs' },
+  { from:'nas-photos', to:'convert',     type:'data-flow', label:'' },
+  { from:'nas-docs',   to:'doc-extract', type:'data-flow', label:'PDFs' },
+
+  // Pipeline internal
+  { from:'run-batch',  to:'convert',     type:'data-flow', label:'' },
+  { from:'run-batch',  to:'analyze',     type:'data-flow', label:'' },
+  { from:'run-batch',  to:'discover',    type:'reads',     label:'' },
+  { from:'run-batch',  to:'triage',      type:'reads',     label:'' },
+  { from:'convert',    to:'analyze',     type:'data-flow', label:'JPEG' },
+  { from:'analyze',    to:'manifest',    type:'writes',    label:'' },
+  { from:'doc-extract',to:'doc-analyze', type:'data-flow', label:'' },
+  { from:'synthesis',  to:'sync-people', type:'data-flow', label:'' },
+
+  // Pipeline → External
+  { from:'analyze',    to:'claude',      type:'api-call',  label:'Vision' },
+  { from:'doc-analyze',to:'claude',      type:'api-call',  label:'Opus' },
+  { from:'run-batch',  to:'immich-py',   type:'data-flow', label:'push' },
+  { from:'immich-py',  to:'immich-srv',  type:'api-call',  label:'REST' },
+  { from:'sync-people',to:'immich-srv',  type:'api-call',  label:'faces' },
+
+  // Pipeline → Data
+  { from:'manifest',   to:'manifests',   type:'writes',    label:'' },
+  { from:'doc-analyze',to:'manifests',   type:'writes',    label:'' },
+  { from:'run-batch',  to:'catalog-db',  type:'writes',    label:'' },
+  { from:'doc-extract',to:'catalog-db',  type:'writes',    label:'' },
+  { from:'doc-extract',to:'fts-index',   type:'writes',    label:'' },
+  { from:'synthesis',  to:'synthesis-db', type:'writes',   label:'' },
+  { from:'synthesis',  to:'chronology',  type:'writes',    label:'' },
+  { from:'sync-people',to:'registry',    type:'writes',    label:'' },
+
+  // Data reads
+  { from:'synthesis',  to:'manifests',   type:'reads',     label:'' },
+  { from:'synthesis',  to:'catalog-db',  type:'reads',     label:'' },
+
+  // Experiments
+  { from:'exp-0002',   to:'synthesis',   type:'data-flow', label:'promoted' },
+  { from:'exp-0003',   to:'embeddings-db',type:'writes',   label:'' },
+  { from:'exp-0003',   to:'gemini',      type:'api-call',  label:'embed' },
+  { from:'search-cli', to:'embeddings-db',type:'reads',    label:'KNN' },
+  { from:'search-cli', to:'gemini',      type:'api-call',  label:'query' },
+  { from:'exp-0003',   to:'manifests',   type:'reads',     label:'text' },
+  { from:'exp-0003',   to:'nas-photos',  type:'reads',     label:'images' },
+
+  // Presentation → Data
+  { from:'dashboard',  to:'catalog-db',  type:'reads',     label:'' },
+  { from:'dashboard',  to:'synthesis-db', type:'reads',    label:'' },
+  { from:'dashboard',  to:'fts-index',   type:'reads',     label:'' },
+  { from:'dashboard',  to:'registry',    type:'reads',     label:'' },
+  { from:'review',     to:'manifests',   type:'reads',     label:'' },
+  { from:'review',     to:'immich-py',   type:'api-call',  label:'push' },
+
+  // Presentation → External
+  { from:'immich-ui',  to:'immich-srv',  type:'serves',    label:'' },
+  { from:'immich-ui',  to:'cloudflare',  type:'serves',    label:'tunnel' },
+  { from:'blog',       to:'ghost',       type:'serves',    label:'' },
+];
+
+// ── State ──
+const state = {
+  layers: Object.fromEntries(Object.keys(LAYERS).map(k => [k, true])),
+  conns: Object.fromEntries(Object.keys(CONN_TYPES).map(k => [k, true])),
+  comments: [],
+  zoom: 1,
+  panX: 0, panY: 0,
+  activePreset: 'full',
+  modalNode: null,
+};
+
+const PRESETS = {
+  full:       { label: 'Full System',     layers: ['external','source','pipeline','data','present','experiment'] },
+  pipeline:   { label: 'Photo Pipeline',  layers: ['source','pipeline','data','external'], highlight: ['nas-photos','run-batch','convert','analyze','manifest','manifests','catalog-db','claude','immich-py','immich-srv','discover','triage'] },
+  documents:  { label: 'Doc Pipeline',    layers: ['source','pipeline','data','external'], highlight: ['nas-docs','doc-extract','doc-analyze','manifests','catalog-db','fts-index','claude'] },
+  synthesis:  { label: 'Synthesis',       layers: ['pipeline','data','experiment'], highlight: ['synthesis','synthesis-db','chronology','manifests','catalog-db','exp-0002','sync-people','registry'] },
+  embeddings: { label: 'Embeddings',      layers: ['source','data','experiment','external'], highlight: ['exp-0003','embeddings-db','search-cli','gemini','manifests','nas-photos'] },
+  present:    { label: 'Presentation',    layers: ['present','data','pipeline','external'], highlight: ['dashboard','review','immich-ui','blog','catalog-db','synthesis-db','registry','fts-index','immich-py','immich-srv','ghost','cloudflare'] },
+};
+
+// ── Rendering ──
+function renderAll() {
+  renderDiagram();
+  renderComments();
+  updatePrompt();
+}
+
+function renderDiagram() {
+  const svg = document.getElementById('diagram');
+  const wrap = document.getElementById('canvas-wrap');
+  const W = wrap.clientWidth, H = wrap.clientHeight;
+  svg.setAttribute('viewBox', `${-state.panX/state.zoom} ${-state.panY/state.zoom} ${W/state.zoom} ${H/state.zoom}`);
+
+  let html = '';
+
+  // Arrow markers
+  for (const [type, cfg] of Object.entries(CONN_TYPES)) {
+    html += `<marker id="arrow-${type}" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="${cfg.color}" opacity="0.8"/></marker>`;
+  }
+
+  // Connections
+  const visibleLayers = new Set(Object.entries(state.layers).filter(([,v])=>v).map(([k])=>k));
+  const preset = PRESETS[state.activePreset];
+  const highlightSet = preset.highlight ? new Set(preset.highlight) : null;
+
+  for (const c of connections) {
+    if (!state.conns[c.type]) continue;
+    const fromNode = nodes.find(n => n.id === c.from);
+    const toNode = nodes.find(n => n.id === c.to);
+    if (!fromNode || !toNode) continue;
+    if (!visibleLayers.has(fromNode.layer) || !visibleLayers.has(toNode.layer)) continue;
+
+    const cfg = CONN_TYPES[c.type];
+    let opacity = 0.5;
+    if (highlightSet) {
+      opacity = (highlightSet.has(c.from) && highlightSet.has(c.to)) ? 0.7 : 0.12;
+    }
+
+    const x1 = fromNode.x + fromNode.w/2, y1 = fromNode.y + fromNode.h;
+    const x2 = toNode.x + toNode.w/2, y2 = toNode.y;
+    const midY = (y1 + y2) / 2;
+
+    // Smart routing
+    let path;
+    if (Math.abs(y1 - y2) < 10) {
+      // Same band — horizontal
+      const fy = fromNode.y + fromNode.h/2;
+      const ty = toNode.y + toNode.h/2;
+      const fx = fromNode.x + fromNode.w;
+      const tx = toNode.x;
+      const mx = (fx + tx)/2;
+      path = `M${fx},${fy} C${mx},${fy} ${mx},${ty} ${tx},${ty}`;
+    } else if (y2 < y1) {
+      // Going up
+      const fx = fromNode.x + fromNode.w/2;
+      const fy = fromNode.y;
+      const tx = toNode.x + toNode.w/2;
+      const ty = toNode.y + toNode.h;
+      const my = (fy + ty)/2;
+      path = `M${fx},${fy} C${fx},${my} ${tx},${my} ${tx},${ty}`;
+    } else {
+      path = `M${x1},${y1} C${x1},${midY} ${x2},${midY} ${x2},${y2}`;
+    }
+
+    html += `<path d="${path}" fill="none" stroke="${cfg.color}" stroke-width="1.5" opacity="${opacity}" ${cfg.dash ? `stroke-dasharray="${cfg.dash}"` : ''} marker-end="url(#arrow-${c.type})"/>`;
+
+    if (c.label && opacity > 0.15) {
+      const lx = (x1+x2)/2, ly = (y1+y2)/2 - 4;
+      html += `<text x="${lx}" y="${ly}" fill="${cfg.color}" font-size="9" text-anchor="middle" opacity="${opacity+0.2}">${c.label}</text>`;
+    }
+  }
+
+  // Nodes
+  for (const n of nodes) {
+    if (!visibleLayers.has(n.layer)) continue;
+    const L = LAYERS[n.layer];
+    let opacity = 1;
+    let strokeWidth = 1.5;
+    let stroke = L.border;
+
+    if (highlightSet && !highlightSet.has(n.id)) {
+      opacity = 0.2;
+    }
+
+    const hasComment = state.comments.some(c => c.target === n.id);
+    if (hasComment) {
+      stroke = '#6c8cff';
+      strokeWidth = 2.5;
+    }
+
+    html += `<g class="node" data-id="${n.id}" opacity="${opacity}" style="cursor:pointer" onclick="openModal('${n.id}')">`;
+    html += `<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="6" fill="${L.color}" stroke="${stroke}" stroke-width="${strokeWidth}"/>`;
+    html += `<text x="${n.x+n.w/2}" y="${n.y+18}" fill="${L.textColor}" font-size="11.5" font-weight="600" text-anchor="middle">${n.label}</text>`;
+    html += `<text x="${n.x+n.w/2}" y="${n.y+32}" fill="#666" font-size="9" text-anchor="middle" font-family="var(--mono)">${n.subtitle}</text>`;
+    if (n.h > 45) {
+      // no extra line needed
+    }
+    if (hasComment) {
+      html += `<circle cx="${n.x+n.w-6}" cy="${n.y+6}" r="5" fill="#6c8cff"/>`;
+      html += `<text x="${n.x+n.w-6}" y="${n.y+9}" fill="#fff" font-size="7" text-anchor="middle" font-weight="700">${state.comments.filter(c=>c.target===n.id).length}</text>`;
+    }
+    html += `</g>`;
+  }
+
+  // Layer band labels
+  const bands = [
+    { layer:'external', y:8, label:'External Services' },
+    { layer:'source',   y:98, label:'Source Data (NAS)' },
+    { layer:'pipeline', y:188, label:'Pipeline' },
+    { layer:'experiment',y:330, label:'Experiments' },
+    { layer:'data',     y:408, label:'Data Stores' },
+    { layer:'present',  y:558, label:'Presentation' },
+  ];
+  for (const b of bands) {
+    if (!visibleLayers.has(b.layer)) continue;
+    const L = LAYERS[b.layer];
+    html += `<text x="12" y="${b.y}" fill="${L.border}" font-size="9" font-weight="600" text-transform="uppercase" opacity="0.6">${b.label}</text>`;
+  }
+
+  svg.innerHTML = html;
+}
+
+// ── Controls ──
+function renderPresets() {
+  const el = document.getElementById('presets');
+  el.innerHTML = Object.entries(PRESETS).map(([k,v]) =>
+    `<button class="preset-btn ${state.activePreset===k?'active':''}" onclick="setPreset('${k}')">${v.label}</button>`
+  ).join('');
+}
+
+function renderLayerChecks() {
+  const el = document.getElementById('layer-checks');
+  el.innerHTML = Object.entries(LAYERS).map(([k,v]) => `
+    <label class="check-item">
+      <input type="checkbox" ${state.layers[k]?'checked':''} onchange="toggleLayer('${k}',this.checked)">
+      <div class="check-box"></div>
+      <div class="dot" style="background:${v.border}"></div>
+      <span>${v.label}</span>
+    </label>
+  `).join('');
+}
+
+function renderConnChecks() {
+  const el = document.getElementById('conn-checks');
+  el.innerHTML = Object.entries(CONN_TYPES).map(([k,v]) => `
+    <label class="check-item">
+      <input type="checkbox" ${state.conns[k]?'checked':''} onchange="toggleConn('${k}',this.checked)">
+      <div class="check-box"></div>
+      <div class="dot" style="background:${v.color}"></div>
+      <span>${v.label}</span>
+    </label>
+  `).join('');
+}
+
+function renderLegend() {
+  const el = document.getElementById('legend');
+  el.innerHTML = Object.entries(CONN_TYPES).map(([k,v]) =>
+    `<div class="legend-item"><div class="legend-line" style="background:${v.color};${v.dash?`background:repeating-linear-gradient(90deg,${v.color} 0,${v.color} 4px,transparent 4px,transparent 7px)`:''}" ></div><span style="color:var(--text2)">${v.label}</span></div>`
+  ).join('');
+}
+
+function setPreset(name) {
+  state.activePreset = name;
+  const p = PRESETS[name];
+  for (const k of Object.keys(LAYERS)) state.layers[k] = p.layers.includes(k);
+  renderLayerChecks();
+  renderPresets();
+  renderAll();
+}
+
+function toggleLayer(k, v) { state.layers[k] = v; state.activePreset = 'custom'; renderPresets(); renderAll(); }
+function toggleConn(k, v) { state.conns[k] = v; renderAll(); }
+
+// ── Zoom ──
+function zoom(factor) { state.zoom = Math.max(0.4, Math.min(3, state.zoom * factor)); renderDiagram(); }
+function resetZoom() { state.zoom = 1; state.panX = 0; state.panY = 0; renderDiagram(); }
+
+// ── Pan ──
+let isPanning = false, panStart = {x:0,y:0};
+document.getElementById('canvas-wrap').addEventListener('mousedown', e => {
+  if (e.target.closest('.node')) return;
+  isPanning = true; panStart = {x: e.clientX - state.panX, y: e.clientY - state.panY};
+});
+document.addEventListener('mousemove', e => {
+  if (!isPanning) return;
+  state.panX = e.clientX - panStart.x;
+  state.panY = e.clientY - panStart.y;
+  renderDiagram();
+});
+document.addEventListener('mouseup', () => isPanning = false);
+document.getElementById('canvas-wrap').addEventListener('wheel', e => {
+  e.preventDefault();
+  zoom(e.deltaY < 0 ? 1.08 : 1/1.08);
+}, {passive:false});
+
+// ── Comments ──
+function openModal(nodeId) {
+  const n = nodes.find(x => x.id === nodeId);
+  if (!n) return;
+  state.modalNode = n;
+  document.getElementById('modal-title').textContent = n.label;
+  document.getElementById('modal-subtitle').textContent = n.subtitle;
+  document.getElementById('modal-desc').textContent = n.desc;
+  document.getElementById('modal-text').value = '';
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('modal-text').focus(), 100);
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  state.modalNode = null;
+}
+
+function saveComment() {
+  const text = document.getElementById('modal-text').value.trim();
+  if (!text || !state.modalNode) return;
+  state.comments.push({
+    id: Date.now(),
+    target: state.modalNode.id,
+    targetLabel: state.modalNode.label,
+    targetFile: state.modalNode.subtitle,
+    text,
+  });
+  closeModal();
+  renderAll();
+}
+
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Enter' && e.metaKey) saveComment();
+});
+
+function deleteComment(id) {
+  state.comments = state.comments.filter(c => c.id !== id);
+  renderAll();
+}
+
+function renderComments() {
+  const el = document.getElementById('comments-container');
+  const cnt = document.getElementById('comment-count');
+  cnt.textContent = state.comments.length ? `(${state.comments.length})` : '';
+  if (!state.comments.length) {
+    el.innerHTML = '<div class="no-comments">Click a component to add feedback</div>';
+    return;
+  }
+  el.innerHTML = '<div class="comments-list">' + state.comments.map(c => `
+    <div class="comment-item">
+      <div class="target">${c.targetLabel}</div>
+      <div class="body">${c.text}</div>
+      <button class="del" onclick="deleteComment(${c.id})">&times;</button>
+    </div>
+  `).join('') + '</div>';
+}
+
+// ── Prompt ──
+function updatePrompt() {
+  const el = document.getElementById('prompt-output');
+  const visibleLayers = Object.entries(state.layers).filter(([,v])=>v).map(([k])=>LAYERS[k].label);
+  const preset = PRESETS[state.activePreset];
+
+  let parts = [];
+  parts.push(`This is the Living Archive architecture${preset ? ` (${preset.label} view)` : ''}, showing: ${visibleLayers.join(', ')}.`);
+  parts.push('');
+  parts.push('Living Archive is an AI-assisted family archival system with three layers: Source Data (read-only NAS), AI Layer (local regeneratable manifests + databases), and Presentation (Immich + dashboard + blog). It processes scanned photos via Claude Vision and documents via Claude Opus, builds entity graphs via synthesis, and enables semantic search via Gemini multimodal embeddings.');
+
+  if (state.comments.length) {
+    parts.push('');
+    parts.push('Feedback on specific components:');
+    for (const c of state.comments) {
+      parts.push('');
+      parts.push(`**${c.targetLabel}** (${c.targetFile}):`);
+      parts.push(c.text);
+    }
+  }
+
+  el.textContent = parts.join('\n');
+}
+
+function copyPrompt() {
+  const text = document.getElementById('prompt-output').textContent;
+  navigator.clipboard.writeText(text);
+  const btn = document.querySelector('.copy-btn');
+  btn.textContent = 'Copied!';
+  setTimeout(() => btn.textContent = 'Copy', 1200);
+}
+
+// ── Init ──
+renderPresets();
+renderLayerChecks();
+renderConnChecks();
+renderLegend();
+renderAll();
+window.addEventListener('resize', renderDiagram);
+</script>
+</body>
+</html>

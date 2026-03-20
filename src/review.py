@@ -24,6 +24,7 @@ import httpx
 from . import config
 from .immich import (
     _client as immich_client,
+    apply_rotation,
     build_path_lookup,
     date_estimate_to_iso,
     search_assets_by_path,
@@ -179,9 +180,13 @@ def push_reviewed_to_immich(run_id: str) -> dict:
                 date_time_original=date_estimate_to_iso(date_str) if date_str else None,
                 description=desc if desc else None,
             )
+            # Push rotation if set in manifest
+            rotation = item.get("rotation", 0)
+            if rotation:
+                apply_rotation(client, asset_id, rotation)
             pushed += 1
         except Exception as e:
-            errors.append(f"{source_name}: {e}")
+            errors.append(f"{Path(item['source_file']).name}: {e}")
 
     return {"pushed": pushed, "skipped": skipped, "errors": errors}
 

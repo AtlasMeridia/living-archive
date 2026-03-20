@@ -1,0 +1,16 @@
+{
+  "test_photo": {
+    "sha256": "abf66d95f234655ba00d3f1f788888c311b02f80d27c2f66d09ef1d09ee748d2",
+    "path": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1/Photos_0716.jpg",
+    "content_type": "photo",
+    "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1"
+  },
+  "test_doc": {
+    "sha256": "185fd70c0ec01e500dbef809d140c87c60fbc1342cf59793dd8be94ee439bcab",
+    "path": "Liu Family Trust Filings & Documents/Work Life/FENG KUANG LIU MS Diplomas.pdf",
+    "content_type": "document",
+    "slice": "Liu Family Trust Filings & Documents/Work Life"
+  },
+  "doc_text_file": "/Users/atlas/Projects/living-archive/data/documents/runs/20260207T044501Z/extracted-text/185fd70c0ec0.txt",
+  "photo_full_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1/Photos_0716.jpg"
+}

@@ -1,0 +1,173 @@
+{
+  "3072": {
+    "queries": 10,
+    "avg_search_latency_ms": 4.500620788894594,
+    "max_search_latency_ms": 7.192416000179946,
+    "top1_results": [
+      {
+        "query": "family dinner",
+        "distance": 0.5862435102462769,
+        "description": "A group of four to five adults gathered around a dining tabl"
+      },
+      {
+        "query": "wedding ceremony",
+        "distance": 0.606127142906189,
+        "description": "A Christian wedding ceremony captured at the moment of the r"
+      },
+      {
+        "query": "children playing outdoors",
+        "distance": 0.6843740344047546,
+        "description": "Four Asian-American children sit together on a brown couch i"
+      },
+      {
+        "query": "formal portrait",
+        "distance": 0.6312645673751831,
+        "description": "A school or studio portrait of a young Asian girl, approxima"
+      },
+      {
+        "query": "Taiwan landscape",
+        "distance": 0.6579424142837524,
+        "description": "A formal family portrait of five people standing on a brick-"
+      },
+      {
+        "query": "grandmother with grandchildren",
+        "distance": 0.5836314558982849,
+        "description": "A family visit to an elderly woman in a care facility. An el"
+      },
+      {
+        "query": "Chinese New Year",
+        "distance": 0.6618598699569702,
+        "description": "A street scene showing traditional Chinese-style buildings ("
+      },
+      {
+        "query": "old faded 1970s photograph",
+        "distance": 0.5932137370109558,
+        "description": "A wedding portrait taken outside a red brick church on a sun"
+      },
+      {
+        "query": "legal document",
+        "distance": 0.7067559361457825,
+        "description": "A large professional conference or seminar held in an elegan"
+      },
+      {
+        "query": "three generations together",
+        "distance": 0.5598262548446655,
+        "description": "A family visit to an elderly woman in a care facility. An el"
+      }
+    ]
+  },
+  "768": {
+    "queries": 10,
+    "avg_search_latency_ms": 1.0278417961671948,
+    "max_search_latency_ms": 2.19258398283273,
+    "top1_results": [
+      {
+        "query": "family dinner",
+        "distance": 0.5691183805465698,
+        "description": "A group of four to five adults gathered around a dining tabl"
+      },
+      {
+        "query": "wedding ceremony",
+        "distance": 0.5898141860961914,
+        "description": "A Christian wedding ceremony captured at the moment of the r"
+      },
+      {
+        "query": "children playing outdoors",
+        "distance": 0.6675369739532471,
+        "description": "Four Asian-American children sit together on a brown couch i"
+      },
+      {
+        "query": "formal portrait",
+        "distance": 0.6166475415229797,
+        "description": "A school or studio portrait of a young Asian girl, approxima"
+      },
+      {
+        "query": "Taiwan landscape",
+        "distance": 0.6392653584480286,
+        "description": "A formal family portrait of five people standing on a brick-"
+      },
+      {
+        "query": "grandmother with grandchildren",
+        "distance": 0.5746010541915894,
+        "description": "A family visit to an elderly woman in a care facility. An el"
+      },
+      {
+        "query": "Chinese New Year",
+        "distance": 0.652263879776001,
+        "description": "A family birthday celebration showing four people gathered a"
+      },
+      {
+        "query": "old faded 1970s photograph",
+        "distance": 0.5787822604179382,
+        "description": "A wedding portrait taken outside a red brick church on a sun"
+      },
+      {
+        "query": "legal document",
+        "distance": 0.6903292536735535,
+        "description": "A large professional conference or seminar held in an elegan"
+      },
+      {
+        "query": "three generations together",
+        "distance": 0.549547553062439,
+        "description": "A family visit to an elderly woman in a care facility. An el"
+      }
+    ]
+  },
+  "1536": {
+    "queries": 10,
+    "avg_search_latency_ms": 2.182233380153775,
+    "max_search_latency_ms": 3.9696249878033996,
+    "top1_results": [
+      {
+        "query": "family dinner",
+        "distance": 0.585891842842102,
+        "description": "A group of four to five adults gathered around a dining tabl"
+      },
+      {
+        "query": "wedding ceremony",
+        "distance": 0.6037931442260742,
+        "description": "A Christian wedding ceremony captured at the moment of the r"
+      },
+      {
+        "query": "children playing outdoors",
+        "distance": 0.6808658838272095,
+        "description": "Four Asian-American children sit together on a brown couch i"
+      },
+      {
+        "query": "formal portrait",
+        "distance": 0.6295967698097229,
+        "description": "A school or studio portrait of a young Asian girl, approxima"
+      },
+      {
+        "query": "Taiwan landscape",
+        "distance": 0.6566720604896545,
+        "description": "A formal family portrait of five people standing on a brick-"
+      },
+      {
+        "query": "grandmother with grandchildren",
+        "distance": 0.5878022313117981,
+        "description": "A family visit to an elderly woman in a care facility. An el"
+      },
+      {
+        "query": "Chinese New Year",
+        "distance": 0.6649232506752014,
+        "description": "Three women and a toddler gather in a warmly decorated livin"
+      },
+      {
+        "query": "old faded 1970s photograph",
+        "distance": 0.5897536873817444,
+        "description": "A wedding portrait taken outside a red brick church on a sun"
+      },
+      {
+        "query": "legal document",
+        "distance": 0.7055656909942627,
+        "description": "A large professional conference or seminar held in an elegan"
+      },
+      {
+        "query": "three generations together",
+        "distance": 0.5588117241859436,
+        "description": "A family visit to an elderly woman in a care facility. An el"
+      }
+    ]
+  }
+}

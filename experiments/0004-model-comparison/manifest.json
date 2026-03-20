@@ -1,0 +1,9 @@
+{
+  "experiment_id": "0004",
+  "name": "model-comparison",
+  "title": "Claude Opus 4.6 vs GPT 5.4 — Full Corpus Comparison",
+  "status": "in-progress",
+  "created": "2026-03-12",
+  "phases": ["p0-setup", "p1-claude", "p2-gpt", "p3-compare", "p4-synthesis", "p5-report"],
+  "tags": ["multi-model", "comparison", "photos", "documents", "synthesis"]
+}

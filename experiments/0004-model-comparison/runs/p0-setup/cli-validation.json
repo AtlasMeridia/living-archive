@@ -1,0 +1,36 @@
+{
+  "status": "PASSED",
+  "tests": {
+    "claude_photo": {
+      "status": "OK",
+      "model": "opus",
+      "fields_returned": 14,
+      "tokens": "5+1342"
+    },
+    "claude_document": {
+      "status": "OK",
+      "model": "opus",
+      "fields_returned": 12,
+      "tokens": "3+671"
+    },
+    "gpt_photo": {
+      "status": "OK",
+      "model": "gpt-5.4",
+      "fields_returned": 14,
+      "tokens": "18012+483"
+    },
+    "gpt_document": {
+      "status": "OK",
+      "model": "gpt-5.4",
+      "fields_returned": 12,
+      "tokens": "17838+642"
+    }
+  },
+  "corpus": {
+    "total_assets": 2140,
+    "photos": 2019,
+    "documents": 121,
+    "accessible_jpegs": 1906,
+    "docs_with_text": 121
+  }
+}

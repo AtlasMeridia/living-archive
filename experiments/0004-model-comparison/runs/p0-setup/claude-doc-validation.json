@@ -1,0 +1,45 @@
+{
+  "analysis": {
+    "document_type": "personal/certificate",
+    "title": "Feng-Kuang Liu Master of Science Diplomas — Washington University (1970) and Illinois Institute of Technology (1974)",
+    "date": "1970-01-21",
+    "date_confidence": 0.95,
+    "summary_en": "Two Master of Science diplomas for Feng-Kuang Liu. The first is from the Sever Institute of Technology at Washington University in St. Louis, conferred on January 21, 1970. The second is from the Illinois Institute of Technology in Chicago, conferring a Master of Science in Industrial Engineering on May 12, 1974.",
+    "summary_zh": "劉豐光的兩張碩士學位證書。第一張由聖路易華盛頓大學塞弗理工學院於1970年1月21日頒發理學碩士學位。第二張由芝加哥伊利諾理工學院於1974年5月12日頒發工業工程理學碩士學位。",
+    "key_people": [
+      "Feng-Kuang Liu",
+      "Thomas H. Eliot",
+      "James M. McKelvey",
+      "Charles Allen Thomas",
+      "Joe F. Evans",
+      "M. S. Venema",
+      "J. A. Sunderlich"
+    ],
+    "key_dates": [
+      "1970-01-21",
+      "1974-05-12"
+    ],
+    "sensitivity": {
+      "has_ssn": false,
+      "has_financial": false,
+      "has_medical": false
+    },
+    "tags": [
+      "certificate",
+      "education",
+      "personal",
+      "graduate-degree",
+      "engineering"
+    ],
+    "language": "English",
+    "quality": "good"
+  },
+  "inference": {
+    "provider": "claude",
+    "model": "opus",
+    "prompt_version": "document_analysis_v2",
+    "timestamp": "2026-03-12T22:37:30.424585+00:00",
+    "input_tokens": 3,
+    "output_tokens": 671
+  }
+}

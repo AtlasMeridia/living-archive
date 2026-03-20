@@ -1,0 +1,6 @@
+apsw==3.52.0.0
+google-genai==1.66.0
+numpy==2.4.2
+scikit-learn==1.8.0
+sqlite-vec==0.1.6
+Pillow (system)

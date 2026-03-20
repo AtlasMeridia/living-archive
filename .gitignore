@@ -42,6 +42,11 @@ private/
 # AI layer data (local, regeneratable)
 data/
 
+# Experiment artifacts (large, regeneratable)
+experiments/**/*.db
+experiments/0004-model-comparison/runs/p1-claude/
+experiments/0004-model-comparison/runs/p2-gpt/
+
 # Python
 __pycache__/
 *.pyc

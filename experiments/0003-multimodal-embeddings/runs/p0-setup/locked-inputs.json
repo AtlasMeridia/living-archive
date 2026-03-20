@@ -1,0 +1,419 @@
+{
+  "curated_at": "2026-03-12T04:27:51.592562+00:00",
+  "catalog_db": "/Users/atlas/Projects/living-archive/data/catalog.db",
+  "photo_count": 40,
+  "document_count": 10,
+  "total": 50,
+  "assets": [
+    {
+      "sha256": "88d8bb4227c2d6f24aece46d9a0d6a4b4318241d4c6679c64ffb3c307b570081",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2009 Scanned Media/1978/Scanned Image 17.tiff",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T053431Z/manifests/88d8bb4227c2.json",
+      "slice": "2009 Scanned Media/1978",
+      "label": "1978 scans"
+    },
+    {
+      "sha256": "db9567e401f1fd62ece108a515a0214f69d22330363a354ecce510cd532aaa93",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2009 Scanned Media/1978/Scanned Image 7.tiff",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T053431Z/manifests/db9567e401f1.json",
+      "slice": "2009 Scanned Media/1978",
+      "label": "1978 scans"
+    },
+    {
+      "sha256": "82aaae108f8941569af97b0aee1bad789d70fd45293c6b9640f9a3a55547c7a2",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2009 Scanned Media/1978/Scanned Image.tiff",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T053431Z/manifests/82aaae108f89.json",
+      "slice": "2009 Scanned Media/1978",
+      "label": "1978 scans"
+    },
+    {
+      "sha256": "993b6e4880768ca19685cb036402ca2dd96f76344f644a1c4e9d6559d9d57de1",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2009 Scanned Media/1978/Scanned Image 13.tiff",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T053431Z/manifests/993b6e488076.json",
+      "slice": "2009 Scanned Media/1978",
+      "label": "1978 scans"
+    },
+    {
+      "sha256": "3741ee41be142dc6f779d51fbf1cabdc72052c2acc8f1b12360c2089b8db4480",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2009 Scanned Media/1978/Scanned Image 3.tiff",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T053431Z/manifests/3741ee41be14.json",
+      "slice": "2009 Scanned Media/1978",
+      "label": "1978 scans"
+    },
+    {
+      "sha256": "ff1d0999b2945b3ed898b172dbd3e67b874819ec2fe6aa800f055e8f1ddb5ec7",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2009 Scanned Media/1980-1982/Scanned Image 16.tiff",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260206T222119Z/manifests/ff1d0999b294.json",
+      "slice": "2009 Scanned Media/1980-1982",
+      "label": "1980-82 scans"
+    },
+    {
+      "sha256": "d20b9dc9b9dceb8955b05483f5de318e1c164610ccf40c6a38a544a05a5c5cda",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2009 Scanned Media/1980-1982/Scanned Image 13.tiff",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260206T222119Z/manifests/d20b9dc9b9dc.json",
+      "slice": "2009 Scanned Media/1980-1982",
+      "label": "1980-82 scans"
+    },
+    {
+      "sha256": "84e4e5f5dc08635735240b4870e4a2dfcb829cb53a1ff5327fb044abf5ed9081",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2009 Scanned Media/1980-1982/Scanned Image 29.tiff",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260206T222119Z/manifests/84e4e5f5dc08.json",
+      "slice": "2009 Scanned Media/1980-1982",
+      "label": "1980-82 scans"
+    },
+    {
+      "sha256": "a141361bab97b64ec880d5c3018131dd75ba5bf3c1b3c02d2206e39916645279",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2009 Scanned Media/1980-1982/Scanned Image 11.tiff",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260206T222119Z/manifests/a141361bab97.json",
+      "slice": "2009 Scanned Media/1980-1982",
+      "label": "1980-82 scans"
+    },
+    {
+      "sha256": "e1956600cc9032cdb9b58e4dd7bbe552de3215ae602d9cf09584a949f53f4f68",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2009 Scanned Media/1980-1982/Scanned Image 30.tiff",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260206T222119Z/manifests/e1956600cc90.json",
+      "slice": "2009 Scanned Media/1980-1982",
+      "label": "1980-82 scans"
+    },
+    {
+      "sha256": "17f7a83586bf2129473550ec86266121d108e6daf595dcd5f3f02c51dfb35d95",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding/Photos_0980.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260228T100154Z/manifests/17f7a83586bf.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding",
+      "label": "Wedding album"
+    },
+    {
+      "sha256": "aed2b2230cd3e7d1fca928bb37f49b736c7b2e41c37f5158794fa7007a7e917e",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding/Photos_1013.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260228T100154Z/manifests/aed2b2230cd3.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding",
+      "label": "Wedding album"
+    },
+    {
+      "sha256": "48c23be94d6c3fbc82a8d2d7e2073c0baf63fb78744aabfa2b5e74333ef64a03",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding/Photos_0946.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260228T100154Z/manifests/48c23be94d6c.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding",
+      "label": "Wedding album"
+    },
+    {
+      "sha256": "3b6bc8667e21734b0ba4c7386c4f691328ad21a65a196f7c3a78b3310b08a326",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding/Photos_0933.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260228T100154Z/manifests/3b6bc8667e21.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding",
+      "label": "Wedding album"
+    },
+    {
+      "sha256": "7afc35bd06a06a74b7ce3d155cfc88b0069f5129767628b04f8e9cc119a712f4",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding/Photos_1039.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260228T100154Z/manifests/7afc35bd06a0.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding",
+      "label": "Wedding album"
+    },
+    {
+      "sha256": "b19af35129db3ae83d6525af0f89be8d856e6cc9ba6e6dd2a93d6be39e68f300",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding/Photos_0937.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260228T100154Z/manifests/b19af35129db.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding",
+      "label": "Wedding album"
+    },
+    {
+      "sha256": "7adb3d25d2b61e6a1bb3dd6dfb6f5b03db3258a1436e09ae75a32b0e42d97e10",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding/Photos_0998.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260228T100154Z/manifests/7adb3d25d2b6.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding",
+      "label": "Wedding album"
+    },
+    {
+      "sha256": "824000e2396d63d7a5cf33d3dbc8887092182445692e06a20984a69552102e76",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding/Photos_1072.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260228T100154Z/manifests/824000e2396d.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding",
+      "label": "Wedding album"
+    },
+    {
+      "sha256": "23416e80035557e9d451890d740e091462f8f234d5506a91856e67dab357b1a6",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding/Photos_1083.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260228T100154Z/manifests/23416e800355.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding",
+      "label": "Wedding album"
+    },
+    {
+      "sha256": "e3092febab0d054fbe80b85a452398c6be30c6bab41716d58dc1c6b429ed08e4",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding/Photos_0995.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260228T100154Z/manifests/e3092febab0d.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Wedding",
+      "label": "Wedding album"
+    },
+    {
+      "sha256": "e442106f6574e6e8b9c16160573a3f81382f82cb54033b8e31a0d789f3943038",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Big_Red_Album/Photos_1359.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260227T115649Z/manifests/e442106f6574.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Big_Red_Album",
+      "label": "Big Red Album"
+    },
+    {
+      "sha256": "63787287be8998b2272bbf013c2c75958efdaf84f4965a43361d601d7a8c1531",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Big_Red_Album/Photos_1326.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260227T115649Z/manifests/63787287be89.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Big_Red_Album",
+      "label": "Big Red Album"
+    },
+    {
+      "sha256": "dca49cf66bc012526f57375e87fe70121a505d2a5c3e927bcb0858d2cdf8a275",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Big_Red_Album/Photos_1307.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260227T115649Z/manifests/dca49cf66bc0.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Big_Red_Album",
+      "label": "Big Red Album"
+    },
+    {
+      "sha256": "97c506539febd4f3276c7c3519dde0e31b59ec6bebe832274aac9496ff42c9e3",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Big_Red_Album/Photos_1555.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260227T115649Z/manifests/97c506539feb.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Big_Red_Album",
+      "label": "Big Red Album"
+    },
+    {
+      "sha256": "9008a08cb31141bb119aca5b68cf4509daa357a5700b65b70c01b439f1ee07b6",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Big_Red_Album/Photos_1411.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260227T115649Z/manifests/9008a08cb311.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Big_Red_Album",
+      "label": "Big Red Album"
+    },
+    {
+      "sha256": "65696f124b64a4cedcaae15584ea5dfcad1fc150ddb66ee8a8289fa106604ac0",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Pink_Flower_Album/Photos_0314.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T082827Z/manifests/65696f124b64.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Pink_Flower_Album",
+      "label": "Pink Flower Album"
+    },
+    {
+      "sha256": "eb74934bdbce4259a538e18ad6d3f67cf45e0adea15704ab7b7744a7034a54c4",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Pink_Flower_Album/Photos_0278.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T082827Z/manifests/eb74934bdbce.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Pink_Flower_Album",
+      "label": "Pink Flower Album"
+    },
+    {
+      "sha256": "445665e66a50bdd8951e6e24b37d4b2761582473fc49d867b952797ab811c508",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Pink_Flower_Album/Photos_0350.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T082827Z/manifests/445665e66a50.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Pink_Flower_Album",
+      "label": "Pink Flower Album"
+    },
+    {
+      "sha256": "8d05679a8b1ea8b08b463881f739a7ca594cbf97ce773b8f4b64ed976f0dbd4d",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Pink_Flower_Album/Photos_0336.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T082827Z/manifests/8d05679a8b1e.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Pink_Flower_Album",
+      "label": "Pink Flower Album"
+    },
+    {
+      "sha256": "84697c2f97881b65a68501dcaaef9273a4026bb07e2ab4c5cd951b896606782b",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Pink_Flower_Album/Photos_0187.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T082827Z/manifests/84697c2f9788.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Pink_Flower_Album",
+      "label": "Pink Flower Album"
+    },
+    {
+      "sha256": "9b2fe39ea34af8591a56eb16bdd129d1afd97b3e5cc6c44de9ec50bb89a1161a",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2022 Swei Chi/processed/1976-06-19 1.jpeg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T035819Z/manifests/9b2fe39ea34a.json",
+      "slice": "2022 Swei Chi/processed",
+      "label": "2022 Swei Chi"
+    },
+    {
+      "sha256": "c326ea27c2ec45bcabb0b92c93a461ae1d83566ae2f7c5dbb074218579744180",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2022 Swei Chi/processed/1978 (01-02) 51.jpeg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T035819Z/manifests/c326ea27c2ec.json",
+      "slice": "2022 Swei Chi/processed",
+      "label": "2022 Swei Chi"
+    },
+    {
+      "sha256": "69b06540ddc243229dc3d90a9a39e656a6b1706ac0f040bfca520dbbd8432a61",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2022 Swei Chi/processed/1976 11.jpeg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T035819Z/manifests/69b06540ddc2.json",
+      "slice": "2022 Swei Chi/processed",
+      "label": "2022 Swei Chi"
+    },
+    {
+      "sha256": "c8960c0027aedf75a08e75adeb8877079d61dded4d41a25daa4ccf271a8cd6bf",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2022 Swei Chi/processed/1991-08 3.jpeg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T035819Z/manifests/c8960c0027ae.json",
+      "slice": "2022 Swei Chi/processed",
+      "label": "2022 Swei Chi"
+    },
+    {
+      "sha256": "3bd9419cb255f8c5e426e21b2e59f87a7de32f6d3a9dd6d853c3e06cc7ec43eb",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2022 Swei Chi/Karina/S__80265229.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T035332Z/manifests/3bd9419cb255.json",
+      "slice": "2022 Swei Chi/Karina",
+      "label": "2022 Swei Chi"
+    },
+    {
+      "sha256": "1d09f43421aa49c9a0f41c9e769bca318e0e9d7e9e0bb261000915e251497716",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1/Photos_0688.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260305T200532Z/manifests/1d09f43421aa.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1",
+      "label": "assorted"
+    },
+    {
+      "sha256": "36ad41fc920388143f4b9a71b6f32b709ad18f9ce45572b016db0b4ae6f4f2aa",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Gold_Album/Photos_0059.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T043615Z/manifests/36ad41fc9203.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Gold_Album",
+      "label": "assorted"
+    },
+    {
+      "sha256": "b5d7f4564e5e97d34d4829eee33e3cd26b0c21e4e5f6ed82cba725054e4eee70",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1/Photos_0855.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260306T004523Z/manifests/b5d7f4564e5e.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1",
+      "label": "assorted"
+    },
+    {
+      "sha256": "0b9b3eb1a4168e3829667a677dbc7f1f739dce8435f32798da1f4e07ad82f67b",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1/Photos_0511.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260305T011118Z/manifests/0b9b3eb1a416.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Red_Album_1",
+      "label": "assorted"
+    },
+    {
+      "sha256": "317119d3174580c37a4fe02d15ec5e7d807bfa77c69473dcb0726fdcdbacc981",
+      "content_type": "photo",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/2025-2026 Digital Revolution Scans/1st Round/Jpeg/Gold_Album/Photos_0010.jpg",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/photos/runs/20260226T043615Z/manifests/317119d31745.json",
+      "slice": "2025-2026 Digital Revolution Scans/1st Round/Jpeg/Gold_Album",
+      "label": "assorted"
+    },
+    {
+      "sha256": "55438517013b80ab64ae10d08a462398029765f5667394553a93014df4dcc814",
+      "content_type": "document",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust.pdf",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/documents/runs/20260220T042253Z/manifests/55438517013b.json",
+      "slice": "Liu Family Trust Filings & Documents",
+      "document_type": "legal/trust",
+      "label": "trust"
+    },
+    {
+      "sha256": "4578c9c33065442b7250ac797dc2f7fd45b340c5343f8f9a8a1fd8b587e4b7a6",
+      "content_type": "document",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/documents/runs/20260220T042253Z/manifests/4578c9c33065.json",
+      "slice": "Liu Family Trust Filings & Documents",
+      "document_type": "legal/trust",
+      "label": "legal"
+    },
+    {
+      "sha256": "852881cea05fa9d0a6b4f662053748ab0c27bfa27af2ad3c456bdcf879fd467f",
+      "content_type": "document",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/Liu Family Trust Filings & Documents/2011 Liu Estate Settlement Receipts (paid jointly).pdf",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/documents/runs/20260220T042253Z/manifests/852881cea05f.json",
+      "slice": "Liu Family Trust Filings & Documents",
+      "document_type": "financial/statement",
+      "label": "financial"
+    },
+    {
+      "sha256": "74efb60b15d89ef140f1fb4e5158b4746efd77c7599a815b48a3225c6c747dd2",
+      "content_type": "document",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/Liu Family Trust Filings & Documents/2009-01-02 Mortgage Final Payment & Insurance Note.pdf",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/documents/runs/20260220T042253Z/manifests/74efb60b15d8.json",
+      "slice": "Liu Family Trust Filings & Documents",
+      "document_type": "financial/insurance",
+      "label": "insurance"
+    },
+    {
+      "sha256": "a9cfaf21e66d9e9d9e77c37f0d2cb94509fed220d82f242a37a57b8f0bda610c",
+      "content_type": "document",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/Liu Family Trust Filings & Documents/1994-04-02 Weston Dr Letter of Construction Status.pdf",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/documents/runs/20260303T005448Z/manifests/a9cfaf21e66d.json",
+      "slice": "Liu Family Trust Filings & Documents",
+      "document_type": "personal/letter",
+      "label": "letter"
+    },
+    {
+      "sha256": "191e25b99dbb03c0c29679b4f58628f9c05a6691c1e508a33f347b63cbea9687",
+      "content_type": "document",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/Liu Family Trust Filings & Documents/Death Certificates.pdf",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/documents/runs/20260220T042253Z/manifests/191e25b99dbb.json",
+      "slice": "Liu Family Trust Filings & Documents",
+      "document_type": "personal/certificate",
+      "label": "certificate"
+    },
+    {
+      "sha256": "baa84d68df28df1e74837eb6eaa6aa42be1ad1782c827d2ee986b2b137c0dfea",
+      "content_type": "document",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Cards.pdf",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/documents/runs/20260303T005448Z/manifests/baa84d68df28.json",
+      "slice": "Liu Family Trust Filings & Documents/Medical",
+      "document_type": "medical/records",
+      "label": "medical"
+    },
+    {
+      "sha256": "920df846c730bcdfcb3ce209d05ce2f2259771a40dcbbdce0d92e6ad03771d1b",
+      "content_type": "document",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/documents/runs/20260220T042253Z/manifests/920df846c730.json",
+      "slice": "Liu Family Trust Filings & Documents",
+      "document_type": "legal/deed",
+      "label": "deed"
+    },
+    {
+      "sha256": "ddeb92080ec52237a4ea0631ca2a8ae5839d27eac46aa766286deed71813e1c1",
+      "content_type": "document",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/documents/runs/20260303T005448Z/manifests/ddeb92080ec5.json",
+      "slice": "Liu Family Trust Filings & Documents/Medical",
+      "document_type": "employment/correspondence",
+      "label": "employment"
+    },
+    {
+      "sha256": "43b9fb4062bece7235c02ae2da5efdc839b795e47084a62a4003984045183594",
+      "content_type": "document",
+      "source_path": "/Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Guestbook.pdf",
+      "manifest_path": "/Users/atlas/Projects/living-archive/data/documents/runs/20260220T042253Z/manifests/43b9fb4062be.json",
+      "slice": "Liu Family Trust Filings & Documents/Artifacts",
+      "document_type": "personal/memorial",
+      "label": "memorial"
+    }
+  ]
+}
