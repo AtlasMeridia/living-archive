@@ -112,19 +112,22 @@ def setup_logging() -> logging.Logger:
     console.setFormatter(logging.Formatter("%(message)s"))
     logger.addHandler(console)
 
-    # File handler — detailed debug log
+    # File handler — detailed debug log (skip if filesystem is read-only)
     log_dir = REPO_ROOT / "private"
-    log_dir.mkdir(parents=True, exist_ok=True)
-    file_handler = RotatingFileHandler(
-        log_dir / "living-archive.log",
-        maxBytes=5 * 1024 * 1024,
-        backupCount=3,
-    )
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(
-        logging.Formatter("%(asctime)s %(levelname)-8s %(name)s: %(message)s")
-    )
-    logger.addHandler(file_handler)
+    try:
+        log_dir.mkdir(parents=True, exist_ok=True)
+        file_handler = RotatingFileHandler(
+            log_dir / "living-archive.log",
+            maxBytes=5 * 1024 * 1024,
+            backupCount=3,
+        )
+        file_handler.setLevel(logging.DEBUG)
+        file_handler.setFormatter(
+            logging.Formatter("%(asctime)s %(levelname)-8s %(name)s: %(message)s")
+        )
+        logger.addHandler(file_handler)
+    except OSError:
+        pass  # Read-only filesystem (e.g. Docker container)
 
     return logger
 
