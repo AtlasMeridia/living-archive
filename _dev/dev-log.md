@@ -4,6 +4,72 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-03-20 — Dashboard VPS deployment + living-archive.dev domain
+
+### What happened
+
+Deployed the dashboard (`src/dashboard.py`) to the VPS as a Docker container alongside Immich. Registered `living-archive.dev` domain and configured Cloudflare DNS/tunnel routing.
+
+### Infrastructure changes
+
+- **Dashboard container** at `/opt/stacks/dashboard/` — Python 3.11-slim, 3 dependencies (httpx, pydantic, python-dotenv), network_mode host so it can reach Immich at localhost:2283
+- **Domain**: `living-archive.dev` registered (Namecheap), Cloudflare nameservers configured via API
+- **Tunnel routes** on `atlas-archive` tunnel:
+  - `living-archive.dev` → `localhost:2283` (Immich)
+  - `dashboard.living-archive.dev` → `localhost:8378` (Dashboard)
+  - `living-archive.kennyliu.io` → `localhost:2283` (legacy alias, kept)
+- **Deploy key** (ed25519) added to GitHub repo — VPS pulls code via `git pull`, data via rsync
+- **Read-only mode**: VPS dashboard returns 403 on PUT/POST to prevent registry sync conflicts
+
+### Code changes
+
+- `src/dashboard.py`: Added `DASHBOARD_HEADLESS`, `DASHBOARD_READONLY`, `DASHBOARD_PORT` env vars. Tokens CSS falls back to static file when atlas-style-guide unavailable.
+- `src/config.py`: Logger gracefully skips file handler on read-only filesystems (Docker).
+- `deploy/`: Dockerfile, docker-compose.yml, sync.sh (git pull + rsync), setup-vps.sh, .env.example
+
+### Deploy workflow
+
+```
+Local Mac → git push → GitHub ← git pull ← VPS
+Local Mac → ./deploy/sync.sh → rsync data → VPS
+```
+
+`sync.sh` does all three steps: git pull on VPS, checkpoint + rsync SQLite DBs and manifests, restart container.
+
+### Issues resolved
+
+- SSH connection reset on VPS was a stale host key (not fail2ban) — removed old known_hosts entry
+- Docker mount conflict: data mount at `/app/data` failed because `/app` was read-only — moved data mount to `/data`
+- Config.py logging crashed on read-only filesystem — wrapped in try/except
+
+### Cost
+
+`living-archive.dev` domain: ~$12/year (Namecheap). VPS fleet unchanged at €26/mo.
+
+---
+
+## 2026-03-20 — Batch run
+**Run:** `20260320T120000Z` — batch mode, 8 slices attempted
+**Result:** 0/1711 succeeded, 1493 failures
+**Triage skips:** 0
+**Elapsed:** 3,569s (~1.0 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Albumpage` | 33 | 0/33 | 219s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Orange_Textured_Album` | 117 | 0/117 | 166s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Lifes_Garden` | 153 | 0/153 | 390s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Green_Album` | 216 | 0/216 | 412s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Brown_Wooden_Album` | 250 | 0/250 | 499s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Red_Album_1` | 261 | 0/261 | 557s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Grey_Album` | 329 | 0/329 | 650s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Brown_Album_A18` | 352 | 0/352 (partial) | 467s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
 ## 2026-03-17 — Immich migration to VPS
 
 ### What happened

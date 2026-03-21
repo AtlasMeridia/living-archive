@@ -9,7 +9,7 @@ Infrastructure documentation for the Living Archive project.
 | **NAS (DS923+)** | `mneme` | Storage (source media, read-only) | SSH, Tailscale |
 | **EllisAgent (M3 Pro)** | `ellis-mbp` | Execution, scripts, Claude Code | Local, Tailscale |
 | **Atlas (M4 Max)** | `atlas` | Strategy, Claude Desktop | Local, Tailscale |
-| **VPS (Hetzner CPX21)** | `living-archive-vps` | Immich v2.5.6, presentation | Tailscale, Cloudflare Tunnel |
+| **VPS (Hetzner CPX21)** | `living-archive-vps` | Immich v2.5.6 + Dashboard, presentation | Tailscale, Cloudflare Tunnel |
 
 ## Data Flow
 
@@ -17,7 +17,7 @@ Infrastructure documentation for the Living Archive project.
 DATA LAYER (NAS, read-only)                    AI LAYER (local, regeneratable)            PRESENTATION (VPS)
 /Living Archive/Family/Media/            →    data/photos/runs/manifests/         →    Immich v2.5.6 REST API
   Source TIFFs/JPEGs, never modified           one JSON per photo, keyed by SHA-256     PUT /assets, POST /albums
-/Living Archive/Family/Documents/        →    data/documents/runs/manifests/           https://living-archive.kennyliu.io
+/Living Archive/Family/Documents/        →    data/documents/runs/manifests/           https://living-archive.dev
   Source PDFs, never modified                  doc manifests, extracted text, FTS5
 
                                          →    data/catalog.db (schema v2)
@@ -42,7 +42,8 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
     → AI Layer: local data/ directory (manifests, catalog, synthesis)
     → Immich CLI upload: processed JPEGs → VPS Immich (living-archive-vps)
     → Immich API: metadata push (dates, descriptions, albums)
-    → Public Access: https://living-archive.kennyliu.io (Cloudflare Tunnel)
+    → Public Access: https://living-archive.dev (Cloudflare Tunnel)
+    → Dashboard: https://dashboard.living-archive.dev (stats, synthesis, people, search)
 ```
 
 ## Code vs Data Separation
@@ -62,13 +63,16 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
 ## Access Patterns
 
 **Kenny (admin):**
-- `https://living-archive.kennyliu.io` for Immich admin (Cloudflare Tunnel → VPS)
+- `https://living-archive.dev` for Immich admin (Cloudflare Tunnel → VPS)
+- `https://dashboard.living-archive.dev` for dashboard (stats, synthesis, people, search)
 - Tailscale → `living-archive-vps` for SSH/direct access
 - SSH → `mneme_admin@mneme.local` for NAS source media operations
 - Local Mac runs pipeline scripts
 
 **Family/friends (view/comment):**
-- `https://living-archive.kennyliu.io` → Immich user accounts (invite-based)
+- `https://living-archive.dev` → Immich user accounts (invite-based)
+
+Note: `living-archive.kennyliu.io` remains active as an alias for Immich.
 
 ## Key Paths Reference
 
@@ -95,7 +99,10 @@ Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). 
 /opt/stacks/immich/                                # Immich Docker Compose stack
 /opt/stacks/immich/upload/                         # Uploaded photo storage
 /opt/stacks/immich/.env                            # DB credentials (chmod 600)
-/home/atlas/living-archive-data/                   # Synced AI layer mirror (rsync target)
+/opt/stacks/dashboard/                             # Dashboard Docker Compose stack
+/opt/stacks/dashboard/.env                         # IMMICH_API_KEY, readonly/headless flags
+/home/atlas/living-archive/                        # Git clone (deploy key, read-only)
+/home/atlas/living-archive-data/                   # Synced AI layer mirror (rsync from Mac)
 
 # Local
 ~/Projects/living-archive/                         # This repo
@@ -117,7 +124,7 @@ These are captured in AutoMem but documented here for reference:
    - 0.5-0.8: Flag for human review
    - <0.5: Mark as undated
 
-4. **Hybrid access model**: Tailscale for admin SSH, Cloudflare Tunnel for public Immich access (`living-archive.kennyliu.io`). Family/friends invited as Immich users.
+4. **Hybrid access model**: Tailscale for admin SSH, Cloudflare Tunnel for public access. Domain `living-archive.dev` serves Immich (photos) and `dashboard.living-archive.dev` serves the dashboard (stats, synthesis, search). Family/friends invited as Immich users.
 
 5. **Quarterly reindex**: AI manifests are versioned per inference run. Plan to reindex as models improve.
 
@@ -216,6 +223,31 @@ Run via `python -m src.run_slice` from repo root.
 
 Per-photo JSON keyed by SHA-256 of the original TIFF. Contains `analysis` (date estimate, bilingual descriptions, people/location notes, tags) and `inference` (model, prompt version, token counts, timestamp). See `prompts/photo_analysis_v1.txt` for the prompt template.
 
+## VPS Deployment
+
+Two Docker Compose stacks run on the VPS:
+
+| Stack | Path | Port | Public URL |
+|-------|------|------|------------|
+| **Immich** | `/opt/stacks/immich/` | 2283 | `https://living-archive.dev` |
+| **Dashboard** | `/opt/stacks/dashboard/` | 8378 | `https://dashboard.living-archive.dev` |
+
+Both are exposed via the `atlas-archive` Cloudflare Tunnel (ID `4e9bde29`). The dashboard runs in read-only mode (`DASHBOARD_READONLY=true`) — people naming and cache flush are disabled on the VPS to avoid sync conflicts with the local Mac.
+
+**Deploy workflow:**
+
+Code is deployed via `git pull` from a read-only clone at `~/living-archive` (GitHub deploy key). Data files (catalog.db, synthesis.db, manifests, thumbnails) are rsynced from the Mac since they're gitignored.
+
+```bash
+# Full deploy (code + data + restart):
+./deploy/sync.sh
+
+# Code only:
+ssh atlas@living-archive-vps 'cd ~/living-archive && git pull && cd /opt/stacks/dashboard && docker compose restart'
+```
+
+The dashboard container mounts the git clone read-only at `/app` and the data directory read-only at `/data`. It needs only `httpx`, `pydantic`, and `python-dotenv` — no pipeline dependencies.
+
 ---
 
-*Last updated: 2026-03-17*
+*Last updated: 2026-03-20*

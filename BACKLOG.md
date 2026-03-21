@@ -148,12 +148,14 @@ See `_dev/research/2026-02-18 presentation-layer.md` for full design session.
 ## Next — Infrastructure
 
 - [x] Upgrade Immich from v2.4.1 to current — fresh v2.5.6 deployed on dedicated VPS (`living-archive-vps`), 895 photos uploaded, metadata migrated, face clusters re-synced. Rotation API now available. Old NAS instance (v2.4.1) superseded. — 2026-03-17
+- [x] Deploy dashboard to VPS — Docker container at `/opt/stacks/dashboard/`, read-only mode, git-based deploys via deploy key, data rsynced. Live at `https://dashboard.living-archive.dev` — 2026-03-20
+- [x] Register `living-archive.dev` domain — Namecheap → Cloudflare nameservers, tunnel routes configured. Immich at `living-archive.dev`, dashboard at `dashboard.living-archive.dev` — 2026-03-20
 - [ ] Deduplicate photos in Immich — use Immich's built-in duplicate detection UI to clean up presentation layer; safe since source files on NAS are untouched
 
 ## Later — Public Presence (Other)
 
-- [ ] Remote access for review dashboard — deploy `dashboard.py` on VPS alongside Immich, expose via Cloudflare Tunnel
-- [x] Family/friend access to Immich — `living-archive.kennyliu.io` live via Cloudflare Tunnel on dedicated VPS; invite users as Immich accounts — 2026-03-17
+- [x] Remote access for review dashboard — deployed on VPS at `https://dashboard.living-archive.dev`, Docker container with git-based deploys — 2026-03-20
+- [x] Family/friend access to Immich — `living-archive.dev` (+ alias `living-archive.kennyliu.io`) live via Cloudflare Tunnel on dedicated VPS; invite users as Immich accounts — 2026-03-17
 - [ ] Family photo uploads — find an easy upload system (existing app) for family members to contribute photos
 - [ ] Privacy defaults for published content — opt-in vs. opt-out for people in photos, deceased vs. living distinction
 - [ ] Decide what's public repo vs. private — methodology public, family-specific data private
