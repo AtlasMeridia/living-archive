@@ -9,7 +9,7 @@
     {"id": "p0", "name": "scaffold", "status": "complete"},
     {"id": "p1", "name": "baseline", "status": "complete"},
     {"id": "p2", "name": "autonomous-loop", "status": "complete"},
-    {"id": "p3", "name": "interface", "status": "pending"},
+    {"id": "p3", "name": "interface", "status": "complete"},
     {"id": "p4", "name": "verification-sweep", "status": "pending"}
   ],
   "data_sources": [

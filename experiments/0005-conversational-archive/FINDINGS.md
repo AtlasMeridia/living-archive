@@ -102,8 +102,21 @@ Key architectural decisions confirmed:
 - ~6 minutes per full 30-question run
 - Total experiment wall time: ~45 minutes of compute
 
+## Phase 3: Interface — Deployed
+
+Built and deployed the conversational interface to `dashboard.living-archive.dev`:
+
+- `src/ask.py` — production query module (plan → retrieve → compose)
+- `src/maxplan.py` — bundled OAuth SDK client for Max Plan inference
+- `POST /api/ask` endpoint in dashboard (works in readonly mode)
+- "Ask" tab as default landing page with suggestion chips
+- VPS: Docker rebuilt with anthropic SDK, OAuth token in .env
+
+Verified live: "When was Feng Kuang Liu born?" returns sourced answer with 18 references.
+
 ## Next Steps
 
-- **Phase 3:** Minimal web interface wrapping the pipeline (`/ask` endpoint + text input)
 - **Phase 4:** Verification sweep — use the loop to audit synthesis data quality
-- **Promotion candidates:** If Phase 3 succeeds, `pipeline.py` graduates to `src/` as a query API
+- **Further loop iterations:** Target the remaining weak spots (e05, m06)
+- **Promotion:** retrieval.py graduates from experiment to `src/` when stable
+- **Blog post:** Write up the methodology for kennyliu.io/living-archive
