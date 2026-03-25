@@ -1,0 +1,23 @@
+{
+  "experiment_id": "0005",
+  "name": "conversational-archive",
+  "status": "designed",
+  "created": "2026-03-25",
+  "question": "Can an autonomous loop build a conversational query interface for family archive data with verified, sourced answers?",
+  "tags": ["interface", "karpathy-loop", "rag", "verification", "product"],
+  "phases": [
+    {"id": "p0", "name": "scaffold", "status": "pending"},
+    {"id": "p1", "name": "baseline", "status": "pending"},
+    {"id": "p2", "name": "autonomous-loop", "status": "pending"},
+    {"id": "p3", "name": "interface", "status": "pending"},
+    {"id": "p4", "name": "verification-sweep", "status": "pending"}
+  ],
+  "data_sources": [
+    "data/catalog.db",
+    "data/synthesis.db",
+    "data/documents/runs/20260207T044501Z/index.db",
+    "data/chronology.json",
+    "data/photos/*/manifest.json"
+  ],
+  "metrics": ["factual_accuracy", "source_grounding", "completeness", "coherence"]
+}
