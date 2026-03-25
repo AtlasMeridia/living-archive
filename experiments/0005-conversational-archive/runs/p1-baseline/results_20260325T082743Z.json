@@ -1,0 +1,3898 @@
+{
+  "timestamp": "20260325T082743Z",
+  "tier_filter": null,
+  "skip_coherence": true,
+  "elapsed_seconds": 339.6,
+  "total_input_tokens": 73363,
+  "total_output_tokens": 10094,
+  "questions_attempted": 30,
+  "questions_succeeded": 30,
+  "results": [
+    {
+      "question_id": "e01",
+      "tier": "easy",
+      "question": "When was Feng Kuang Liu born?",
+      "answer": "Based on the family archive records, **Feng Kuang Liu was born on January 23, 1943** in Taiwan.\n\nThis birth date appears consistently across multiple documents in the archive, including his death certificate, medical records, travel reservations, and legal documents. The death certificate specifically states \"DATE OF BIRTH: Jan. 23, 1943\" and \"BIRTHPLACE: Taiwan.\" This same date (1/23/1943) is referenced in his medical records compilation from 2001-2010, travel documents from 2010, and various trust-related legal filings.\n\nFeng Kuang Liu passed away on June 6, 2010, at age 67. He was married to Meichu Grace Liu (\u5f6d\u7f8e\u73e0), who was born March 11, 1947, and died June 16, 2004. The archive contains extensive documentation about both their lives, including 90 linked documents for Feng Kuang Liu, covering medical records, legal documents, trust filings, and estate materials.\n\nThe records show he was a retired engineer who lived at 26471 Weston Drive in Los Altos, California, and was a naturalized US citizen originally from Taipei, Taiwan.\n\n**Sources:**\n- Death certificates\n- Medical records (2001-2010)\n- Travel reservation documents\n- Legal trust documents and court filings\n- CalPERS power of attorney documents",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-03 MEICHU LIU Medical Records - Power Of Attorney.pdf",
+          "sha256": "cfca4a40fcfe"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-08-14 Reservation data.pdf",
+          "sha256": "6011e3f3ff17"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1982-06-21 Affidavit of support - REILING PENG.pdf",
+          "sha256": "a1fb83beee74"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        }
+      ],
+      "plan": {
+        "query_type": "person",
+        "entities": [
+          "Feng Kuang Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "birth",
+          "born"
+        ],
+        "strategy": "Look up Feng Kuang Liu person profile and search birth-related documents"
+      },
+      "retrieval_summary": {
+        "entities": 1,
+        "documents": 12,
+        "timeline_events": 20,
+        "assets": 5,
+        "person_profiles": 1
+      },
+      "input_tokens": 2935,
+      "output_tokens": 315
+    },
+    {
+      "question_id": "e02",
+      "tier": "easy",
+      "question": "When did Feng Kuang Liu die?",
+      "answer": "Based on the family archive records, **Feng Kuang Liu died on June 6, 2010** at age 67.\n\nAccording to his death certificate, he passed away at Lahey Clinic Northshore in Peabody, Massachusetts, from cardiac failure. He was born on January 23, 1943, in Taiwan, and worked as an engineer before retiring. The certificate lists his spouse as Mei Liang Melody Tsai, and he was buried at Alta Mesa Memorial Park.\n\nThe archive contains extensive documentation related to his death, including 90 linked documents covering estate matters, trust filings, and legal proceedings that followed his passing. Multiple court documents from 2010-2011 reference his death date, confirming this information across several sources.\n\nHis death came about six years after his wife Meichu Grace Liu (\u5f6d\u7f8e\u73e0) passed away on June 16, 2004. The family archive shows that significant estate and trust administration activities occurred following his death, with various family members serving as successor trustees for the Liu Family Trust that was originally established in 1990.\n\n**Sources:**\n- Death certificates\n- Estate and trust legal documents  \n- Court filings and petitions\n- Medical records and correspondence",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        }
+      ],
+      "plan": {
+        "query_type": "person",
+        "entities": [
+          "Feng Kuang Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "death",
+          "died"
+        ],
+        "strategy": "Look up Feng Kuang Liu person profile and search death-related documents"
+      },
+      "retrieval_summary": {
+        "entities": 1,
+        "documents": 13,
+        "timeline_events": 20,
+        "assets": 5,
+        "person_profiles": 1
+      },
+      "input_tokens": 2854,
+      "output_tokens": 272
+    },
+    {
+      "question_id": "e03",
+      "tier": "easy",
+      "question": "What was Feng Kuang Liu's occupation?",
+      "answer": "Based on the family archive records, Feng Kuang Liu had multiple occupations throughout his career:\n\n**Primary Career:** He worked as an **engineer** for most of his professional life. The death certificate specifically lists his usual occupation as \"Assistant Director\" in \"Health Care\" for his final 20 years of work.\n\n**Final Position:** His last employer was **Nortel Networks**, where he worked until his voluntary retirement in December 2004. The retirement emails from October 2004 show he was involved in technical work related to CallPilot/SCCS systems and was planning knowledge transfer activities in Belleville, Ontario.\n\nThe archive shows a progression from engineer to assistant director level, suggesting he advanced into management roles while maintaining his technical background. His work at Nortel appears to have been in telecommunications technology, based on the technical systems mentioned in his retirement correspondence.\n\nFeng Kuang Liu (\u99ae\u5ee3\u5289) was born January 23, 1943 in Taiwan and became a naturalized US citizen. He lived at 26471 Weston Drive in Los Altos Hills and passed away on June 6, 2010 at age 67.\n\nThe archive contains 90 documents related to his life but unfortunately no photos. There may be additional career details in the extensive medical and financial records spanning 2001-2010, but the specific occupation information comes primarily from his death certificate and retirement documentation.\n\n**Sources:** Death certificates, Nortel Networks retirement emails, financial account documents, trust filings",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2005 Weston Dr Service Invoices.pdf",
+          "sha256": "b514b0859948"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/School Certificates - KENNY PENG LIU.pdf",
+          "sha256": "58237da3bad4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/2004-10-07 FENG KUANG LIU Retirement Email Notification.pdf",
+          "sha256": "8ad09e2eca3f"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1989-05-06 Weston Dr Contractor Proposal.pdf",
+          "sha256": "453a6c935bfc"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994-04-02 Weston Dr Letter of Construction Status.pdf",
+          "sha256": "a9cfaf21e66d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2009-01-02 Mortgage Final Payment & Insurance Note.pdf",
+          "sha256": "74efb60b15d8"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2005 Weston Dr Service Invoices.pdf",
+          "sha256": "b514b0859948"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/2004-10-07 FENG KUANG LIU Retirement Email Notification.pdf",
+          "sha256": "8ad09e2eca3f"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/2004-12-15 FKL Retirement Lunch.pdf",
+          "sha256": "08a4e77caf9b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        }
+      ],
+      "plan": {
+        "query_type": "person",
+        "entities": [
+          "Feng Kuang Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "occupation",
+          "work",
+          "job",
+          "career"
+        ],
+        "strategy": "Look up Feng Kuang Liu person profile and search documents for occupation or career information"
+      },
+      "retrieval_summary": {
+        "entities": 1,
+        "documents": 18,
+        "timeline_events": 20,
+        "assets": 5,
+        "person_profiles": 1
+      },
+      "input_tokens": 2793,
+      "output_tokens": 332
+    },
+    {
+      "question_id": "e04",
+      "tier": "easy",
+      "question": "Who are the children of Feng Kuang Liu?",
+      "answer": "Based on the family archive documents, Feng Kuang Liu had **two children**:\n\n1. **Karen Peling Liu** (\u5289\u4f69\u73b2)\n2. **Kenny Peng Liu** (\u5289\u5f6d)\n\nThis is confirmed in Feng Kuang Liu's Last Will and Testament dated May 10, 2007, where he explicitly declares he has \"two adult children: Karen Peling Liu and Kenny [Peng Liu].\"\n\nBoth children appear prominently in the family's legal documents, particularly in the trust proceedings following their parents' deaths. They jointly filed court petitions in 2011 regarding the Liu Family Trust, with Karen serving as successor trustee for the Feng Kuang Liu \"A\" Trust after their father passed away on June 6, 2010.\n\nThe archive contains substantial documentation for both children - 38 documents linked to Karen Peling Liu and 45 documents linked to Kenny Peng Liu. These documents span financial records, trust filings, and estate matters, showing their active involvement in managing the family's affairs after becoming orphaned (their mother Meichu Grace Liu died in 2004, and their father died in 2010).\n\n**Sources:**\n- Last Will and Testament (2007)\n- Court filings and trust documents\n- Estate legal correspondence\n- Memorial service records\n- Financial and legal document compilations",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "person_profile",
+          "name": "Kenny Peng Liu",
+          "assets": 45
+        },
+        {
+          "type": "person_profile",
+          "name": "Karen Peling Liu",
+          "assets": 38
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-06-06 Estate Inventory Copy.pdf",
+          "sha256": "f744d1591a2d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Scanned Letters/Untitled.pdf",
+          "sha256": "ac9080ef8a79"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-02-11 Lakin Spears invoice Trust B.pdf",
+          "sha256": "126e099d9979"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-02-11 Lakin Spears invoice Trust B.pdf",
+          "sha256": "126e099d9979"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        }
+      ],
+      "plan": {
+        "query_type": "person",
+        "entities": [
+          "Feng Kuang Liu",
+          "Kenny Peng Liu",
+          "Karen Peling Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "children",
+          "son",
+          "daughter"
+        ],
+        "strategy": "Look up Feng Kuang Liu person profile and search for documents mentioning his children Kenny and Karen"
+      },
+      "retrieval_summary": {
+        "entities": 3,
+        "documents": 24,
+        "timeline_events": 60,
+        "assets": 15,
+        "person_profiles": 3
+      },
+      "input_tokens": 3895,
+      "output_tokens": 306
+    },
+    {
+      "question_id": "e05",
+      "tier": "easy",
+      "question": "How many photos are in the archive?",
+      "answer": "Based on the archive statistics, there are **2,075 photos** in the family archive.\n\nThe archive contains a total of 2,196 assets, with photos making up the vast majority of the collection. In addition to the photographs, there are also 121 documents in the archive.\n\nThe collection appears to be quite comprehensive, with 1,502 items that have been tagged with dates, 826 that reference specific people, and 18 that include location information. The archive has generated 3,012 timeline events, suggesting it spans a significant period of family history.\n\n**Sources:**\n- Archive statistics data",
+      "sources": [],
+      "plan": {
+        "query_type": "stats",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [],
+        "strategy": "Get archive statistics including photo and document counts"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 0,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 259,
+      "output_tokens": 136
+    },
+    {
+      "question_id": "e06",
+      "tier": "easy",
+      "question": "How many documents are in the archive?",
+      "answer": "Based on the archive statistics, there are **121 documents** in the family archive.\n\nThe archive contains a total of 2,196 assets, which breaks down into two main categories: 121 documents and 2,075 photos. So while documents make up a smaller portion of the collection, they still represent a meaningful part of the family's preserved history.\n\nThe archive also includes extensive metadata with 1,502 date references, 18 different locations, and 826 people identified across all materials. There are 3,012 timeline events cataloged, which likely span across both the documents and photos in the collection.\n\nThe photos significantly outnumber the documents (2,075 vs 121), which is quite common in family archives where visual memories often accumulate more rapidly than written records over time.\n\n**Sources:**\n- Archive statistics data showing asset counts by type (documents and photos)",
+      "sources": [],
+      "plan": {
+        "query_type": "stats",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [],
+        "strategy": "Get archive statistics including total document counts across all categories"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 0,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 259,
+      "output_tokens": 195
+    },
+    {
+      "question_id": "e07",
+      "tier": "easy",
+      "question": "Who is Meichu Grace Liu?",
+      "answer": "Based on the family archive, Meichu Grace Liu (\u5289\u5f6d\u7f8e\u73e0 or \u5289\u7f8e\u73e0 in Chinese) was the wife of Feng-Kuang Liu and a co-trustor of the Liu Family Trust established on February 9, 1990.\n\n**Personal Details:**\n- Born: March 11, 1947\n- Died: June 16, 2004 at Stanford Medical Center\n- Memorial service held June 21, 2004 at Spangler Mortuaries in Los Altos, California\n- Lived at 26471 Weston Drive, Los Altos Hills, CA 94022\n\n**Key Life Events:**\nMeichu was actively involved in managing family finances and legal affairs. In May 2004, just weeks before her death, she wrote to her physician Dr. Burton Weaver describing severe illness since March 2004 treatment. On June 3, 2004, she executed a CalPERS Special Power of Attorney appointing her husband as her agent.\n\nThe couple owned significant assets together, including their Los Altos Hills property (assessed at nearly $1.4 million by 2009) and a 2.04-carat marquise diamond. In 1989, they received a substantial wire transfer of $135,663 from Y S Liu-Chen.\n\nAfter her death, the \"Meichu Grace Liu 'B' Trust\" was established as part of the family trust structure, with various trustees managing the estate over the years.\n\n**Archive Status:** 64 documents are linked to her record, though no photos are currently connected.\n\n**Sources:** Death certificates, memorial documents, trust filings, property records, medical correspondence, financial documents, and signature samples.",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Meichu Grace Liu",
+          "assets": 64
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2004 Meichu Signature.pdf",
+          "sha256": "30946ca081da"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994-2009 Weston Dr Land Assessment Values.pdf",
+          "sha256": "afb90bdfca3c"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05-13 MEICHU LIU Medical Records - Letter to Dr Weaver.pdf",
+          "sha256": "ec7bdbd76039"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2004 Meichu Signature.pdf",
+          "sha256": "30946ca081da"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1983-08-28 Letter of Returned Payment MEICHU GRACE LIU.pdf",
+          "sha256": "42252872af51"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1986-2009 Marquis Diamond Documentation.pdf",
+          "sha256": "077159dc446d"
+        }
+      ],
+      "plan": {
+        "query_type": "person",
+        "entities": [
+          "Meichu Grace Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "Meichu",
+          "Grace"
+        ],
+        "strategy": "Get full person profile for Meichu Grace Liu with timeline and documents"
+      },
+      "retrieval_summary": {
+        "entities": 1,
+        "documents": 13,
+        "timeline_events": 20,
+        "assets": 5,
+        "person_profiles": 1
+      },
+      "input_tokens": 2927,
+      "output_tokens": 392
+    },
+    {
+      "question_id": "e08",
+      "tier": "easy",
+      "question": "What is the Liu Family Trust?",
+      "answer": "Based on the retrieved documents, the Liu Family Trust is a family trust agreement established on February 9, 1990, by **Feng Kuang Liu** (\u5289\u8c50\u5149) and his wife **Meichu Grace Liu** (\u5289\u7f8e\u73e0) as trustors and trustees.\n\nThe trust was later divided into separate sub-trusts:\n\n1. **Trust A** - Later renamed as the \"Feng Kuang Liu 'A' Trust\"\n2. **Trust B** - The \"Meichu Grace Liu 'B' Trust\" (established as irrevocable on March 14, 2005)\n3. **Liu Personal Residence Trust**\n\nAccording to the court documents, when Feng Kuang Liu passed away, he had allocated the Family Trust assets between Trust A and other trusts pursuant to Article Six of the Family Trust.\n\nThe documents show there were legal disputes over trusteeship succession around 2010-2011. Karen Peling Liu and Kenny Peng Liu filed court petitions seeking confirmation that Karen was the rightful successor trustee of the Feng Kuang Liu \"A\" Trust. Meanwhile, Reiling Liao became successor trustee of the Meichu Grace Liu \"B\" Trust.\n\nThe retrieved data doesn't provide details about the trust's specific purposes, asset values, or current status - only the legal structure and succession disputes from 2010-2011.\n\n**Sources:**\n- Trust formation and succession documents (2010-2014)\n- Superior Court petitions and filings\n- Trustee acceptance and notification documents",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+          "sha256": "920df846c730"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Social Security Numbers.pdf",
+          "sha256": "70e04a014e19"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1983-07-30 Wedding Invitation.pdf",
+          "sha256": "0d2eaf1ef095"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        }
+      ],
+      "plan": {
+        "query_type": "topic",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "trust",
+          "Liu",
+          "family"
+        ],
+        "strategy": "Search trust documents and legal filings for information about the Liu Family Trust"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 15,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1993,
+      "output_tokens": 352
+    },
+    {
+      "question_id": "e09",
+      "tier": "easy",
+      "question": "Where did the Liu family live?",
+      "answer": "Based on the family archive documents, the Liu family lived at **26471 Weston Drive, Los Altos Hills, CA 94022**. This was their primary residence and appears consistently across multiple documents spanning from 2000 to 2010.\n\nThe property is described in detail in the grant deeds as being located at APN 175-33-035, Lot 5 of Tract 2206 \"Mockingbird Knolls\" in Los Altos Hills. The house served as both their family home and was formally held in trust structures, including the \"Liu Personal Residence Trust.\"\n\nFeng-Kuang Liu (also known as Feng Kuang Liu) and his wife Meichu Grace Liu lived at this address. When Feng-Kuang Liu passed away in June 2010, the mailing address for death certificate correspondence was still listed as 26471 Weston Dr., Los Altos, CA 94022.\n\nThe documents also show that Feng-Kuang Liu was active in California real estate, holding license #00770065, which aligns with their Silicon Valley location. A 2000 property values report indicates that Los Altos Hills had very high median home values, with properties reaching nearly $2.8 million by Q1 2000.\n\nThe archive doesn't reveal information about any other residences the Liu family may have had before or after this property.\n\n**Sources:** Grant deeds, death certificates, promissory notes, property values reports, and trustee documents from the Liu Family Trust filings.",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-10-22 Immigration Application KAI TI PENG.pdf",
+          "sha256": "40b0a7f5a982"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1984-02-15 Education Certificates FENG KUANG LIU.pdf",
+          "sha256": "57ccab416ac4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Promissory Note 638 Kirkland Dr.pdf",
+          "sha256": "632dbf39da46"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2009-01-02 Mortgage Final Payment & Insurance Note.pdf",
+          "sha256": "74efb60b15d8"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2000-05-02 Property Values Median Values & Map.pdf",
+          "sha256": "cc293ef81046"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+          "sha256": "920df846c730"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-23 Client Contract.pdf",
+          "sha256": "1da4343e4bef"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2009-01-02 Mortgage Final Payment & Insurance Note.pdf",
+          "sha256": "74efb60b15d8"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1985-01-31 Mobile Home Park Related.pdf",
+          "sha256": "e28810d04c65"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994-04-02 Weston Dr Letter of Construction Status.pdf",
+          "sha256": "a9cfaf21e66d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994 Weston Dr Materials.pdf",
+          "sha256": "56f30ab4a8f3"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-07 Message From Caroline Fuller.pdf",
+          "sha256": "8193193dd281"
+        }
+      ],
+      "plan": {
+        "query_type": "location",
+        "entities": [
+          "Liu family"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "address",
+          "residence",
+          "home"
+        ],
+        "strategy": "Search for location and address information related to the Liu family"
+      },
+      "retrieval_summary": {
+        "entities": 18,
+        "documents": 15,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 2102,
+      "output_tokens": 348
+    },
+    {
+      "question_id": "e10",
+      "tier": "easy",
+      "question": "Who filed the probate petition for the Liu Family Trust?",
+      "answer": "Based on the retrieved documents, **Karen Peling Liu and Kenny Peng Liu** filed the probate petition for the Liu Family Trust.\n\nThe documents show they filed multiple related petitions in Santa Clara County Superior Court (Case No. 1-10-PR 168 002) starting in December 2010. Specifically, they filed a \"Petition for Order Confirming Trusteeship and Trust Assets\" on December 9, 2010, with the verification signatures dated December 8, 2010. They also filed what's called a \"Heggstad Petition\" on January 11, 2011.\n\nThe petitions were seeking to confirm Karen Peling Liu as the successor trustee of the Feng Kuang Liu \"A\" Trust, which was established under the Liu Family Trust dated February 9, 1990. The case involved a dispute with Mei Liang Melody Tsai (identified as the decedent's fianc\u00e9e), who had apparently been nominated as trustee but rejected the appointment via email in May 2007.\n\nThe petitioners were represented by Lakin Spears LLP and continued filing related documents through March 2011, including replies to opposition filings and various trust notifications and declarations.\n\n**Sources:**\n- Court petition documents (2010-2011)\n- Verification signature pages\n- Trust filing documents and declarations",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Court Petition.pdf",
+          "sha256": "931e8b6648ec"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-08 Signature Page.pdf",
+          "sha256": "1d38fcfb5e72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Court Petition.pdf",
+          "sha256": "931e8b6648ec"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-15 Lakin Spear Invoice.pdf",
+          "sha256": "e86c5b691bf9"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Court Petition.pdf",
+          "sha256": "931e8b6648ec"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+          "sha256": "920df846c730"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Hearing.pdf",
+          "sha256": "5a63e802d803"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-10-22 Immigration Application KAI TI PENG.pdf",
+          "sha256": "40b0a7f5a982"
+        }
+      ],
+      "plan": {
+        "query_type": "topic",
+        "entities": [
+          "Liu Family Trust"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "probate",
+          "petition",
+          "filed"
+        ],
+        "strategy": "Search legal documents for probate petition filings related to the Liu Family Trust"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 15,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1988,
+      "output_tokens": 303
+    },
+    {
+      "question_id": "m01",
+      "tier": "medium",
+      "question": "Tell me about Feng Kuang Liu.",
+      "answer": "Based on the family archive, here's what I can tell you about Feng Kuang Liu:\n\n**Basic Information:**\nFeng Kuang Liu (\u5289\u8c50\u5149) was born on January 23, 1943, in Taiwan and died on June 6, 2010, at age 67 at Lahey Clinic Northshore in Peabody, Massachusetts, from cardiac failure.\n\n**Family:**\nHe was married to Meichu Grace Liu (\u5f6d\u7f8e\u73e0), who was born March 11, 1947, and died June 16, 2004, at Stanford Medical Center. They had two adult children: Karen Peling Liu and Kenny Peng Liu. By 2007, Feng declared in his will that he was not married (following his wife's death).\n\n**Career:**\nFeng worked at Nortel Networks (formerly Northern Telecom) in Santa Clara, California. He announced his voluntary retirement in October 2004, with his last day at the end of December 2004. His retirement lunch was held on December 15, 2004, at Kapp's Pizza in Mountain View.\n\n**Assets:**\nThe couple owned property at 26471 Weston Drive, Los Altos Hills, which was assessed from $934,000 in 1994 to $1,374,168 in 2009. They established the Liu Family Trust on February 9, 1990, which included multiple sub-trusts.\n\n**Archive Contents:**\nThe archive contains 90 documents but no photos linked to Feng Kuang Liu, spanning his medical records (2001-2010), financial documents, estate materials, and work-related items.\n\n**Sources:** Death certificates, trust documents, property assessments, employment records, medical files, and estate planning documents.",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994-2009 Weston Dr Land Assessment Values.pdf",
+          "sha256": "afb90bdfca3c"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/2004-10-07 FENG KUANG LIU Retirement Email Notification.pdf",
+          "sha256": "8ad09e2eca3f"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+          "sha256": "920df846c730"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/2004-12-15 FKL Retirement Lunch.pdf",
+          "sha256": "08a4e77caf9b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+          "sha256": "920df846c730"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Liu Family Trust A & B.pdf",
+          "sha256": "45207311ce03"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+          "sha256": "920df846c730"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Social Security Numbers.pdf",
+          "sha256": "70e04a014e19"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        }
+      ],
+      "plan": {
+        "query_type": "person",
+        "entities": [
+          "Feng Kuang Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "Feng",
+          "Kuang",
+          "Liu"
+        ],
+        "strategy": "Get comprehensive person profile for Feng Kuang Liu including biographical details, timeline, and associated documents"
+      },
+      "retrieval_summary": {
+        "entities": 1,
+        "documents": 18,
+        "timeline_events": 20,
+        "assets": 5,
+        "person_profiles": 1
+      },
+      "input_tokens": 3036,
+      "output_tokens": 404
+    },
+    {
+      "question_id": "m02",
+      "tier": "medium",
+      "question": "What happened in 2010 for the Liu family?",
+      "answer": "Based on the family archive, **2010 was a tragic year for the Liu family** - it was when **Feng-Kuang Liu passed away**.\n\n**Feng-Kuang Liu died on June 6, 2010** at age 67 at Lahey Clinic Northshore in Peabody, Massachusetts, from cardiac failure. He was born January 23, 1943 in Taiwan and worked as a retired engineer. He was buried at Alta Mesa Memorial Park, and his spouse was listed as Mei Liang Melody Tsai.\n\nIn addition to this major loss, there was significant **estate and trust activity** throughout 2010:\n\n- **Property restructuring**: In April 2010, grant deeds were executed transferring the family property at 26471 Weston Drive, Los Altos Hills out of multiple Liu trusts (the Personal Residence Trust, \"A\" Trust, and \"B\" Trust) back to Feng-Kuang Liu individually.\n\n- **Financial management**: The family had ongoing investment activity through the United States Oil Fund, with multiple buy/sell transactions recorded in January and February 2010 across three accounts held by the Feng Kuang Liu estate.\n\n- **Estate administration**: By December 2010, correspondence began regarding the estate settlement, including communications from Sheffield Law Office representing Melody Tsai as Trustee of the Feng-Kuang Liu \"A\" Trust.\n\n**Sources**: Death certificates, grant deeds, tax documents (Schedule K-1), estate correspondence, medical records",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+          "sha256": "7bd2ccac29b5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+          "sha256": "920df846c730"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2009-01-02 Mortgage Final Payment & Insurance Note.pdf",
+          "sha256": "74efb60b15d8"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1984-02-15 Education Certificates FENG KUANG LIU.pdf",
+          "sha256": "57ccab416ac4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-15 Lakin Spear Invoice.pdf",
+          "sha256": "e86c5b691bf9"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        }
+      ],
+      "plan": {
+        "query_type": "date",
+        "entities": [
+          "Liu family"
+        ],
+        "date_range": {
+          "start": "2010-01-01",
+          "end": "2010-12-31"
+        },
+        "search_terms": [
+          "2010",
+          "death",
+          "estate"
+        ],
+        "strategy": "Get all events and documents from 2010, particularly focusing on Feng Kuang Liu's death and related family matters"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 15,
+        "timeline_events": 20,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 2656,
+      "output_tokens": 344
+    },
+    {
+      "question_id": "m03",
+      "tier": "medium",
+      "question": "What legal documents are in the archive?",
+      "answer": "Based on the archive, there are several types of legal documents related to the Liu Family Trust:\n\n**Trust Administration Documents:**\n- Attorney-client fee contracts between Lakin Spears LLP and Kenny Peng Liu and Karen Peling Liu for legal representation regarding Trust A, Trust B of the Liu Family Trust, and the Feng-Kuang Liu and Mei Chu Grace Liu Personal Residence Trust (dated 2010-11-16 and 2010-11-23)\n- Acceptance of appointment documents for successor trustees, including Reiling Liao accepting trusteeship of the Meichu Grace Liu \"B\" Trust after Ellson Chen resigned (2010-07-14)\n\n**Court Filings:**\n- A Heggstad Petition filed in Santa Clara County Superior Court by Karen Peling Liu and Kenny Peng Liu seeking to confirm Karen as successor trustee of the Feng Kuang Liu \"A\" Trust (Case No. 1-10-PR 168 002, filed 2011-01-10 and 2011-01-11). The petition addresses issues with Mei Liang Melody Tsai rejecting her trustee appointment.\n\n**Legal Services and Billing:**\n- Legal invoices from Thoits, Love, Hershberger & McLean regarding services for Kenny Peng Liu related to Mei Lian Melody Tsai loan matters, including loan default notices and promissory note review (2012)\n- Lakin Spears LLP invoice for estate litigation services (2010-12-15)\n- Legal correspondence and agreements related to Feng-Kuang Liu estate matters involving Melody Tsai (2010-2011)\n\n**Sources:** Liu Family Trust Filings & Documents (attorney contracts, court petitions, legal invoices, trustee appointment documents)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2012-10-31 THOITS Loan services.pdf",
+          "sha256": "880c94e1822c"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-15 Lakin Spear Invoice.pdf",
+          "sha256": "e86c5b691bf9"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-23 Client Contract.pdf",
+          "sha256": "1da4343e4bef"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Hearing.pdf",
+          "sha256": "5a63e802d803"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Court Petition.pdf",
+          "sha256": "931e8b6648ec"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1985-01-31 Mobile Home Park Related.pdf",
+          "sha256": "e28810d04c65"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-08 Signature Page.pdf",
+          "sha256": "1d38fcfb5e72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Court Petition.pdf",
+          "sha256": "931e8b6648ec"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        }
+      ],
+      "plan": {
+        "query_type": "topic",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "legal",
+          "trust",
+          "court",
+          "probate"
+        ],
+        "strategy": "Search for all legal documents including trust filings, court records, and probate materials"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 20,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1971,
+      "output_tokens": 416
+    },
+    {
+      "question_id": "m04",
+      "tier": "medium",
+      "question": "What do the medical records tell us about Feng Kuang Liu?",
+      "answer": "Based on the retrieved data, the medical records provide limited but significant information about Feng Kuang Liu (\u5289\u9cf3\u5149).\n\nThe archive contains a \"compilation of medical records for Feng K. Liu (DOB 1/23/1943) spanning 2001 to 2010, including lab results, office visits...\" indicating he had ongoing medical care during his later years. However, the specific contents of these medical records are not detailed in the retrieved data.\n\nThe most concrete medical information comes from his death certificate, which reveals that Feng Kuang Liu died on June 6, 2010, at age 67 at Lahey Clinic Northshore in Peabody, Massachusetts. His cause of death was cardiac failure, specifically \"RIGHT HEART FAILURE\" caused by a \"MASSIVE PULMONARY EMBOLUS\" (blood clot in the lungs), which occurred within hours of his death.\n\nThere's also evidence of medical insurance claims, including a 2010 Medicare Part B claim for an office visit with Dr. Teresa Cheng at Palo Alto Medical Foundation, suggesting he was receiving ongoing medical care in the Bay Area before his death in Massachusetts.\n\nUnfortunately, while the archive indicates there are extensive medical records spanning nearly a decade (2001-2010), the specific details of his medical history, treatments, or ongoing conditions are not included in the retrieved data.\n\n**Sources:** Death certificates, medical records compilation references, Medicare insurance claims, timeline entries spanning 90 linked documents.",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Cards.pdf",
+          "sha256": "baa84d68df28"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05-13 MEICHU LIU Medical Records - Letter to Dr Weaver.pdf",
+          "sha256": "ec7bdbd76039"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011 Assorted bills.pdf",
+          "sha256": "33c13901edc9"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2005 Weston Dr Service Invoices.pdf",
+          "sha256": "b514b0859948"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05-13 MEICHU LIU Medical Records - Letter to Dr Weaver.pdf",
+          "sha256": "ec7bdbd76039"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Cards.pdf",
+          "sha256": "baa84d68df28"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        }
+      ],
+      "plan": {
+        "query_type": "topic",
+        "entities": [
+          "Feng Kuang Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "medical",
+          "health",
+          "doctor",
+          "hospital"
+        ],
+        "strategy": "Search medical records and health-related documents specifically for Feng Kuang Liu"
+      },
+      "retrieval_summary": {
+        "entities": 1,
+        "documents": 19,
+        "timeline_events": 20,
+        "assets": 5,
+        "person_profiles": 1
+      },
+      "input_tokens": 2870,
+      "output_tokens": 330
+    },
+    {
+      "question_id": "m05",
+      "tier": "medium",
+      "question": "What decades are represented in the photo collection?",
+      "answer": "Based on the family archive data I have access to, I can see that the collection contains **2,075 photos** total, but the retrieved documents don't provide specific information about which decades are represented in the photo collection.\n\nThe documents I found mention photos in passing but don't detail their timeframes:\n\n- A 2000 Japanese letter from \u595a\u679d (Shu-Hui) to \u6c34\u6cbb mentions enclosed photos from a recent visit\n- A 2010 Facebook message references photos of Caroline and Kenny \n- A 2011 real estate listing mentions downloading photos for marketing\n- Estate correspondence from 2010 discusses keeping vacation photos with Feng-Kuang Liu (\u5289\u8c50\u5149)\n\nWhile the archive contains **1,502 date-related entries** across **3,012 timeline events**, the specific decades represented in the photo collection aren't detailed in the documents I can access. The written correspondence spans from 2000-2011, but this doesn't necessarily reflect the full date range of the photographs themselves.\n\nTo get a complete picture of which decades are represented in the 2,075 photos, I would need access to the actual photo metadata or more detailed inventory documents that specifically catalog the photo collection by time periods.\n\n**Sources:**\n- Archive statistics (2,075 photos total)\n- Japanese correspondence (2000)\n- Facebook messages and estate documents (2010-2011)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Scanned Letters/Untitled.pdf",
+          "sha256": "ac9080ef8a79"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-07 Message From Caroline Fuller.pdf",
+          "sha256": "8193193dd281"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        }
+      ],
+      "plan": {
+        "query_type": "stats",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "photos"
+        ],
+        "strategy": "Get photo collection statistics showing date distribution by decades"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 4,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1192,
+      "output_tokens": 312
+    },
+    {
+      "question_id": "m06",
+      "tier": "medium",
+      "question": "Who appears most often in the archive?",
+      "answer": "I can see from the archive statistics that there are 826 person entities identified across the collection, but the retrieved data doesn't specify which individual person appears most frequently. \n\nWhat I can tell you is that the archive contains a substantial collection of 2,196 total items - with 2,075 photos and 121 documents. The system has identified 826 different people mentioned or appearing throughout these materials, along with 1,502 dates and 18 locations. There are also 3,012 timeline events cataloged.\n\nHowever, to answer your specific question about who appears most often, I would need additional data that breaks down the frequency count for each individual person in the archive. The current statistics show the total number of unique people identified, but not how often each person appears across the photos and documents.\n\nThe large number of person entities (826) suggests this is a comprehensive family archive spanning multiple generations, but without the individual frequency data, I cannot determine which family member has the most appearances.\n\n**Sources:**\n- Archive statistics summary data\n- Entity counts (person, date, location)\n- Asset type breakdown (photos, documents)\n- Timeline event totals",
+      "sources": [],
+      "plan": {
+        "query_type": "stats",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [],
+        "strategy": "Get archive statistics to find which person appears most frequently across all documents and photos"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 0,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 259,
+      "output_tokens": 251
+    },
+    {
+      "question_id": "m07",
+      "tier": "medium",
+      "question": "What locations are associated with the Liu family?",
+      "answer": "Based on the family archive documents, the Liu family is associated with several locations in California:\n\n**Primary Residence:**\n- **26471 Weston Drive, Los Altos Hills, CA 94022** - This appears to be the main family residence owned by Feng K. Liu and M. Grace Liu. The property underwent remodeling in 1989 and was prepared for sale in 2011. It's a 6-room house with 4 bedrooms and 4.5 baths.\n\n**Investment Property:**\n- **638 Kirkland Drive, Sunnyvale, CA 94087** - A multi-family property (4,753 sq ft, built 1961) where Feng Kuang Liu served as lender in a 2010 promissory note arrangement.\n\n**Educational Institutions:**\n- **De Anza College** and **Mission College, Santa Clara** - Where Feng Kuang Liu completed real estate continuing education courses between 1981-1984.\n\n**Mailing Address:**\n- **P.O. Box 2262, Saratoga, CA 95070** - Listed as a borrower address in the Kirkland Drive transaction documents.\n\n**Immigration Processing Locations:**\n- **St. Louis, MO** and **Portsmouth, NH** - Referenced as processing addresses for immigration applications related to family member Kai Ti Peng.\n\nAll properties and primary activities appear concentrated in the South Bay area of California, particularly Los Altos Hills, Sunnyvale, and Santa Clara County.\n\n**Sources:** Real estate certificates, property sale documents, mortgage records, contractor proposals, promissory notes, and immigration applications.",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1984-02-15 Education Certificates FENG KUANG LIU.pdf",
+          "sha256": "57ccab416ac4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2009-01-02 Mortgage Final Payment & Insurance Note.pdf",
+          "sha256": "74efb60b15d8"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1986-2009 Marquis Diamond Documentation.pdf",
+          "sha256": "077159dc446d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1989-05-06 Weston Dr Contractor Proposal.pdf",
+          "sha256": "453a6c935bfc"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-10-22 Immigration Application KAI TI PENG.pdf",
+          "sha256": "40b0a7f5a982"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1984-02-15 Education Certificates FENG KUANG LIU.pdf",
+          "sha256": "57ccab416ac4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Promissory Note 638 Kirkland Dr.pdf",
+          "sha256": "632dbf39da46"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2009-01-02 Mortgage Final Payment & Insurance Note.pdf",
+          "sha256": "74efb60b15d8"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2000-05-02 Property Values Median Values & Map.pdf",
+          "sha256": "cc293ef81046"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+          "sha256": "920df846c730"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-23 Client Contract.pdf",
+          "sha256": "1da4343e4bef"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        }
+      ],
+      "plan": {
+        "query_type": "location",
+        "entities": [
+          "Liu family"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "location",
+          "address",
+          "residence"
+        ],
+        "strategy": "Search for all geographic locations and addresses associated with the Liu family"
+      },
+      "retrieval_summary": {
+        "entities": 18,
+        "documents": 15,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 2028,
+      "output_tokens": 374
+    },
+    {
+      "question_id": "m08",
+      "tier": "medium",
+      "question": "What can you tell me about the family's connection to Taiwan?",
+      "answer": "Based on the family archive, the Liu family has strong roots in Taiwan spanning multiple generations:\n\n**Birth Origins**: Feng Kuang Liu was born on January 23, 1943, in Taipei, Taiwan. His wife Meichu Grace Liu (\u5289\u5f6d\u7f8e\u73e0) was born in 1947 in Hsinchu, Taiwan. Both of their parents were also born in Taiwan - Feng's parents were Tie Jia Liu and A Shio Chen.\n\n**Immigration to the United States**: Feng became a naturalized U.S. citizen (certificate #10006791) and later sponsored family members' immigration. In 1982, he filed an Affidavit of Support for his sister-in-law Reiling Peng, a 26-year-old single woman from Taiwan. The archive also contains immigration documentation for Kai Ti Peng, with a Taiwan address in Taipei City.\n\n**Extended Family Connections**: The archive includes a 1994 resume for Tzu-Hui Yang, who earned both M.S. and B.S. degrees in Electrical Engineering from National Taiwan University in Taipei before pursuing graduate studies at Stanford.\n\n**Cultural Heritage**: Meichu Grace's memorial service program from 2004 includes bilingual English and Chinese elements, reflecting the family's maintenance of their Taiwanese cultural identity even after immigrating to the United States.\n\nThe archive shows a pattern of family members born in Taiwan who later immigrated to the U.S., with Feng serving as a sponsor for relatives' immigration applications.\n\n**Sources**: Death certificates, immigration forms (I-134), memorial service programs, court documents, and academic resumes from the 90 documents linked to Feng Kuang Liu.",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994 Tzu-Hui Yang Resume.pdf",
+          "sha256": "5d78684eff36"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1982-06-21 Affidavit of support - REILING PENG.pdf",
+          "sha256": "a1fb83beee74"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-10-22 Immigration Application KAI TI PENG.pdf",
+          "sha256": "40b0a7f5a982"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-03 MEICHU LIU Medical Records - Power Of Attorney.pdf",
+          "sha256": "cfca4a40fcfe"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-08-14 Reservation data.pdf",
+          "sha256": "6011e3f3ff17"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1982-06-21 Affidavit of support - REILING PENG.pdf",
+          "sha256": "a1fb83beee74"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-10-22 Immigration Application KAI TI PENG.pdf",
+          "sha256": "40b0a7f5a982"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        }
+      ],
+      "plan": {
+        "query_type": "topic",
+        "entities": [
+          "Feng Kuang Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "Taiwan",
+          "birth",
+          "immigration"
+        ],
+        "strategy": "Search for Taiwan-related documents and Feng Kuang Liu's birth records and immigration history"
+      },
+      "retrieval_summary": {
+        "entities": 1,
+        "documents": 15,
+        "timeline_events": 20,
+        "assets": 5,
+        "person_profiles": 1
+      },
+      "input_tokens": 2910,
+      "output_tokens": 385
+    },
+    {
+      "question_id": "m09",
+      "tier": "medium",
+      "question": "How was the Liu family trust administered after Feng Kuang's death?",
+      "answer": "Based on the retrieved documents, the Liu family trust administration after Feng Kuang's death on June 6, 2010 involved complex legal proceedings and multiple successor trustees.\n\nThe original Liu Family Trust was established on February 9, 1990 by Feng-Kuang Liu and his wife Meichu Grace Liu (\u5f6d\u7f8e\u73e0). After Feng Kuang's death, the trust was divided into separate entities that required different administrators:\n\n**Trust A (Feng Kuang Liu \"A\" Trust):** Karen Peling Liu and Kenny Peng Liu filed multiple petitions in Santa Clara County Superior Court (Case No. 1-10-PR 168 002) seeking to confirm Karen as the successor trustee. These court filings occurred in December 2010 and January 2011, indicating there was some dispute about the trusteeship that required judicial resolution.\n\n**Trust B (Meichu Grace Liu \"B\" Trust):** Reiling Liao accepted appointment as sole successor trustee of this irrevocable trust (established March 14, 2005) after Ellson Chen resigned from the position.\n\n**Personal Residence Trust:** This trust also had successor co-trustees appointed, though the specific individuals aren't clearly identified in the excerpts.\n\nThe documents show there was a \"trusteeship dispute\" that required court intervention, with legal notifications filed under Probate Code Section 16061.7 in March 2011. The administration appears to have been complicated by the fact that Feng Kuang's fianc\u00e9e, Mei Liang Melody Tsai, had rejected her trustee appointment via email in May 2010.\n\n**Sources:** Court filings, successor trustee acceptance documents, death certificates, probate petitions, and legal correspondence from the Liu Family Trust collection (90 documents total).",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-02-11 Lakin Spears invoice Trust B.pdf",
+          "sha256": "126e099d9979"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-13 Lakin Spears Potential Conflict Of Interest Letter.pdf",
+          "sha256": "75effda22e9f"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-23 Client Contract.pdf",
+          "sha256": "1da4343e4bef"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-06-22 Liu Family Trust FBO EIN & Trust Document.pdf",
+          "sha256": "2e55dfac02ff"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Court Petition.pdf",
+          "sha256": "931e8b6648ec"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        }
+      ],
+      "plan": {
+        "query_type": "topic",
+        "entities": [
+          "Feng Kuang Liu"
+        ],
+        "date_range": {
+          "start": "2010-06-06"
+        },
+        "search_terms": [
+          "trust",
+          "administration",
+          "probate"
+        ],
+        "strategy": "Search trust and legal documents after Feng Kuang Liu's death date for administration details"
+      },
+      "retrieval_summary": {
+        "entities": 1,
+        "documents": 18,
+        "timeline_events": 40,
+        "assets": 5,
+        "person_profiles": 1
+      },
+      "input_tokens": 3327,
+      "output_tokens": 407
+    },
+    {
+      "question_id": "m10",
+      "tier": "medium",
+      "question": "What types of photos are in the archive?",
+      "answer": "Based on the family archive data, there are **2,075 photos** in the collection, making up the vast majority of the 2,196 total assets.\n\nWhile the archive contains a substantial photo collection, the retrieved documents only give us glimpses of specific types of photos rather than a comprehensive catalog:\n\n**Personal/Family Photos:**\n- Visit photos mentioned in a 2000 Japanese letter from \u595a\u679d (Shu-Hui) to \u6c34\u6cbb, where she writes about enclosing photos from a recent visit\n- Vacation photos referenced in estate correspondence, specifically souvenirs and photos from trips that Feng-Kuang Liu took with someone\n\n**Social Photos:**\n- Photos of Caroline (a neighbor) and Kenny Liu, mentioned in a 2010 Facebook condolence message\n\n**Property-Related Photos:**\n- Real estate listing photos for the Weston Drive property sale in 2011\n\nThe documents also reference \"vivid images\" in medical literature, though these appear to be illustrations rather than family photos.\n\n**What's Missing:** The retrieved data doesn't provide a complete breakdown of photo types, dates, or subjects. With over 2,000 photos spanning multiple decades of family history, there are likely many more categories not captured in these specific document excerpts.\n\n**Sources:** Estate correspondence, Japanese family letters, real estate documents, Facebook messages, archive statistics",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Scanned Letters/Untitled.pdf",
+          "sha256": "ac9080ef8a79"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-07 Message From Caroline Fuller.pdf",
+          "sha256": "8193193dd281"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        }
+      ],
+      "plan": {
+        "query_type": "stats",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "photos",
+          "images"
+        ],
+        "strategy": "Get archive statistics and categorization of photo types and collections"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1389,
+      "output_tokens": 302
+    },
+    {
+      "question_id": "h01",
+      "tier": "hard",
+      "question": "Tell me about grandpa.",
+      "answer": "Based on the family archive, here's what I can tell you about grandpa:\n\n**Feng Kuang Liu (\u99ae\u5ee3\u5289)** was born on January 23, 1943, in Taiwan and passed away on June 6, 2010, at age 67 at Lahey Clinic Northshore in Peabody, Massachusetts, from cardiac failure.\n\nHe was a naturalized US citizen who lived in Sunnyvale, California, and later Santa Clara County. He was married to **Meichu Grace Liu (\u5f6d\u7f8e\u73e0)**, who was born March 11, 1947, and died on June 16, 2004, at Stanford Medical Center. After her death, his 2007 will indicates he declared himself as not married.\n\nGrandpa had two adult children: **Karen Peling Liu** and **Kenny Peng Liu**. The family established the Liu Family Trust on February 9, 1990, and owned property at 26471 Weston Drive in Los Altos Hills.\n\nThe archive shows he had extensive medical records from 2001-2010 and was involved in significant estate planning and financial management. After his death, there were complex trust administration proceedings, with Karen serving as successor trustee of his \"A\" Trust.\n\nHis Social Security number was 492-58-6721, and the archive contains 90 documents related to him, though unfortunately no photos are currently linked to his record.\n\n**Sources:** Death certificates, trust documents, wills, medical records, court filings, Social Security cards, property deeds, and estate correspondence.",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+          "sha256": "920df846c730"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Social Security Numbers.pdf",
+          "sha256": "70e04a014e19"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        }
+      ],
+      "plan": {
+        "query_type": "person",
+        "entities": [
+          "Feng Kuang Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "Liu"
+        ],
+        "strategy": "Get full person profile for Feng Kuang Liu with timeline and documents"
+      },
+      "retrieval_summary": {
+        "entities": 1,
+        "documents": 8,
+        "timeline_events": 20,
+        "assets": 5,
+        "person_profiles": 1
+      },
+      "input_tokens": 2948,
+      "output_tokens": 358
+    },
+    {
+      "question_id": "h02",
+      "tier": "hard",
+      "question": "What was life like for the Liu family in the 1970s?",
+      "answer": "Based on the family archive, I can only find limited information specifically about the Liu family's life in the 1970s.\n\nThe timeline shows several events from the 1970s, primarily captured in photographs that reveal glimpses of their lifestyle during this decade. The images show a young Asian couple - likely Feng Kuang Liu (\u5289\u8c50\u5149, born 1943) and Meichu Grace Liu (\u5289\u5f6d\u7f8e\u73e0, born 1947) - enjoying various activities together.\n\nTheir 1970s life appears to have included:\n- **Travel and leisure**: Photos show them visiting Las Vegas (posing at the Riviera and Stardust Resort casinos), Seattle (at the Pacific Science Center), and various amusement parks\n- **Social gatherings**: Images capture them at wedding receptions, playing games with friends in living rooms, and attending community events\n- **Personal milestones**: There are graduation photos and what appears to be wedding-related celebrations\n\nThe photos suggest they were a young, social couple who enjoyed traveling and spending time with friends during the 1970s. However, the archive contains very few documents from this specific decade - most documentation relates to later periods, particularly estate and trust materials from the 1990s-2010s.\n\nUnfortunately, there are significant gaps in the 1970s record. The archive doesn't provide details about their work, living situation, financial circumstances, or day-to-day life during this period.\n\n**Sources**: Timeline photos from the 1970s, personal information from death certificates and trust documents",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "person_profile",
+          "name": "Meichu Grace Liu",
+          "assets": 64
+        },
+        {
+          "type": "person_profile",
+          "name": "Kenny Peng Liu",
+          "assets": 45
+        },
+        {
+          "type": "person_profile",
+          "name": "Karen Peling Liu",
+          "assets": 38
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1983-07-30 Wedding Invitation.pdf",
+          "sha256": "0d2eaf1ef095"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-06-06 Estate Inventory Copy.pdf",
+          "sha256": "f744d1591a2d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/2004-12-15 FKL Retirement Lunch.pdf",
+          "sha256": "08a4e77caf9b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-17 Lakin Spears Letter.pdf",
+          "sha256": "2b1e2d116753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/2004-10-07 FENG KUANG LIU Retirement Email Notification.pdf",
+          "sha256": "8ad09e2eca3f"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Grant Deed.pdf",
+          "sha256": "920df846c730"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1983-07-30 Wedding Invitation.pdf",
+          "sha256": "0d2eaf1ef095"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1986-2009 Marquis Diamond Documentation.pdf",
+          "sha256": "077159dc446d"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-02-11 Lakin Spears invoice Trust B.pdf",
+          "sha256": "126e099d9979"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-02-11 Lakin Spears invoice Trust B.pdf",
+          "sha256": "126e099d9979"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        }
+      ],
+      "plan": {
+        "query_type": "date",
+        "entities": [
+          "Feng Kuang Liu",
+          "Meichu Grace Liu",
+          "Kenny Peng Liu",
+          "Karen Peling Liu"
+        ],
+        "date_range": {
+          "decade": "1970s"
+        },
+        "search_terms": [
+          "family",
+          "life",
+          "California"
+        ],
+        "strategy": "Get timeline events and documents from 1970s for all family members to understand their life circumstances"
+      },
+      "retrieval_summary": {
+        "entities": 4,
+        "documents": 27,
+        "timeline_events": 100,
+        "assets": 20,
+        "person_profiles": 4
+      },
+      "input_tokens": 4757,
+      "output_tokens": 340
+    },
+    {
+      "question_id": "h03",
+      "tier": "hard",
+      "question": "What is the story of this family?",
+      "answer": "Based on the family archive, this is the story of the Liu family, Chinese-American immigrants who built their life in California:\n\n**Feng Kuang Liu** (\u5289\u99ae\u5149) was born January 23, 1943, in Taiwan and became a naturalized U.S. citizen living in Sunnyvale, California. He worked as an engineer and realtor. His wife **Meichu Grace Liu** (\u5289\u5f6d\u7f8e\u73e0) was born March 11, 1947. Together they had two children: **Karen Peling Liu** and **Kenny Peng Liu**.\n\nThe family established financial security through careful planning. On February 9, 1990, Feng Kuang and Meichu created the Liu Family Trust to manage their assets and estate.\n\nTragedy struck when Meichu Grace Liu died on June 16, 2004, at Stanford Medical Center at age 57. Her memorial service was held on June 21, 2004, at Spangler Mortuaries in Los Altos, California. Just three days before her death, on June 3, 2004, she had executed a CalPERS Special Power of Attorney appointing her husband as her representative.\n\nSix years later, Feng Kuang Liu died on June 6, 2010, at age 67 at Lahey Clinic Northshore in Peabody, Massachusetts, from cardiac failure. His 2007 will declared he was not married at that time and had two adult children.\n\nAfter both parents' deaths, the family trust split into multiple trusts, leading to legal proceedings as Karen and Kenny worked with estate attorneys and the courts to properly administer their parents' estate and resolve trusteeship matters.\n\n**Sources:** Death certificates, memorial service programs, trust documents, court filings, medical records, and estate correspondence (154+ documents total, no photos in archive).",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "person_profile",
+          "name": "Meichu Grace Liu",
+          "assets": 64
+        },
+        {
+          "type": "person_profile",
+          "name": "Kenny Peng Liu",
+          "assets": 45
+        },
+        {
+          "type": "person_profile",
+          "name": "Karen Peling Liu",
+          "assets": 38
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1983-07-30 Wedding Invitation.pdf",
+          "sha256": "0d2eaf1ef095"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+          "sha256": "7bd2ccac29b5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Promissory Note 638 Kirkland Dr.pdf",
+          "sha256": "632dbf39da46"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-06-14  Weston Dr Sales Contract.pdf",
+          "sha256": "9bebd08ebcdd"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1986-2009 Marquis Diamond Documentation.pdf",
+          "sha256": "077159dc446d"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-02-11 Lakin Spears invoice Trust B.pdf",
+          "sha256": "126e099d9979"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-02-11 Lakin Spears invoice Trust B.pdf",
+          "sha256": "126e099d9979"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [
+          "Feng Kuang Liu",
+          "Meichu Grace Liu",
+          "Kenny Peng Liu",
+          "Karen Peling Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "family",
+          "history",
+          "biography"
+        ],
+        "strategy": "Retrieve comprehensive family overview including all members' profiles, major life events, and key documents"
+      },
+      "retrieval_summary": {
+        "entities": 4,
+        "documents": 23,
+        "timeline_events": 80,
+        "assets": 20,
+        "person_profiles": 4
+      },
+      "input_tokens": 4359,
+      "output_tokens": 420
+    },
+    {
+      "question_id": "h04",
+      "tier": "hard",
+      "question": "What do we know about the family's financial and legal history?",
+      "answer": "Based on the family archive, here's what we know about the Liu family's financial and legal history:\n\n## Financial History\nThe family had substantial financial assets managed through the Liu Family Trust, established February 9, 1990. Key financial activities include:\n\n- A significant **$135,663 wire transfer** in 1989 from Y S Liu-Chen (via Shanghai Commercial & Savings Bank of Philadelphia) to Feng Kuang Liu and Meichu Grace Liu's joint account\n- Multiple investment accounts including **Benham Capital Management** (account #9300029940) and **Rancon Financial Corporation**\n- Real estate holdings including a property at **26471 Weston** with Wells Fargo mortgage\n- A **$380,000 promissory note** from Melody Tsai to the estate\n- Various retirement accounts requiring tax planning considerations\n\n## Legal History\nThe family engaged in significant estate litigation and trust administration:\n\n- **Lakin Spears LLP** represented siblings Kenny Peng Liu and Karen Peling Liu starting November 2010 for Trust A and Trust B administration\n- Estate litigation involved **Heggstad petition drafting**, trustee resignation/appointment matters, and real estate trust issues\n- **Thoits Love Hershberger & McLean** handled loan default notices and promissory note issues related to Mei Lian Melody Tsai in 2012\n- Legal work included complex trust document reviews and \"pour over\" provisions between trusts\n\nThe archive shows a family with substantial assets but also complex legal challenges around estate administration and loan defaults.\n\n**Sources:** Trust filings, legal invoices, wire transfer receipts, mortgage documents, attorney-client contracts",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011 Assorted bills.pdf",
+          "sha256": "33c13901edc9"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-17 Lakin Spears Letter.pdf",
+          "sha256": "2b1e2d116753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2012-10-31 THOITS Loan services.pdf",
+          "sha256": "880c94e1822c"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-15 Lakin Spear Invoice.pdf",
+          "sha256": "e86c5b691bf9"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-23 Client Contract.pdf",
+          "sha256": "1da4343e4bef"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1984-02-15 Education Certificates FENG KUANG LIU.pdf",
+          "sha256": "57ccab416ac4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-15 Lakin Spear Invoice.pdf",
+          "sha256": "e86c5b691bf9"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Court Petition.pdf",
+          "sha256": "931e8b6648ec"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Hearing.pdf",
+          "sha256": "5a63e802d803"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Court Petition.pdf",
+          "sha256": "931e8b6648ec"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1985-01-31 Mobile Home Park Related.pdf",
+          "sha256": "e28810d04c65"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-08 Signature Page.pdf",
+          "sha256": "1d38fcfb5e72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-17 Lakin Spears Letter.pdf",
+          "sha256": "2b1e2d116753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-08 Signature Page.pdf",
+          "sha256": "1d38fcfb5e72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Liu Family Trust A & B.pdf",
+          "sha256": "45207311ce03"
+        }
+      ],
+      "plan": {
+        "query_type": "topic",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "financial",
+          "legal",
+          "trust",
+          "estate",
+          "probate",
+          "court",
+          "assets",
+          "inheritance"
+        ],
+        "strategy": "Search for legal documents, trust filings, and financial records related to family estate and legal matters"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 36,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1961,
+      "output_tokens": 378
+    },
+    {
+      "question_id": "h05",
+      "tier": "hard",
+      "question": "How has the archive been built? What are its strengths and gaps?",
+      "answer": "Based on the archive data, this family collection has been built primarily around estate and legal documentation, with a significant photographic component.\n\n## How the Archive Was Built\n\nThe archive appears to have been assembled during estate settlement activities around 2010-2011, following Feng Kuang Liu's passing. Key documents show systematic collection of assets including financial accounts, insurance policies, medical records, and personal items like a coin collection and jewelry from Grace (Meichu Liu).\n\nLegal professionals, including Dawn Pozzobon from Lakin Spears LLP and Sheffield Law Office, were involved in cataloging estate assets, which likely drove much of the documentation process. The archive includes essential family records like Social Security cards for multiple family members including Feng Kuang Liu, Kenny Peng Liu, Jason Hsuan Peng, and Feng Shih Frank Liu.\n\n## Strengths and Gaps\n\n**Strengths:**\n- Comprehensive visual documentation: 2,075 photos\n- Substantial timeline coverage: 3,012 events tracked\n- Strong legal/estate documentation: 121 documents\n- Good entity identification: 826 people, 1,502 dates, 18 locations\n- Includes both English and Chinese family names\n\n**Notable Gaps:**\n- Limited geographic diversity (only 18 locations identified)\n- Heavy emphasis on estate/legal matters rather than family history\n- Medical records appear limited (only 2004-2005 period for Meichu Liu shown)\n- Missing broader family narrative documentation\n\nThe archive excels at preserving legal and photographic family history but may lack comprehensive personal correspondence or broader historical context.\n\n**Sources:** Estate inventories, legal correspondence, medical records, Social Security documentation, photographs",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-17 Lakin Spears Letter.pdf",
+          "sha256": "2b1e2d116753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Cards.pdf",
+          "sha256": "baa84d68df28"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-06-06 Estate Inventory Copy.pdf",
+          "sha256": "f744d1591a2d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Social Security Numbers.pdf",
+          "sha256": "70e04a014e19"
+        }
+      ],
+      "plan": {
+        "query_type": "stats",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "archive",
+          "collection",
+          "digitization"
+        ],
+        "strategy": "Get comprehensive archive statistics and metadata to analyze collection composition, coverage gaps, and organizational strengths"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1402,
+      "output_tokens": 379
+    },
+    {
+      "question_id": "h06",
+      "tier": "hard",
+      "question": "What health issues did Feng Kuang Liu face?",
+      "answer": "Based on the family archive, I can find very limited information about Feng Kuang Liu's specific health issues. Here's what the records show:\n\n**What is documented:**\nFeng Kuang Liu died on June 6, 2010, at age 67 at Lahey Clinic Northshore in Peabody, Massachusetts, from **cardiac failure** according to his death certificate. This suggests he had heart problems that ultimately led to his death.\n\nThe archive mentions there is a \"compilation of medical records for Feng K. Liu (DOB 1/23/1943) spanning 2001 to 2010, including lab results, office visits,\" but unfortunately, the specific contents of these medical records are not detailed in the retrieved data.\n\n**What's missing:**\nWhile the archive contains 90 documents linked to Feng Kuang Liu and references his medical records from 2001-2010, the actual details of any health conditions, treatments, or ongoing medical issues he may have faced are not described in the available summaries. This represents a significant gap in understanding his health history during his final decade.\n\nHis death certificate lists his occupation as \"Assistant Director\" in \"Health Care\" for 20 years, suggesting he worked in the healthcare field, but this doesn't provide information about his personal health challenges.\n\n**Sources:**\n- Death certificates\n- Timeline references to medical records compilation\n- Trust and legal documents",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2005 Weston Dr Service Invoices.pdf",
+          "sha256": "b514b0859948"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05-13 MEICHU LIU Medical Records - Letter to Dr Weaver.pdf",
+          "sha256": "ec7bdbd76039"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Cards.pdf",
+          "sha256": "baa84d68df28"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05-13 MEICHU LIU Medical Records - Letter to Dr Weaver.pdf",
+          "sha256": "ec7bdbd76039"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011 Assorted bills.pdf",
+          "sha256": "33c13901edc9"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05-13 MEICHU LIU Medical Records - Letter to Dr Weaver.pdf",
+          "sha256": "ec7bdbd76039"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-03 MEICHU LIU Medical Records - Power Of Attorney.pdf",
+          "sha256": "cfca4a40fcfe"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        }
+      ],
+      "plan": {
+        "query_type": "person",
+        "entities": [
+          "Feng Kuang Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "health",
+          "medical",
+          "illness"
+        ],
+        "strategy": "Look up Feng Kuang Liu person profile and search medical records for health conditions"
+      },
+      "retrieval_summary": {
+        "entities": 1,
+        "documents": 18,
+        "timeline_events": 20,
+        "assets": 5,
+        "person_profiles": 1
+      },
+      "input_tokens": 2820,
+      "output_tokens": 310
+    },
+    {
+      "question_id": "h07",
+      "tier": "hard",
+      "question": "What can you tell me about the women in this family?",
+      "answer": "Based on the family archive, I can tell you about two important women in the Liu family:\n\n**Meichu Grace Liu (\u5f6d\u7f8e\u73e0/\u5289\u5f6d\u7f8e\u73e0)** was born on March 11, 1947, and passed away on June 16, 2004, at Stanford Medical Center. She was married to Feng-Kuang Liu and worked at Agnews Developmental Center (a California state facility for developmental services), where she \"had many friends\" and was remembered fondly by colleagues. \n\nMeichu was actively involved in the family's financial and legal affairs. She co-established the Liu Family Trust with her husband on February 9, 1990, serving as co-trustor and co-trustee. In 2004, she executed a CalPERS Special Power of Attorney appointing her husband as her representative. She also owned valuable assets, including a 2.04-carat marquise-shape brilliant diamond documented by GIA reports.\n\nHer memorial service was held on June 21, 2004, at Spangler Mortuaries in Los Altos, California, with a guest sign-in book preserved in the archive.\n\n**Karen Peling Liu** appears to be the next generation, serving as successor trustee of the Feng Kuang Liu \"A\" Trust after his death in 2010. She filed court petitions with Kenny Peng Liu to confirm her trusteeship role.\n\nThe archive contains 64 documents related to Meichu Grace Liu and 38 related to Karen Peling Liu, though no photos are linked for either woman.\n\n**Sources:** Death certificates, memorial service documents, trust filings, employment records, financial documents, court petitions",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Meichu Grace Liu",
+          "assets": 64
+        },
+        {
+          "type": "person_profile",
+          "name": "Karen Peling Liu",
+          "assets": 38
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994 Weston Dr Grant Deed & 1998 Transfer.pdf",
+          "sha256": "9ecc1b227ede"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Scanned Letters/Untitled.pdf",
+          "sha256": "ac9080ef8a79"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2004 Meichu Signature.pdf",
+          "sha256": "30946ca081da"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1983-08-28 Letter of Returned Payment MEICHU GRACE LIU.pdf",
+          "sha256": "42252872af51"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-02-11 Lakin Spears invoice Trust B.pdf",
+          "sha256": "126e099d9979"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-23 Client Contract.pdf",
+          "sha256": "1da4343e4bef"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-13 Lakin Spears Potential Conflict Of Interest Letter.pdf",
+          "sha256": "75effda22e9f"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1986-2009 Marquis Diamond Documentation.pdf",
+          "sha256": "077159dc446d"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-02-11 Lakin Spears invoice Trust B.pdf",
+          "sha256": "126e099d9979"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        }
+      ],
+      "plan": {
+        "query_type": "person",
+        "entities": [
+          "Meichu Grace Liu",
+          "Karen Peling Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "women",
+          "wife",
+          "daughter",
+          "Grace",
+          "Karen"
+        ],
+        "strategy": "Get person profiles for the female family members Meichu Grace Liu and Karen Peling Liu"
+      },
+      "retrieval_summary": {
+        "entities": 2,
+        "documents": 26,
+        "timeline_events": 40,
+        "assets": 10,
+        "person_profiles": 2
+      },
+      "input_tokens": 3388,
+      "output_tokens": 382
+    },
+    {
+      "question_id": "h08",
+      "tier": "hard",
+      "question": "If I wanted to learn about my family history, where should I start in this archive?",
+      "answer": "Based on your family archive, I'd recommend starting with **Feng Kuang Liu** and **Meichu Grace Liu (\u5f6d\u7f8e\u73e0/\u5289\u5f6d\u7f8e\u73e0)** - they appear to be the central figures with the most comprehensive documentation.\n\n**Feng Kuang Liu** (born January 23, 1943 in Taiwan, died June 6, 2010) has the most extensive records with 90 documents spanning his entire life. His materials include medical records from 2001-2010, financial documents, immigration papers (including an Affidavit of Support showing he was a naturalized US citizen from Taipei), and estate documents handled by attorney Robert A.\n\n**Meichu Grace Liu** (March 11, 1947 - June 16, 2004) has 64 documents, including her memorial service materials from June 21, 2004 at Spangler Mortuaries in Los Altos, California, and various legal documents.\n\nThe archive also contains substantial records for **Kenny Peng Liu** (45 documents) and **Karen Peling Liu** (38 documents), who appear to be their children based on court filings where they're listed as petitioners in trust matters.\n\nA key starting point would be the **Liu Family Trust established February 9, 1990**, which connects the entire family and includes multiple successor trustee documents, court proceedings, and estate planning materials.\n\nThe records span from the 1940s through 2011, with particularly rich documentation around the family's financial affairs, estate planning, and the transitions following each parent's death.\n\n**Sources:** Death certificates, memorial service programs, trust documents, court filings, medical records, financial statements, immigration papers.",
+      "sources": [
+        {
+          "type": "person_profile",
+          "name": "Feng Kuang Liu",
+          "assets": 90
+        },
+        {
+          "type": "person_profile",
+          "name": "Meichu Grace Liu",
+          "assets": 64
+        },
+        {
+          "type": "person_profile",
+          "name": "Kenny Peng Liu",
+          "assets": 45
+        },
+        {
+          "type": "person_profile",
+          "name": "Karen Peling Liu",
+          "assets": 38
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-07-14 Successor Of Trustee.pdf",
+          "sha256": "c54cf7ff698d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1983-07-30 Wedding Invitation.pdf",
+          "sha256": "0d2eaf1ef095"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+          "sha256": "7bd2ccac29b5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Promissory Note 638 Kirkland Dr.pdf",
+          "sha256": "632dbf39da46"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-06-14  Weston Dr Sales Contract.pdf",
+          "sha256": "9bebd08ebcdd"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1989-05-06 Weston Dr Contractor Proposal.pdf",
+          "sha256": "453a6c935bfc"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Medical/2004-06-16 MEICHU LIU HR Letter.pdf",
+          "sha256": "ddeb92080ec5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1989-08-21 Wire Transfer Receipt.pdf",
+          "sha256": "0068335420f1"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/1986-2009 Marquis Diamond Documentation.pdf",
+          "sha256": "077159dc446d"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-02-11 Lakin Spears invoice Trust B.pdf",
+          "sha256": "126e099d9979"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-02-11 Lakin Spears invoice Trust B.pdf",
+          "sha256": "126e099d9979"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "path": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [
+          "Feng Kuang Liu",
+          "Meichu Grace Liu",
+          "Kenny Peng Liu",
+          "Karen Peling Liu"
+        ],
+        "date_range": {},
+        "search_terms": [
+          "family",
+          "history",
+          "timeline"
+        ],
+        "strategy": "Get overview of all family members, key documents, and chronological timeline to provide starting points for family history research"
+      },
+      "retrieval_summary": {
+        "entities": 4,
+        "documents": 23,
+        "timeline_events": 80,
+        "assets": 20,
+        "person_profiles": 4
+      },
+      "input_tokens": 4369,
+      "output_tokens": 385
+    },
+    {
+      "question_id": "h09",
+      "tier": "hard",
+      "question": "What patterns do you notice across the photos from different decades?",
+      "answer": "I can see that your family archive contains an impressive collection of **2,075 photos** spanning multiple decades, but the retrieved documents don't provide detailed information about the visual patterns across different time periods.\n\nWhat I can tell you from the available data is that photos appear consistently throughout the family's documentation:\n\n- **2000**: A Japanese letter from \u595a\u679d (Shu-Hui) to \u6c34\u6cbb mentions enclosed photos from a recent visit\n- **2010**: References to photos of Caroline Fuller and Kenny Liu during the period when Feng Kuang Liu passed away\n- **2011**: Photos were being prepared for the Weston Drive property sale listing\n- **Vacation photos**: The estate correspondence mentions keeping photos from vacations that Feng-Kuang Liu took with family members\n\nThe archive shows photos were important for preserving memories across family visits, neighborhood connections, real estate documentation, and travel experiences. However, to identify specific visual patterns across decades - like changes in photo quality, family composition, locations, or photographic styles - I would need access to the actual photo metadata and visual content rather than just these document references.\n\nThe fact that 2,075 photos represent about 95% of your total archive assets suggests photography was a significant way your family documented their lives over the years.\n\n**Sources:**\n- Japanese correspondence (2000)\n- Facebook messages and real estate documents (2010-2011)\n- Estate correspondence\n- Archive statistics",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Scanned Letters/Untitled.pdf",
+          "sha256": "ac9080ef8a79"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-07 Message From Caroline Fuller.pdf",
+          "sha256": "8193193dd281"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        }
+      ],
+      "plan": {
+        "query_type": "stats",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "photos",
+          "decades"
+        ],
+        "strategy": "Analyze photo metadata and content across different time periods to identify chronological patterns and trends"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 4,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1195,
+      "output_tokens": 316
+    },
+    {
+      "question_id": "h10",
+      "tier": "hard",
+      "question": "Summarize everything the archive knows about 1943.",
+      "answer": "Based on the family archive, 1943 is significant as the birth year of Feng-Kuang Liu, a central figure in the Liu family documents.\n\n**What the archive knows about 1943:**\n\nFeng-Kuang Liu was born on January 23, 1943, in Taiwan (specifically Taipei, according to immigration documents). This date appears consistently across multiple official documents spanning several decades, from his 1982 immigration affidavit of support through his 2010 death certificate.\n\nThe archive shows that Feng-Kuang lived to age 67, passing away on June 6, 2010, in Massachusetts from cardiac failure. He became a naturalized U.S. citizen and worked as an engineer, eventually retiring and living in Los Altos, California, with his spouse Mei Liang Melody Tsai.\n\nHis 1943 birth date was documented in various contexts throughout his life - immigration paperwork when sponsoring his sister-in-law Reiling Peng, travel reservations for a Tibet tour, CalPERS retirement documents for his wife Meichu Grace Liu, and ultimately his death certificate.\n\n**What's not in the archive:**\nThe documents don't provide details about historical events of 1943, other family members born that year, or specific circumstances surrounding Feng-Kuang's birth in wartime Taiwan.\n\n**Sources:**\n- Death certificates\n- Immigration affidavit of support (INS Form I-134)  \n- Travel reservation documents\n- CalPERS retirement paperwork\n- Timeline events from estate documents",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1982-06-21 Affidavit of support - REILING PENG.pdf",
+          "sha256": "a1fb83beee74"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-08-14 Reservation data.pdf",
+          "sha256": "6011e3f3ff17"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-03 MEICHU LIU Medical Records - Power Of Attorney.pdf",
+          "sha256": "cfca4a40fcfe"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-03 MEICHU LIU Medical Records - Power Of Attorney.pdf",
+          "sha256": "cfca4a40fcfe"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-08-14 Reservation data.pdf",
+          "sha256": "6011e3f3ff17"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994 Tzu-Hui Yang Resume.pdf",
+          "sha256": "5d78684eff36"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1982-06-21 Affidavit of support - REILING PENG.pdf",
+          "sha256": "a1fb83beee74"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-10-22 Immigration Application KAI TI PENG.pdf",
+          "sha256": "40b0a7f5a982"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        }
+      ],
+      "plan": {
+        "query_type": "date",
+        "entities": [],
+        "date_range": {
+          "start": "1943-01-01",
+          "end": "1943-12-31"
+        },
+        "search_terms": [
+          "1943",
+          "birth",
+          "Taiwan"
+        ],
+        "strategy": "Get all events and documents from 1943 including Feng Kuang Liu's birth"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 14,
+        "timeline_events": 7,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 2521,
+      "output_tokens": 350
+    }
+  ]
+}

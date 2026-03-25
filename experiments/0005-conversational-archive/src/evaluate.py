@@ -43,14 +43,35 @@ WEIGHTS = {
 }
 
 
+def _fuzzy_fact_match(fact: str, answer: str) -> bool:
+    """Check if a fact appears in the answer, with fuzzy name matching.
+
+    Handles cases like "Meichu Grace Liu" matching "Meichu Liu" by
+    checking if all individual words of the fact appear in the answer.
+    """
+    fact_lower = fact.lower()
+    answer_lower = answer.lower()
+
+    # Direct match
+    if fact_lower in answer_lower:
+        return True
+
+    # Word-level match for multi-word facts (names, phrases)
+    words = fact_lower.split()
+    if len(words) >= 2:
+        # All words must appear in the answer (not necessarily contiguous)
+        return all(w in answer_lower for w in words)
+
+    return False
+
+
 def score_factual_accuracy(answer: str, question: TestQuestion) -> tuple[float, dict]:
     """Check what fraction of required facts appear in the answer."""
-    answer_lower = answer.lower()
     found = []
     missing = []
 
     for fact in question.required_facts:
-        if fact.lower() in answer_lower:
+        if _fuzzy_fact_match(fact, answer):
             found.append(fact)
         else:
             missing.append(fact)
@@ -90,9 +111,8 @@ def score_completeness(answer: str, question: TestQuestion) -> tuple[float, dict
     if not question.bonus_facts:
         return 1.0, {"bonus_found": [], "bonus_missing": []}
 
-    answer_lower = answer.lower()
-    found = [f for f in question.bonus_facts if f.lower() in answer_lower]
-    missing = [f for f in question.bonus_facts if f.lower() not in answer_lower]
+    found = [f for f in question.bonus_facts if _fuzzy_fact_match(f, answer)]
+    missing = [f for f in question.bonus_facts if not _fuzzy_fact_match(f, answer)]
 
     score = len(found) / len(question.bonus_facts)
     return score, {"bonus_found": found, "bonus_missing": missing}

@@ -49,57 +49,27 @@ class PipelineResult:
 # STAGE 1: PLAN — Classify question and extract entities
 # =========================================================================
 
-PLANNER_PROMPT_PREFIX = """You are a query planner for the Liu family archive. Given a user question,
-extract structured retrieval parameters. The archive contains photos, legal documents,
-medical records, death certificates, and trust filings for the Liu family.
+PLANNER_PROMPT = """You are a query planner for a family archive. Given a user question,
+classify it and extract the key entities needed for retrieval.
 
-Key people: Feng Kuang Liu (patriarch), Meichu Grace Liu (wife), Kenny Peng Liu (son),
-Karen Peling Liu (daughter). The family lived in Los Altos Hills, California.
-Feng Kuang Liu was born January 23, 1943 in Taiwan and died June 6, 2010.
+Return a JSON object with:
+- query_type: one of "person", "date", "location", "topic", "stats", "general"
+- entities: list of entity names or values to search for
+- date_range: object with "start", "end", "decade" (any or all can be null)
+- search_terms: list of keywords for document full-text search
+- strategy: brief description of what data to retrieve
 
-Return a JSON object with these fields:
-- query_type: "person", "date", "location", "topic", "stats", or "general"
-- entities: list of person names or entity values to look up
-- date_range: object with optional "start", "end", "decade" fields
-- search_terms: list of 1-3 word keywords for document text search (NOT full sentences)
-- strategy: one sentence describing what to retrieve
+Be specific. "Tell me about grandpa" -> query_type "person", entities ["Feng Kuang Liu"].
+"What happened in the 1970s" -> query_type "date", date_range with decade "1970s".
+"How many photos" -> query_type "stats".
 
-EXAMPLES:
+Question: QUESTION_PLACEHOLDER
 
-Q: "When did Feng Kuang Liu die?"
-A: {"query_type": "person", "entities": ["Feng Kuang Liu"], "date_range": {}, "search_terms": ["death", "died"], "strategy": "Look up Feng Kuang Liu person profile and search death-related documents"}
-
-Q: "How many photos are in the archive?"
-A: {"query_type": "stats", "entities": [], "date_range": {}, "search_terms": [], "strategy": "Get archive statistics including photo and document counts"}
-
-Q: "What happened in the 1970s?"
-A: {"query_type": "date", "entities": [], "date_range": {"decade": "1970s"}, "search_terms": [], "strategy": "Get timeline events from the 1970s decade"}
-
-Q: "Tell me about grandpa."
-A: {"query_type": "person", "entities": ["Feng Kuang Liu"], "date_range": {}, "search_terms": ["Liu"], "strategy": "Get full person profile for Feng Kuang Liu with timeline and documents"}
-
-Q: "What legal documents are in the archive?"
-A: {"query_type": "topic", "entities": [], "date_range": {}, "search_terms": ["trust", "court", "probate", "legal"], "strategy": "Search documents for legal and trust-related content"}
-
-Now answer for this question. Return ONLY the JSON object:
-Q: "QUESTION_PLACEHOLDER"
-A: """
+Return only the JSON object, no explanation."""
 
 
 def _format_planner_prompt(question: str) -> str:
-    return PLANNER_PROMPT_PREFIX.replace("QUESTION_PLACEHOLDER", question)
-
-
-def _strip_fences(text: str) -> str:
-    """Strip markdown code fences from LLM output."""
-    text = text.strip()
-    if text.startswith("```"):
-        lines = text.split("\n")
-        lines = lines[1:]
-        if lines and lines[-1].strip() == "```":
-            lines = lines[:-1]
-        text = "\n".join(lines)
-    return text.strip()
+    return PLANNER_PROMPT.replace("QUESTION_PLACEHOLDER", question)
 
 
 def plan(question: str) -> dict:
@@ -110,7 +80,7 @@ def plan(question: str) -> dict:
         max_tokens=500,
     )
     try:
-        return json.loads(_strip_fences(result.output))
+        return json.loads(result.output)
     except (json.JSONDecodeError, TypeError):
         # Fallback: treat as general query
         return {
@@ -141,34 +111,18 @@ def retrieve(plan_result: dict) -> RetrievalResult:
         matches = search_entities(entity_name, limit=5)
         result.entities.extend(matches)
 
-    # Person profiles — pull for ANY entity that matches a person, regardless
-    # of query type. Also search documents by person name for cross-referencing.
-    person_names_searched = set()
-    for entity_name in entities:
-        profile = get_person_profile(entity_name)
-        if profile:
-            result.person_profiles.append(profile)
-            assets = get_assets_for_entity(profile.entity_id, limit=5)
-            result.assets.extend(assets)
-            result.timeline.extend(profile.timeline_events)
-            person_names_searched.add(entity_name.lower())
-    # Also check any entity matches that are persons
-    for match in result.entities:
-        if match.entity_type == "person" and match.entity_value.lower() not in person_names_searched:
-            profile = get_person_profile(match.entity_value)
+    # Person profiles
+    if qtype == "person" or any(
+        e.entity_type == "person" for e in result.entities
+    ):
+        for entity_name in entities:
+            profile = get_person_profile(entity_name)
             if profile:
                 result.person_profiles.append(profile)
+                # Get sample assets for this person
+                assets = get_assets_for_entity(profile.entity_id, limit=5)
+                result.assets.extend(assets)
                 result.timeline.extend(profile.timeline_events)
-                person_names_searched.add(match.entity_value.lower())
-
-    # Always search documents for person names — death certs, medical records,
-    # legal docs contain critical biographical facts not in synthesis
-    for name in person_names_searched:
-        # Extract surname for broader doc search
-        parts = name.split()
-        if parts:
-            docs = search_documents(parts[-1], limit=3)  # surname search
-            result.documents.extend(docs)
 
     # Date/timeline queries
     decade = date_range.get("decade", "")
@@ -185,13 +139,8 @@ def retrieve(plan_result: dict) -> RetrievalResult:
         docs = search_documents(term, limit=5)
         result.documents.extend(docs)
 
-    # Stats queries — also trigger on keywords that imply counting
-    stats_keywords = ["how many", "count", "total", "number of", "archive", "collection"]
-    needs_stats = qtype == "stats" or any(
-        kw in plan_result.get("strategy", "").lower()
-        for kw in stats_keywords
-    )
-    if needs_stats:
+    # Stats queries
+    if qtype == "stats":
         stats = get_archive_stats()
         result.raw_facts.append(f"Archive statistics: {json.dumps(stats)}")
 

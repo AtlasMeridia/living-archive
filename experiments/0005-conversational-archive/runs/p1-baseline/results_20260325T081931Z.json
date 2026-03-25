@@ -1,0 +1,1542 @@
+{
+  "timestamp": "20260325T081931Z",
+  "tier_filter": null,
+  "skip_coherence": true,
+  "elapsed_seconds": 358.1,
+  "total_input_tokens": 38912,
+  "total_output_tokens": 9774,
+  "questions_attempted": 30,
+  "questions_succeeded": 30,
+  "results": [
+    {
+      "question_id": "e01",
+      "tier": "easy",
+      "question": "When was Feng Kuang Liu born?",
+      "answer": "Based on the family archive documents, **Feng Kuang Liu was born on January 23, 1943**.\n\nThis birth date is consistently documented in two separate official records:\n\n1. **His death certificate** from 2010 states he was born January 23, 1943 in Taiwan, and died at age 67 (which confirms the 1943 birth year)\n\n2. **A 1982 immigration affidavit** he filed shows him stating under oath: \"I was born on Jan 23, 1943 at Taipei, Taiwan\"\n\nThe documents show he was a naturalized U.S. citizen who worked as an engineer at Nortel Networks. He was married to Mei Liang Melody Tsai (also referred to as Meichu Grace Liu in some documents) and lived in California for many years, including addresses in Sunnyvale and Los Altos Hills.\n\nFeng Kuang Liu passed away on June 6, 2010 at Lahey Clinic Northshore in Peabody, Massachusetts from cardiac failure.\n\n**Sources:**\n- Death certificates (2010)\n- Immigration and Naturalization Service Form I-134 Affidavit of Support (1982)\n- Work correspondence records (1998)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1982-06-21 Affidavit of support - REILING PENG.pdf",
+          "sha256": "a1fb83beee74"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/1998-07 FENG KUANG LIU Work Email Correspondence (binder).pdf",
+          "sha256": "a7af742671bf"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "When was Feng Kuang Liu born?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1410,
+      "output_tokens": 288
+    },
+    {
+      "question_id": "e02",
+      "tier": "easy",
+      "question": "When did Feng Kuang Liu die?",
+      "answer": "Based on the documents in the family archive, I cannot find a specific date for when Feng Kuang Liu died. However, the retrieved data does confirm that he had passed away by 2010-2011.\n\nThe clearest evidence comes from a legal document titled \"Feng Kuang Liu Estate - Melody Tsai Legal Matters (2010-2011)\" which contains correspondence about \"the estate of Feng-Kuang Liu.\" This indicates he had died by that time period, as estate matters are only handled after someone's death.\n\nThe documents show Feng Kuang Liu was alive and active in various capacities through at least 2005, when service invoices for the family home at 26471 Weston Drive in Los Altos Hills were addressed to him. Earlier documents from 1994 and 1995 show him involved in home construction matters and his professional achievements at Northern Telecom (Nortel).\n\nWhile the archive contains medical records for family member Meichu Liu from 2004-2005, there are no specific medical records or death certificates for Feng Kuang Liu that would provide an exact date of death.\n\n**Sources:**\n- Estate legal documents (2010-2011)\n- Home service records (2005)\n- Construction correspondence (1994)\n- Professional achievement documentation (1995)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994-04-02 Weston Dr Letter of Construction Status.pdf",
+          "sha256": "a9cfaf21e66d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2005 Weston Dr Service Invoices.pdf",
+          "sha256": "b514b0859948"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "When did Feng Kuang Liu die?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1280,
+      "output_tokens": 296
+    },
+    {
+      "question_id": "e03",
+      "tier": "easy",
+      "question": "What was Feng Kuang Liu's occupation?",
+      "answer": "Based on the family archive documents, Feng Kuang Liu was an engineer who worked at Nortel (Northern Telecom) in Mountain View, California. \n\nHis death certificate from 2010 lists his occupation as \"retired engineer\" with 20 years in that occupation. The archive contains specific documentation of his professional achievements at Northern Telecom/Nortel, where he worked at their Mountain View facility (MPK office). \n\nThe documents show he was highly educated for his engineering career, holding multiple advanced degrees: a Master's in Industrial Engineering from Illinois Institute of Technology, a Master's in Operations Research from Washington University, and a Bachelor's in Industrial Engineering.\n\nEmail correspondence from 1998 shows him actively working at Nortel's MPK office, where he was communicating with his son Kenny who was attending Reed College at the time.\n\nFeng Kuang Liu (\u99ae\u5149\u5289) was born in Taiwan on January 23, 1943, and passed away on June 6, 2010, at age 67. He lived in Los Altos Hills, California, for 34 years according to his death certificate.\n\n**Sources:**\n- Death certificate (2010)\n- Professional achievement documentation from Nortel/Northern Telecom\n- Email correspondence showing active employment (1998)\n- Family trust financial documents",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What was Feng Kuang Liu's occupation?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1402,
+      "output_tokens": 293
+    },
+    {
+      "question_id": "e04",
+      "tier": "easy",
+      "question": "Who are the children of Feng Kuang Liu?",
+      "answer": "Based on the retrieved documents from the family archive, I cannot find specific information about who the children of Feng Kuang Liu are.\n\nThe documents do reference Feng Kuang Liu (also written as Feng-Kuang Liu) in several contexts:\n- His professional achievements at Northern Telecom (Nortel) in Mountain View, California, where he worked with degrees in MS Industrial Engineering and MS Operations Research\n- His role as attorney-in-fact for his wife Meichu Grace Liu (also called Meichu G. Liu) during her serious illness in 2004\n- References to trusteeship matters in the Liu Family Trust from 2011\n\nWhile these documents confirm Feng Kuang Liu was married to Meichu Grace Liu and was involved in family trust matters, they don't explicitly name or identify any children. The trust documents from 2011 mention trustees including Karen Peling Liu and Reiling Liao, but their relationship to Feng Kuang Liu as potential children is not clearly stated in the available excerpts.\n\nTo get a complete answer about Feng Kuang Liu's children, additional family documents such as birth certificates, family trees, or more detailed trust documents would need to be retrieved from the archive.\n\n**Sources:**\n- Work achievement documents (1995-1999)\n- Medical records and power of attorney documents (2004)\n- Trust declaration documents (2011)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-03 MEICHU LIU Medical Records - Power Of Attorney.pdf",
+          "sha256": "cfca4a40fcfe"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "Who are the children of Feng Kuang Liu?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1262,
+      "output_tokens": 311
+    },
+    {
+      "question_id": "e05",
+      "tier": "easy",
+      "question": "How many photos are in the archive?",
+      "answer": "Based on the retrieved data, I can only find references to a small number of specific photos, but there's no comprehensive count of all photos in the archive.\n\nThe data mentions:\n\n**Specific photo references:**\n- Photos from a 2000 visit mentioned in a Japanese letter from \u595a\u679d (Shu-Hui/Kishi) to \u6c34\u6cbb (Suiji), where she writes that \"the photos from that time are finished\" and encloses them with her letter\n- Facebook photos referenced in a 2010 condolence message, including one tagged photo of Caroline Fuller and Kenny Liu from November 2008 titled \"Out in the City\"\n\nHowever, these retrieved documents primarily contain correspondence, medical records, real estate documents, and trust filings rather than a systematic catalog or inventory of the family's photo collection. The references to photos appear incidentally within other types of documents.\n\n**What's missing:** The retrieved data doesn't include any photo inventories, album catalogs, or systematic counts that would allow me to provide a total number of photos in the archive. There may be many more photos in the collection that simply aren't referenced in these particular documents.\n\nTo get an accurate count, you'd need to access documents that specifically catalog or inventory the family's photographic materials.\n\n**Sources:** Personal correspondence, Facebook messages, Japanese family letters",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-07 Message From Caroline Fuller.pdf",
+          "sha256": "8193193dd281"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Scanned Letters/Untitled.pdf",
+          "sha256": "ac9080ef8a79"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "How many photos are in the archive?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1359,
+      "output_tokens": 295
+    },
+    {
+      "question_id": "e06",
+      "tier": "easy",
+      "question": "How many documents are in the archive?",
+      "answer": "Based on the retrieved data, I can see **5 documents** in the family archive:\n\n1. **Email Correspondence Between Feng Kuang Liu and Kenny Peng Liu** (1998 + 2007) - Collection of email exchanges between father and son, with Kenny writing from Reed College in Portland, OR\n\n2. **Meichu Liu Medical Records** (2004) - Cardiac care and liver disease reference materials, including documents from Stanford Hospital's Intermediate Cardiac Care Unit\n\n3. **Feng Kuang Liu Work Achievements** (1995) - Professional documentation from his career at Northern Telecom/Nortel in Mountain View, California, including his educational background (MS degrees from Illinois Institute of Technology and Washington University)\n\n4. **Hsiao-Liu Wedding Invitation** (July 30, 1983) - Bilingual invitation in English and Traditional Chinese (\u856d\u5289\u806f\u5a5a) for the ceremony uniting the Hsiao/Lan family (\u856d\u6587\u548c/\u85cd\u79c0\u7f8e) and Liu family (\u5289\u9022\u5149), held at The First Baptist Church of Sunnyvale\n\n5. **Feng Kuang Liu Retirement Lunch** (December 15, 2004) - Documentation from his retirement celebration at Kapp's Pizza in Mountain View, including a guest sign-in sheet with 23+ attendees from his Nortel/Northern Telecom career\n\nHowever, this appears to be a partial view of the archive, as these documents span from 1983 to 2007 and cover only specific family events and records.\n\n**Sources:** Family correspondence, medical records, professional documentation, wedding materials, and retirement celebration records.",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1983-07-30 Wedding Invitation.pdf",
+          "sha256": "0d2eaf1ef095"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/2004-12-15 FKL Retirement Lunch.pdf",
+          "sha256": "08a4e77caf9b"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "How many documents are in the archive?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1350,
+      "output_tokens": 377
+    },
+    {
+      "question_id": "e07",
+      "tier": "easy",
+      "question": "Who is Meichu Grace Liu?",
+      "answer": "Based on the family archive documents, Meichu Grace Liu (\u5289\u5f6d\u7f8e\u73e0) was a family member who lived from March 11, 1947 to June 16, 2004. \n\nFrom her memorial service program, we know she was born in Hsinchu, Taiwan and earned a Master of Science degree in dietetics from Northern Illinois University. She was married to Feng-Kuang Liu, who is also documented in the family archive for his professional achievements at Northern Telecom (Nortel).\n\nGrace experienced serious health challenges in her final months. The medical records from 2004-2005 indicate she dealt with cardiac issues and liver disease, requiring care at Stanford Hospital's Intermediate Cardiac Care Unit. Her medical records from May-June 2004 document diagnoses including acute renal failure, rectal/anal hemorrhage, and hepatitis.\n\nOn June 3, 2004, she executed a Special Power of Attorney with CalPERS (California Public Employees' Retirement System), appointing her husband Feng-Kuang as her attorney-in-fact for all retirement matters. This suggests she was a CalPERS member, likely through public employment.\n\nA memorial service was held for Grace on June 21, 2004, at Spangler Mortuaries in Los Altos, California, featuring both English and Chinese elements in the service program.\n\n**Sources:**\n- Memorial service program (2004)\n- Medical records and correspondence (2004-2005)  \n- CalPERS Power of Attorney documents (2004)\n- Family trust filings",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06-03 MEICHU LIU Medical Records - Power Of Attorney.pdf",
+          "sha256": "cfca4a40fcfe"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "Who is Meichu Grace Liu?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1273,
+      "output_tokens": 355
+    },
+    {
+      "question_id": "e08",
+      "tier": "easy",
+      "question": "What is the Liu Family Trust?",
+      "answer": "Based on the documents in your family archive, the Liu Family Trust appears to be a family trust established on February 9, 1990. The trust was associated with Feng Kuang Liu (\u5289\u4f83\u5be7), who worked at Nortel in Mountain View, California, and his wife Meichu Grace Liu (\u5289\u5f6d\u7f8e\u73e0, 1947-2004).\n\nThe archive shows the trust had financial accounts, including one with Benham Capital Management (account #9300029940) that was re-registered in February 1990. There are also references to partnership documentation and correspondence with Rancon Financial Corporation regarding the trust's financial arrangements.\n\nAfter Feng Kuang Liu's passing, the trust structure became more complex. By 2010-2011, there was a \"Feng-Kuang Liu 'A' Trust\" with Melody Tsai serving as trustee. Legal correspondence from Sheffield Law Office shows Melody Tsai was handling the administration of her late husband's trust and estate matters.\n\nThe trust appears to have been a vehicle for managing the Liu family's financial affairs across multiple decades, from its establishment in 1990 through at least 2011. However, the available documents don't provide complete details about the trust's specific purposes, beneficiaries, or current status.\n\n**Sources:**\n- Trust financial account documents (1990)\n- Estate correspondence and legal documents (2010-2011)\n- Family memorial service programs\n- Email correspondence between family members",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What is the Liu Family Trust?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1305,
+      "output_tokens": 329
+    },
+    {
+      "question_id": "e09",
+      "tier": "easy",
+      "question": "Where did the Liu family live?",
+      "answer": "Based on the family archive documents, the Liu family lived at **26471 Weston Drive, Los Altos Hills**. \n\nThis address appears consistently across multiple documents spanning from 1994 to 2005. In 1994, there's correspondence from Feng and Grace Liu regarding a home remodeling project at this Weston Drive address. The documents show this was an active family residence, with 2005 service invoices for utilities (PG&E gas and electric), pest control, and termite treatment at the same location.\n\nThe family had medical care connections to Stanford Hospital, where Meichu Liu received cardiac care, though the documents don't specify if this was their primary residence or if they had other properties. The estate documents from 2010-2011 reference Karen Liu as a trustee following Feng Kuang Liu's death, but don't provide additional residential information for that period.\n\nSo while we know definitively that the Liu family lived at 26471 Weston Drive in Los Altos Hills during the 1990s and 2000s, the archive doesn't reveal information about other potential residences or their living situation in later years.\n\n**Sources:**\n- Construction and remodeling correspondence (1994)\n- Home service invoices and pest control reports (2005)  \n- Medical records with hospital references\n- Estate and trust documents (2010-2011)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2005 Weston Dr Service Invoices.pdf",
+          "sha256": "b514b0859948"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+          "sha256": "7bd2ccac29b5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994-04-02 Weston Dr Letter of Construction Status.pdf",
+          "sha256": "a9cfaf21e66d"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "Where did the Liu family live?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1229,
+      "output_tokens": 309
+    },
+    {
+      "question_id": "e10",
+      "tier": "easy",
+      "question": "Who filed the probate petition for the Liu Family Trust?",
+      "answer": "Based on the retrieved documents, **Karen Peling Liu and Kenny Peng Liu** filed the probate petition for the Liu Family Trust.\n\nThe petition was specifically titled \"Petition for Order Confirming Trusteeship and Trust Assets\" and was filed in Santa Clara County Superior Court under Case No. 1-10-PR 168 002. The earliest petition appears to have been filed on December 9, 2010, with additional filings including a Heggstad Petition on January 11, 2011.\n\nThe petitioners were represented by Lakin Spears LLP and sought court confirmation of trusteeship for the Feng Kuang Liu \"A\" Trust, which was established under the Liu Family Trust dated February 9, 1990. The petition aimed to confirm Karen Peling Liu as successor trustee of the trust.\n\nThe case involved opposition from Mei Liang Melody Tsai (identified as the decedent's fianc\u00e9e), who had apparently rejected her trustee appointment via email in May 2009. The petitioners filed replies to this opposition throughout 2011, with court filings continuing through at least March 28-29, 2011.\n\n**Sources:**\n- Court petition documents from Liu Family Trust filings (2010-2011)\n- Superior Court of California, Santa Clara County case records\n- Probate Code documentation and legal filings",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Court Petition.pdf",
+          "sha256": "931e8b6648ec"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-29 Declaration Of Trusteeship .pdf",
+          "sha256": "1893ae578d44"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-28 Hearing.pdf",
+          "sha256": "5a63e802d803"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-11 Heggstad Petition.pdf",
+          "sha256": "4578c9c33065"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "Who filed the probate petition for the Liu Family Trust?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1403,
+      "output_tokens": 308
+    },
+    {
+      "question_id": "m01",
+      "tier": "medium",
+      "question": "Tell me about Feng Kuang Liu.",
+      "answer": "Based on the family archive documents, Feng Kuang Liu (\u5289\u8c50\u5149) was a real estate professional and family patriarch who established the Liu Family Trust.\n\n**Professional Life:**\nFeng Kuang Liu held California real estate license #00770065 and actively maintained his continuing education through courses at De Anza College and American Business Consultants from 1981-1984, covering topics like foreclosures, ethics, and financing. He worked at Nortel's MPK (Milpitas/Mountain View area) office.\n\n**Family:**\nHe was married to Meichu Grace Liu, and they served as co-trustees of the Liu Family Trust established on February 9, 1990. He had at least two children - son Kenny Peng Liu (who attended Reed College in Portland, OR) and daughter Karen Liu. Email correspondence from 1998 shows him staying connected with Kenny during college, asking about his son's plans after Kenny chose English as his major.\n\n**Financial Activities:**\nFeng Kuang Liu was involved in real estate investments, including a $380,000 promissory note at 4.875% interest secured by property at 638 Kirkland Dr, Sunnyvale, with Meiliang Melody Tsai as the borrower. He resided at 26471 Weston Dr., Los Altos Hills, CA.\n\n**Estate:**\nLegal documents from 2010-2011 indicate Feng Kuang Liu had passed away by then, with estate matters involving disputed trust fund expenditures and various legal proceedings.\n\n**Sources:**\nEmail correspondence, real estate certificates, trust documents, promissory notes, and estate legal papers.",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Promissory Note 638 Kirkland Dr.pdf",
+          "sha256": "632dbf39da46"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1984-02-15 Education Certificates FENG KUANG LIU.pdf",
+          "sha256": "57ccab416ac4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "Tell me about Feng Kuang Liu."
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1402,
+      "output_tokens": 374
+    },
+    {
+      "question_id": "m02",
+      "tier": "medium",
+      "question": "What happened in 2010 for the Liu family?",
+      "answer": "Based on the family archive documents, 2010 was a significant year for the Liu family involving legal and estate matters following the death of Feng-Kuang Liu (\u5289\u5cf0\u5149).\n\nIn late 2010, the family was dealing with estate administration. On November 23, 2010, Karen Peling Liu and Kenny Peng Liu entered into an attorney-client fee contract with Lakin Spears LLP (attorneys Jean M. Kohler and Rebeccah B. Miller) to handle Trust A and Trust B of the Liu Family Trust, as well as the Feng-Kuang Liu and Mei Chu Grace Liu Personal Residence Trust.\n\nBy December 2010, correspondence shows that Melody Tsai was serving as Trustee of the Feng-Kuang Liu \"A\" Trust, with Sheffield Law Office representing her interests. A letter dated December 6, 2010, was sent to Kenny Liu at 51 Kissling Street, San Francisco regarding the estate of Feng-Kuang Liu.\n\nThe estate involved various assets including Chase and Capital One accounts, a $380,000 promissory note from Melody, retirement accounts, and a 1999 Mercedes that was titled in the parents' names as trustees of the family trust. There was also a Capital One debt collection matter involving \"Mei Liu\" for $382.01.\n\n**Sources:**\n- Estate correspondence and legal documents\n- Attorney-client contracts\n- Trust administration records\n- Asset collection letters",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-17 Lakin Spears Letter.pdf",
+          "sha256": "2b1e2d116753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-23 Client Contract.pdf",
+          "sha256": "1da4343e4bef"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What happened in 2010 for the Liu family?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1331,
+      "output_tokens": 332
+    },
+    {
+      "question_id": "m03",
+      "tier": "medium",
+      "question": "What legal documents are in the archive?",
+      "answer": "Based on the archive data, I found several types of legal documents related to the Liu Family Trust:\n\n**Trust Documents:**\n- Liu Family Trust establishment documents from February 9, 1990, with Feng Kuang Liu and Meichu Grace Liu as co-trustees\n- Trust A and Trust B documentation \n- Feng-Kuang Liu and Mei Chu Grace Liu Personal Residence Trust documents\n\n**Attorney-Client Contracts:**\n- Two attorney-client fee contracts with Lakin Spears LLP from November 2010 (dated November 16th and 23rd) for legal representation of Kenny Peng Liu and Karen Peling Liu regarding trust administration\n- The contracts involve attorneys Jean M. Kohler and Rebeccah B. Miller\n\n**Court Case Documents:**\n- Legal documents from a 1984 court case: \"Raynor Association of Tenants vs. Feng K. Liu & Associates\" (Santa Clara County Superior Court No. 50), related to a mobile home park in Sunnyvale, CA\n\n**Estate Legal Matters:**\n- Legal correspondence and billing statements from attorney Robert Froehlich regarding Feng-Kuang Liu's estate (2010-2011)\n- Documents related to disputed trust fund expenditures involving Melody Tsai\n- A legal services agreement and arbitration-related materials\n\nThe archive appears to contain both foundational trust documents and later legal matters involving trust administration disputes and estate issues.\n\n**Sources:** Liu Family Trust Filings & Documents (PDF files from 1985-2011)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-16 Lakin Spears Fee Contract.pdf",
+          "sha256": "18daccf7d5d5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-23 Client Contract.pdf",
+          "sha256": "1da4343e4bef"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1985-01-31 Mobile Home Park Related.pdf",
+          "sha256": "e28810d04c65"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What legal documents are in the archive?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1244,
+      "output_tokens": 348
+    },
+    {
+      "question_id": "m04",
+      "tier": "medium",
+      "question": "What do the medical records tell us about Feng Kuang Liu?",
+      "answer": "Based on the retrieved documents, there are **no medical records specifically about Feng Kuang Liu** in this collection. \n\nThe medical records that do appear are all related to **Meichu Liu** (also called Meichu Grace Liu), documenting her critical illness and hospitalization in 2004. These records include:\n\n- Cardiac care documentation from Stanford Hospital's Intermediate Cardiac Care Unit\n- Diagnoses including acute renal failure, rectal/anal hemorrhage, and hepatitis\n- Organ donation awareness materials\n- Medical reference materials about liver failure and cirrhosis\n\nThe only mentions of Feng Kuang Liu in the retrieved data are in non-medical contexts - email correspondence with his son Kenny from 1998-2007 when he worked at Nortel, and legal documents from 2010-2011 related to his estate matters involving Melody Tsai and the \"Feng Kuang Liu 'A' Trust.\"\n\n**Gap in records**: While the family archive contains medical documentation for Meichu Liu's serious health issues in 2004, there are no medical records for Feng Kuang Liu himself in this particular dataset.\n\n**Sources:**\n- Medical records (Meichu Liu, 2004-2006)\n- Email correspondence (1998-2007) \n- Estate/legal documents (2010-2011)\n- Trust financial documents (1990)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-06 MEICHU LIU Medical Records Official Correspondence.pdf",
+          "sha256": "f3ed4d4da292"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What do the medical records tell us about Feng Kuang Liu?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1246,
+      "output_tokens": 313
+    },
+    {
+      "question_id": "m05",
+      "tier": "medium",
+      "question": "What decades are represented in the photo collection?",
+      "answer": "Based on the retrieved data, I cannot provide a complete answer about what decades are represented in the photo collection, as the documents I have access to are primarily legal and financial records rather than photo collection inventories.\n\nHowever, I can identify some decades that are documented in the family archive:\n\n**1980s**: The earliest document dates to May 17, 1984, relating to the Raynor Park mobile home park court case involving Feng K. Liu & Associates.\n\n**1990s**: Documents from 1990 include Liu Family Trust financial accounts and partnership documentation from February 9, 1990.\n\n**2000s**: There's a reference to a November 2008 photo mentioned in a Facebook message, where Caroline Fuller was tagged \"in the City.\"\n\n**2010s**: Multiple documents from 2010-2011, including travel reservations for Tibet tours and Princess Cruises for Feng-Kuang Liu and Meiliang Tsai (2010), and property sale preparation documents for 26471 Weston Drive (2011).\n\nThe data shows family activity and documentation spanning from the 1980s through the 2010s, but these are primarily business and legal documents rather than photo collection records. To get a complete picture of what decades are represented in the actual photo collection, you would need access to photo inventory documents or the collection itself.\n\n**Sources**: Legal documents, financial records, travel reservations, Facebook messages, and property sale documents from the Liu Family Trust archives.",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1985-01-31 Mobile Home Park Related.pdf",
+          "sha256": "e28810d04c65"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-08-14 Reservation data.pdf",
+          "sha256": "6011e3f3ff17"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-07 Message From Caroline Fuller.pdf",
+          "sha256": "8193193dd281"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What decades are represented in the photo collection?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1220,
+      "output_tokens": 325
+    },
+    {
+      "question_id": "m06",
+      "tier": "medium",
+      "question": "Who appears most often in the archive?",
+      "answer": "Based on the retrieved documents, **Feng Kuang Liu** (\u5289\u8c50\u5149) appears most frequently in the family archive.\n\nHe is mentioned across multiple document types spanning several decades:\n\n- **Estate and legal matters** (2010-2011): Multiple documents deal with his estate after his passing, including asset collection letters and legal correspondence involving his trustee Karen Liu and disputes with Melody Tsai\n- **Professional achievements** (1995): Documentation of his career at Nortel/Northern Telecom in Mountain View, California, including his engineering degrees (MS Industrial Engineering from Illinois Institute of Technology, MS Operations Research from Washington University)\n- **Business ventures** (1984): Court case documents related to Raynor Park mobile home park in Sunnyvale, CA, which was owned by \"Feng K. Liu & Associates\"\n\nOther family members mentioned include:\n- **Meichu Liu** (\u5289\u7f8e\u73e0) - medical records from 2004-2005\n- **Karen Liu** and **Kenny Liu** - involved in estate matters as beneficiaries/trustees\n- **Melody Tsai** - involved in estate disputes\n\nThe archive spans from the 1980s through 2011, with Feng Kuang Liu's name appearing in documents related to his business activities, professional life, and posthumous estate administration.\n\n**Sources:** Estate documents, medical records, professional achievement files, legal correspondence, and court case materials.",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-17 Lakin Spears Letter.pdf",
+          "sha256": "2b1e2d116753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1985-01-31 Mobile Home Park Related.pdf",
+          "sha256": "e28810d04c65"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "Who appears most often in the archive?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1238,
+      "output_tokens": 317
+    },
+    {
+      "question_id": "m07",
+      "tier": "medium",
+      "question": "What locations are associated with the Liu family?",
+      "answer": "Based on the family archive documents, several locations are associated with the Liu family:\n\n**Primary Residence:**\n- **26471 Weston Drive, Los Altos Hills** - This appears to be the main family home, with service invoices from 2005 showing various maintenance work including PG&E utilities, pest control, and termite treatment costing $4,500.\n\n**Medical Care:**\n- **Stanford Hospital** - Medical records show Meichu Liu received cardiac care at Stanford Hospital's Intermediate Cardiac Care Unit (2nd Floor, B2) around 2004-2005.\n\n**Educational/Work Locations:**\n- **Reed College, Portland, Oregon** - Email correspondence from 1998 shows Kenny Peng Liu was a student there, writing to his father about his second year and choosing English as his major.\n- **Nortel MPK office** - Feng Kuang Liu was working at Nortel's office (likely Menlo Park) during the 1998 correspondence with his son.\n\n**Financial Services:**\nThe family had various financial accounts with institutions including Charles Schwab & Co., Benham Capital Management, and Rancon Financial Corporation, though specific locations for these aren't detailed in the available documents.\n\nThe archive spans from 1990 (when the Liu Family Trust was established) through 2010, primarily centered around the San Francisco Bay Area.\n\n**Sources:** Trust documents, service invoices, medical records, email correspondence, and financial account documentation.",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2005 Weston Dr Service Invoices.pdf",
+          "sha256": "b514b0859948"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+          "sha256": "7bd2ccac29b5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What locations are associated with the Liu family?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1238,
+      "output_tokens": 332
+    },
+    {
+      "question_id": "m08",
+      "tier": "medium",
+      "question": "What can you tell me about the family's connection to Taiwan?",
+      "answer": "Based on the family archive documents I found, I cannot identify any direct connections between the Liu family and Taiwan from the available data.\n\nThe retrieved documents focus primarily on the Liu Family Trust administration, legal matters, and Feng Kuang Liu's professional life at Nortel in Mountain View, California. The materials span from 1990 to 2011 and include:\n\n- Email correspondence between Feng Kuang Liu and his son Kenny Peng Liu from 1998-2007\n- Trust financial accounts and partnership documentation from 1990\n- Legal matters regarding Feng Kuang Liu's estate from 2010-2011\n- Documentation of Feng Kuang Liu's work achievements at Northern Telecom/Nortel\n- Attorney-client contracts for trust administration\n\nWhile the family clearly has Chinese heritage (evidenced by the Chinese names Feng Kuang Liu, Mei Chu Grace Liu, and Kenny Peng Liu), none of the documents I retrieved contain any specific mentions of Taiwan, Taiwanese connections, property there, or family history related to Taiwan.\n\nIt's possible that information about Taiwan connections exists in other parts of the family archive that weren't captured in this particular search, but I cannot make any claims about Taiwan based solely on the documents I have access to.\n\n**Sources:**\n- Email correspondence documents\n- Trust financial records  \n- Legal documentation\n- Professional achievement records",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-23 Client Contract.pdf",
+          "sha256": "1da4343e4bef"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What can you tell me about the family's connection to Taiwan?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1235,
+      "output_tokens": 301
+    },
+    {
+      "question_id": "m09",
+      "tier": "medium",
+      "question": "How was the Liu family trust administered after Feng Kuang's death?",
+      "answer": "Based on the family archive documents, here's what we know about the Liu family trust administration after Feng Kuang's death:\n\nAfter Feng Kuang Liu passed away, his two adult children Karen Peling Liu and Kenny Peng Liu filed a petition in Santa Clara County Superior Court on December 9, 2010 (Case No. 1-10-PR 168 002) to confirm the trusteeship and trust assets of the Feng Kuang Liu \"A\" Trust. The trust was originally established under the Liu Family Trust dated February 9, 1990.\n\nAccording to the court documents, Feng Kuang had amended Section 4.02 of Trust A to designate himself as the sole trustee during his lifetime. The petition sought judicial confirmation that Karen would serve as the rightful successor trustee following her father's death.\n\nThe children were represented by the law firm Lakin Spears LLP in these proceedings. There appear to have been some complications in the estate administration, as there are references to disputed trust fund expenditures involving someone named Melody Tsai, with legal correspondence mentioning attempts at mediation between the parties.\n\nFeng Kuang's Last Will and Testament, executed May 10, 2007, directed that all estate assets flow to the trustees of the Feng Kuang Liu \"A\" Trust.\n\nHowever, the archive doesn't contain the final court orders or complete details about how the trust administration was ultimately resolved.\n\n**Sources:**\n- Court petition documents (2010-2011)\n- Last Will and Testament (2007)\n- Legal correspondence regarding estate matters",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-09 Petition.pdf",
+          "sha256": "6a4b06570753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2007-05-10 Will of Feng Kuang Liu.pdf",
+          "sha256": "4b6ec06ad65b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-01-10 Court Filing.pdf",
+          "sha256": "7d4f814d92c4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-07 Message From Caroline Fuller.pdf",
+          "sha256": "8193193dd281"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "How was the Liu family trust administered after Feng Kuang's death?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1319,
+      "output_tokens": 354
+    },
+    {
+      "question_id": "m10",
+      "tier": "medium",
+      "question": "What types of photos are in the archive?",
+      "answer": "Based on the family archive documents, there are very few specific details about photos. Here's what I can tell you from the available data:\n\nThe archive contains **visit photos** from around 2000. In a Japanese letter dated August 23, 2000, from Shu-Hui (\u595a\u679d) to Suiji (\u6c34\u6cbb), the writer mentions that \"photos from that visit\" had been completed and were being enclosed with the letter. These appear to be photos taken during a recent visit that Suiji had made to see Shu-Hui.\n\nThere's also a brief mention of **social photos** in a 2010 Facebook message from neighbor Caroline Fuller to Kenny Liu, where she references \"Photos of Caroline and Kenny\" and mentions a photo tagged \"Out in the City\" from November 2008.\n\nUnfortunately, the archive data doesn't provide comprehensive information about the types, quantities, or subjects of photos in the collection. The references are quite limited and appear incidentally in correspondence rather than in any photo catalog or inventory.\n\n**What's missing:** There's no systematic documentation of photo collections, family portraits, event photos, or other typical family archive photo categories that might exist in the collection.\n\n**Sources:**\n- Japanese correspondence (2000)\n- Facebook messages (2010)\n- Estate and trust documents",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Scanned Letters/Untitled.pdf",
+          "sha256": "ac9080ef8a79"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-07 Message From Caroline Fuller.pdf",
+          "sha256": "8193193dd281"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What types of photos are in the archive?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1338,
+      "output_tokens": 286
+    },
+    {
+      "question_id": "h01",
+      "tier": "hard",
+      "question": "Tell me about grandpa.",
+      "answer": "Based on the family archive, here's what I can tell you about grandpa:\n\nYour grandfather was **Feng Kuang Liu** (\u5289\u99ae\u5149). He worked at Nortel at their MPK (likely Menlo Park) office and was involved in real estate as a licensed agent in California (License No. 00770065).\n\nFrom the documents, I can see he was actively engaged with continuing education for his real estate license, taking courses at De Anza College and American Business Consultants between 1981-1984 on topics like foreclosures, ethics, and financing.\n\nFeng Kuang Liu established the **Liu Family Trust** on February 9, 1990, and had various financial accounts including ones with Benham Capital Management. He was also a lender - in 2010, he provided a $380,000 loan at 4.875% interest for a property at 638 Kirkland Dr in Sunnyvale through his \"A\" Trust.\n\nThe archive shows he maintained correspondence with his son **Kenny Peng Liu**, including emails from 1998 when Kenny was studying at Reed College in Portland, Oregon, where Kenny was choosing English as his major during his second year.\n\nUnfortunately, the documents indicate that Feng Kuang Liu passed away, as there are legal matters from 2010-2011 related to his estate, including correspondence from attorneys handling trust-related disputes.\n\n**Sources:**\n- Email correspondence (1998-2007)\n- Real estate education certificates (1981-1984)  \n- Trust financial accounts (1990)\n- Estate legal documents (2010-2011)\n- Promissory note documentation (2010)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Promissory Note 638 Kirkland Dr.pdf",
+          "sha256": "632dbf39da46"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1984-02-15 Education Certificates FENG KUANG LIU.pdf",
+          "sha256": "57ccab416ac4"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "Tell me about grandpa."
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1236,
+      "output_tokens": 376
+    },
+    {
+      "question_id": "h02",
+      "tier": "hard",
+      "question": "What was life like for the Liu family in the 1970s?",
+      "answer": "I'm sorry, but the retrieved documents don't contain information about the Liu family's life in the 1970s. The earliest document in the archive dates to 1990 (the Liu Family Trust establishment), and most documents are from the 2000s and 2010s.\n\nThe available documents focus on later periods of the family's life:\n\n- **1990**: Feng Kuang Liu (\u51af\u51b5\u5218) and Meichu Grace Liu established the Liu Family Trust on February 9, 1990, with financial accounts at Benham Capital Management\n- **2004**: Feng Kuang Liu retired from Nortel Networks in October 2004, with retirement taking effect at the end of December 2004. Around the same time, there were medical records for Meichu Liu related to cardiac care at Stanford Hospital\n- **2010-2011**: Estate matters following Feng-Kuang Liu's passing, with legal correspondence involving trustees Melody Tsai and Karen Liu\n\nTo understand what life was like for the Liu family in the 1970s, you would need to look for additional documents, photos, or records from that earlier time period, as this particular set of retrieved documents covers their later years.\n\n**Sources:**\n- Family trust documentation (1990)\n- Employment records (2004)\n- Medical records (2004) \n- Estate correspondence (2010-2011)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/2004-10-07 FENG KUANG LIU Retirement Email Notification.pdf",
+          "sha256": "8ad09e2eca3f"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What was life like for the Liu family in the 1970s?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1242,
+      "output_tokens": 310
+    },
+    {
+      "question_id": "h03",
+      "tier": "hard",
+      "question": "What is the story of this family?",
+      "answer": "Based on the family archive documents, here's the story of the Liu family:\n\nThe Liu family was centered around **Feng Kuang Liu** (\u5289\u8c50\u5149) and his wife **Meichu Grace Liu** (\u5289\u5f6d\u7f8e\u73e0, 1947-2004). Grace was born in Hsinchu, Taiwan, earned a Master's degree in dietetics from Northern Illinois University, and was described as \"selfless, devoted, and committed to raising and caring for her family, including her mother and siblings.\"\n\nThe family lived at **26471 Weston Drive in Los Altos Hills, California**. In 1989, they undertook significant home remodeling work, and by 1990 had established the Liu Family Trust for their financial affairs. Feng worked at Nortel's MPK (Mountain View/Palo Alto) office.\n\nThey had at least one son, **Kenny Peng Liu**, who attended Reed College in Portland, Oregon, where he chose English as his major during his second year in 1998. The father and son maintained a close relationship, exchanging emails about Kenny's college experiences.\n\nTragically, Grace underwent a liver transplant in the early morning of June 16, 2004, and passed away shortly after. Her memorial service was held on June 21, 2004, at Spangler Mortuaries in Los Altos, featuring both English and Chinese elements.\n\nThe archive shows a family deeply rooted in the Bay Area community, with strong educational values and close family bonds that bridged generations and cultures.\n\n**Sources:**\n- Trust and financial documents (1990)\n- Home remodeling contracts and service records (1989, 2005)\n- Email correspondence between father and son (1998, 2007)\n- Memorial service program (2004)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1989-05-06 Weston Dr Contractor Proposal.pdf",
+          "sha256": "453a6c935bfc"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2005 Weston Dr Service Invoices.pdf",
+          "sha256": "b514b0859948"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/2004-06-21 MEICHU GRACE LIU Memorial Program.pdf",
+          "sha256": "c543d91d3f9d"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What is the story of this family?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1281,
+      "output_tokens": 404
+    },
+    {
+      "question_id": "h04",
+      "tier": "hard",
+      "question": "What do we know about the family's financial and legal history?",
+      "answer": "Based on the family archive, here's what we know about the Liu family's financial and legal history:\n\nThe family had significant financial assets managed through trusts and estates. After Feng Kuang Liu's passing, his estate held investments including positions in the United States Oil Fund LP, with three separate accounts in 2010: the Feng Kuang Liu A Trust (800 units, $31,813 ending capital), a Feng Kuang Liu IRA, and additional holdings.\n\nThe estate included diverse assets categorized into five groups, including Chase and Capital One accounts, a $380,000 promissory note from someone named Melody, retirement accounts, 42.4% ownership of a Weston Drive property, a 1999 Mercedes, and Shell Vacation Club membership.\n\nHowever, the family faced significant legal challenges. There was a 1984 court case where Raynor Park mobile home tenants sued Feng K. Liu & Associates (Santa Clara County Superior Court No. 50), with the court finding against the defendant landlord for violations of tenant law.\n\nMore recently, estate administration involved legal disputes around 2010-2011. Attorney Robert Froehlich provided legal services, and the Lakin Spears law firm represented trustee Karen Liu regarding disputed trust fund expenditures by Melody Tsai. The law firm helped collect estate assets and recorded trust certifications to notify third parties.\n\nThe archive shows a complex financial picture with both substantial assets and legal complications spanning from the 1980s through 2010s.\n\n**Sources:** Estate documents, K-1 tax schedules, legal correspondence, court case records, attorney billing statements",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+          "sha256": "7bd2ccac29b5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1985-01-31 Mobile Home Park Related.pdf",
+          "sha256": "e28810d04c65"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-17 Lakin Spears Letter.pdf",
+          "sha256": "2b1e2d116753"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What do we know about the family's financial and legal history?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1340,
+      "output_tokens": 362
+    },
+    {
+      "question_id": "h05",
+      "tier": "hard",
+      "question": "How has the archive been built? What are its strengths and gaps?",
+      "answer": "Based on the retrieved documents, I can see some aspects of how this family archive has been built, though the data provides only a limited view.\n\n**How the archive was built:**\nThe archive appears to have been assembled systematically, with documents organized into clear categories like \"Liu Family Trust Filings & Documents,\" \"Medical,\" and \"Artifacts.\" The collection spans multiple decades (1994-2010) and includes various document types - from tax filings and legal documents to personal correspondence and medical records.\n\n**Strengths:**\n- **Comprehensive documentation of financial matters**: Tax documents (like the 2010 K-1 schedules for Feng Kuang Liu's estate accounts with United States Oil Fund), promissory notes (such as the $380,000 loan to Meiliang Melody Tsai for 638 Kirkland Dr property), and trust filings are well-preserved\n- **Personal correspondence**: Email exchanges between father Feng Kuang Liu and son Kenny Peng Liu from 1998-2007 capture family relationships and life updates\n- **Property records**: Home improvement materials from the 1994 Weston Drive property are documented\n- **Medical history**: Health-related documents for Meichu Liu from 2004-2005 are included\n\n**Gaps:**\nThe retrieved data represents only a small sample, so significant gaps likely exist in areas like photographs, earlier family history, and comprehensive personal documents spanning the family's full timeline.\n\n**Sources:**\nTax documents, legal filings, email correspondence, medical records, property improvement materials, promissory notes",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+          "sha256": "7bd2ccac29b5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994 Weston Dr Materials.pdf",
+          "sha256": "56f30ab4a8f3"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-04-14 Promissory Note 638 Kirkland Dr.pdf",
+          "sha256": "632dbf39da46"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "How has the archive been built? What are its strengths and gaps?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1318,
+      "output_tokens": 348
+    },
+    {
+      "question_id": "h06",
+      "tier": "hard",
+      "question": "What health issues did Feng Kuang Liu face?",
+      "answer": "Based on the retrieved documents, I don't find any specific information about health issues that Feng Kuang Liu faced personally. \n\nThe documents do contain some health-related materials, but they appear to be related to other family members rather than Feng Kuang Liu himself. Specifically, there are medical records from 2004-2005 concerning Meichu Liu's cardiac care and liver disease, including materials from Stanford Hospital's Intermediate Cardiac Care Unit and references to liver failure and cirrhosis.\n\nThe other documents in the collection focus on Feng Kuang Liu's professional achievements at Nortel, family correspondence with his son Kenny, estate matters, and home service records, but none of these mention any health conditions or medical issues he may have experienced.\n\nIt's possible that information about Feng Kuang Liu's health issues exists in other parts of the family archive that weren't included in this particular search, or such details may have been kept private and not documented in the available records.\n\n**Sources:**\n- Estate legal documents (2010-2011)\n- Email correspondence between Feng Kuang Liu and Kenny Liu (1998, 2007)\n- Work achievement records from Nortel (1995, 1999)\n- Medical records for Meichu Liu (2004-2005)\n- Home service invoices (2005)",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2005 Weston Dr Service Invoices.pdf",
+          "sha256": "b514b0859948"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What health issues did Feng Kuang Liu face?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1301,
+      "output_tokens": 296
+    },
+    {
+      "question_id": "h07",
+      "tier": "hard",
+      "question": "What can you tell me about the women in this family?",
+      "answer": "Based on the family archive documents, I can tell you about three women in the Liu family:\n\n**Meichu Liu (Mei Chu Grace Liu)** appears to be a significant family member who faced serious health challenges. The 2004 medical records show she was receiving cardiac care at Stanford Hospital's Intermediate Cardiac Care Unit and had liver disease concerns, including references to liver failure and cirrhosis. She's also mentioned in connection with the Liu Family Personal Residence Trust.\n\n**Karen Liu (Karen Peling Liu)** is identified as a trustee and beneficiary of the Liu Family Trust. Legal documents from 2010-2011 show she was involved in trust administration matters and worked with attorneys at Lakin Spears LLP. She appears to have had some role in overseeing trust affairs alongside Kenny Peng Liu.\n\n**Melody Tsai** is mentioned in estate legal matters from 2010-2011, where there were disputed trust fund expenditures involving her name. The documents suggest some kind of legal controversy around trust finances that required attorney involvement.\n\nThe archive reveals these women were connected to significant family financial and legal matters, particularly around the Liu Family Trust established in 1990 and estate issues following Feng-Kuang Liu's passing. However, the personal details about their relationships and daily lives are limited in these primarily legal and medical documents.\n\n**Sources:**\n- Medical records (2004)\n- Trust legal documents (2010-2011) \n- Attorney contracts and correspondence",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1990-02-09 Liu Family Trust Accounts.pdf",
+          "sha256": "b51a186d595b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-11-23 Client Contract.pdf",
+          "sha256": "1da4343e4bef"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What can you tell me about the women in this family?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1234,
+      "output_tokens": 329
+    },
+    {
+      "question_id": "h08",
+      "tier": "hard",
+      "question": "If I wanted to learn about my family history, where should I start in this archive?",
+      "answer": "Based on your family archive, here's where I'd recommend starting your family history research:\n\n**Begin with the email correspondence between your father and brother.** The 1998-2007 email exchanges between Feng Kuang Liu and Kenny Peng Liu offer the most personal glimpse into your family dynamics. These emails span nearly a decade and include Kenny writing from Reed College in Portland, Oregon during his second year as an English major. This correspondence provides intimate family conversations that can give you context for understanding relationships and personalities.\n\n**Next, examine the estate documents to understand the family structure.** The 2010-2011 legal materials reveal key family members and relationships: Feng Kuang Liu (the father), Karen Liu (who appears to be a trustee), Kenny Liu, and Melody Tsai (who had some disputed trust matters). The estate documents from Lakin Spears law firm detail various assets including Chase and Capital One accounts, a $380,000 promissory note, retirement accounts, and even a Mercedes.\n\n**The medical records for Meichu Liu** (2004-2005) from Stanford Hospital's Cardiac Care Unit suggest another family member who dealt with serious health issues including liver disease.\n\n**What's missing:** The archive appears focused on recent decades (1998-2011) and lacks earlier generational records, immigration documents, or birth certificates that might trace deeper family roots.\n\n**Sources:** Email correspondence, estate legal documents, tax records (K-1 schedules), and medical records.",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Artifacts/1998 + 2007 Email correspondence FENG KUANG LIU - KENNY PENG LIU.pdf",
+          "sha256": "03c1058939aa"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+          "sha256": "7bd2ccac29b5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-2011 Melody Tsai Matters.pdf",
+          "sha256": "2f0b8ac56576"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-17 Lakin Spears Letter.pdf",
+          "sha256": "2b1e2d116753"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Medical/2004-05 MEICHU LIU Medical Records - Support .pdf",
+          "sha256": "199b396b9f4b"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "If I wanted to learn about my family history, where should I start in this archive?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1332,
+      "output_tokens": 329
+    },
+    {
+      "question_id": "h09",
+      "tier": "hard",
+      "question": "What patterns do you notice across the photos from different decades?",
+      "answer": "I don't see any photo data in the retrieved documents that would allow me to analyze patterns across different decades. The documents I have access to are primarily legal and financial records from the Liu family archive, including:\n\n- Work achievement documentation for Feng Kuang Liu (\u5218\u98ce\u5149) from his time at Northern Telecom/Nortel\n- Estate and trust documents from 2010-2011 following his passing\n- Tax records and property sale preparations\n- One Facebook message from a neighbor that mentions \"Photos of Caroline and Kenny\" from 2008\n\nWhile these documents span from the 1990s through 2011, they don't contain the actual photographs needed to identify visual patterns across decades. The only photo reference is a brief mention of Facebook photos from 2008 in Caroline Fuller's condolence message to Kenny Liu.\n\nTo properly analyze photographic patterns across different decades in the Liu family archive, I would need access to the actual image files or detailed descriptions of the photographs' contents, dates, locations, and subjects.\n\n**Sources:**\n- Estate correspondence and trust documents\n- Professional achievement records  \n- Tax filings\n- Social media message references\n- Property sale documentation",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Work Life/ FENG KUANG LIU Work Achievements.pdf",
+          "sha256": "45def966ce72"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12 Melody Tsai Correspondence.pdf",
+          "sha256": "c518063e6285"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010 Liu Estate K-1  USO Fund LP.pdf",
+          "sha256": "7bd2ccac29b5"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-07 Message From Caroline Fuller.pdf",
+          "sha256": "8193193dd281"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2011-03-18 Weston Dr Sale Preparation.pdf",
+          "sha256": "a157041add0a"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "What patterns do you notice across the photos from different decades?"
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1222,
+      "output_tokens": 254
+    },
+    {
+      "question_id": "h10",
+      "tier": "hard",
+      "question": "Summarize everything the archive knows about 1943.",
+      "answer": "Based on the family archive, here's what we know about 1943:\n\n**Feng-Kuang Liu's Birth Year**\n\nThe year 1943 appears in the archive exclusively in connection with Feng-Kuang Liu's birth. According to his death certificate, Feng-Kuang was born on January 23, 1943, in Taiwan. This birth date is corroborated by a 1982 immigration document (Affidavit of Support for his sister-in-law Reiling Peng), where Feng himself stated \"I was born on Jan 23, 1943 at Taipei, Taiwan.\"\n\nThis means that 1943 marked the beginning of Feng-Kuang's life story in the family. He would go on to become an engineer, immigrate to the United States, become a naturalized citizen, and eventually settle at 26471 Weston Drive in Los Altos Hills, California, where he lived until his death in 2010 at age 67.\n\n**What's Missing**\n\nThe archive doesn't contain any other information specifically about events, family circumstances, or historical context from 1943 itself. We only know it as Feng-Kuang's birth year, with no details about his parents, the family situation in Taiwan during that time, or other relatives who might have been born or active in 1943.\n\n**Sources:**\n- Death certificates\n- Immigration affidavit documents",
+      "sources": [
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1994-04-02 Weston Dr Letter of Construction Status.pdf",
+          "sha256": "a9cfaf21e66d"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-12-07 Message From Caroline Fuller.pdf",
+          "sha256": "8193193dd281"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/Death Certificates.pdf",
+          "sha256": "191e25b99dbb"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/1982-06-21 Affidavit of support - REILING PENG.pdf",
+          "sha256": "a1fb83beee74"
+        },
+        {
+          "type": "document",
+          "file": "Liu Family Trust Filings & Documents/2010-08-14 Reservation data.pdf",
+          "sha256": "6011e3f3ff17"
+        }
+      ],
+      "plan": {
+        "query_type": "general",
+        "entities": [],
+        "date_range": {},
+        "search_terms": [
+          "Summarize everything the archive knows about 1943."
+        ],
+        "strategy": "General search"
+      },
+      "retrieval_summary": {
+        "entities": 0,
+        "documents": 5,
+        "timeline_events": 0,
+        "assets": 0,
+        "person_profiles": 0
+      },
+      "input_tokens": 1322,
+      "output_tokens": 323
+    }
+  ]
+}
