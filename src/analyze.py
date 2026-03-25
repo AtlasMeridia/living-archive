@@ -66,7 +66,7 @@ def _analyze_via_cli(
 
     log.debug("CLI command: %s", " ".join(cmd[:4]) + " ...")
     # Strip CLAUDECODE env var so CLI can spawn from within a Claude Code session
-    env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
+    env = {k: v for k, v in os.environ.items() if k not in ("CLAUDECODE", "CLAUDE_PLUGIN_ROOT")}
     result = subprocess.run(cmd, capture_output=True, text=True, timeout=120, env=env)
 
     if result.returncode != 0:
