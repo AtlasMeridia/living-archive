@@ -119,8 +119,8 @@ class ClaudeCliProvider:
         ]
 
         log.debug("Claude CLI: analyzing %s (%d pages)", source_file, page_count)
-        # Unset CLAUDECODE to allow spawning from within a Claude session
-        env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
+        # Strip env vars that cause issues in subprocess
+        env = {k: v for k, v in os.environ.items() if k not in ("CLAUDECODE", "CLAUDE_PLUGIN_ROOT")}
         result = subprocess.run(
             cmd, capture_output=True, text=True, timeout=config.DOC_TIMEOUT, env=env,
         )
@@ -295,6 +295,56 @@ class OllamaProvider:
         return analysis, inference
 
 
+# --- OAuth provider (Anthropic SDK + Max Plan token) ---
+
+
+class OAuthProvider:
+    name = "oauth"
+
+    def analyze(
+        self,
+        text: str,
+        source_file: str,
+        page_count: int,
+    ) -> tuple[DocumentAnalysis, DocumentInferenceMetadata]:
+        from .auth import get_client
+
+        client = get_client()
+        prompt = _build_prompt(source_file, page_count, text)
+
+        log.debug("OAuth SDK: analyzing %s (%d pages)", source_file, page_count)
+        response = client.messages.create(
+            model=config.OAUTH_MODEL,
+            max_tokens=4096,
+            messages=[{"role": "user", "content": prompt}],
+        )
+
+        raw_text = response.content[0].text
+
+        # Strip markdown fences if present
+        clean = raw_text.strip()
+        if clean.startswith("```"):
+            lines = clean.split("\n")
+            lines = lines[1:]
+            if lines and lines[-1].strip() == "```":
+                lines = lines[:-1]
+            clean = "\n".join(lines)
+
+        analysis = DocumentAnalysis.model_validate_json(clean)
+
+        inference = DocumentInferenceMetadata(
+            method="auto",
+            provider=self.name,
+            model=response.model,
+            prompt_version=config.DOC_PROMPT_VERSION,
+            timestamp=datetime.now(timezone.utc).isoformat(),
+            input_tokens=response.usage.input_tokens,
+            output_tokens=response.usage.output_tokens,
+            estimated_input_tokens=len(text) // 4,
+        )
+        return analysis, inference
+
+
 # --- Provider factory ---
 
 
@@ -302,6 +352,7 @@ _PROVIDERS: dict[str, type] = {
     "claude-cli": ClaudeCliProvider,
     "codex": CodexCliProvider,
     "ollama": OllamaProvider,
+    "oauth": OAuthProvider,
 }
 
 

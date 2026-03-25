@@ -4,6 +4,28 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-03-24 — Batch run
+**Run:** `20260324T120001Z` — batch mode, 8 slices attempted
+**Result:** 0/1711 succeeded, 1382 failures
+**Triage skips:** 0
+**Elapsed:** 3,569s (~1.0 hours)
+**Model:** CLI (Opus via CLI)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Albumpage` | 33 | 0/33 | 164s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Orange_Textured_Album` | 117 | 0/117 | 206s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Lifes_Garden` | 153 | 0/153 | 365s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Green_Album` | 216 | 0/216 | 450s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Brown_Wooden_Album` | 250 | 0/250 | 537s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Red_Album_1` | 261 | 0/261 | 592s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Grey_Album` | 329 | 0/329 | 700s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Brown_Album_A18` | 352 | 0/352 (partial) | 356s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
 ## 2026-03-20 — Dashboard VPS deployment + living-archive.dev domain
 
 ### What happened

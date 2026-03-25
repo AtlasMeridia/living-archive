@@ -1,4 +1,4 @@
-"""Claude vision analysis: CLI mode (default) or direct API fallback."""
+"""Claude vision analysis: OAuth SDK (default), CLI, or direct API."""
 
 import base64
 import json
@@ -47,6 +47,67 @@ def _build_cli_prompt(jpeg_path: Path, folder_hint: str) -> str:
     return f"Read and analyze the photo at: {jpeg_path.resolve()}\n\n{base_prompt}"
 
 
+# ---------------------------------------------------------------------------
+# OAuth mode — Anthropic SDK with Max Plan token (zero marginal cost)
+# ---------------------------------------------------------------------------
+
+
+def _analyze_via_oauth(
+    jpeg_path: Path,
+    folder_hint: str,
+) -> tuple[PhotoAnalysis, InferenceMetadata]:
+    """Analyze a photo via the Anthropic SDK using OAuth credentials.
+
+    Uses the Max Plan OAuth token — same token pool as Claude CLI,
+    but without subprocess overhead or CLI hook fragility.
+    """
+    from .auth import get_client
+
+    client = get_client()
+    prompt = load_prompt(folder_hint)
+    image_data = encode_image(jpeg_path)
+
+    response = client.messages.create(
+        model=config.OAUTH_MODEL,
+        max_tokens=4096,
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": "image/jpeg",
+                            "data": image_data,
+                        },
+                    },
+                    {"type": "text", "text": prompt},
+                ],
+            }
+        ],
+    )
+
+    raw_text = response.content[0].text
+    clean_json = strip_json_fences(raw_text)
+    analysis = PhotoAnalysis.model_validate_json(clean_json)
+
+    inference_meta = InferenceMetadata(
+        model=response.model,
+        prompt_version=config.PROMPT_VERSION,
+        input_tokens=response.usage.input_tokens,
+        output_tokens=response.usage.output_tokens,
+        raw_response=raw_text,
+    )
+
+    return analysis, inference_meta
+
+
+# ---------------------------------------------------------------------------
+# CLI mode — Claude Code CLI subprocess (legacy, also uses Max Plan)
+# ---------------------------------------------------------------------------
+
+
 def _analyze_via_cli(
     jpeg_path: Path,
     folder_hint: str,
@@ -65,7 +126,7 @@ def _analyze_via_cli(
     ]
 
     log.debug("CLI command: %s", " ".join(cmd[:4]) + " ...")
-    # Strip CLAUDECODE env var so CLI can spawn from within a Claude Code session
+    # Strip env vars that cause issues in subprocess
     env = {k: v for k, v in os.environ.items() if k not in ("CLAUDECODE", "CLAUDE_PLUGIN_ROOT")}
     result = subprocess.run(cmd, capture_output=True, text=True, timeout=120, env=env)
 
@@ -93,6 +154,11 @@ def _analyze_via_cli(
     return analysis, inference_meta
 
 
+# ---------------------------------------------------------------------------
+# API mode — Anthropic SDK with standard API key (billed per-token)
+# ---------------------------------------------------------------------------
+
+
 def _analyze_via_api(
     jpeg_path: Path,
     folder_hint: str,
@@ -109,7 +175,7 @@ def _analyze_via_api(
 
     response = client.messages.create(
         model=config.MODEL,
-        max_tokens=1024,
+        max_tokens=4096,
         messages=[
             {
                 "role": "user",
@@ -143,6 +209,11 @@ def _analyze_via_api(
     return analysis, inference_meta
 
 
+# ---------------------------------------------------------------------------
+# Dispatch
+# ---------------------------------------------------------------------------
+
+
 @config.retry()
 def analyze_photo(
     jpeg_path: Path,
@@ -151,9 +222,13 @@ def analyze_photo(
 ) -> tuple[PhotoAnalysis, InferenceMetadata]:
     """Analyze a photo using Claude.
 
-    Dispatches to CLI mode (Max plan, no per-token cost) or API mode
-    based on config.USE_CLI. Set USE_CLI=false in .env to use the API.
+    Dispatches based on config.INFERENCE_MODE:
+      - "oauth": SDK + Max Plan OAuth token (default, zero marginal cost)
+      - "cli":   Claude Code CLI subprocess (legacy, also Max Plan)
+      - "api":   SDK + standard API key (billed per-token)
     """
-    if config.USE_CLI:
+    if config.INFERENCE_MODE == "oauth":
+        return _analyze_via_oauth(jpeg_path, folder_hint)
+    elif config.INFERENCE_MODE == "cli":
         return _analyze_via_cli(jpeg_path, folder_hint)
     return _analyze_via_api(jpeg_path, folder_hint, client=client)
