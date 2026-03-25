@@ -30,11 +30,6 @@ from .synthesis_queries import (
 
 log = logging.getLogger("living_archive")
 
-# Add maxplan to path
-_MAXPLAN_PATH = str(Path.home() / "Projects" / "tools" / "maxplan-inference")
-if _MAXPLAN_PATH not in sys.path:
-    sys.path.insert(0, _MAXPLAN_PATH)
-
 
 # ---------------------------------------------------------------------------
 # Lazy import — only load maxplan when ask() is actually called
@@ -45,8 +40,8 @@ _maxplan = None
 def _get_maxplan():
     global _maxplan
     if _maxplan is None:
-        import maxplan
-        _maxplan = maxplan
+        from . import maxplan as _mp
+        _maxplan = _mp
     return _maxplan
 
 

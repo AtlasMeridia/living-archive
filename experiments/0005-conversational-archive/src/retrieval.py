@@ -17,15 +17,36 @@ from pathlib import Path
 from typing import Optional
 
 # --- Paths ---
+# Use project config.DATA_DIR if available (production), else derive from file location
+import os as _os
+_env_data_dir = _os.environ.get("DATA_DIR", "")
+if _env_data_dir:
+    DATA_DIR = Path(_env_data_dir)
+else:
+    try:
+        from src import config as _cfg
+        DATA_DIR = _cfg.DATA_DIR
+    except ImportError:
+        DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 
-DATA_DIR = Path(__file__).resolve().parents[3] / "data"
 SYNTHESIS_DB = DATA_DIR / "synthesis.db"
 CATALOG_DB = DATA_DIR / "catalog.db"
-# FTS index from most recent doc run
-DOC_INDEX_DB = DATA_DIR / "documents" / "runs" / "20260207T044501Z" / "index.db"
 PHOTO_RUNS_DIR = DATA_DIR / "photos" / "runs"
 PEOPLE_REGISTRY = DATA_DIR / "people" / "registry.json"
 CHRONOLOGY_JSON = DATA_DIR / "chronology.json"
+
+# FTS index — find the most recent doc run dynamically
+_doc_runs_dir = DATA_DIR / "documents" / "runs"
+_DOC_INDEX_FALLBACK = DATA_DIR / "documents" / "runs" / "20260207T044501Z" / "index.db"
+def _find_doc_index() -> Path:
+    if _doc_runs_dir.exists():
+        runs = sorted(_doc_runs_dir.iterdir(), reverse=True)
+        for run in runs:
+            idx = run / "index.db"
+            if idx.exists():
+                return idx
+    return _DOC_INDEX_FALLBACK
+DOC_INDEX_DB = _find_doc_index()
 
 
 # --- Result types ---
