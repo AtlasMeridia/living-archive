@@ -307,16 +307,22 @@ class OAuthProvider:
         source_file: str,
         page_count: int,
     ) -> tuple[DocumentAnalysis, DocumentInferenceMetadata]:
-        from .auth import get_client
+        from .auth import get_client, is_oauth, OAUTH_SYSTEM_PREFIX
 
         client = get_client()
         prompt = _build_prompt(source_file, page_count, text)
+
+        # OAuth tokens require a Claude Code system prefix for routing
+        kwargs = {}
+        if is_oauth():
+            kwargs["system"] = OAUTH_SYSTEM_PREFIX
 
         log.debug("OAuth SDK: analyzing %s (%d pages)", source_file, page_count)
         response = client.messages.create(
             model=config.OAUTH_MODEL,
             max_tokens=4096,
             messages=[{"role": "user", "content": prompt}],
+            **kwargs,
         )
 
         raw_text = response.content[0].text

@@ -61,11 +61,16 @@ def _analyze_via_oauth(
     Uses the Max Plan OAuth token — same token pool as Claude CLI,
     but without subprocess overhead or CLI hook fragility.
     """
-    from .auth import get_client
+    from .auth import get_client, is_oauth, OAUTH_SYSTEM_PREFIX
 
     client = get_client()
     prompt = load_prompt(folder_hint)
     image_data = encode_image(jpeg_path)
+
+    # OAuth tokens require a Claude Code system prefix for routing
+    kwargs = {}
+    if is_oauth():
+        kwargs["system"] = OAUTH_SYSTEM_PREFIX
 
     response = client.messages.create(
         model=config.OAUTH_MODEL,
@@ -86,6 +91,7 @@ def _analyze_via_oauth(
                 ],
             }
         ],
+        **kwargs,
     )
 
     raw_text = response.content[0].text
