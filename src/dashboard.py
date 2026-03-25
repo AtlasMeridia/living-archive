@@ -43,6 +43,15 @@ from .dashboard_api import (
 from .haptic_api import api_haptic_photos, serve_photo
 from .tokens import generate_css
 
+# Lazy import for ask module (requires maxplan-inference)
+_ask_module = None
+def _get_ask():
+    global _ask_module
+    if _ask_module is None:
+        from . import ask as _ask
+        _ask_module = _ask
+    return _ask_module
+
 log = logging.getLogger("living_archive")
 
 PORT = int(os.environ.get("DASHBOARD_PORT", "8378"))
@@ -178,10 +187,38 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self.send_error(HTTPStatus.NOT_FOUND)
 
     def do_POST(self):
+        path = self.path.split("?")[0]
+
+        # /api/ask is read-only (queries archive, doesn't modify) — works in readonly mode
+        if path == "/api/ask":
+            try:
+                body = json.loads(self._read_body())
+                question = body.get("question", "").strip()
+                if not question:
+                    self._json({"error": "Missing 'question' field"}, 400)
+                    return
+                ask_mod = _get_ask()
+                result = ask_mod.ask(question)
+                self._json({
+                    "question": result.question,
+                    "answer": result.answer,
+                    "sources": result.sources,
+                    "plan": result.plan,
+                    "retrieval": result.retrieval_summary,
+                    "tokens": {
+                        "input": result.input_tokens,
+                        "output": result.output_tokens,
+                    },
+                    "error": result.error or None,
+                })
+            except Exception as exc:
+                log.exception("POST /api/ask failed")
+                self._json({"error": str(exc)}, 500)
+            return
+
         if READONLY:
             self._json({"ok": False, "error": "Dashboard is in read-only mode"}, 403)
             return
-        path = self.path.split("?")[0]
         if path == "/api/cache/flush":
             _cache.clear()
             self._json({"ok": True, "message": "Cache cleared"})

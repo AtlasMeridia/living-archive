@@ -634,7 +634,8 @@ td.num { font-family: var(--font-mono); text-align: right; }
 <header class="header">
   <h1>Archive Dashboard</h1>
   <nav class="tabs">
-    <button class="tab-btn active" data-tab="overview"><i class="ph-light ph-chart-bar"></i> Overview</button>
+    <button class="tab-btn active" data-tab="ask"><i class="ph-light ph-chat-circle"></i> Ask</button>
+    <button class="tab-btn" data-tab="overview"><i class="ph-light ph-chart-bar"></i> Overview</button>
     <button class="tab-btn" data-tab="photos"><i class="ph-light ph-image"></i> Photos</button>
     <button class="tab-btn" data-tab="documents"><i class="ph-light ph-file-text"></i> Documents</button>
     <button class="tab-btn" data-tab="people"><i class="ph-light ph-users"></i> People</button>
@@ -647,8 +648,105 @@ td.num { font-family: var(--font-mono); text-align: right; }
 </header>
 
 <main>
+  <!-- ==================== ASK ==================== -->
+  <section id="tab-ask" class="tab-content active">
+    <div class="section" style="max-width: 800px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <h2 style="font-family: var(--font-display); font-weight: 400; color: var(--cream-50); margin-bottom: 8px;">
+          Ask the Archive
+        </h2>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">
+          Ask questions about the Liu family history. Answers are sourced from photos, documents, and records.
+        </p>
+      </div>
+
+      <form id="askForm" style="display: flex; gap: 8px; margin-bottom: 24px;">
+        <input type="text" id="askInput" placeholder="e.g. Tell me about grandpa, What happened in the 1970s..."
+          style="flex: 1; padding: 12px 16px; background: var(--bg-surface); border: 1px solid var(--border-color);
+                 border-radius: 8px; color: var(--text-primary); font-size: 1rem; font-family: var(--font-ui);
+                 outline: none; transition: border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--accent)'"
+          onblur="this.style.borderColor='var(--border-color)'" />
+        <button type="submit" id="askBtn"
+          style="padding: 12px 24px; background: var(--accent-dark); color: var(--cream-50); border: none;
+                 border-radius: 8px; cursor: pointer; font-size: 1rem; font-family: var(--font-ui);
+                 white-space: nowrap; transition: background 0.2s;"
+          onmouseover="this.style.background='var(--accent)'"
+          onmouseout="this.style.background='var(--accent-dark)'">
+          <i class="ph-light ph-paper-plane-tilt"></i> Ask
+        </button>
+      </form>
+
+      <div id="askResult" style="display: none;">
+        <div id="askAnswer"
+          style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px;
+                 padding: 20px; line-height: 1.7; color: var(--text-primary); white-space: pre-wrap;
+                 font-size: 0.95rem;">
+        </div>
+        <div id="askSources"
+          style="margin-top: 12px; padding: 12px 16px; background: var(--bg-elevated); border-radius: 6px;
+                 font-size: 0.85rem; color: var(--text-secondary);">
+        </div>
+        <div id="askMeta"
+          style="margin-top: 8px; text-align: right; font-size: 0.8rem; color: var(--text-muted);">
+        </div>
+      </div>
+
+      <div id="askLoading" style="display: none; text-align: center; padding: 40px; color: var(--text-secondary);">
+        <i class="ph-light ph-spinner" style="font-size: 1.5rem; animation: spin 1s linear infinite;"></i>
+        <p style="margin-top: 12px;">Searching the archive...</p>
+      </div>
+
+      <div id="askSuggestions" style="margin-top: 16px;">
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 8px;">Try asking:</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <button class="ask-suggestion" onclick="askQuestion(this.textContent)"
+            style="padding: 6px 12px; background: var(--bg-surface); border: 1px solid var(--border-color);
+                   border-radius: 16px; color: var(--text-secondary); cursor: pointer; font-size: 0.85rem;
+                   transition: all 0.2s;"
+            onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'"
+            onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+            Tell me about grandpa
+          </button>
+          <button class="ask-suggestion" onclick="askQuestion(this.textContent)"
+            style="padding: 6px 12px; background: var(--bg-surface); border: 1px solid var(--border-color);
+                   border-radius: 16px; color: var(--text-secondary); cursor: pointer; font-size: 0.85rem;
+                   transition: all 0.2s;"
+            onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'"
+            onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+            What is the story of this family?
+          </button>
+          <button class="ask-suggestion" onclick="askQuestion(this.textContent)"
+            style="padding: 6px 12px; background: var(--bg-surface); border: 1px solid var(--border-color);
+                   border-radius: 16px; color: var(--text-secondary); cursor: pointer; font-size: 0.85rem;
+                   transition: all 0.2s;"
+            onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'"
+            onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+            What happened in 2010?
+          </button>
+          <button class="ask-suggestion" onclick="askQuestion(this.textContent)"
+            style="padding: 6px 12px; background: var(--bg-surface); border: 1px solid var(--border-color);
+                   border-radius: 16px; color: var(--text-secondary); cursor: pointer; font-size: 0.85rem;
+                   transition: all 0.2s;"
+            onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'"
+            onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+            How many photos are in the archive?
+          </button>
+          <button class="ask-suggestion" onclick="askQuestion(this.textContent)"
+            style="padding: 6px 12px; background: var(--bg-surface); border: 1px solid var(--border-color);
+                   border-radius: 16px; color: var(--text-secondary); cursor: pointer; font-size: 0.85rem;
+                   transition: all 0.2s;"
+            onmouseover="this.style.borderColor='var(--accent)'; this.style.color='var(--text-primary)'"
+            onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-secondary)'">
+            What decades are in the photo collection?
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ==================== OVERVIEW ==================== -->
-  <section id="tab-overview" class="tab-content active">
+  <section id="tab-overview" class="tab-content">
     <div class="stat-cards" id="overviewCards"><div class="loading">Loading...</div></div>
 
     <div class="section" id="backlogSection">
@@ -935,7 +1033,7 @@ function translateStaticHTML() {
   // Translate tab buttons
   document.querySelectorAll('.tab-btn').forEach(btn => {
     const tab = btn.dataset.tab;
-    const map = { overview: 'Overview', photos: 'Photos', documents: 'Documents',
+    const map = { ask: 'Ask', overview: 'Overview', photos: 'Photos', documents: 'Documents',
       people: 'People', synthesis: 'Synthesis', toolbox: 'Toolbox', health: 'Health' };
     const icon = btn.querySelector('i');
     btn.textContent = '';
@@ -1865,8 +1963,89 @@ document.getElementById('langBtn').addEventListener('click', switchLanguage);
 updateLangButton();
 if (_lang !== 'en') translateStaticHTML();
 
+// --- Ask tab ---
+async function askQuestion(question) {
+  if (!question || !question.trim()) return;
+  const input = document.getElementById('askInput');
+  const form = document.getElementById('askForm');
+  const loading = document.getElementById('askLoading');
+  const resultDiv = document.getElementById('askResult');
+  const answerDiv = document.getElementById('askAnswer');
+  const sourcesDiv = document.getElementById('askSources');
+  const metaDiv = document.getElementById('askMeta');
+  const suggestions = document.getElementById('askSuggestions');
+  const btn = document.getElementById('askBtn');
+
+  input.value = question;
+  resultDiv.style.display = 'none';
+  loading.style.display = 'block';
+  suggestions.style.display = 'none';
+  btn.disabled = true;
+  btn.style.opacity = '0.5';
+
+  const startTime = Date.now();
+  try {
+    const resp = await fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: question.trim() }),
+    });
+    const data = await resp.json();
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+
+    if (data.error) {
+      answerDiv.textContent = 'Error: ' + data.error;
+    } else {
+      answerDiv.textContent = data.answer;
+
+      // Sources
+      if (data.sources && data.sources.length > 0) {
+        const sourceTypes = {};
+        data.sources.forEach(s => {
+          const t = s.type || 'unknown';
+          sourceTypes[t] = (sourceTypes[t] || 0) + 1;
+        });
+        const sourceText = Object.entries(sourceTypes)
+          .map(([type, count]) => count + ' ' + type + (count > 1 ? 's' : ''))
+          .join(', ');
+        sourcesDiv.innerHTML = '<strong>Sources:</strong> ' + sourceText;
+        sourcesDiv.style.display = 'block';
+      } else {
+        sourcesDiv.style.display = 'none';
+      }
+
+      // Meta
+      const r = data.retrieval || {};
+      const parts = [];
+      if (r.person_profiles) parts.push(r.person_profiles + ' profile' + (r.person_profiles > 1 ? 's' : ''));
+      if (r.documents) parts.push(r.documents + ' doc' + (r.documents > 1 ? 's' : ''));
+      if (r.timeline_events) parts.push(r.timeline_events + ' events');
+      if (r.entities) parts.push(r.entities + ' entities');
+      metaDiv.textContent = elapsed + 's · ' + (data.tokens ? (data.tokens.input + data.tokens.output) + ' tokens' : '') +
+        (parts.length ? ' · Retrieved: ' + parts.join(', ') : '');
+    }
+
+    resultDiv.style.display = 'block';
+  } catch (err) {
+    answerDiv.textContent = 'Connection error: ' + err.message;
+    resultDiv.style.display = 'block';
+  } finally {
+    loading.style.display = 'none';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
+}
+
+document.getElementById('askForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  askQuestion(document.getElementById('askInput').value);
+});
+
 // --- Boot ---
 loadOverview();
 </script>
+<style>
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+</style>
 </body>
 </html>
