@@ -2,7 +2,7 @@
 
 **Project Name:** Living Archive
 **Project Owner:** Kenny Liu / ATLAS Meridia LLC
-**Last Updated:** March 19, 2026
+**Last Updated:** March 25, 2026
 **Status:** Active — pipelines running, publicly accessible, family onboarding in progress
 
 ---
@@ -11,7 +11,7 @@
 
 Living Archive is two things at once:
 
-1. **A working system** — AI-assisted pipelines that analyze scanned photos and family documents, produce structured metadata, and push it into Immich for browsing and sharing. Four-machine architecture: NAS (source data), local Mac (pipeline execution), VPS (Immich presentation at `living-archive.kennyliu.io`), with AI-generated metadata stored locally and synced.
+1. **A working system** — AI-assisted pipelines that analyze scanned photos and family documents, produce structured metadata, and push it into Immich for browsing and sharing. Four-machine architecture: NAS (source data), local Mac (pipeline execution), VPS (Immich at `living-archive.dev`, dashboard at `dashboard.living-archive.dev`), with AI-generated metadata stored locally and synced.
 
 2. **A methodology experiment** — can a single person, aided by AI, meaningfully organize a family's worth of analog and digital records? The system validates the methodology; the methodology gives the system purpose.
 
@@ -46,7 +46,7 @@ Four-machine topology: NAS for source data, Mac for pipeline execution, VPS for 
 |-------|----------|----------|
 | **Data** | NAS (read-only) | Source TIFFs, PDFs — canonical, never modified |
 | **AI** | Local Mac (regeneratable) | JSON manifests, extracted text, FTS5 index, asset catalog, synthesis DB, people registry — keyed by SHA-256 |
-| **Presentation** | VPS (Immich v2.5.6) | Photos, metadata, albums, face tags — public at `living-archive.kennyliu.io` |
+| **Presentation** | VPS (Immich v2.5.6) | Photos at `living-archive.dev`, dashboard at `dashboard.living-archive.dev` |
 
 ### Photo Pipeline
 
@@ -89,7 +89,8 @@ The ongoing work of digitizing and organizing the Liu family history drives deve
 - Face recognition running — 85 clusters on VPS Immich, people registry synced
 - Synthesis layer operational — entity graph, timeline chronology, cross-referencing
 - In-browser people naming modal ready for elder knowledge capture
-- Immich live at `living-archive.kennyliu.io` with invite-based family access
+- Immich live at `living-archive.dev` with invite-based family access
+- Dashboard deployed at `dashboard.living-archive.dev` (stats, synthesis, people, conversational interface)
 
 **In progress:**
 - 2nd Round Digital Revolution Scans (3,599 photos, 10 albums)
@@ -102,7 +103,7 @@ The ongoing work of digitizing and organizing the Liu family history drives deve
 - Red book (族譜) — traditional Chinese genealogy OCR (April 2026)
 - Elder interview capture — oral history
 - Day One journal cross-referencing (918 entries, 1999–2024)
-- Public blog launch at `kennyliu.io/living-archive`
+- Blog series at `kennyliu.io/living-archive` (Ghost CMS)
 
 ---
 
@@ -137,7 +138,7 @@ The ongoing work of digitizing and organizing the Liu family history drives deve
 
 4. **Content strategy:** The blog exists in concept but has zero posts. What's the first piece — a methodology overview, a technical walkthrough of the pipeline, or a personal narrative about why this matters?
 
-5. **Dashboard deployment:** The local dashboard (`src/dashboard.py`) has rich UX for browsing photos, documents, synthesis, and people. Deploying it on the VPS alongside Immich would give remote collaborators access to the admin/review tools.
+5. ~~**Dashboard deployment:**~~ Resolved 2026-03-20. Dashboard deployed at `dashboard.living-archive.dev` via Docker on VPS, git-based deploys.
 
 ---
 
@@ -165,6 +166,7 @@ The ongoing work of digitizing and organizing the Liu family history drives deve
 | 2026-01-11 | Major reframe: renamed to "Living Archive," shifted from family archive to methodology/content project |
 | 2026-02-11 | Reconciled with reality: acknowledged working system alongside methodology, added architecture and case study sections, removed completed action items (now in BACKLOG.md) |
 | 2026-03-19 | Updated to reflect VPS migration, current scale (1,773 photos, 121 docs), synthesis layer, dashboard, and public access |
+| 2026-03-25 | Domain migration: `living-archive.kennyliu.io` → `living-archive.dev`. Dashboard deployment resolved. All URLs updated. |
 
 ---
 

@@ -37,6 +37,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
+  /* position: relative needed for mobile absolute-positioned buttons */
 }
 .header h1 {
   font-family: var(--font-display);
@@ -627,6 +628,118 @@ td.num { font-family: var(--font-mono); text-align: right; }
 }
 .tool-filter-btn:hover { color: var(--text-primary); border-color: var(--text-muted); }
 .tool-filter-btn.active { color: var(--cream-50); background: var(--accent-dark); border-color: var(--accent-dark); }
+
+/* ============================================================
+   MOBILE RESPONSIVE — 768px and below
+   ============================================================ */
+@media (max-width: 768px) {
+  /* --- Header: stack title, then scrollable tabs row --- */
+  .header {
+    flex-direction: column;
+    padding: 8px 12px;
+    gap: 6px;
+    align-items: stretch;
+  }
+  .header h1 {
+    font-size: 1.1rem;
+    text-align: center;
+    order: -1;
+  }
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+    white-space: nowrap;
+    min-height: 44px;
+    flex-shrink: 0;
+  }
+  /* Hide lang + refresh on mobile header — declutter */
+  .lang-btn, .refresh-btn {
+    display: none;
+  }
+
+  /* --- Main content: tighter padding --- */
+  main {
+    padding: 12px;
+  }
+
+  /* --- Stat cards: 2-column on tablet, 1-column on phone --- */
+  .stat-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .stat-card {
+    padding: 12px;
+  }
+  .stat-card .value {
+    font-size: 1.6rem;
+  }
+
+  /* --- Tables: horizontal scroll wrapper --- */
+  .section { overflow-x: auto; }
+  table { min-width: 600px; }
+
+  /* --- Search boxes: stack --- */
+  .search-box {
+    flex-direction: column;
+  }
+  .search-box input {
+    width: 100%;
+  }
+  .search-box button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  /* --- Two/three column layouts: single column --- */
+  .two-col, .three-col {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* --- Extra small (phone, < 480px) --- */
+@media (max-width: 480px) {
+  .stat-cards {
+    grid-template-columns: 1fr;
+  }
+  .header h1 {
+    font-size: 1rem;
+  }
+  .tab-btn {
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+  /* Ask tab: stack input and button */
+  #askForm {
+    flex-direction: column !important;
+  }
+  #askForm input {
+    width: 100% !important;
+  }
+  #askForm button {
+    width: 100% !important;
+    min-height: 48px !important;
+  }
+  /* Ask suggestion chips: full width */
+  .ask-suggestion {
+    width: 100% !important;
+    text-align: left !important;
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  #askSuggestions > div {
+    flex-direction: column !important;
+  }
+}
 </style>
 </head>
 <body>
