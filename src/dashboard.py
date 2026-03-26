@@ -216,6 +216,49 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 self._json({"error": str(exc)}, 500)
             return
 
+        # /api/translate — LLM-powered page translation (read-only, works in readonly mode)
+        if path == "/api/translate":
+            try:
+                body = json.loads(self._read_body())
+                texts = body.get("texts", [])
+                target_lang = body.get("target", "zh-TW")
+                if not texts:
+                    self._json({"error": "Missing 'texts' array"}, 400)
+                    return
+                # Join texts with numbered markers for the LLM
+                numbered = "\n".join(f"[{i}] {t}" for i, t in enumerate(texts))
+                prompt = (
+                    f"Translate the following UI text fragments to Traditional Chinese (繁體中文, Taiwan usage). "
+                    f"These are from a family archive dashboard for elderly Taiwanese family members.\n\n"
+                    f"Rules:\n"
+                    f"- Return ONLY a JSON array of translated strings, same order and count as input.\n"
+                    f"- Keep numbers, dates, file paths, URLs, and technical identifiers unchanged.\n"
+                    f"- Keep proper nouns (Immich, Claude, NAS) in English but add context if helpful.\n"
+                    f"- Use respectful, clear language appropriate for elderly readers.\n"
+                    f"- If a fragment is just a number or symbol, return it unchanged.\n\n"
+                    f"Input ({len(texts)} fragments):\n{numbered}\n\n"
+                    f"Return a JSON array of {len(texts)} translated strings:"
+                )
+                ask_mod = _get_ask()
+                maxplan = ask_mod._get_maxplan()
+                result = maxplan.call(prompt, model="claude-sonnet-4-20250514", max_tokens=4096)
+                # Parse the response
+                raw = result.output.strip()
+                if raw.startswith("```"):
+                    lines = raw.split("\n")[1:]
+                    if lines and lines[-1].strip() == "```":
+                        lines = lines[:-1]
+                    raw = "\n".join(lines)
+                translated = json.loads(raw)
+                self._json({
+                    "translated": translated,
+                    "tokens": result.input_tokens + result.output_tokens,
+                })
+            except Exception as exc:
+                log.exception("POST /api/translate failed")
+                self._json({"error": str(exc)}, 500)
+            return
+
         if READONLY:
             self._json({"ok": False, "error": "Dashboard is in read-only mode"}, 403)
             return

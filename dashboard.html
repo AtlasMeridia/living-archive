@@ -1036,9 +1036,10 @@ td.num { font-family: var(--font-mono); text-align: right; }
 // --- Translation ---
 let _lang = localStorage.getItem('archive-lang') || 'en';
 
+// Minimal ZH — just tab names for instant rendering. Full page translation is LLM-powered.
 const ZH = {
-  // Header & tabs
   'Archive Dashboard': '檔案儀表板',
+  'Ask': '提問',
   'Overview': '總覽',
   'Photos': '照片',
   'Documents': '文件',
@@ -1046,130 +1047,8 @@ const ZH = {
   'Synthesis': '綜合分析',
   'Toolbox': '工具箱',
   'Health': '健康狀態',
-  'Refresh': '重新整理',
-
-  // Overview
-  'Photos Indexed': '已索引照片',
-  'Documents Analyzed': '已分析文件',
-  'People in Registry': '登錄人物',
-  'Pipeline Runs': '管線執行次數',
-  'Backlog Progress': '積壓進度',
-  'Recent Runs': '近期執行',
-  'No runs found': '未找到執行記錄',
-  'All slices complete': '所有切片已完成',
-  'Date': '日期',
-  'Slice': '切片',
-  'Count': '數量',
-  'Failed': '失敗',
-  'Time': '時間',
-  'Photos/hr': '照片/時',
+  'The Living Archive': '劉家典藏',
   'Loading...': '載入中…',
-
-  // Photos
-  'Date Confidence': '日期可信度',
-  'Era Breakdown': '年代分佈',
-  'People per Photo': '每張照片人數',
-  'Top Tags': '熱門標籤',
-  'Location coverage': '地點涵蓋率',
-  'No date data': '無日期資料',
-  'No data': '無資料',
-  'No tags': '無標籤',
-  'person': '人',
-  'people': '人',
-
-  // Documents
-  'Corpus Summary': '語料庫摘要',
-  'Document Search': '文件搜尋',
-  'Search documents...': '搜尋文件…',
-  'Type to search across all indexed documents': '輸入以搜尋所有已索引文件',
-  'Searching...': '搜尋中…',
-  'No results found': '未找到結果',
-  'Document Types': '文件類型',
-
-  // People
-  'Registry People': '登錄人物',
-  'Immich Clusters': 'Immich 人臉群組',
-  'Immich Clusters (Offline)': 'Immich 人臉群組（離線）',
-  'Named': '已命名',
-  'Unnamed': '未命名',
-  'Unknown': '未知',
-  'No people in registry': '登錄中無人物',
-  'English Name': '英文名',
-  'Chinese Name': '中文名',
-  'Relationship': '關係',
-  'Birth Year': '出生年',
-  'Cancel': '取消',
-  'Save': '儲存',
-  'Saving...': '儲存中…',
-  'No changes': '無變更',
-  'Saved': '已儲存',
-  'pushed to Immich': '已推送至 Immich',
-  'photos': '張照片',
-
-  // Synthesis
-  'Entities': '實體',
-  'Entity Links': '實體連結',
-  'Timeline Rows': '時間線列數',
-  'Unresolved People': '未解析人物',
-  'Resolved People': '已解析人物',
-  'Entity Coverage': '實體涵蓋',
-  'Chronology Quality': '年表品質',
-  'Top Linked People': '連結最多人物',
-  'Unresolved Name Queue': '未解析名稱佇列',
-  'Chronology Snapshot': '年表概覽',
-  'No entities': '無實體',
-  'No chronology data': '無年表資料',
-  'No data': '無資料',
-  'No linked assets': '無關聯資產',
-  'Person Dossier Query': '人物檔案查詢',
-  'Date Query': '日期查詢',
-  'Location Query': '地點查詢',
-  'Query': '查詢',
-  'Enter a person name to load linked photos and documents.': '輸入姓名以載入關聯的照片和文件。',
-  'Enter a year to list linked assets.': '輸入年份以列出關聯資產。',
-  'Enter a country or location keyword.': '輸入國家或地點關鍵字。',
-  'Enter a person name.': '輸入姓名。',
-  'Name': '姓名',
-  'Links': '連結數',
-  'Unresolved Name': '未解析名稱',
-  'Assets': '資產',
-  'Decade': '年代',
-  'Docs': '文件',
-  'Event Groups': '事件群組',
-
-  // Health
-  'System Checks': '系統檢查',
-  'Configuration': '設定',
-
-  // Toolbox — categories
-  'Pipeline': '處理流程',
-  'Analysis': '分析',
-  'Infrastructure': '基礎設施',
-  'Review': '審閱',
-  'All': '全部',
-  // Toolbox — tool names
-  'Photo Batch Runner': '照片批次處理',
-  'Single Slice Runner': '單批次處理',
-  'Document Extractor': '文件擷取工具',
-  'Document Scanner': '文件掃描工具',
-  'Document Index': '文件索引工具',
-  'Contact Sheet Triage': '聯絡表分類',
-  'Synthesis Engine': '綜合分析引擎',
-  'Tag Audit': '標籤稽核',
-  'Dedup Report': '重複比對報告',
-  'Catalog Manager': '目錄管理工具',
-  'People Sync': '人物同步工具',
-  'Preflight Checks': '預檢工具',
-  'Archive Dashboard': '檔案儀表板',
-  'Haptic Browser': '觸覺式瀏覽器',
-  'Review Dashboard': '審閱儀表板',
-  'NAS Migration': 'NAS 資料遷移',
-
-  // Misc
-  'Showing': '顯示',
-  'of': '/',
-  'prev': '上一個',
-  'next': '下一個',
 };
 
 function t(key) {
@@ -1177,18 +1056,17 @@ function t(key) {
   return ZH[key] || key;
 }
 
-// Language-aware API field accessor: l(obj, 'type') returns obj.type_zh when Chinese
-function l(obj, field) {
-  if (_lang === 'zh' && obj[field + '_zh']) return obj[field + '_zh'];
-  return obj[field];
-}
-
 function updateLangButton() {
   document.getElementById('langBtn').textContent = _lang === 'en' ? '中文' : 'EN';
 }
 
-function translateStaticHTML() {
-  // Translate tab buttons
+// --- LLM-powered translation ---
+// Cache: stores {originalTexts: [...], translatedTexts: [...]} per tab
+const _translationCache = {};
+let _translating = false;
+
+function translateTabLabels() {
+  // Instant translation of tabs + title from minimal ZH dict
   document.querySelectorAll('.tab-btn').forEach(btn => {
     const tab = btn.dataset.tab;
     const map = { ask: 'Ask', overview: 'Overview', photos: 'Photos', documents: 'Documents',
@@ -1198,60 +1076,116 @@ function translateStaticHTML() {
     if (icon) btn.appendChild(icon);
     btn.append(' ' + t(map[tab] || tab));
   });
-
-  // Translate title
   document.querySelector('.header h1').textContent = t('Archive Dashboard');
-
-  // Translate refresh button (if present)
-  const refreshBtn = document.getElementById('refreshBtn');
-  if (refreshBtn) {
-    const refreshIcon = refreshBtn.querySelector('i');
-    refreshBtn.textContent = '';
-    if (refreshIcon) refreshBtn.appendChild(refreshIcon);
-    refreshBtn.append(' ' + t('Refresh'));
-  }
-
-  // Translate static headings
-  document.querySelectorAll('h3[data-i18n]').forEach(el => {
-    el.textContent = t(el.dataset.i18n);
-  });
-
-  // Translate placeholders
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    el.placeholder = t(el.dataset.i18nPlaceholder);
-  });
-
-  // Translate button text
-  document.querySelectorAll('[data-i18n-text]').forEach(el => {
-    el.textContent = t(el.dataset.i18nText);
-  });
-
-  // Translate empty state text
-  document.querySelectorAll('[data-i18n-empty]').forEach(el => {
-    el.textContent = t(el.dataset.i18nEmpty);
-  });
 }
 
-function switchLanguage() {
+function collectVisibleTexts(container) {
+  // Collect all visible text nodes from a container, returning
+  // {nodes: [node, ...], texts: [string, ...]}
+  const nodes = [];
+  const texts = [];
+  const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      const text = node.textContent.trim();
+      if (!text || text.length < 2) return NodeFilter.FILTER_REJECT;
+      // Skip script/style
+      const tag = node.parentElement?.tagName;
+      if (tag === 'SCRIPT' || tag === 'STYLE') return NodeFilter.FILTER_REJECT;
+      // Skip hidden elements
+      if (node.parentElement?.offsetParent === null && node.parentElement?.style?.display === 'none')
+        return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  while (walker.nextNode()) {
+    const text = walker.currentNode.textContent.trim();
+    // Skip pure numbers, punctuation, or very short
+    if (/^[\d\s.,:%/\-·()]+$/.test(text)) continue;
+    nodes.push(walker.currentNode);
+    texts.push(text);
+  }
+  return { nodes, texts };
+}
+
+async function translatePageContent() {
+  if (_translating) return;
+  const activeTab = document.querySelector('.tab-btn.active')?.dataset.tab || 'overview';
+  const section = document.getElementById('tab-' + activeTab);
+  if (!section) return;
+
+  // Check cache
+  const { nodes, texts } = collectVisibleTexts(section);
+  const cacheKey = activeTab + ':' + texts.join('|').substring(0, 200);
+  if (_translationCache[cacheKey]) {
+    applyTranslation(nodes, _translationCache[cacheKey]);
+    return;
+  }
+
+  if (texts.length === 0) return;
+
+  _translating = true;
+  const langBtn = document.getElementById('langBtn');
+  const origLabel = langBtn.textContent;
+  langBtn.textContent = '翻譯中…';
+  langBtn.style.opacity = '0.5';
+
+  try {
+    const resp = await fetch('/api/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texts, target: 'zh-TW' }),
+    });
+    const data = await resp.json();
+    if (data.translated && data.translated.length === texts.length) {
+      _translationCache[cacheKey] = data.translated;
+      applyTranslation(nodes, data.translated);
+    }
+  } catch (err) {
+    console.error('Translation failed:', err);
+  } finally {
+    _translating = false;
+    langBtn.textContent = 'EN';
+    langBtn.style.opacity = '1';
+  }
+}
+
+function applyTranslation(nodes, translations) {
+  for (let i = 0; i < nodes.length && i < translations.length; i++) {
+    // Store original for revert
+    if (!nodes[i]._originalText) {
+      nodes[i]._originalText = nodes[i].textContent;
+    }
+    nodes[i].textContent = translations[i];
+  }
+}
+
+function revertTranslation() {
+  // Walk all text nodes and restore originals
+  const walker = document.createTreeWalker(document.querySelector('main'), NodeFilter.SHOW_TEXT);
+  while (walker.nextNode()) {
+    if (walker.currentNode._originalText) {
+      walker.currentNode.textContent = walker.currentNode._originalText;
+      delete walker.currentNode._originalText;
+    }
+  }
+}
+
+async function switchLanguage() {
   _lang = _lang === 'en' ? 'zh' : 'en';
   localStorage.setItem('archive-lang', _lang);
   updateLangButton();
-  translateStaticHTML();
-  updateBilingualSections();
-  // Re-render active tabs
-  loadedTabs.clear();
-  const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
-  loadedTabs.add(activeTab);
-  loadTab(activeTab);
-}
-
-function updateBilingualSections() {
-  // Overview descriptions
+  translateTabLabels();
+  // Bilingual overview descriptions
   const enDesc = document.querySelector('[data-i18n-key="overview-desc"]');
   const zhDesc = document.getElementById('overviewDescZh');
   if (enDesc && zhDesc) {
     enDesc.style.display = _lang === 'en' ? 'block' : 'none';
     zhDesc.style.display = _lang === 'zh' ? 'block' : 'none';
+  }
+  if (_lang === 'zh') {
+    await translatePageContent();
+  } else {
+    revertTranslation();
   }
 }
 
@@ -2132,8 +2066,15 @@ document.addEventListener('keydown', (e) => {
 // --- Language toggle ---
 document.getElementById('langBtn').addEventListener('click', switchLanguage);
 updateLangButton();
-if (_lang !== 'en') translateStaticHTML();
-updateBilingualSections();
+if (_lang !== 'en') {
+  translateTabLabels();
+  // Show ZH overview description
+  const enDesc = document.querySelector('[data-i18n-key="overview-desc"]');
+  const zhDesc = document.getElementById('overviewDescZh');
+  if (enDesc && zhDesc) { enDesc.style.display = 'none'; zhDesc.style.display = 'block'; }
+  // Trigger LLM translation after tab loads
+  setTimeout(() => translatePageContent(), 1000);
+}
 
 // --- Ask tab ---
 async function askQuestion(question) {

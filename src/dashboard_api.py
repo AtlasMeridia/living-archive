@@ -316,24 +316,12 @@ def api_doc_corpus() -> dict:
     date_list = [r["doc_date"] for r in dates]
 
     conn.close()
-
-    # Bilingual enrichment
-    from .translations import zh
-    types_bi = [{"type": k, "type_zh": zh(k), "count": v} for k, v in types.items()]
-    quality_bi = [{"quality": k, "quality_zh": zh(k), "count": v} for k, v in quality.items()]
-    languages_bi = [{"language": k, "language_zh": zh(k), "count": v} for k, v in languages.items()]
-    sensitivity_bi = {
-        "ssn": {"count": ssn, "label": "SSN", "label_zh": zh("ssn")},
-        "financial": {"count": fin, "label": "Financial", "label_zh": zh("financial")},
-        "medical": {"count": med, "label": "Medical", "label_zh": zh("medical")},
-    }
-
     return {
         "total": total,
-        "types": types_bi,
-        "sensitivity": sensitivity_bi,
-        "languages": languages_bi,
-        "quality": quality_bi,
+        "types": types,
+        "sensitivity": {"ssn": ssn, "financial": fin, "medical": med},
+        "languages": languages,
+        "quality": quality,
         "total_pages": total_pages,
         "date_range": {"earliest": date_list[0], "latest": date_list[-1]} if date_list else None,
     }
@@ -363,10 +351,6 @@ def api_doc_search(query: str) -> list[dict]:
             if sf in seen_files:
                 continue
             seen_files.add(sf)
-            # Bilingual enrichment
-            from .translations import zh
-            if "document_type" in hit:
-                hit["document_type_zh"] = zh(hit["document_type"])
             results.append(hit)
             if len(results) >= 20:
                 return results
@@ -770,10 +754,4 @@ def api_health() -> dict:
         "DOC_PROVIDER": config.DOC_PROVIDER,
     }
 
-    # Bilingual enrichment
-    from .translations import zh
-    for check in checks:
-        check["name_zh"] = zh(check["name"])
-    cfg_bi = [{"key": k, "key_zh": zh(k), "value": v} for k, v in cfg.items()]
-
-    return {"checks": checks, "config": cfg_bi}
+    return {"checks": checks, "config": cfg}
