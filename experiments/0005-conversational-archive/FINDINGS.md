@@ -114,9 +114,66 @@ Built and deployed the conversational interface to `dashboard.living-archive.dev
 
 Verified live: "When was Feng Kuang Liu born?" returns sourced answer with 18 references.
 
+## Iteration 4: Prompt extraction + evaluator fix (+5.8%)
+
+**Changes:**
+- Extracted prompts from `pipeline.py` into `prompts.py` — the new mutable file for the loop. Pipeline now imports prompts; retrieval is untouched.
+- Added planner example for "who appears most" (m06) — entity ranking queries now correctly route to stats + person profiles.
+- Fixed evaluator: comma-formatted numbers ("2,075") now match ground truth ("2075"). e05 was a false negative — the composer had it right all along.
+
+**Result:** 0.774 → 0.819. e05 jumped 0.240→0.740 (eval fix). m06 jumped 0.140→0.740 (planner example).
+
+### Iteration 5: Composer CRITICAL rules (+1.3%)
+
+**Changes:**
+- Added CRITICAL section to composer prompt: explicit rules for occupation/career mentions, document type enumeration, photo references, and probate keyword surfacing.
+- Added career/occupation search terms to planner biography example.
+- Exact number instruction added — composer must use retrieved numbers verbatim, not paraphrase.
+
+**Result:** 0.819 → 0.830. Biggest gains: h08 0.600→0.850 (now mentions photos), m03 0.567→0.700 (probate surfaced). Minor regression on h10 (0.900→0.767).
+
+## Final Scores (after iteration 5)
+
+| Tier | Baseline | Iter 3 | Iter 5 | Improvement |
+|------|----------|--------|--------|-------------|
+| Easy | 0.627 | 0.805 | 0.848 | +35.2% |
+| Medium | 0.578 | 0.719 | 0.806 | +39.4% |
+| Hard | 0.648 | 0.797 | 0.837 | +29.2% |
+| **All** | **0.618** | **0.774** | **0.830** | **+34.3%** |
+
+## Remaining Gaps (post iter 5)
+
+| Question | Score | Issue |
+|----------|-------|-------|
+| m01 (about Feng Kuang Liu) | 0.767 | "engineer" not in person profile — only in timeline events that get cut off by date clustering. Retrieval gap, not prompt gap. |
+| m03 (legal documents) | 0.700 | Improved from 0.567 but completeness=0.00 — "probate" now found, but bonus facts still missed |
+| m10 (photo types) | 0.700 | comp=0.00 — retrieval doesn't surface photo type metadata (scan types, albums, decades) |
+| h10 (about 1943) | 0.767 | Regression from 0.900 — longer CRITICAL section may confuse simple timeline questions |
+| e05/e06/m06 | 0.740 | source_grounding=0.20 — stats queries return 0 source objects (pipeline issue, not prompt) |
+
+The remaining floor requires structural changes:
+1. **Person profile enrichment** — add occupation/career to the entity metadata (m01)
+2. **Photo type retrieval** — surface scan types and album info in stats queries (m10)  
+3. **Source objects for stats** — generate synthetic source references for catalog queries (e05/e06/m06)
+4. **Timeline deduplication** — 20 events clustering around birth year crowds out career/life events
+
+## Architecture — Prompt-Only Loop
+
+Iterations 4-5 introduced the prompt-only optimization pattern:
+
+```
+prompts.py       ← MUTABLE (loop target)
+pipeline.py      ← imports from prompts.py (frozen)
+retrieval.py     ← data layer (frozen)
+evaluate.py      ← scoring (frozen, except bug fixes)
+```
+
+This separates the loop surface cleanly. Previous iterations modified pipeline.py (retrieval logic); iterations 4+ modify only prompts. The remaining gains require going back to pipeline/retrieval changes.
+
 ## Next Steps
 
+- **Retrieval enrichment:** Add occupation to PersonProfile, photo type metadata to stats
+- **Timeline diversification:** Deduplicate and diversify timeline events by decade instead of clustering by date
+- **Source object generation:** Synthetic sources for stats queries
 - **Phase 4:** Verification sweep — use the loop to audit synthesis data quality
-- **Further loop iterations:** Target the remaining weak spots (e05, m06)
-- **Promotion:** retrieval.py graduates from experiment to `src/` when stable
 - **Blog post:** Write up the methodology for kennyliu.io/living-archive

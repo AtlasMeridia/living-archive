@@ -1,0 +1,23 @@
+{
+  "iteration": 5,
+  "timestamp": "20260326T020000Z",
+  "mutable_file": "prompts.py",
+  "changes": "Iteration 4: Extracted prompts to prompts.py (new mutable file). Added m06 planner example. Fixed evaluator comma-separated number matching. Iteration 5: Added CRITICAL composer rules for occupation, document type enumeration, photo mentions, probate keywords. Added career search terms to planner biography example.",
+  "reverted": false,
+  "scores": {
+    "summary": {
+      "overall_avg": 0.830,
+      "by_tier": {
+        "easy": 0.848,
+        "medium": 0.806,
+        "hard": 0.837
+      }
+    },
+    "vs_previous": {
+      "baseline_0.774": "+7.2%",
+      "iter4_0.819": "+1.3%",
+      "key_gains": "h08 0.600->0.850, m03 0.567->0.700, m07 0.850->0.900",
+      "key_regressions": "h10 0.900->0.767, e07 0.900->0.833"
+    }
+  }
+}

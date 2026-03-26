@@ -48,12 +48,20 @@ def _fuzzy_fact_match(fact: str, answer: str) -> bool:
 
     Handles cases like "Meichu Grace Liu" matching "Meichu Liu" by
     checking if all individual words of the fact appear in the answer.
+    Also handles number formatting: "2075" matches "2,075".
     """
     fact_lower = fact.lower()
     answer_lower = answer.lower()
 
     # Direct match
     if fact_lower in answer_lower:
+        return True
+
+    # Number formatting: strip commas from both sides and re-check
+    # "2075" should match "2,075" in the answer
+    fact_stripped = fact_lower.replace(",", "")
+    answer_stripped = answer_lower.replace(",", "")
+    if fact_stripped in answer_stripped:
         return True
 
     # Word-level match for multi-word facts (names, phrases)

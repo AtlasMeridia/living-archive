@@ -1141,12 +1141,29 @@ const ZH = {
   'System Checks': '系統檢查',
   'Configuration': '設定',
 
-  // Toolbox
-  'Pipeline': '管線',
+  // Toolbox — categories
+  'Pipeline': '處理流程',
   'Analysis': '分析',
   'Infrastructure': '基礎設施',
   'Review': '審閱',
   'All': '全部',
+  // Toolbox — tool names
+  'Photo Batch Runner': '照片批次處理',
+  'Single Slice Runner': '單批次處理',
+  'Document Extractor': '文件擷取工具',
+  'Document Scanner': '文件掃描工具',
+  'Document Index': '文件索引工具',
+  'Contact Sheet Triage': '聯絡表分類',
+  'Synthesis Engine': '綜合分析引擎',
+  'Tag Audit': '標籤稽核',
+  'Dedup Report': '重複比對報告',
+  'Catalog Manager': '目錄管理工具',
+  'People Sync': '人物同步工具',
+  'Preflight Checks': '預檢工具',
+  'Archive Dashboard': '檔案儀表板',
+  'Haptic Browser': '觸覺式瀏覽器',
+  'Review Dashboard': '審閱儀表板',
+  'NAS Migration': 'NAS 資料遷移',
 
   // Misc
   'Showing': '顯示',
@@ -1158,6 +1175,12 @@ const ZH = {
 function t(key) {
   if (_lang === 'en') return key;
   return ZH[key] || key;
+}
+
+// Language-aware API field accessor: l(obj, 'type') returns obj.type_zh when Chinese
+function l(obj, field) {
+  if (_lang === 'zh' && obj[field + '_zh']) return obj[field + '_zh'];
+  return obj[field];
 }
 
 function updateLangButton() {
@@ -1414,23 +1437,24 @@ async function loadDocuments() {
     const corpus = await api('/api/doc-corpus');
     let html = '';
 
-    // Types
-    const types = corpus.types || {};
-    if (Object.keys(types).length > 0) {
-      const typeMax = Math.max(...Object.values(types), 1);
+    // Types (now array of {type, type_zh, count})
+    const types = corpus.types || [];
+    if (types.length > 0) {
+      const typeMax = Math.max(...types.map(t => t.count), 1);
       html += `<h4 style="font-size:12px;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">${t('Document Types')}</h4>`;
-      for (const [type, count] of Object.entries(types)) {
-        html += hBar(type, count, typeMax, 'var(--accent-dark)');
+      for (const item of types) {
+        html += hBar(l(item, 'type'), item.count, typeMax, 'var(--accent-dark)');
       }
     }
 
-    // Sensitivity
+    // Sensitivity (now {ssn: {count, label, label_zh}, ...})
     const sens = corpus.sensitivity || {};
-    if (sens.ssn || sens.financial || sens.medical) {
+    const sensItems = ['ssn', 'financial', 'medical'].filter(k => sens[k] && sens[k].count);
+    if (sensItems.length > 0) {
       html += '<div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">';
-      if (sens.ssn) html += `<span class="badge badge-ssn">SSN: ${sens.ssn}</span>`;
-      if (sens.financial) html += `<span class="badge badge-financial">Financial: ${sens.financial}</span>`;
-      if (sens.medical) html += `<span class="badge badge-medical">Medical: ${sens.medical}</span>`;
+      for (const k of sensItems) {
+        html += `<span class="badge badge-${k}">${l(sens[k], 'label')}: ${sens[k].count}</span>`;
+      }
       html += '</div>';
     }
 
@@ -1441,16 +1465,16 @@ async function loadDocuments() {
       html += `Date range: ${corpus.date_range.earliest} to ${corpus.date_range.latest}<br>`;
     }
 
-    // Languages
-    const langs = corpus.languages || {};
-    if (Object.keys(langs).length > 0) {
-      html += 'Languages: ' + Object.entries(langs).map(([l, c]) => `${l} (${c})`).join(', ') + '<br>';
+    // Languages (now array of {language, language_zh, count})
+    const langs = corpus.languages || [];
+    if (langs.length > 0) {
+      html += 'Languages: ' + langs.map(item => `${l(item, 'language')} (${item.count})`).join(', ') + '<br>';
     }
 
-    // Quality
-    const quality = corpus.quality || {};
-    if (Object.keys(quality).length > 0) {
-      html += 'Quality: ' + Object.entries(quality).map(([q, c]) => `${q} (${c})`).join(', ');
+    // Quality (now array of {quality, quality_zh, count})
+    const quality = corpus.quality || [];
+    if (quality.length > 0) {
+      html += 'Quality: ' + quality.map(item => `${l(item, 'quality')} (${item.count})`).join(', ');
     }
     html += '</div>';
 
@@ -1488,7 +1512,7 @@ document.getElementById('docSearchInput').addEventListener('input', (e) => {
         html += `<div class="search-result">
           <div class="title">${r.title || r.source_file}</div>
           <div class="meta">
-            <span>${r.document_type || 'unknown'}</span>
+            <span>${l(r, 'document_type') || 'unknown'}</span>
             <span>${r.date || 'undated'}</span>
             ${badges}
           </div>
@@ -1885,17 +1909,17 @@ async function loadHealth() {
         : '<i class="ph-light ph-x-circle health-icon fail"></i>';
       html += `<div class="health-row">
         ${icon}
-        <span class="health-name">${ch.name}</span>
+        <span class="health-name">${l(ch, 'name')}</span>
         <span class="health-detail">${ch.detail}</span>
       </div>`;
     }
     document.getElementById('healthChecks').innerHTML = html;
 
-    // Config table
-    const cfg = data.config || {};
+    // Config table (now array of {key, key_zh, value})
+    const cfg = data.config || [];
     let cfgHtml = '<table class="config-table">';
-    for (const [key, val] of Object.entries(cfg)) {
-      cfgHtml += `<tr><td>${key}</td><td>${val}</td></tr>`;
+    for (const item of cfg) {
+      cfgHtml += `<tr><td>${l(item, 'key')}</td><td>${item.value}</td></tr>`;
     }
     cfgHtml += '</table>';
     document.getElementById('configTable').innerHTML = cfgHtml;
@@ -2068,10 +2092,10 @@ function renderTools(cat) {
     <div class="tool-card">
       <div class="tool-header">
         <i class="ph-light ${tool.icon}" style="font-size:18px;color:var(--accent-text)"></i>
-        <span class="tool-name">${esc(tool.name)}</span>
+        <span class="tool-name">${esc(t(tool.name))}</span>
         <span class="tool-cat">${esc(labels[tool.cat])}</span>
       </div>
-      <div class="tool-desc">${esc(tool.desc)}</div>
+      <div class="tool-desc">${esc(_lang === 'zh' ? (t(tool.name) !== tool.name ? tool.desc : tool.desc) : tool.desc)}</div>
       <div class="tool-cmd">${esc(tool.cmd)}</div>
       ${tool.args ? `<div class="tool-args">${esc(tool.args)}</div>` : ''}
     </div>

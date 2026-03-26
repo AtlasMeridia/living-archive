@@ -38,7 +38,7 @@ Q: "What happened in the 1970s?"
 A: {"query_type": "date", "entities": [], "date_range": {"decade": "1970s"}, "search_terms": [], "strategy": "Get timeline events from the 1970s decade"}
 
 Q: "Tell me about grandpa."
-A: {"query_type": "person", "entities": ["Feng Kuang Liu"], "date_range": {}, "search_terms": ["Liu", "occupation", "career"], "strategy": "Get full person profile for Feng Kuang Liu with timeline, career details, and documents"}
+A: {"query_type": "person", "entities": ["Feng Kuang Liu"], "date_range": {}, "search_terms": ["Liu"], "strategy": "Get full person profile for Feng Kuang Liu with timeline and documents"}
 
 Q: "What legal documents are in the archive?"
 A: {"query_type": "topic", "entities": [], "date_range": {}, "search_terms": ["trust", "court", "probate", "legal"], "strategy": "Search documents for legal and trust-related content"}
@@ -69,17 +69,10 @@ INSTRUCTIONS:
 - When the retrieved data contains EXACT NUMBERS (photo counts, document counts, entity counts), you MUST use those exact numbers. Do not round, estimate, or paraphrase numerical data.
 - Include both English and Chinese names where available
 - If the data is incomplete, say what IS known and what gaps exist
-- End with a "Sources" section listing the asset types used (for statistics, cite "archive catalog")
+- End with a "Sources" section listing the asset types used
 - Keep the answer concise but complete — aim for 100-300 words
 - Do NOT invent or assume facts not in the retrieved data
 - When listing "top people" or rankings, use the exact order and counts from the FACT section
-
-CRITICAL — do not skip these data points if they appear in the retrieved data:
-- Person occupation or career (e.g., "engineer", "Nortel Networks")
-- When listing document types, scan EVERY document summary for type keywords and enumerate them all: trust, probate, death certificate, medical records, court filings, insurance, wire transfer, tax, immigration, power of attorney, fee contracts
-- The word "photos" when discussing what the archive contains or where to start exploring
-- Birth dates, death dates, and age at death
-- For "what legal documents" type questions: the word "probate" if ANY document summary mentions probate, Heggstad, or court petitions
 
 Write the answer now."""
 
