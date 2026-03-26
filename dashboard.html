@@ -661,9 +661,16 @@ td.num { font-family: var(--font-mono); text-align: right; }
     min-height: 44px;
     flex-shrink: 0;
   }
-  /* Hide lang + refresh on mobile header — declutter */
-  .lang-btn, .refresh-btn {
+  /* Hide refresh on mobile, but KEEP language toggle prominent */
+  .refresh-btn {
     display: none;
+  }
+  .lang-btn {
+    font-size: 13px;
+    min-height: 40px;
+    padding: 6px 14px;
+    margin-left: auto;
+    order: 10;
   }
 
   /* --- Main content: tighter padding --- */
@@ -747,8 +754,8 @@ td.num { font-family: var(--font-mono); text-align: right; }
 <header class="header">
   <h1>Archive Dashboard</h1>
   <nav class="tabs">
-    <button class="tab-btn active" data-tab="ask"><i class="ph-light ph-chat-circle"></i> Ask</button>
-    <button class="tab-btn" data-tab="overview"><i class="ph-light ph-chart-bar"></i> Overview</button>
+    <button class="tab-btn" data-tab="ask"><i class="ph-light ph-chat-circle"></i> Ask</button>
+    <button class="tab-btn active" data-tab="overview"><i class="ph-light ph-chart-bar"></i> Overview</button>
     <button class="tab-btn" data-tab="photos"><i class="ph-light ph-image"></i> Photos</button>
     <button class="tab-btn" data-tab="documents"><i class="ph-light ph-file-text"></i> Documents</button>
     <button class="tab-btn" data-tab="people"><i class="ph-light ph-users"></i> People</button>
@@ -762,7 +769,7 @@ td.num { font-family: var(--font-mono); text-align: right; }
 
 <main>
   <!-- ==================== ASK ==================== -->
-  <section id="tab-ask" class="tab-content active">
+  <section id="tab-ask" class="tab-content">
     <div class="section" style="max-width: 800px; margin: 0 auto;">
       <div style="text-align: center; margin-bottom: 24px;">
         <h2 style="font-family: var(--font-display); font-weight: 400; color: var(--cream-50); margin-bottom: 8px;">
@@ -859,7 +866,19 @@ td.num { font-family: var(--font-mono); text-align: right; }
   </section>
 
   <!-- ==================== OVERVIEW ==================== -->
-  <section id="tab-overview" class="tab-content">
+  <section id="tab-overview" class="tab-content active">
+    <div class="section" style="margin-bottom: 20px;">
+      <h2 style="font-family: var(--font-display); font-weight: 400; color: var(--cream-50); margin-bottom: 8px;"
+          data-i18n="The Living Archive">The Living Archive</h2>
+      <p style="color: var(--text-secondary); line-height: 1.6; max-width: 700px;" data-i18n-key="overview-desc">
+        A family archive spanning over 50 years of photos, documents, and records for the Liu family.
+        AI vision analysis identifies people, dates, and locations in each photo. Legal documents, medical records,
+        and trust filings are indexed and searchable. Use the <strong>Ask</strong> tab to ask questions in plain language.
+      </p>
+      <p id="overviewDescZh" style="color: var(--text-secondary); line-height: 1.6; max-width: 700px; margin-top: 8px; display: none;" lang="zh">
+        劉家五十多年的家庭照片、文件和記錄典藏。AI視覺分析識別每張照片中的人物、日期和地點。法律文件、醫療記錄和信託文件已建立索引，可供搜尋。使用<strong>提問</strong>功能，以自然語言詢問關於家族歷史的問題。
+      </p>
+    </div>
     <div class="stat-cards" id="overviewCards"><div class="loading">Loading...</div></div>
 
     <div class="section" id="backlogSection">
@@ -1157,12 +1176,14 @@ function translateStaticHTML() {
   // Translate title
   document.querySelector('.header h1').textContent = t('Archive Dashboard');
 
-  // Translate refresh button
+  // Translate refresh button (if present)
   const refreshBtn = document.getElementById('refreshBtn');
-  const refreshIcon = refreshBtn.querySelector('i');
-  refreshBtn.textContent = '';
-  if (refreshIcon) refreshBtn.appendChild(refreshIcon);
-  refreshBtn.append(' ' + t('Refresh'));
+  if (refreshBtn) {
+    const refreshIcon = refreshBtn.querySelector('i');
+    refreshBtn.textContent = '';
+    if (refreshIcon) refreshBtn.appendChild(refreshIcon);
+    refreshBtn.append(' ' + t('Refresh'));
+  }
 
   // Translate static headings
   document.querySelectorAll('h3[data-i18n]').forEach(el => {
@@ -1190,11 +1211,22 @@ function switchLanguage() {
   localStorage.setItem('archive-lang', _lang);
   updateLangButton();
   translateStaticHTML();
+  updateBilingualSections();
   // Re-render active tabs
   loadedTabs.clear();
   const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
   loadedTabs.add(activeTab);
   loadTab(activeTab);
+}
+
+function updateBilingualSections() {
+  // Overview descriptions
+  const enDesc = document.querySelector('[data-i18n-key="overview-desc"]');
+  const zhDesc = document.getElementById('overviewDescZh');
+  if (enDesc && zhDesc) {
+    enDesc.style.display = _lang === 'en' ? 'block' : 'none';
+    zhDesc.style.display = _lang === 'zh' ? 'block' : 'none';
+  }
 }
 
 // --- Tab navigation ---
@@ -2075,6 +2107,7 @@ document.getElementById('refreshBtn').addEventListener('click', async () => {
 document.getElementById('langBtn').addEventListener('click', switchLanguage);
 updateLangButton();
 if (_lang !== 'en') translateStaticHTML();
+updateBilingualSections();
 
 // --- Ask tab ---
 async function askQuestion(question) {
