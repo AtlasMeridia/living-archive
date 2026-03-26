@@ -21,6 +21,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 RUNS_DIR = Path(__file__).resolve().parents[1] / "runs" / "p2-loop"
+PROMPTS_PATH = Path(__file__).resolve().parent / "prompts.py"
+PROMPTS_BACKUP = RUNS_DIR / "prompts_backups"
+# Legacy — kept for history
 PIPELINE_PATH = Path(__file__).resolve().parent / "pipeline.py"
 PIPELINE_BACKUP = RUNS_DIR / "pipeline_backups"
 
@@ -48,8 +51,14 @@ def save_iteration(iteration: int, scores: dict, changes: str, reverted: bool):
         }, f, indent=2)
 
 
+def backup_prompts(iteration: int):
+    """Backup prompts.py before modification."""
+    PROMPTS_BACKUP.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(PROMPTS_PATH, PROMPTS_BACKUP / f"prompts_iter{iteration:03d}.py")
+
+
 def backup_pipeline(iteration: int):
-    """Backup pipeline.py before modification."""
+    """Backup pipeline.py before modification (legacy)."""
     PIPELINE_BACKUP.mkdir(parents=True, exist_ok=True)
     shutil.copy2(PIPELINE_PATH, PIPELINE_BACKUP / f"pipeline_iter{iteration:03d}.py")
 
@@ -97,4 +106,5 @@ if __name__ == "__main__":
     else:
         print(f"Loop runner ready. Use the agent to execute iterations.")
         print(f"Current iteration count: {get_iteration_count()}")
-        print(f"Pipeline: {PIPELINE_PATH}")
+        print(f"Mutable file: {PROMPTS_PATH}")
+        print(f"Pipeline: {PIPELINE_PATH} (imports from prompts.py)")

@@ -29,6 +29,7 @@ from retrieval import (
     get_archive_stats,
     get_location_entities,
 )
+from prompts import PLANNER_PROMPT, COMPOSER_PROMPT
 
 
 # --- Result type ---
@@ -49,45 +50,8 @@ class PipelineResult:
 # STAGE 1: PLAN — Classify question and extract entities
 # =========================================================================
 
-PLANNER_PROMPT_PREFIX = """You are a query planner for the Liu family archive. Given a user question,
-extract structured retrieval parameters. The archive contains photos, legal documents,
-medical records, death certificates, and trust filings for the Liu family.
-
-Key people: Feng Kuang Liu (patriarch), Meichu Grace Liu (wife), Kenny Peng Liu (son),
-Karen Peling Liu (daughter). The family lived in Los Altos Hills, California.
-Feng Kuang Liu was born January 23, 1943 in Taiwan and died June 6, 2010.
-
-Return a JSON object with these fields:
-- query_type: "person", "date", "location", "topic", "stats", or "general"
-- entities: list of person names or entity values to look up
-- date_range: object with optional "start", "end", "decade" fields
-- search_terms: list of 1-3 word keywords for document text search (NOT full sentences)
-- strategy: one sentence describing what to retrieve
-
-EXAMPLES:
-
-Q: "When did Feng Kuang Liu die?"
-A: {"query_type": "person", "entities": ["Feng Kuang Liu"], "date_range": {}, "search_terms": ["death", "died"], "strategy": "Look up Feng Kuang Liu person profile and search death-related documents"}
-
-Q: "How many photos are in the archive?"
-A: {"query_type": "stats", "entities": [], "date_range": {}, "search_terms": [], "strategy": "Get archive statistics including photo and document counts"}
-
-Q: "What happened in the 1970s?"
-A: {"query_type": "date", "entities": [], "date_range": {"decade": "1970s"}, "search_terms": [], "strategy": "Get timeline events from the 1970s decade"}
-
-Q: "Tell me about grandpa."
-A: {"query_type": "person", "entities": ["Feng Kuang Liu"], "date_range": {}, "search_terms": ["Liu"], "strategy": "Get full person profile for Feng Kuang Liu with timeline and documents"}
-
-Q: "What legal documents are in the archive?"
-A: {"query_type": "topic", "entities": [], "date_range": {}, "search_terms": ["trust", "court", "probate", "legal"], "strategy": "Search documents for legal and trust-related content"}
-
-Now answer for this question. Return ONLY the JSON object:
-Q: "QUESTION_PLACEHOLDER"
-A: """
-
-
 def _format_planner_prompt(question: str) -> str:
-    return PLANNER_PROMPT_PREFIX.replace("QUESTION_PLACEHOLDER", question)
+    return PLANNER_PROMPT.replace("QUESTION_PLACEHOLDER", question)
 
 
 def _strip_fences(text: str) -> str:
@@ -250,29 +214,8 @@ def retrieve(plan_result: dict) -> RetrievalResult:
 # STAGE 3: COMPOSE — Generate sourced answer from retrieved data
 # =========================================================================
 
-COMPOSER_PROMPT_TEMPLATE = """You are composing an answer about a family archive for a family member.
-You have retrieved the following data. Use ONLY this data to answer — do not invent facts.
-
-QUESTION: <<QUESTION>>
-
-RETRIEVED DATA:
-<<CONTEXT>>
-
-INSTRUCTIONS:
-- Answer the question directly and conversationally
-- Every factual claim must be traceable to the retrieved data
-- Include both English and Chinese names where available
-- Mention specific counts (photos, documents) when relevant
-- If the data is incomplete, say what IS known and what gaps exist
-- End with a "Sources" section listing the asset types used
-- Keep the answer concise but complete — aim for 100-300 words
-- Do NOT invent or assume facts not in the retrieved data
-
-Write the answer now."""
-
-
 def _format_composer_prompt(question: str, context: str) -> str:
-    return COMPOSER_PROMPT_TEMPLATE.replace("<<QUESTION>>", question).replace("<<CONTEXT>>", context)
+    return COMPOSER_PROMPT.replace("<<QUESTION>>", question).replace("<<CONTEXT>>", context)
 
 
 def _format_context(retrieval: RetrievalResult) -> str:
