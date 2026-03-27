@@ -164,18 +164,29 @@ def run_preflight(require_immich: bool = True) -> bool:
             log.warning("  Immich not available — will skip metadata push")
 
     # 4. Inference backend
-    if config.USE_CLI:
+    if config.INFERENCE_MODE == "cli":
         if not config.CLAUDE_CLI.exists():
             log.error("  Claude CLI not found: %s", config.CLAUDE_CLI)
             all_ok = False
         else:
             log.info("  Claude CLI: %s (model: %s)", config.CLAUDE_CLI, config.CLI_MODEL)
-    else:
+    elif config.INFERENCE_MODE == "oauth":
+        try:
+            from .auth import resolve_token
+            resolve_token()
+            log.info("  OAuth token: configured (model: %s)", config.OAUTH_MODEL)
+        except (ValueError, ImportError) as e:
+            log.error("  OAuth token resolution failed: %s", e)
+            all_ok = False
+    elif config.INFERENCE_MODE == "api":
         if not config.ANTHROPIC_API_KEY:
             log.error("  ANTHROPIC_API_KEY not set")
             all_ok = False
         else:
             log.info("  Anthropic API key: configured")
+    else:
+        log.error("  Unknown INFERENCE_MODE: %s", config.INFERENCE_MODE)
+        all_ok = False
 
     # 5. Prompt file
     if not config.PROMPT_FILE.exists():

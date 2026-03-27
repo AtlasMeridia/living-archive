@@ -8,7 +8,7 @@ Can an autonomous loop build and refine a conversational interface that lets non
 
 The archive has 2,196 assets, 2,346 synthesis entities, 3,012 timeline events, and full-text search over 72 documents. The data is rich. But the only interfaces are an admin dashboard and raw API endpoints — both built for the operator, not the audience.
 
-The product question: can we build a query layer that converts "tell me about grandpa" into a sourced, bilingual, confidence-rated answer without the user knowing anything about SHA-256 hashes, synthesis databases, or photo manifests?
+The product question: can we build a query layer that converts "tell me about Feng Kuang Liu" into a sourced, bilingual, confidence-rated answer without the user knowing anything about SHA-256 hashes, synthesis databases, or photo manifests?
 
 The Karpathy Loop question: can an agent autonomously improve this query layer by generating questions, evaluating answers against ground truth, and refining the retrieval/prompting pipeline — all within fixed time boxes?
 
@@ -146,7 +146,7 @@ Use the loop to systematically verify synthesis data.
 ## Success Criteria
 
 The experiment succeeds if:
-1. A family member can type "tell me about grandpa" and get a factually correct,
+1. A family member can type "tell me about Feng Kuang Liu" and get a factually correct,
    sourced answer that includes both photo and document evidence
 2. The autonomous loop demonstrably improves answer quality (measured, not vibed)
 3. The verification sweep identifies at least one correctable error in synthesis data

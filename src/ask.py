@@ -6,7 +6,7 @@ production use in the dashboard. Uses maxplan-inference for LLM calls.
 Usage:
     from src.ask import ask, AskResult
 
-    result = ask("Tell me about grandpa")
+    result = ask("Tell me about Feng Kuang Liu")
     print(result.answer)
     print(result.sources)
 """
@@ -113,7 +113,7 @@ A: {"query_type": "stats", "entities": [], "date_range": {}, "search_terms": [],
 Q: "What happened in the 1970s?"
 A: {"query_type": "date", "entities": [], "date_range": {"decade": "1970s"}, "search_terms": [], "strategy": "Get timeline events from the 1970s decade"}
 
-Q: "Tell me about grandpa."
+Q: "Tell me about Feng Kuang Liu."
 A: {"query_type": "person", "entities": ["Feng Kuang Liu"], "date_range": {}, "search_terms": ["Liu", "occupation", "career"], "strategy": "Get full person profile for Feng Kuang Liu with timeline, career details, and documents"}
 
 Q: "What legal documents are in the archive?"

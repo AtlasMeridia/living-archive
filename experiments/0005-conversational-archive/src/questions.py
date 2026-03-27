@@ -196,7 +196,7 @@ HARD_QUESTIONS = [
     TestQuestion(
         id="h01",
         tier="hard",
-        question="Tell me about grandpa.",
+        question="Tell me everything you know about Feng Kuang Liu.",
         required_facts=["Feng Kuang Liu", "born", "died"],
         bonus_facts=["1943", "2010", "engineer", "Taiwan", "photos", "documents"],
         expected_sources=["synthesis", "documents", "photos"],
