@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 # --- Photo pipeline models ---
@@ -25,6 +25,17 @@ class PhotoAnalysis(BaseModel):
     condition_notes: str | None = None
     ocr_text: str | None = None
     is_document: bool = False
+
+    @field_validator(
+        "date_estimate", "date_precision", "date_reasoning",
+        "description_en", "description_zh", "people_notes",
+        "location_estimate",
+        mode="before",
+    )
+    @classmethod
+    def coerce_null_to_empty_string(cls, v):
+        """Claude API sometimes returns null for optional string fields."""
+        return v if v is not None else ""
 
 
 class InferenceMetadata(BaseModel):

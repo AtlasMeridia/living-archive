@@ -31,6 +31,26 @@ class TestPhotoAnalysis:
         assert pa.tags == []
         assert pa.people_count is None
 
+    def test_null_string_fields_coerced(self):
+        """Claude API sometimes returns null for string fields — should coerce to empty string."""
+        pa = PhotoAnalysis.model_validate({
+            "people_notes": None,
+            "description_en": None,
+            "location_estimate": None,
+            "date_estimate": None,
+        })
+        assert pa.people_notes == ""
+        assert pa.description_en == ""
+        assert pa.location_estimate == ""
+        assert pa.date_estimate == ""
+
+    def test_null_string_via_json(self):
+        """Same null coercion should work via model_validate_json (the batch path)."""
+        data = json.dumps({"people_notes": None, "description_en": "A photo"})
+        pa = PhotoAnalysis.model_validate_json(data)
+        assert pa.people_notes == ""
+        assert pa.description_en == "A photo"
+
     def test_extra_fields_ignored(self):
         """extra='ignore' should silently drop unknown fields."""
         pa = PhotoAnalysis.model_validate({
