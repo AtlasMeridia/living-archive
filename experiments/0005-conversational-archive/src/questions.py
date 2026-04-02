@@ -279,8 +279,19 @@ HARD_QUESTIONS = [
 ALL_QUESTIONS = EASY_QUESTIONS + MEDIUM_QUESTIONS + HARD_QUESTIONS
 
 
-def get_questions(tier: str = None) -> list[TestQuestion]:
-    """Get test questions, optionally filtered by tier."""
-    if tier is None:
-        return ALL_QUESTIONS
-    return [q for q in ALL_QUESTIONS if q.tier == tier]
+def get_questions(tier: str = None, question_ids: list[str] | None = None) -> list[TestQuestion]:
+    """Get test questions, optionally filtered by tier and/or explicit IDs."""
+    questions = ALL_QUESTIONS
+
+    if tier is not None:
+        questions = [q for q in questions if q.tier == tier]
+
+    if question_ids:
+        wanted = set(question_ids)
+        questions = [q for q in questions if q.id in wanted]
+        found = {q.id for q in questions}
+        missing = wanted - found
+        if missing:
+            raise ValueError(f"Unknown question IDs: {sorted(missing)}")
+
+    return questions

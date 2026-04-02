@@ -1,0 +1,42 @@
+{
+  "experiment_id": "0007",
+  "name": "control-plane",
+  "status": "active",
+  "created": "2026-04-01",
+  "question": "Can Living Archive gain a trustworthy control plane for autonomous improvement loops by stamping snapshots, enforcing freshness gates, and logging keep/revert decisions?",
+  "tags": [
+    "karpathy-loop",
+    "control-plane",
+    "evaluation",
+    "reliability",
+    "experimentation"
+  ],
+  "phases": [
+    {"id": "p0", "name": "scaffold", "status": "complete"},
+    {"id": "p1", "name": "accuracy-integration", "status": "in_progress"},
+    {"id": "p2", "name": "efficiency-integration", "status": "pending"},
+    {"id": "p3", "name": "presentation-gate", "status": "pending"}
+  ],
+  "data_sources": [
+    "data/catalog.db",
+    "data/synthesis.db",
+    "experiments/0005-conversational-archive",
+    "experiments/0006-dashboard-ux-loop"
+  ],
+  "metrics": [
+    "metadata_completeness",
+    "gate_enforcement_rate",
+    "reproducibility",
+    "operator_comparison_time"
+  ],
+  "outputs": [
+    "brief.md",
+    "manifest_schema.json",
+    "benchmarks/README.md",
+    "benchmarks/accuracy/qa_watchdog_v1.json",
+    "benchmarks/accuracy/qa_holdout_v1.json",
+    "runs/README.md",
+    "src/run_controlled_eval.py"
+  ],
+  "related_experiments": ["0005-conversational-archive", "0006-dashboard-ux-loop"]
+}

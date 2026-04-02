@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "living-archive/experiments/0007-control-plane/run-manifest.schema.json",
+  "title": "Living Archive Controlled Run Manifest",
+  "type": "object",
+  "required": [
+    "run_id",
+    "lane",
+    "created_at",
+    "git_commit",
+    "candidate",
+    "benchmarks",
+    "snapshots",
+    "preflight",
+    "verdict"
+  ],
+  "properties": {
+    "run_id": {"type": "string"},
+    "lane": {"type": "string", "enum": ["accuracy", "efficiency", "presentation"]},
+    "created_at": {"type": "string"},
+    "git_commit": {"type": "string"},
+    "candidate": {
+      "type": "object",
+      "required": ["path"],
+      "properties": {
+        "path": {"type": "string"},
+        "artifact_type": {"type": "string"},
+        "notes": {"type": "string"}
+      }
+    },
+    "benchmarks": {
+      "type": "object",
+      "required": ["set_id", "split"],
+      "properties": {
+        "set_id": {"type": "string"},
+        "split": {"type": "string", "enum": ["train", "holdout", "live_canary"]}
+      }
+    },
+    "snapshots": {
+      "type": "object",
+      "properties": {
+        "catalog_id": {"type": ["string", "null"]},
+        "synthesis_id": {"type": ["string", "null"]},
+        "manifests_id": {"type": ["string", "null"]}
+      }
+    },
+    "preflight": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {"type": "string", "enum": ["pass", "fail", "unknown"]},
+        "notes": {"type": "string"}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "baseline": {"type": ["object", "null"]},
+        "candidate": {"type": ["object", "null"]},
+        "holdout": {"type": ["object", "null"]}
+      }
+    },
+    "verdict": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {"type": "string", "enum": ["keep", "revert", "human_review", "incomplete"]},
+        "reason": {"type": "string"}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "properties": {
+        "scores_json": {"type": ["string", "null"]},
+        "preflight_json": {"type": ["string", "null"]},
+        "diff_patch": {"type": ["string", "null"]},
+        "trace_dir": {"type": ["string", "null"]},
+        "results_json": {"type": ["string", "null"]},
+        "benchmark_json": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "run_id": "accuracy_20260402T025514Z",
+  "lane": "accuracy",
+  "created_at": "2026-04-02T02:55:14.537953+00:00",
+  "git_commit": "d77b944e088ff3a27e8b49a68a5e784a967bbbe3",
+  "candidate": {
+    "path": "experiments/0005-conversational-archive/src/prompts.py",
+    "artifact_type": "prompts",
+    "notes": ""
+  },
+  "benchmarks": {
+    "set_id": "qa_holdout_v1",
+    "split": "holdout"
+  },
+  "snapshots": {
+    "catalog_id": "cat_20260401T223139Z",
+    "synthesis_id": "syn_20260401T223139Z",
+    "manifests_id": null
+  },
+  "preflight": {
+    "status": "pass",
+    "notes": ""
+  },
+  "metrics": {
+    "baseline": {
+      "target_overall": 0.83
+    },
+    "candidate": {
+      "overall_avg": 0.736,
+      "by_tier": {
+        "easy": 0.68,
+        "hard": 0.703,
+        "medium": 0.824
+      },
+      "by_dimension": {
+        "factual_accuracy": 0.833,
+        "source_grounding": 0.822,
+        "completeness": 0.691,
+        "coherence": 0.5
+      }
+    },
+    "holdout": null
+  },
+  "verdict": {
+    "status": "human_review",
+    "reason": "Overall 0.736 below target 0.830. Review before promotion."
+  },
+  "artifacts": {
+    "scores_json": "raw/scores_20260402T025659Z.json",
+    "preflight_json": "preflight.json",
+    "diff_patch": null,
+    "trace_dir": "traces",
+    "results_json": "raw/results_20260402T025659Z.json",
+    "benchmark_json": "benchmarks/accuracy/qa_holdout_v1.json"
+  }
+}

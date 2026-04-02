@@ -1,0 +1,21 @@
+{
+  "baseline": {
+    "target_overall": 0.83
+  },
+  "candidate": {
+    "overall_avg": 0.736,
+    "by_tier": {
+      "easy": 0.68,
+      "hard": 0.703,
+      "medium": 0.824
+    },
+    "by_dimension": {
+      "factual_accuracy": 0.833,
+      "source_grounding": 0.822,
+      "completeness": 0.691,
+      "coherence": 0.5
+    }
+  },
+  "holdout": null,
+  "status": "completed"
+}

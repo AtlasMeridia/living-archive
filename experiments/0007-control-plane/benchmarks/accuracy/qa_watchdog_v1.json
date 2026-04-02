@@ -1,0 +1,10 @@
+{
+  "id": "qa_watchdog_v1",
+  "lane": "accuracy",
+  "integration": "0005-baseline",
+  "description": "Full 30-question conversational-archive watchdog run in quick mode (coherence skipped). Mirrors the existing eval-watchdog behavior but stamps controlled-run metadata.",
+  "skip_coherence": true,
+  "target_overall": 0.83,
+  "min_questions_succeeded": 30,
+  "timeout_seconds": 3600
+}

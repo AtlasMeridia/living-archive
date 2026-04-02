@@ -1,0 +1,11 @@
+{
+  "id": "qa_holdout_v1",
+  "lane": "accuracy",
+  "integration": "0005-baseline",
+  "description": "Balanced 9-question holdout subset for faster controlled accuracy checks.",
+  "question_ids": ["e02", "e05", "e10", "m02", "m06", "m09", "h03", "h05", "h08"],
+  "skip_coherence": true,
+  "target_overall": 0.83,
+  "min_questions_succeeded": 9,
+  "timeout_seconds": 1800
+}
