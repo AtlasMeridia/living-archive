@@ -7,6 +7,7 @@ from PIL import Image
 
 MAX_EDGE = 2048
 JPEG_QUALITY = 85
+MAX_ANALYSIS_BYTES = 5 * 1024 * 1024
 
 
 def sha256_file(path: Path) -> str:
@@ -44,9 +45,13 @@ def find_photos(directory: Path) -> list[Path]:
 def needs_conversion(path: Path) -> bool:
     """Return True if the file needs conversion/resizing for analysis.
 
-    TIFFs always need conversion. JPEGs need resizing only if over MAX_EDGE.
+    TIFFs always need conversion. Files mislabeled as JPEG but containing TIFF
+    bytes also need conversion. Real JPEGs need normalization if they exceed
+    the analysis edge/size limits.
     """
     if path.suffix.lower() in (".tif", ".tiff"):
         return True
     with Image.open(path) as img:
-        return max(img.size) > MAX_EDGE
+        if (img.format or "").upper() != "JPEG":
+            return True
+        return max(img.size) > MAX_EDGE or path.stat().st_size > MAX_ANALYSIS_BYTES

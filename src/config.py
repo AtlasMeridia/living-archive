@@ -13,17 +13,37 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
+def _resolve_volume_alias(path_str: str) -> Path:
+    """Resolve /Volumes/MNEME path aliases like MNEME-1, MNEME-2."""
+    preferred = Path(path_str)
+    if preferred.exists():
+        return preferred
+    parts = preferred.parts
+    if len(parts) < 3 or parts[1] != 'Volumes':
+        return preferred
+    volume_name = parts[2]
+    suffix = Path(*parts[3:]) if len(parts) > 3 else Path()
+    volumes_dir = Path('/Volumes')
+    for alt in sorted(volumes_dir.glob(f'{volume_name}*')):
+        candidate = alt / suffix
+        if candidate.exists():
+            return candidate
+    return preferred
+
 # --- API keys (optional — not needed for document pipeline) ---
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 IMMICH_API_KEY = os.environ.get("IMMICH_API_KEY", "")
 IMMICH_URL = os.environ.get("IMMICH_URL", "http://mneme.local:2283")
 
 # --- Paths: Branch roots ---
+DEFAULT_FAMILY_ROOT = _resolve_volume_alias("/Volumes/MNEME/05_PROJECTS/Living Archive/Family")
+DEFAULT_PERSONAL_ROOT = _resolve_volume_alias("/Volumes/MNEME/05_PROJECTS/Living Archive/Personal")
 FAMILY_ROOT = Path(os.environ.get(
-    "FAMILY_ROOT", "/Volumes/MNEME/05_PROJECTS/Living Archive/Family"
+    "FAMILY_ROOT", str(DEFAULT_FAMILY_ROOT)
 ))
 PERSONAL_ROOT = Path(os.environ.get(
-    "PERSONAL_ROOT", "/Volumes/MNEME/05_PROJECTS/Living Archive/Personal"
+    "PERSONAL_ROOT", str(DEFAULT_PERSONAL_ROOT)
 ))
 
 # --- Paths: Photo pipeline ---

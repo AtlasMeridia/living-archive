@@ -7,15 +7,15 @@ Infrastructure documentation for the Living Archive project.
 | Machine | Hostname | Role | Access |
 |---------|----------|------|--------|
 | **NAS (DS923+)** | `mneme` | Storage (source media, read-only) | SSH, Tailscale |
-| **EllisAgent (M3 Pro)** | `ellis-mbp` | Execution, scripts, Claude Code | Local, Tailscale |
-| **Atlas (M4 Max)** | `atlas` | Strategy, Claude Desktop | Local, Tailscale |
-| **VPS (Hetzner CPX21)** | `living-archive-vps` | Immich v2.5.6 + Dashboard, presentation | Tailscale, Cloudflare Tunnel |
+| **EllisAgent (M3 Pro)** | `ellis-mbp` | Secondary / legacy execution node | Local, Tailscale |
+| **Atlas (M4 Max)** | `atlas` | Primary execution host, strategy, Claude/Hermes | Local, Tailscale |
+| **VPS (Hetzner CPX21)** | `living-archive-vps` | Immich v2.6.3 + Dashboard, presentation | Tailscale, Cloudflare Tunnel |
 
 ## Data Flow
 
 ```
 DATA LAYER (NAS, read-only)                    AI LAYER (local, regeneratable)            PRESENTATION (VPS)
-/Living Archive/Family/Media/            →    data/photos/runs/manifests/         →    Immich v2.5.6 REST API
+/Living Archive/Family/Media/            →    data/photos/runs/manifests/         →    Immich v2.6.3 REST API
   Source TIFFs/JPEGs, never modified           one JSON per photo, keyed by SHA-256     PUT /assets, POST /albums
 /Living Archive/Family/Documents/        →    data/documents/runs/manifests/           https://living-archive.dev
   Source PDFs, never modified                  doc manifests, extracted text, FTS5
@@ -31,7 +31,7 @@ DATA LAYER (NAS, read-only)                    AI LAYER (local, regeneratable)  
                                                → dashboard synthesis APIs
 ```
 
-Inference runs on M3 Pro via Claude Code CLI (photos: Sonnet, documents: Opus). Source files read from NAS, results written locally to `data/`. Photos uploaded to VPS Immich via CLI, then metadata pushed via API.
+Inference currently runs on ATLASM via Max Plan-backed Claude (photos default to OAuth SDK mode; document pipeline remains provider-selectable, with `claude-cli`/Opus as the common default). Source files are read from NAS, results are written locally to `data/`, photos are uploaded to VPS Immich via CLI, and metadata is pushed via API.
 
 **NAS dependency:** Only `scan` (inventorying source files) and pipeline runs (reading sources for analysis) require NAS. The dashboard, stats, search, and synthesis APIs are fully offline — they query local `catalog.db`/`synthesis.db` artifacts.
 
@@ -82,7 +82,7 @@ Note: `living-archive.kennyliu.io` remains active as an alias for Immich.
 /volume1/MNEME/05_PROJECTS/Living Archive/Family/Documents/       # Family documents
 /volume1/MNEME/05_PROJECTS/Living Archive/Personal/               # Apple data export (726 GB)
 
-# Mac (AFP mount) — same NAS paths
+# Mac (SMB mount) — same NAS paths
 /Volumes/MNEME/05_PROJECTS/Living Archive/Family/Media/           # Mounted source
 /Volumes/MNEME/05_PROJECTS/Living Archive/Family/Documents/       # Mounted documents
 
@@ -109,7 +109,7 @@ Note: `living-archive.kennyliu.io` remains active as an alias for Immich.
 .env                                               # IMMICH_URL + API keys (gitignored)
 ```
 
-Note: NAS `_ai-layer/` directories are inert backups from before the local migration. All new AI output writes to `data/`. NAS Immich installation (`/volume1/docker/immich/`, v2.4.1) is superseded by VPS Immich (v2.5.6).
+Note: NAS `_ai-layer/` directories are inert backups from before the local migration. All new AI output writes to `data/`. NAS Immich installation (`/volume1/docker/immich/`, v2.4.1) is superseded by VPS Immich (v2.6.3).
 
 ## Architectural Principles
 
@@ -194,12 +194,13 @@ The personal branch doesn't need its own pipeline — it needs the family pipeli
 
 ## Inference Routing
 
-Both pipelines default to CLI mode, which spawns the Claude Code CLI (`claude`) as a subprocess. This routes through a Max plan subscription (flat-rate, no per-token cost). The CLI is invoked with `--output-format json --json-schema <schema>` for structured output and `--no-session-persistence` to avoid state between calls.
+The photo pipeline no longer defaults to CLI mode. It now defaults to Max Plan OAuth SDK calls (`INFERENCE_MODE=oauth`) to avoid subprocess overhead, while CLI mode remains available as a legacy fallback and for comparison/debugging. The document pipeline remains provider-selectable and commonly runs via `claude-cli` with `--output-format json --json-schema <schema>` and `--no-session-persistence`.
 
 **Photo pipeline** (`src/analyze.py`):
-- Default: CLI mode (`USE_CLI=true`), model `sonnet`
-- Fallback: Anthropic API mode (`USE_CLI=false`), model `claude-sonnet-4-20250514`
-- CLI passes `--allowedTools Read` so Claude can read the JPEG file directly
+- Default: OAuth mode (`INFERENCE_MODE=oauth`), model `claude-sonnet-4-20250514`
+- Legacy CLI mode: `INFERENCE_MODE=cli`
+- Standard API fallback: `INFERENCE_MODE=api`
+- CLI mode still passes `--allowedTools Read` so Claude can read the JPEG file directly
 
 **Document pipeline** (`src/doc_analyze.py`):
 - Provider abstraction with three backends: `claude-cli` (default), `codex`, `ollama`

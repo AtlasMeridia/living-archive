@@ -2,7 +2,7 @@
 
 **Project Name:** Living Archive
 **Project Owner:** Kenny Liu / ATLAS Meridia LLC
-**Last Updated:** March 25, 2026
+**Last Updated:** April 2, 2026
 **Status:** Active — pipelines running, publicly accessible, family onboarding in progress
 
 ---
@@ -46,11 +46,11 @@ Four-machine topology: NAS for source data, Mac for pipeline execution, VPS for 
 |-------|----------|----------|
 | **Data** | NAS (read-only) | Source TIFFs, PDFs — canonical, never modified |
 | **AI** | Local Mac (regeneratable) | JSON manifests, extracted text, FTS5 index, asset catalog, synthesis DB, people registry — keyed by SHA-256 |
-| **Presentation** | VPS (Immich v2.5.6) | Photos at `living-archive.dev`, dashboard at `dashboard.living-archive.dev` |
+| **Presentation** | VPS (Immich v2.6.3) | Photos at `living-archive.dev`, dashboard at `dashboard.living-archive.dev` |
 
 ### Photo Pipeline
 
-TIFF scans → JPEG conversion → Claude Vision API (Sonnet) → structured JSON manifests → Immich metadata push. Confidence-based routing: high (≥0.8) auto-applies, medium (0.5–0.8) routes to "Needs Review" album, low (<0.5) routes to "Low Confidence" album.
+TIFF/JPEG scans → analysis-ready JPEG normalization → Max Plan-backed Claude (photo pipeline defaults to OAuth SDK mode) → structured JSON manifests → Immich metadata push. Confidence-based routing: high (≥0.8) auto-applies, medium (0.5–0.8) routes to "Needs Review" album, low (<0.5) routes to "Low Confidence" album.
 
 ### Document Pipeline
 
@@ -70,8 +70,8 @@ Interactive single-page web UI with six tabs: Overview (stats, coverage), Photos
 
 ### Infrastructure
 
-- Immich v2.5.6 on Hetzner VPS, public via Cloudflare Tunnel
-- NAS auto-mount via AFP with retry logic
+- Immich v2.6.3 on Hetzner VPS, public via Cloudflare Tunnel
+- NAS auto-mount via SMB with retry logic
 - Preflight checks (NAS mount, Immich health, config validation)
 - CLI entry points for each pipeline stage (12 commands)
 - Pydantic models, structured logging, 82 tests across 11 files
@@ -83,10 +83,10 @@ Interactive single-page web UI with six tabs: Overview (stats, coverage), Photos
 The ongoing work of digitizing and organizing the Liu family history drives development and serves as proof of concept.
 
 **Completed:**
-- 1,773 photos processed and pushed to Immich across 19+ pipeline runs
+- 3,687 photo assets currently indexed in the local AI layer catalog (as of 2026-04-02; recent no-push batches still require downstream Immich metadata push/sync)
 - 121 family documents analyzed (Liu Family Trust — 468 pages, 26 document types)
 - Full-text search index built over extracted document text (FTS5)
-- Face recognition running — 85 clusters on VPS Immich, people registry synced
+- Face recognition running on VPS Immich, people registry synced
 - Synthesis layer operational — entity graph, timeline chronology, cross-referencing
 - In-browser people naming modal ready for elder knowledge capture
 - Immich live at `living-archive.dev` with invite-based family access
@@ -132,7 +132,7 @@ The ongoing work of digitizing and organizing the Liu family history drives deve
 
 1. **Personal data branch:** The system was built for the family archive. 726 GB of personal Apple data needs a different approach — HEIC not TIFF, different directory structure, dedup against existing family photos. How does the three-layer model extend?
 
-2. **Curation layer:** Immich shows everything including low-confidence items (149 "Needs Review", 114 "Low Confidence"). For family and public audiences, curated albums (by decade, event, or person) would make the first experience more meaningful than raw pipeline output.
+2. **Curation layer:** Immich shows everything including low-confidence and review-routed items. For family and public audiences, curated albums (by decade, event, or person) would make the first experience more meaningful than raw pipeline output.
 
 3. **Public vs. private:** The methodology and code are public. Family-specific data (manifests, registry, extracted text) stays local. But where's the line for blog content? How much of the family story is shareable?
 
@@ -167,6 +167,7 @@ The ongoing work of digitizing and organizing the Liu family history drives deve
 | 2026-02-11 | Reconciled with reality: acknowledged working system alongside methodology, added architecture and case study sections, removed completed action items (now in BACKLOG.md) |
 | 2026-03-19 | Updated to reflect VPS migration, current scale (1,773 photos, 121 docs), synthesis layer, dashboard, and public access |
 | 2026-03-25 | Domain migration: `living-archive.kennyliu.io` → `living-archive.dev`. Dashboard deployment resolved. All URLs updated. |
+| 2026-04-02 | Updated runtime facts: Immich v2.6.3, SMB mount language, OAuth photo inference default, and local AI-layer asset counts. |
 
 ---
 

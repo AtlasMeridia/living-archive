@@ -1,6 +1,6 @@
 # Living Archive
 
-AI-assisted archival system. Four-machine architecture: data (NAS, read-only), AI (local Mac, regeneratable metadata), presentation (Immich v2.5.6 on VPS at `living-archive.kennyliu.io`).
+AI-assisted archival system. Four-machine architecture: data (NAS, read-only), AI (local Mac, regeneratable metadata), presentation (Immich v2.6.3 on VPS at `living-archive.dev`, with legacy alias `living-archive.kennyliu.io`).
 
 ## Key paths
 

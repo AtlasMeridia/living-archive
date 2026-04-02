@@ -32,6 +32,22 @@ def _get_nas_password() -> str | None:
     return None
 
 
+def _mount_path_usable(path: Path, timeout: int = 5) -> bool:
+    """Return True if the path exists and basic directory I/O succeeds quickly."""
+    if not path.exists():
+        return False
+    try:
+        result = subprocess.run(
+            ["/bin/ls", str(path)],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=timeout,
+        )
+        return result.returncode == 0
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        return False
+
+
 def ensure_nas_mounted(
     mount_point: Path | None = None,
     auto_mount: bool = True,
@@ -45,22 +61,22 @@ def ensure_nas_mounted(
     Can be called from anywhere — preflight, mid-pipeline on I/O error, or standalone.
     """
     mount_point = mount_point or config.MEDIA_ROOT
-    if mount_point.exists():
+    if _mount_path_usable(mount_point):
         log.info("  NAS mounted: %s", mount_point)
         return True
+    if mount_point.exists():
+        log.warning("  NAS path exists but is not readable: %s", mount_point)
 
     if not auto_mount:
         log.error("  NAS not mounted: %s", mount_point)
         return False
 
     password = _get_nas_password()
-    if not password:
-        log.error("  NAS password not found in Keychain.")
-        log.error("  Store it: security add-internet-password -a %s -s %s -r 'smb ' -w '<password>'",
-                   NAS_USER, NAS_HOST)
-        return False
-
-    smb_url = f"smb://{NAS_USER}:{password}@{NAS_HOST}/{NAS_SHARE}"
+    if password:
+        smb_url = f"smb://{NAS_USER}:{password}@{NAS_HOST}/{NAS_SHARE}"
+    else:
+        log.warning("  NAS password unavailable via security -w; trying keychain/Finder mount.")
+        smb_url = f"smb://{NAS_HOST}/{NAS_SHARE}"
 
     for attempt in range(1, mount_attempts + 1):
         log.info("  NAS not mounted. Auto-mount attempt %d/%d...", attempt, mount_attempts)
@@ -78,7 +94,7 @@ def ensure_nas_mounted(
         # Wait for mount to appear
         for i in range(10):
             time.sleep(2)
-            if mount_point.exists():
+            if _mount_path_usable(mount_point):
                 log.info("  NAS mounted after %ds: %s", (i + 1) * 2, mount_point)
                 return True
             log.info("  Waiting for mount... (%ds)", (i + 1) * 2)

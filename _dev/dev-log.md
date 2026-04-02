@@ -4,6 +4,183 @@ Working record of the Living Archive project — pipeline runs, architecture dec
 
 Pipeline runs include run IDs, metrics, and content notes. Architecture and process entries capture the *why* — what changed, what we learned about working this way, what patterns emerged.
 
+## 2026-04-02 — Batch run
+**Run:** `20260402T070121Z` — batch mode, 1 slices attempted
+**Result:** 247/352 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 3,570s (~1.0 hours)
+**Model:** API (claude-sonnet-4-20250514)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Brown_Album_A18` | 352 | 247/352 (partial) | 2619s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-04-01 — Batch run
+**Run:** `20260402T003238Z` — batch mode, 1 slices attempted
+**Result:** 33/329 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 387s (~0.1 hours)
+**Model:** API (claude-sonnet-4-20250514)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Grey_Album` | 329 | 33/329 | 368s |
+
+---
+
+## 2026-04-01 — Batch run
+**Run:** `20260402T001134Z` — batch mode, 1 slices attempted
+**Result:** 110/329 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 1,164s (~0.3 hours)
+**Model:** API (claude-sonnet-4-20250514)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Grey_Album` | 329 | 110/329 (partial) | 1146s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-04-01 — Batch run
+**Run:** `20260401T234315Z` — batch mode, 1 slices attempted
+**Result:** 113/329 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 1,158s (~0.3 hours)
+**Model:** API (claude-sonnet-4-20250514)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Grey_Album` | 329 | 113/329 (partial) | 1158s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-04-01 — Batch run
+**Run:** `20260401T233249Z` — batch mode, 2 slices attempted
+**Result:** 32/466 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 359s (~0.1 hours)
+**Model:** API (claude-sonnet-4-20250514)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Green_Album` | 216 | 12/216 | 128s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Brown_Wooden_Album` | 250 | 20/250 | 212s |
+
+---
+
+## 2026-04-01 — Batch run
+**Run:** `20260401T230739Z` — batch mode, 2 slices attempted
+**Result:** 3/186 succeeded, 0 failures
+**Triage skips:** 0
+**Elapsed:** 103s (~0.0 hours)
+**Model:** API (claude-sonnet-4-20250514)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Lifes_Garden` | 153 | 1/153 | 30s |
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Albumpage` | 33 | 2/33 | 55s |
+
+---
+
+## 2026-04-01 — MNEME mount recovery handoff
+
+Documented the post-reboot recovery path at `docs/mneme-mount-recovery.md` after cleaning up duplicate SMB mounts.
+
+Observed state during cleanup:
+- Duplicate mounts removed: `/Volumes/MNEME-1`, `/Volumes/MNEME-2`
+- Remaining canonical `/Volumes/MNEME` was stale/unreadable: still listed by `mount`, but rejected unprivileged `umount` / `diskutil` with `Invalid argument`
+- Living Archive code hardened to survive this state via `/Volumes/MNEME*` alias resolution, real-I/O NAS checks, and Hermes profile OAuth lookup
+
+Post-reboot target:
+- One canonical readable mount at `/Volumes/MNEME`
+- `src.preflight` passes under `/Users/atlas/.pyenv/versions/3.11.10/bin/python`
+- `src.run_batch --hours 0.01 --dry-run` discovers backlog without errors
+
+---
+
+## 2026-03-30 — Batch run
+**Run:** `20260330T070032Z` — batch mode, 5 slices attempted
+**Result:** 220/913 succeeded, 35 failures
+**Triage skips:** 0
+**Elapsed:** 3,573s (~1.0 hours)
+**Model:** API (claude-sonnet-4-20250514)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Lifes_Garden` | 153 | 0/153 | 136s |
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Albumpage` | 33 | 0/33 | 214s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Green_Album` | 216 | 0/216 | 184s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Brown_Wooden_Album` | 250 | 0/250 | 214s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Red_Album_1` | 261 | 220/261 (partial) | 2516s |
+
+0 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-03-29 — Batch run
+**Run:** `20260329T070022Z` — batch mode, 5 slices attempted
+**Result:** 224/913 succeeded, 35 failures
+**Triage skips:** 0
+**Elapsed:** 3,577s (~1.0 hours)
+**Model:** API (claude-sonnet-4-20250514)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Lifes_Garden` | 153 | 0/153 | 129s |
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Albumpage` | 33 | 0/33 | 232s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Green_Album` | 216 | 0/216 | 185s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Brown_Wooden_Album` | 250 | 209/250 | 2294s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Red_Album_1` | 261 | 15/261 (partial) | 381s |
+
+1 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-03-28 — Batch run
+**Run:** `20260328T070044Z` — batch mode, 5 slices attempted
+**Result:** 240/769 succeeded, 27 failures
+**Triage skips:** 0
+**Elapsed:** 3,584s (~1.0 hours)
+**Model:** API (claude-sonnet-4-20250514)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Albumpage` | 33 | 0/33 | 213s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Orange_Textured_Album` | 117 | 3/117 | 109s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Lifes_Garden` | 153 | 12/153 | 258s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Green_Album` | 216 | 204/216 | 2292s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Brown_Wooden_Album` | 250 | 21/250 (partial) | 411s |
+
+3 slices completed, 1 partial (budget exhausted).
+
+---
+
+## 2026-03-27 — Batch run
+**Run:** `20260327T070046Z` — batch mode, 4 slices attempted
+**Result:** 220/519 succeeded, 19 failures
+**Triage skips:** 0
+**Elapsed:** 3,717s (~1.0 hours)
+**Model:** API (claude-sonnet-4-20250514)
+
+| Slice | Photos | Result | Time |
+|-------|--------|--------|------|
+| `2025-2026 Digital Revolution Scans/1st Round/Jpeg/Albumpage` | 33 | 0/33 | 216s |
+| `2025-2026 Digital Revolution Scans/3rd Round/JPEG/Orange_Textured_Album` | 117 | 80/117 | 924s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Lifes_Garden` | 153 | 140/153 | 1807s |
+| `2025-2026 Digital Revolution Scans/2nd Round/JPEG/Green_Album` | 216 | 0/216 (partial) | 421s |
+
+2 slices completed, 1 partial (budget exhausted).
+
+---
+
 ## 2026-03-24 — Batch run
 **Run:** `20260324T120001Z` — batch mode, 8 slices attempted
 **Result:** 0/1711 succeeded, 1382 failures

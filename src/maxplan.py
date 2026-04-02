@@ -21,7 +21,7 @@ Usage:
 Token resolution (first found wins):
     1. ANTHROPIC_API_KEY env var (standard Console key)
     2. CLAUDE_CODE_OAUTH_TOKEN env var
-    3. CLAUDE_CODE_OAUTH_TOKEN from ~/.hermes/.env
+    3. CLAUDE_CODE_OAUTH_TOKEN from Hermes env files (~/.hermes/.env, then ~/.hermes/profiles/*/.env)
 """
 
 from __future__ import annotations
@@ -42,7 +42,8 @@ log = logging.getLogger(__name__)
 # Constants
 # ---------------------------------------------------------------------------
 
-_HERMES_ENV = Path.home() / ".hermes" / ".env"
+_HERMES_HOME = Path.home() / ".hermes"
+_HERMES_ENV = _HERMES_HOME / ".env"
 
 # Beta headers (matches Claude Code / Hermes adapter)
 _COMMON_BETAS = [
@@ -105,11 +106,22 @@ class Result:
 # ---------------------------------------------------------------------------
 
 
-def _read_hermes_env(key: str) -> str:
-    """Read a key from ~/.hermes/.env (simple KEY=VALUE format)."""
-    if not _HERMES_ENV.exists():
+def _hermes_env_candidates() -> list[Path]:
+    """Search default Hermes env first, then named profile envs."""
+    candidates: list[Path] = []
+    if _HERMES_ENV.exists():
+        candidates.append(_HERMES_ENV)
+    profiles_dir = _HERMES_HOME / "profiles"
+    if profiles_dir.exists():
+        candidates.extend(sorted(profiles_dir.glob("*/.env")))
+    return candidates
+
+
+def _read_env_file_key(path: Path, key: str) -> str:
+    """Read a key from a simple KEY=VALUE env file."""
+    if not path.exists():
         return ""
-    for line in _HERMES_ENV.read_text().splitlines():
+    for line in path.read_text().splitlines():
         line = line.strip()
         if line.startswith("#") or "=" not in line:
             continue
@@ -117,6 +129,15 @@ def _read_hermes_env(key: str) -> str:
         if k.strip() == key:
             return v.strip().strip('"').strip("'")
     return ""
+
+
+def _read_hermes_env(key: str) -> tuple[str, str]:
+    """Read a key from Hermes env files. Returns (value, source_path)."""
+    for env_path in _hermes_env_candidates():
+        value = _read_env_file_key(env_path, key)
+        if value:
+            return value, str(env_path)
+    return "", ""
 
 
 def _is_oauth_token(key: str) -> bool:
@@ -146,10 +167,10 @@ def resolve_token() -> tuple[str, str]:
     if oauth:
         return oauth, "CLAUDE_CODE_OAUTH_TOKEN"
 
-    # 3. OAuth token from Hermes env file
-    oauth = _read_hermes_env("CLAUDE_CODE_OAUTH_TOKEN")
+    # 3. OAuth token from Hermes env files (default profile or named profiles)
+    oauth, source = _read_hermes_env("CLAUDE_CODE_OAUTH_TOKEN")
     if oauth:
-        return oauth, f"hermes:{_HERMES_ENV}"
+        return oauth, f"hermes:{source}"
 
     raise AuthError(
         "No Anthropic credential found. Set ANTHROPIC_API_KEY or "

@@ -1,6 +1,6 @@
 # Living Archive
 
-AI-assisted pipeline for organizing family photos, documents, and personal archives. Scanned photos and PDFs on a NAS are analyzed by Claude, producing structured metadata that flows into [Immich](https://immich.app/) for browsing and sharing. Live at `living-archive.kennyliu.io`.
+AI-assisted pipeline for organizing family photos, documents, and personal archives. Scanned photos and PDFs on a NAS are analyzed by Claude, producing structured metadata that flows into [Immich](https://immich.app/) for browsing and sharing. Live at `living-archive.dev` (legacy alias: `living-archive.kennyliu.io`).
 
 ## What It Does
 
@@ -22,7 +22,7 @@ Four-machine topology with three logical layers:
 |-------|----------|----------|
 | **Data** | NAS (read-only) | Source TIFFs, PDFs — never modified |
 | **AI** | Local Mac (regeneratable) | JSON manifests, extracted text, FTS index, asset catalog, synthesis DB, people registry — keyed by SHA-256 |
-| **Presentation** | VPS (Immich v2.5.6) | Photos, metadata, albums, face tags — public via Cloudflare Tunnel |
+| **Presentation** | VPS (Immich v2.6.3) | Photos, metadata, albums, face tags — public via Cloudflare Tunnel |
 
 AI outputs are versioned per inference run and designed to be regenerated as models improve. The dashboard and synthesis APIs run fully offline from local databases — no NAS required.
 
@@ -89,12 +89,13 @@ _dev/                             # Dev log, research sessions, utilities
 
 ## Inference Modes
 
-Both pipelines default to **CLI mode**, which routes inference through the [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) (`claude` binary). This uses a Max plan subscription with no per-token cost. No API key required.
+The photo pipeline now defaults to **OAuth mode**, which uses the Anthropic SDK with a Claude Max Plan OAuth token (zero marginal cost, no CLI subprocess overhead). Legacy CLI mode and standard API mode still exist.
 
 **Photo pipeline** (`src/analyze.py`):
-- CLI mode (default): spawns `claude -p <prompt> --model sonnet` with `--json-schema` for structured output
+- OAuth mode (default): Anthropic SDK + `CLAUDE_CODE_OAUTH_TOKEN` resolution via Hermes envs
+- CLI mode: spawns `claude -p <prompt> --model ...` with `--json-schema` for structured output
 - API mode: direct Anthropic API call with base64-encoded image (requires `ANTHROPIC_API_KEY`)
-- Toggle: `USE_CLI=false` in `.env` to switch to API mode
+- Toggle: `INFERENCE_MODE=oauth|cli|api` in `.env`
 
 **Document pipeline** (`src/doc_analyze.py`):
 - Three providers, selected via `DOC_PROVIDER` env var:
@@ -105,8 +106,9 @@ Both pipelines default to **CLI mode**, which routes inference through the [Clau
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `USE_CLI` | `true` | Photo pipeline: use CLI mode instead of API |
-| `CLI_MODEL` | `sonnet` | Photo pipeline: Claude model alias |
+| `INFERENCE_MODE` | `oauth` | Photo pipeline: provider mode (`oauth`, `cli`, `api`) |
+| `OAUTH_MODEL` | `claude-sonnet-4-20250514` | Photo pipeline: Anthropic model in OAuth mode |
+| `CLI_MODEL` | `opus` | Photo pipeline: Claude CLI model alias when `INFERENCE_MODE=cli` |
 | `DOC_PROVIDER` | `claude-cli` | Document pipeline: provider (`claude-cli`, `codex`, `ollama`) |
 | `DOC_CLI_MODEL` | `opus` | Document pipeline: Claude model alias |
 | `CLAUDE_CLI` | `~/.local/bin/claude` | Path to Claude Code CLI binary |
@@ -117,8 +119,8 @@ Both pipelines default to **CLI mode**, which routes inference through the [Clau
 ## Requirements
 
 - Python 3.11+
-- Claude Code CLI installed (for default CLI inference mode), **or** Anthropic API key (for API mode)
-- Synology NAS with AFP mount (source media, read-only)
+- Claude Max Plan OAuth token or Hermes profile env containing `CLAUDE_CODE_OAUTH_TOKEN` (default OAuth mode), **or** Claude Code CLI (legacy CLI mode), **or** Anthropic API key (API mode)
+- Synology NAS with SMB mount (source media, read-only)
 - Immich instance (VPS or local — for photo browsing and metadata)
 
 ## CLI Entry Points

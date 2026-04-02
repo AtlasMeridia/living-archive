@@ -99,6 +99,14 @@ class TestNeedsConversion:
         _make_image(large_jpg, size=(4000, 3000))
         assert needs_conversion(large_jpg) is True
 
+    def test_mislabeled_tiff_with_jpeg_extension_needs_conversion(self, tmp_path):
+        """Files in JPEG folders can actually contain TIFF bytes and must be normalized."""
+        disguised = tmp_path / "scan.jpeg"
+        img = Image.new("RGB", (1200, 1600), color="red")
+        img.save(disguised, "TIFF")
+
+        assert needs_conversion(disguised) is True
+
 
 class TestPrepareForAnalysis:
     def test_tiff_to_jpeg(self, tmp_path):

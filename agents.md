@@ -32,7 +32,7 @@ Each document captures the thinking behind a decision or exploration — the "wh
 - Target 200-300 lines per file
 - AI layer outputs in local `data/` directory, keyed by SHA-256
 - Never modify source data (TIFFs, PDFs)
-- Presentation layer served by Immich on VPS (`living-archive.kennyliu.io`)
+- Presentation layer served by Immich on VPS (`living-archive.dev`; legacy alias `living-archive.kennyliu.io`)
 
 ### Content drafting
 

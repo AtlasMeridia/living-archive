@@ -172,8 +172,8 @@ def process_slice(
 
     log.info("  Found %d photos. Preparing...", len(sources))
 
-    # Prepare workspace for this slice
-    workspace = config.WORKSPACE_DIR
+    # Prepare a run-scoped workspace for this slice to avoid cross-run collisions
+    workspace = _workspace_for_slice(run_id, slice_path)
     workspace.mkdir(parents=True, exist_ok=True)
 
     photos = []
@@ -215,7 +215,7 @@ def process_slice(
 
     if not unprocessed:
         log.info("  All %d photos already processed, skipping slice.", len(photos))
-        _cleanup_workspace(workspace)
+        _cleanup_workspace_safe(workspace)
         return {
             "slice_path": slice_path,
             "photos_found": len(all_sources),
@@ -287,8 +287,8 @@ def process_slice(
             except Exception as e:
                 log.error("  Immich push failed: %s", e)
 
-    # Clean up workspace
-    _cleanup_workspace(workspace)
+    # Clean up workspace without aborting the slice summary path
+    _cleanup_workspace_safe(workspace)
 
     elapsed = time.time() - start
     log.info("  Slice done: %d succeeded, %d failed, %.0fs", succeeded, failed, elapsed)
@@ -312,6 +312,20 @@ def _cleanup_workspace(workspace: Path) -> None:
     """Remove the workspace directory between slices."""
     if workspace.exists():
         shutil.rmtree(workspace)
+
+
+def _cleanup_workspace_safe(workspace: Path) -> None:
+    """Best-effort cleanup that never aborts the batch summary path."""
+    try:
+        _cleanup_workspace(workspace)
+    except OSError as e:
+        log.warning("  Workspace cleanup failed for %s: %s", workspace, e)
+
+
+def _workspace_for_slice(run_id: str, slice_path: str) -> Path:
+    """Return a run-scoped workspace path to avoid cross-run collisions."""
+    safe_slice = re.sub(r"[^A-Za-z0-9._-]+", "_", slice_path.strip("/")) or "slice"
+    return config.WORKSPACE_DIR / run_id / safe_slice
 
 
 def append_run_log(results: list[dict], run_id: str, elapsed: float) -> None:
