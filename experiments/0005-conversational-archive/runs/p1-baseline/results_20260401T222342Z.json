@@ -1,0 +1,192 @@
+{
+  "timestamp": "20260401T222342Z",
+  "tier_filter": null,
+  "skip_coherence": true,
+  "elapsed_seconds": 0.0,
+  "total_input_tokens": 0,
+  "total_output_tokens": 0,
+  "questions_attempted": 30,
+  "questions_succeeded": 0,
+  "results": [
+    {
+      "question_id": "e01",
+      "tier": "easy",
+      "question": "When was Feng Kuang Liu born?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "e02",
+      "tier": "easy",
+      "question": "When did Feng Kuang Liu die?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "e03",
+      "tier": "easy",
+      "question": "What was Feng Kuang Liu's occupation?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "e04",
+      "tier": "easy",
+      "question": "Who are the children of Feng Kuang Liu?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "e05",
+      "tier": "easy",
+      "question": "How many photos are in the archive?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "e06",
+      "tier": "easy",
+      "question": "How many documents are in the archive?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "e07",
+      "tier": "easy",
+      "question": "Who is Meichu Grace Liu?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "e08",
+      "tier": "easy",
+      "question": "What is the Liu Family Trust?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "e09",
+      "tier": "easy",
+      "question": "Where did the Liu family live?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "e10",
+      "tier": "easy",
+      "question": "Who filed the probate petition for the Liu Family Trust?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "m01",
+      "tier": "medium",
+      "question": "Tell me about Feng Kuang Liu.",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "m02",
+      "tier": "medium",
+      "question": "What happened in 2010 for the Liu family?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "m03",
+      "tier": "medium",
+      "question": "What legal documents are in the archive?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "m04",
+      "tier": "medium",
+      "question": "What do the medical records tell us about Feng Kuang Liu?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "m05",
+      "tier": "medium",
+      "question": "What decades are represented in the photo collection?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "m06",
+      "tier": "medium",
+      "question": "Who appears most often in the archive?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "m07",
+      "tier": "medium",
+      "question": "What locations are associated with the Liu family?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "m08",
+      "tier": "medium",
+      "question": "What can you tell me about the family's connection to Taiwan?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "m09",
+      "tier": "medium",
+      "question": "How was the Liu family trust administered after Feng Kuang's death?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "m10",
+      "tier": "medium",
+      "question": "What types of photos are in the archive?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "h01",
+      "tier": "hard",
+      "question": "Tell me everything you know about Feng Kuang Liu.",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "h02",
+      "tier": "hard",
+      "question": "What was life like for the Liu family in the 1970s?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "h03",
+      "tier": "hard",
+      "question": "What is the story of this family?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "h04",
+      "tier": "hard",
+      "question": "What do we know about the family's financial and legal history?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "h05",
+      "tier": "hard",
+      "question": "How has the archive been built? What are its strengths and gaps?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "h06",
+      "tier": "hard",
+      "question": "What health issues did Feng Kuang Liu face?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "h07",
+      "tier": "hard",
+      "question": "What can you tell me about the women in this family?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "h08",
+      "tier": "hard",
+      "question": "If I wanted to learn about my family history, where should I start in this archive?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "h09",
+      "tier": "hard",
+      "question": "What patterns do you notice across the photos from different decades?",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    },
+    {
+      "question_id": "h10",
+      "tier": "hard",
+      "question": "Summarize everything the archive knows about 1943.",
+      "error": "No Anthropic credential found. Set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN, or ensure ~/.hermes/.env has it."
+    }
+  ]
+}

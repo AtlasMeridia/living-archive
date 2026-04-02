@@ -1,0 +1,14 @@
+{
+  "timestamp": "20260401T222342Z",
+  "scores": [],
+  "summary": {
+    "overall_avg": 0,
+    "by_tier": {},
+    "by_dimension": {
+      "factual_accuracy": 0,
+      "source_grounding": 0,
+      "completeness": 0,
+      "coherence": 0
+    }
+  }
+}
