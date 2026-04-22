@@ -219,17 +219,16 @@ def auto_extract(
     pacing_delay: float = 0,
 ) -> None:
     """Run automated extraction + analysis on the work list."""
-    from .doc_analyze import analyze_document, get_provider, merge_chunk_analyses
+    from .doc_analyze import analyze_document, merge_chunk_analyses
     from .doc_extract_text import chunk_for_analysis, extract_text
 
     full_remaining = len(work)
     if batch_size > 0:
         work = work[:batch_size]
 
-    provider = get_provider()
     log.info("")
     log.info("=" * 60)
-    log.info("AUTOMATED EXTRACTION — Provider: %s", provider.name)
+    log.info("AUTOMATED EXTRACTION — OAuth / Max Plan (%s)", config.OAUTH_MODEL)
     log.info("Run ID: %s", run_id)
     log.info("Documents: %d%s", len(work),
              f" (batch of {batch_size}, {full_remaining} remaining)" if batch_size > 0 else "")
@@ -386,7 +385,7 @@ def auto_extract(
         failures=failures,
         elapsed_seconds=total_elapsed,
         method="auto",
-        provider=provider.name,
+        provider="oauth",
         usage=usage,
         batch_size=batch_size,
     )

@@ -53,7 +53,7 @@ def estimate_doc_cost(total_chars: int, num_docs: int, model: str = "") -> dict:
     Returns dict with input_tokens, output_tokens, total_tokens,
     cost_dollars, model, is_max_plan.
     """
-    model = model or (config.DOC_CLI_MODEL if config.DOC_PROVIDER == "claude-cli" else config.MODEL)
+    model = model or config.OAUTH_MODEL
     pricing_key = _resolve_pricing_key(model)
 
     input_tokens = total_chars // DOC_CHARS_PER_TOKEN
@@ -69,7 +69,7 @@ def estimate_doc_cost(total_chars: int, num_docs: int, model: str = "") -> dict:
         "total_tokens": total_tokens,
         "cost_dollars": cost,
         "model": model,
-        "is_max_plan": config.DOC_PROVIDER in ("claude-cli", "oauth"),
+        "is_max_plan": True,
     }
 
 

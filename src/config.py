@@ -1,10 +1,8 @@
 """Path constants and environment variable loading."""
 
 import functools
-import json
 import logging
 import os
-import subprocess
 import time as _time
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
@@ -31,7 +29,9 @@ def _resolve_volume_alias(path_str: str) -> Path:
             return candidate
     return preferred
 
-# --- API keys (optional — not needed for document pipeline) ---
+# --- API keys ---
+# ANTHROPIC_API_KEY is used by contact_triage.py for direct Haiku calls.
+# The main photo/document pipelines use Max Plan OAuth via src/auth.py.
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 IMMICH_API_KEY = os.environ.get("IMMICH_API_KEY", "")
 IMMICH_URL = os.environ.get("IMMICH_URL", "http://mneme.local:2283")
@@ -75,7 +75,6 @@ DOCUMENTS_ROOT = Path(os.environ.get(
     "DOCUMENTS_ROOT", str(FAMILY_ROOT / "Documents")
 ))
 
-# --- Paths: Document pipeline (source slices) ---
 DOC_SLICE_PATH = os.environ.get(
     "DOC_SLICE_PATH", "Liu Family Trust Filings & Documents"
 )
@@ -83,34 +82,16 @@ _dsp = Path(DOC_SLICE_PATH)
 DOC_SLICE_DIR = _dsp if _dsp.is_absolute() else DOCUMENTS_ROOT / DOC_SLICE_PATH
 
 # --- Inference ---
+# Both pipelines dispatch through the Anthropic SDK using a Max Plan OAuth
+# token (see src/auth.py). Legacy Claude CLI, Codex CLI, Ollama, and direct
+# API paths were removed on 2026-04-21 during the aggressive pare-down.
 MODEL = "claude-sonnet-4-20250514"
+OAUTH_MODEL = os.environ.get("OAUTH_MODEL", "claude-sonnet-4-20250514")
 PROMPT_VERSION = "photo_analysis_v1"
 PROMPT_FILE = REPO_ROOT / "prompts" / f"{PROMPT_VERSION}.txt"
 
-# --- Photo inference ---
-# Photo pipeline runs exclusively via the Anthropic SDK with a Max Plan
-# OAuth token (resolved in src/auth.py). Legacy CLI and direct-API modes
-# were removed on 2026-04-21 during the aggressive pare-down.
-OAUTH_MODEL = os.environ.get("OAUTH_MODEL", "claude-sonnet-4-20250514")
-
-# Path to the Claude Code CLI binary. Still referenced by the document
-# pipeline's "claude-cli" provider (see src/doc_analyze.py); removable
-# once that provider is retired in the next pare step.
-CLAUDE_CLI = Path(os.environ.get("CLAUDE_CLI", os.path.expanduser("~/.local/bin/claude")))
-
 DOC_PROMPT_VERSION = "document_analysis_v2"
 DOC_PROMPT_FILE = REPO_ROOT / "prompts" / f"{DOC_PROMPT_VERSION}.txt"
-
-# --- Document analysis provider ---
-DOC_PROVIDER = os.environ.get("DOC_PROVIDER", "claude-cli")  # claude-cli | codex | ollama
-DOC_CLI_MODEL = os.environ.get("DOC_CLI_MODEL", "opus")  # experiment 0001: opus is faster, more concise, better extraction
-DOC_TIMEOUT = int(os.environ.get("DOC_TIMEOUT", "300"))
-CODEX_CLI = Path(os.environ.get("CODEX_CLI", subprocess.run(
-    ["which", "codex"], capture_output=True, text=True
-).stdout.strip() or "codex"))
-CODEX_MODEL = os.environ.get("CODEX_MODEL", "")
-OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/v1")
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3:32b")
 
 # --- Batch / pacing controls ---
 DOC_BATCH_SIZE = int(os.environ.get("DOC_BATCH_SIZE", "0"))        # 0 = unlimited
@@ -132,13 +113,11 @@ def setup_logging() -> logging.Logger:
         return logger
     logger.setLevel(logging.DEBUG)
 
-    # Console handler — preserves existing print-style output
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
     console.setFormatter(logging.Formatter("%(message)s"))
     logger.addHandler(console)
 
-    # File handler — detailed debug log (skip if filesystem is read-only)
     log_dir = REPO_ROOT / "private"
     try:
         log_dir.mkdir(parents=True, exist_ok=True)
@@ -176,16 +155,15 @@ def validate_photo_config() -> list[str]:
 def validate_doc_config() -> list[str]:
     """Check that document pipeline config is valid. Returns list of error messages."""
     errors = []
+    try:
+        from .auth import resolve_token
+        resolve_token()
+    except ValueError as e:
+        errors.append(str(e))
     if not DOCUMENTS_ROOT.exists():
         errors.append(f"DOCUMENTS_ROOT not found: {DOCUMENTS_ROOT} (is the NAS mounted?)")
     if not DOC_PROMPT_FILE.exists():
         errors.append(f"Doc prompt file not found: {DOC_PROMPT_FILE}")
-    if DOC_PROVIDER not in ("claude-cli", "codex", "ollama", "oauth"):
-        errors.append(f"Unknown DOC_PROVIDER: {DOC_PROVIDER}")
-    if DOC_PROVIDER == "claude-cli" and not CLAUDE_CLI.exists():
-        errors.append(f"Claude CLI not found: {CLAUDE_CLI}")
-    if DOC_PROVIDER == "codex" and not CODEX_CLI.exists():
-        errors.append(f"Codex CLI not found: {CODEX_CLI}")
     return errors
 
 
@@ -202,43 +180,21 @@ def validate_immich_config() -> list[str]:
 # --- Retry decorator ---
 
 
-class CliRateLimitError(Exception):
-    """CLI subprocess stderr indicates rate limit / capacity issue."""
-
-
 _RETRYABLE_EXCEPTIONS: tuple[type[Exception], ...] = ()
 
-# Build the tuple lazily so imports don't fail if libs are missing
 def _get_retryable_exceptions() -> tuple[type[Exception], ...]:
+    """Lazily build the set of retryable exceptions (anthropic SDK + httpx)."""
     global _RETRYABLE_EXCEPTIONS
     if _RETRYABLE_EXCEPTIONS:
         return _RETRYABLE_EXCEPTIONS
-    exceptions: list[type[Exception]] = [
-        subprocess.TimeoutExpired,
-        json.JSONDecodeError,
-        CliRateLimitError,
-    ]
-    try:
-        import httpx
-        import anthropic
-        exceptions.extend([
-            httpx.ConnectError,
-            httpx.TimeoutException,
-            anthropic.RateLimitError,
-            anthropic.APIConnectionError,
-        ])
-    except ImportError:
-        pass
-    try:
-        import openai
-        exceptions.extend([
-            openai.APIConnectionError,
-            openai.RateLimitError,
-            openai.APITimeoutError,
-        ])
-    except ImportError:
-        pass
-    _RETRYABLE_EXCEPTIONS = tuple(exceptions)
+    import httpx
+    import anthropic
+    _RETRYABLE_EXCEPTIONS = (
+        httpx.ConnectError,
+        httpx.TimeoutException,
+        anthropic.RateLimitError,
+        anthropic.APIConnectionError,
+    )
     return _RETRYABLE_EXCEPTIONS
 
 
@@ -274,10 +230,7 @@ def retry(max_attempts: int = 3, base_delay: float = 2.0, max_delay: float = 30.
                     else:
                         raise
                 if attempt < max_attempts:
-                    if isinstance(last_exc, CliRateLimitError):
-                        delay = 60.0  # longer cooldown for rate limits
-                    else:
-                        delay = min(base_delay * (2 ** (attempt - 1)), max_delay)
+                    delay = min(base_delay * (2 ** (attempt - 1)), max_delay)
                     _log.warning(
                         "Retry %d/%d for %s after %.1fs: %s",
                         attempt, max_attempts, fn.__name__, delay, last_exc,
