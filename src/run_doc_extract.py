@@ -1,28 +1,27 @@
-"""Orchestrator for document extraction — manual and automated modes.
-
-Manual mode: prints instructions for interactive Claude Code sessions.
-Auto mode: extracts text via pypdf, analyzes via configured LLM provider.
+"""Document extraction pipeline: pypdf text → Claude analysis → manifest.
 
 Usage:
-    python -m src.run_doc_extract              # Show work to do
-    python -m src.run_doc_extract --status      # Show progress on current run
-    python -m src.run_doc_extract --new-run     # Start a new run (manual)
-    python -m src.run_doc_extract --resume RUN  # Resume a specific run (manual)
-    python -m src.run_doc_extract --auto        # Automated extraction + analysis
-    python -m src.run_doc_extract --auto --resume RUN  # Resume automated run
-    python -m src.run_doc_extract --auto --batch 20 --delay 2  # Batched with pacing
-    python -m src.run_doc_extract --auto --dry-run --batch 20  # Preview batch
+    python -m src.run_doc_extract                    # Show remaining work
+    python -m src.run_doc_extract --status           # Show status of latest run
+    python -m src.run_doc_extract --auto             # Run extraction + analysis
+    python -m src.run_doc_extract --auto --batch 20  # Cap at 20 documents
+    python -m src.run_doc_extract --auto --batch 20 --delay 2  # With pacing
+    python -m src.run_doc_extract --auto --dry-run   # Preview without LLM calls
+    python -m src.run_doc_extract --auto --resume RUN_ID
 """
 
 import argparse
-import json
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+from pypdf import PdfReader
+
 from . import config
 from .convert import sha256_file
+from .doc_analyze import analyze_document
+from .doc_extract_text import extract_text
 from .doc_manifest import (
     get_processed_hashes,
     list_manifests,
@@ -32,29 +31,65 @@ from .doc_manifest import (
     write_run_meta,
 )
 from .cost import estimate_doc_cost, format_cost_summary
-from .doc_scan import find_pdfs, get_page_count, scan_pdfs
 
 log = config.setup_logging()
 
 
-def get_or_create_run_id(resume: str | None = None) -> str:
-    """Get a run ID — either resume an existing one or create new."""
-    if resume:
-        run_path = config.DOC_AI_LAYER_DIR / "runs" / resume
-        if not run_path.exists():
-            log.error("ERROR: Run not found: %s", resume)
-            sys.exit(1)
-        return resume
-    return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+# ---------------------------------------------------------------------------
+# Source discovery
+# ---------------------------------------------------------------------------
+
+def _scan_pdfs(directory: Path) -> list[dict]:
+    """Scan all PDFs in directory: path, hash, size, page count.
+
+    Returns list of dicts with keys:
+        path, rel_path, sha256, file_size_bytes, page_count
+    """
+    pdfs = sorted(p for p in directory.rglob("*")
+                  if p.suffix.lower() == ".pdf" and not p.name.startswith("."))
+    results = []
+    for pdf in pdfs:
+        try:
+            rel = pdf.relative_to(config.DOCUMENTS_ROOT)
+        except ValueError:
+            rel = pdf.relative_to(config.DOC_SLICE_DIR)
+        log.info("  Scanning: %s", rel)
+        size = pdf.stat().st_size
+        try:
+            pages = len(PdfReader(pdf).pages)
+        except Exception as e:
+            log.warning("    Warning: could not read page count: %s", e)
+            pages = 0
+        results.append({
+            "path": pdf,
+            "rel_path": str(rel),
+            "sha256": sha256_file(pdf),
+            "file_size_bytes": size,
+            "page_count": pages,
+        })
+    return results
 
 
-def build_work_list(run_id: str) -> list[dict]:
-    """Scan PDFs and determine which ones still need processing.
+def _find_latest_run() -> Path | None:
+    """Find the most recent run directory under DOC_AI_LAYER_DIR."""
+    runs_dir = config.DOC_AI_LAYER_DIR / "runs"
+    if not runs_dir.exists():
+        return None
+    runs = sorted((p for p in runs_dir.iterdir() if p.is_dir()), reverse=True)
+    return runs[0] if runs else None
 
-    Returns list of dicts for unprocessed files, sorted by size (smallest first).
+
+# ---------------------------------------------------------------------------
+# Work list
+# ---------------------------------------------------------------------------
+
+def _build_work_list(run_id: str) -> list[dict]:
+    """Scan PDFs and determine which still need processing.
+
+    Returns list of dicts for unprocessed files, sorted by size ascending.
     """
     log.info("Scanning source PDFs...")
-    all_pdfs = scan_pdfs(config.DOC_SLICE_DIR)
+    all_pdfs = _scan_pdfs(config.DOC_SLICE_DIR)
     log.info("  Found %d PDFs total", len(all_pdfs))
 
     processed = get_processed_hashes(run_id)
@@ -67,55 +102,30 @@ def build_work_list(run_id: str) -> list[dict]:
     return remaining
 
 
-def print_work_list(work: list[dict]) -> None:
-    """Print the work list in a readable format."""
+def _print_work_list(work: list[dict]) -> None:
+    """Print the work list as a flat sorted table."""
     if not work:
         log.info("")
-        log.info("All documents have been processed!")
+        log.info("All documents have been processed.")
         return
 
     total_size = sum(w["file_size_bytes"] for w in work)
     total_pages = sum(w["page_count"] for w in work)
 
     log.info("")
-    log.info("=" * 60)
-    log.info("Documents to process: %d", len(work))
-    log.info("Total size: %.2f GB", total_size / (1024**3))
-    log.info("Total pages: %d", total_pages)
-    log.info("=" * 60)
-
-    # Group by size category
-    small = [w for w in work if w["file_size_bytes"] < 10 * 1024 * 1024]
-    medium = [w for w in work if 10 * 1024 * 1024 <= w["file_size_bytes"] < 100 * 1024 * 1024]
-    large = [w for w in work if w["file_size_bytes"] >= 100 * 1024 * 1024]
-
-    if small:
-        log.info("")
-        log.info("Small (<10MB): %d files", len(small))
-        for w in small:
-            mb = w["file_size_bytes"] / (1024**2)
-            log.info("  %6.1f MB  (%4d pp)  %s", mb, w["page_count"], w["rel_path"])
-
-    if medium:
-        log.info("")
-        log.info("Medium (10-100MB): %d files", len(medium))
-        for w in medium:
-            mb = w["file_size_bytes"] / (1024**2)
-            log.info("  %6.1f MB  (%4d pp)  %s", mb, w["page_count"], w["rel_path"])
-
-    if large:
-        log.info("")
-        log.info("Large (>100MB): %d files — process in page chunks", len(large))
-        for w in large:
-            mb = w["file_size_bytes"] / (1024**2)
-            log.info("  %6.1f MB  (%4d pp)  %s", mb, w["page_count"], w["rel_path"])
+    log.info("Documents to process: %d (%.2f GB, %d pages)",
+             len(work), total_size / (1024**3), total_pages)
+    for w in work:
+        mb = w["file_size_bytes"] / (1024**2)
+        log.info("  %6.1f MB  (%4d pp)  %s", mb, w["page_count"], w["rel_path"])
 
 
-def print_status(run_id: str) -> None:
-    """Print status of a run."""
+def _print_status(run_id: str) -> None:
+    """Print status of a run: manifest + text-file counts, doc-type breakdown."""
+    import json
+
     manifests = list_manifests(run_id)
     td = text_dir(run_id)
-
     text_files = sorted(td.glob("*.txt")) if td.exists() else []
 
     log.info("")
@@ -125,7 +135,7 @@ def print_status(run_id: str) -> None:
 
     if manifests:
         total_pages = 0
-        doc_types = {}
+        doc_types: dict[str, int] = {}
         for mp in manifests:
             data = json.loads(mp.read_text())
             total_pages += data.get("page_count", 0)
@@ -138,58 +148,16 @@ def print_status(run_id: str) -> None:
             log.info("    %3d  %s", count, dt)
 
 
-def print_extraction_instructions(work: list[dict], run_id: str) -> None:
-    """Print instructions for Claude Code to follow during extraction."""
-    if not work:
-        return
-
-    log.info("")
-    log.info("=" * 60)
-    log.info("EXTRACTION INSTRUCTIONS FOR CLAUDE CODE")
-    log.info("=" * 60)
-    log.info("Run ID: %s", run_id)
-    log.info("AI Layer: %s", config.DOC_AI_LAYER_DIR / "runs" / run_id)
-    log.info("")
-    log.info("For each PDF below, Claude Code should:")
-    log.info("  1. Read the PDF with the Read tool (use pages param for large files)")
-    log.info("  2. Extract all text, preserving page structure")
-    log.info("  3. Analyze the document (type, dates, people, sensitivity)")
-    log.info("  4. Call write_extracted_text() and write_manifest()")
-    log.info("")
-    log.info("Prompt template: %s", config.DOC_PROMPT_FILE)
-    log.info("")
-
-    # Print the first few as immediate targets
-    batch = work[:5]
-    log.info("Start with these %d documents:", len(batch))
-    for i, w in enumerate(batch, 1):
-        mb = w["file_size_bytes"] / (1024**2)
-        log.info("")
-        log.info("  [%d] %s", i, w["rel_path"])
-        log.info("      Size: %.1f MB, Pages: %d, SHA: %s", mb, w["page_count"], w["sha256"][:12])
-        log.info("      Full path: %s", w["path"])
-
-    if len(work) > 5:
-        log.info("")
-        log.info("  ... and %d more (re-run to see updated list)", len(work) - 5)
-
-
-def dry_run(work: list[dict], batch_size: int) -> None:
-    """Show what would be processed without calling any LLM."""
-    if batch_size > 0:
-        batch = work[:batch_size]
-    else:
-        batch = work
+def _dry_run(work: list[dict], batch_size: int) -> None:
+    """Show what would be processed without calling the LLM."""
+    batch = work[:batch_size] if batch_size > 0 else work
 
     total_chars = sum(w["file_size_bytes"] for w in batch)
     total_pages = sum(w["page_count"] for w in batch)
-    est_tokens = total_chars // 4  # ~4 chars per token heuristic
+    est_tokens = total_chars // 4
 
     log.info("")
-    log.info("=" * 60)
-    log.info("DRY RUN — no documents will be processed")
-    log.info("=" * 60)
-    log.info("  Batch: %d of %d remaining documents", len(batch), len(work))
+    log.info("DRY RUN — %d of %d remaining documents", len(batch), len(work))
     log.info("  Total file size: %.2f MB", total_chars / (1024**2))
     log.info("  Total pages: %d", total_pages)
     log.info("  Estimated input tokens: ~%d (%.0fk)", est_tokens, est_tokens / 1000)
@@ -212,16 +180,17 @@ def dry_run(work: list[dict], batch_size: int) -> None:
         log.info("  ... %d more documents remain after this batch", len(work) - len(batch))
 
 
-def auto_extract(
+# ---------------------------------------------------------------------------
+# Auto-extract loop
+# ---------------------------------------------------------------------------
+
+def _auto_extract(
     run_id: str,
     work: list[dict],
     batch_size: int = 0,
     pacing_delay: float = 0,
 ) -> None:
-    """Run automated extraction + analysis on the work list."""
-    from .doc_analyze import analyze_document
-    from .doc_extract_text import extract_text
-
+    """Extract text + analyze each document, writing manifest on success."""
     full_remaining = len(work)
     if batch_size > 0:
         work = work[:batch_size]
@@ -257,7 +226,6 @@ def auto_extract(
         log.info("[%d/%d] %s (%.1f MB, %d pp)", i, len(work), rel_path, mb, pages)
 
         try:
-            # 1. Extract text
             doc_start = time.monotonic()
             result = extract_text(pdf_path)
 
@@ -267,11 +235,8 @@ def auto_extract(
                 continue
 
             log.info("  Extracted %d chars from %d pages", result.chars_extracted, result.total_pages)
-
-            # 2. Save extracted text immediately (preserves work if analysis fails)
             write_extracted_text(run_id, sha, result.full_text)
 
-            # 3. Analyze the whole document in one call
             log.info("  Analyzing...")
             analysis, inference = analyze_document(
                 text=result.full_text,
@@ -279,7 +244,6 @@ def auto_extract(
                 page_count=pages,
             )
 
-            # 4. Write manifest
             write_manifest(
                 run_id=run_id,
                 source_file_rel=rel_path,
@@ -293,23 +257,16 @@ def auto_extract(
 
             elapsed = time.monotonic() - doc_start
 
-            # Accumulate usage
             total_input_tokens += inference.input_tokens
             total_output_tokens += inference.output_tokens
             total_estimated_tokens += inference.estimated_input_tokens
             total_chars += result.chars_extracted
 
-            log.info(
-                "  OK: %s — %s (%.1fs)",
-                analysis.document_type,
-                analysis.title[:60],
-                elapsed,
-            )
-            log.info(
-                "  Usage so far: %d input / %d output tokens (est. ~%dk input)",
-                total_input_tokens, total_output_tokens,
-                total_estimated_tokens // 1000,
-            )
+            log.info("  OK: %s — %s (%.1fs)",
+                     analysis.document_type, analysis.title[:60], elapsed)
+            log.info("  Usage so far: %d input / %d output tokens (est. ~%dk input)",
+                     total_input_tokens, total_output_tokens,
+                     total_estimated_tokens // 1000)
             succeeded += 1
 
         except Exception as exc:
@@ -321,7 +278,6 @@ def auto_extract(
                 "error": f"{type(exc).__name__}: {exc}",
             })
 
-        # Pacing delay between documents (not after the last one)
         if pacing_delay > 0 and i < len(work):
             time.sleep(pacing_delay)
 
@@ -371,14 +327,14 @@ def auto_extract(
         sys.exit(1)
 
 
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
+
 def main():
-    parser = argparse.ArgumentParser(
-        description="Document extraction orchestrator"
-    )
+    parser = argparse.ArgumentParser(description="Document extraction orchestrator")
     parser.add_argument("--status", metavar="RUN_ID", nargs="?", const="latest",
                         help="Show status of a run (default: latest)")
-    parser.add_argument("--new-run", action="store_true",
-                        help="Start a new extraction run")
     parser.add_argument("--resume", metavar="RUN_ID",
                         help="Resume a specific run")
     parser.add_argument("--auto", action="store_true",
@@ -396,7 +352,6 @@ def main():
     log.info("  AI Layer: %s", config.DOC_AI_LAYER_DIR)
     log.info("")
 
-    # Ensure NAS is mounted before checking paths
     from .preflight import ensure_nas_mounted
     try:
         config.DOC_SLICE_DIR.relative_to(config.DOCUMENTS_ROOT)
@@ -417,54 +372,53 @@ def main():
 
     if args.status:
         if args.status == "latest":
-            from .doc_scan import find_latest_run
-            latest = find_latest_run()
+            latest = _find_latest_run()
             if not latest:
                 log.info("No runs found.")
                 sys.exit(0)
             run_id = latest.name
         else:
             run_id = args.status
-        print_status(run_id)
+        _print_status(run_id)
         return
 
     # Determine run ID
     if args.resume:
-        run_id = get_or_create_run_id(resume=args.resume)
-    elif args.new_run or args.auto:
-        run_id = get_or_create_run_id()
-        run_path = config.DOC_AI_LAYER_DIR / "runs" / run_id
-        run_path.mkdir(parents=True, exist_ok=True)
+        run_path = config.DOC_AI_LAYER_DIR / "runs" / args.resume
+        if not run_path.exists():
+            log.error("Run not found: %s", args.resume)
+            sys.exit(1)
+        run_id = args.resume
+    elif args.auto:
+        run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        (config.DOC_AI_LAYER_DIR / "runs" / run_id).mkdir(parents=True, exist_ok=True)
         log.info("Created new run: %s", run_id)
     else:
-        # Default: just show what needs to be done
-        from .doc_scan import find_latest_run
-        latest = find_latest_run()
+        latest = _find_latest_run()
         run_id = latest.name if latest else "preview"
 
-    work = build_work_list(run_id) if run_id != "preview" else []
     if run_id == "preview":
         log.info("Scanning source PDFs...")
-        all_pdfs = scan_pdfs(config.DOC_SLICE_DIR)
-        work = sorted(all_pdfs, key=lambda r: r["file_size_bytes"])
+        work = sorted(_scan_pdfs(config.DOC_SLICE_DIR),
+                      key=lambda r: r["file_size_bytes"])
         log.info("  Found %d PDFs (no previous runs)", len(work))
+    else:
+        work = _build_work_list(run_id)
 
     batch_size = args.batch or config.DOC_BATCH_SIZE
     pacing_delay = args.delay or config.DOC_PACING_DELAY
 
     if args.dry_run:
-        dry_run(work, batch_size)
+        _dry_run(work, batch_size)
         return
 
     if args.auto:
         if not work:
             log.info("No documents to process.")
             return
-        auto_extract(run_id, work, batch_size=batch_size, pacing_delay=pacing_delay)
+        _auto_extract(run_id, work, batch_size=batch_size, pacing_delay=pacing_delay)
     else:
-        print_work_list(work)
-        if args.new_run or args.resume:
-            print_extraction_instructions(work, run_id)
+        _print_work_list(work)
 
 
 if __name__ == "__main__":
