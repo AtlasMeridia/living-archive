@@ -16,7 +16,6 @@ dependencies = [
 dev = ["pytest>=8.0"]
 
 [project.scripts]
-run-batch = "src.run_batch:main"
-doc-extract = "src.run_doc_extract:main"
+pipeline = "src.pipeline:main"
 preflight = "src.preflight:main"
 sync-people = "src.sync_people:main"

@@ -3,7 +3,7 @@
 from PIL import Image
 
 import src.config as config
-from src.run_batch import process_slice
+from src.pipeline import process_slice
 
 
 def test_process_slice_uses_run_scoped_workspace_and_tolerates_cleanup_errors(tmp_path, monkeypatch):
@@ -17,8 +17,8 @@ def test_process_slice_uses_run_scoped_workspace_and_tolerates_cleanup_errors(tm
     monkeypatch.setattr(config, "MEDIA_ROOT", tmp_path)
     monkeypatch.setattr(config, "AI_LAYER_DIR", tmp_path / "photos")
     monkeypatch.setattr(config, "WORKSPACE_DIR", tmp_path / "workspace-root")
-    monkeypatch.setattr("src.run_batch.find_photos", lambda _: [src])
-    monkeypatch.setattr("src.run_batch.needs_conversion", lambda _: False)
+    monkeypatch.setattr("src.pipeline.find_photos", lambda _: [src])
+    monkeypatch.setattr("src.pipeline.needs_conversion", lambda _: False)
 
     captured = {}
 
@@ -27,12 +27,12 @@ def test_process_slice_uses_run_scoped_workspace_and_tolerates_cleanup_errors(tm
         captured["copied_to"] = dest
         return dest
 
-    monkeypatch.setattr("src.run_batch.shutil.copy2", fake_copy2)
+    monkeypatch.setattr("src.pipeline.shutil.copy2", fake_copy2)
     monkeypatch.setattr(
-        "src.run_batch.analyze_photo",
+        "src.pipeline.analyze_photo",
         lambda jpeg_path, folder_hint: (_ for _ in ()).throw(RuntimeError(f"saw:{jpeg_path}")),
     )
-    monkeypatch.setattr("src.run_batch._cleanup_workspace", lambda workspace: (_ for _ in ()).throw(OSError("busy")))
+    monkeypatch.setattr("src.pipeline._cleanup_workspace", lambda workspace: (_ for _ in ()).throw(OSError("busy")))
 
     result = process_slice(
         slice_path="album",
