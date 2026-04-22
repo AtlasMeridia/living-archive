@@ -87,29 +87,16 @@ MODEL = "claude-sonnet-4-20250514"
 PROMPT_VERSION = "photo_analysis_v1"
 PROMPT_FILE = REPO_ROOT / "prompts" / f"{PROMPT_VERSION}.txt"
 
-# --- Inference mode ---
-# "oauth"  — Anthropic SDK + Max Plan OAuth token (default, zero marginal cost)
-# "cli"    — Claude Code CLI subprocess (legacy, also uses Max Plan)
-# "api"    — Anthropic SDK + standard API key (billed per-token)
-INFERENCE_MODE = os.environ.get("INFERENCE_MODE", "").lower().strip()
-
-# Backward compat: USE_CLI=true maps to "cli" mode
-_use_cli_legacy = os.environ.get("USE_CLI", "").lower().strip()
-if not INFERENCE_MODE:
-    if _use_cli_legacy in ("true", "1", "yes"):
-        INFERENCE_MODE = "cli"
-    elif _use_cli_legacy in ("false", "0", "no"):
-        INFERENCE_MODE = "api"
-    else:
-        INFERENCE_MODE = "oauth"  # new default
-
-USE_CLI = INFERENCE_MODE == "cli"  # backward compat for downstream checks
-
-CLAUDE_CLI = Path(os.environ.get("CLAUDE_CLI", os.path.expanduser("~/.local/bin/claude")))
-CLI_MODEL = os.environ.get("CLI_MODEL", "opus")
-
-# OAuth model — used when INFERENCE_MODE=oauth (SDK direct calls)
+# --- Photo inference ---
+# Photo pipeline runs exclusively via the Anthropic SDK with a Max Plan
+# OAuth token (resolved in src/auth.py). Legacy CLI and direct-API modes
+# were removed on 2026-04-21 during the aggressive pare-down.
 OAUTH_MODEL = os.environ.get("OAUTH_MODEL", "claude-sonnet-4-20250514")
+
+# Path to the Claude Code CLI binary. Still referenced by the document
+# pipeline's "claude-cli" provider (see src/doc_analyze.py); removable
+# once that provider is retired in the next pare step.
+CLAUDE_CLI = Path(os.environ.get("CLAUDE_CLI", os.path.expanduser("~/.local/bin/claude")))
 
 DOC_PROMPT_VERSION = "document_analysis_v2"
 DOC_PROMPT_FILE = REPO_ROOT / "prompts" / f"{DOC_PROMPT_VERSION}.txt"
@@ -174,20 +161,11 @@ def setup_logging() -> logging.Logger:
 def validate_photo_config() -> list[str]:
     """Check that photo pipeline config is valid. Returns list of error messages."""
     errors = []
-    if INFERENCE_MODE == "cli":
-        if not CLAUDE_CLI.exists():
-            errors.append(f"Claude CLI not found: {CLAUDE_CLI}")
-    elif INFERENCE_MODE == "oauth":
-        try:
-            from .auth import resolve_token
-            resolve_token()
-        except ValueError as e:
-            errors.append(str(e))
-    elif INFERENCE_MODE == "api":
-        if not ANTHROPIC_API_KEY:
-            errors.append("ANTHROPIC_API_KEY is not set")
-    else:
-        errors.append(f"Unknown INFERENCE_MODE: {INFERENCE_MODE}")
+    try:
+        from .auth import resolve_token
+        resolve_token()
+    except ValueError as e:
+        errors.append(str(e))
     if not MEDIA_ROOT.exists():
         errors.append(f"MEDIA_ROOT not found: {MEDIA_ROOT} (is the NAS mounted?)")
     if not PROMPT_FILE.exists():

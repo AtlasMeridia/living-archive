@@ -1,8 +1,8 @@
 """Cost estimation for photo and document pipelines.
 
 Provides token estimates and dollar costs for --dry-run output.
-CLI mode (Claude Code) has no per-token cost, but we show the
-equivalent API cost for awareness.
+The photo pipeline runs via Max Plan OAuth (zero marginal cost) but
+we still surface an equivalent API cost for awareness.
 """
 
 from . import config
@@ -25,9 +25,9 @@ def estimate_photo_cost(num_photos: int, model: str = "") -> dict:
     """Estimate tokens and cost for a photo batch.
 
     Returns dict with input_tokens, output_tokens, total_tokens,
-    cost_dollars, model, is_cli.
+    cost_dollars, model, is_max_plan.
     """
-    model = model or (config.CLI_MODEL if config.USE_CLI else config.MODEL)
+    model = model or config.OAUTH_MODEL
     pricing_key = _resolve_pricing_key(model)
 
     input_tokens = num_photos * PHOTO_INPUT_TOKENS
@@ -43,7 +43,7 @@ def estimate_photo_cost(num_photos: int, model: str = "") -> dict:
         "total_tokens": total_tokens,
         "cost_dollars": cost,
         "model": model,
-        "is_cli": config.USE_CLI,
+        "is_max_plan": True,
     }
 
 
@@ -51,7 +51,7 @@ def estimate_doc_cost(total_chars: int, num_docs: int, model: str = "") -> dict:
     """Estimate tokens and cost for a document batch.
 
     Returns dict with input_tokens, output_tokens, total_tokens,
-    cost_dollars, model, is_cli.
+    cost_dollars, model, is_max_plan.
     """
     model = model or (config.DOC_CLI_MODEL if config.DOC_PROVIDER == "claude-cli" else config.MODEL)
     pricing_key = _resolve_pricing_key(model)
@@ -69,7 +69,7 @@ def estimate_doc_cost(total_chars: int, num_docs: int, model: str = "") -> dict:
         "total_tokens": total_tokens,
         "cost_dollars": cost,
         "model": model,
-        "is_cli": config.DOC_PROVIDER == "claude-cli",
+        "is_max_plan": config.DOC_PROVIDER in ("claude-cli", "oauth"),
     }
 
 
@@ -80,9 +80,9 @@ def format_cost_summary(estimate: dict) -> str:
         f"  Estimated tokens: ~{estimate['input_tokens']:,} input + "
         f"~{estimate['output_tokens']:,} output = ~{estimate['total_tokens']:,} total"
     )
-    if estimate["is_cli"]:
+    if estimate.get("is_max_plan"):
         lines.append(
-            f"  Cost: $0.00 (CLI mode) — equivalent API cost: ${estimate['cost_dollars']:.2f} "
+            f"  Cost: $0.00 (Max Plan) — equivalent API cost: ${estimate['cost_dollars']:.2f} "
             f"({estimate['model']})"
         )
     else:

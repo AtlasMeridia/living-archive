@@ -19,7 +19,6 @@ from .immich import (
 )
 from .manifest import load_manifest, list_manifests, write_manifest, write_run_meta
 from .preflight import run_preflight
-from .review import load_review
 
 log = config.setup_logging()
 
@@ -65,12 +64,6 @@ def step_analyze(
 
     Returns (succeeded, failed, failures_list).
     """
-    # Only create API client when using API mode
-    client = None
-    if not config.USE_CLI:
-        import anthropic
-        client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
-
     folder_hint = folder_hint or config.SLICE_PATH
     succeeded = 0
     failed = 0
@@ -81,9 +74,7 @@ def step_analyze(
         log.info("  [%d/%d] Analyzing: %s", i + 1, len(photos), name)
 
         try:
-            analysis, inference_meta = analyze_photo(
-                photo["jpeg_path"], folder_hint, client=client
-            )
+            analysis, inference_meta = analyze_photo(photo["jpeg_path"], folder_hint)
 
             write_manifest(
                 run_id=run_id,
@@ -101,8 +92,7 @@ def step_analyze(
             failures.append({"file": photo["rel_path"], "error": str(e)})
             log.error("           -> FAILED: %s", e)
 
-        # Rate limiting: only needed for API mode (CLI has natural spacing)
-        if not config.USE_CLI and i < len(photos) - 1:
+        if i < len(photos) - 1:
             time.sleep(0.5)
 
     return succeeded, failed, failures
@@ -131,22 +121,10 @@ def step_push_to_immich(run_id: str, slice_path: str | None = None) -> dict:
     needs_review_ids = []
     low_confidence_ids = []
 
-    reviewed_skipped = 0
-
     for manifest_path in manifests:
         m = load_manifest(manifest_path)
         source_file = m.source_file
         analysis = m.analysis
-        sha = m.source_sha256[:12]
-
-        # Check for human review overlay — human edits are sacred
-        review = load_review(run_id, sha)
-        if review and review.status == "skipped":
-            skipped += 1
-            continue
-        if review and review.status in ("corrected", "approved"):
-            reviewed_skipped += 1
-            continue
 
         # Try to find matching Immich asset by filename
         asset_id = None
@@ -213,10 +191,7 @@ def step_push_to_immich(run_id: str, slice_path: str | None = None) -> dict:
         except Exception as e:
             log.error("  Failed to create Low Confidence album: %s", e)
 
-    if reviewed_skipped:
-        log.info("  Skipped %d human-reviewed assets (not overwritten)", reviewed_skipped)
-
-    return {"matched": matched, "updated": updated, "skipped": skipped, "reviewed_skipped": reviewed_skipped}
+    return {"matched": matched, "updated": updated, "skipped": skipped}
 
 
 def verify_source_integrity(photos: list[dict]) -> bool:
@@ -241,10 +216,7 @@ def main():
     log.info("Living Archive — Slice Run %s", run_id)
     log.info("  Source: %s", config.SLICE_DIR)
     log.info("  AI Layer: %s", config.AI_LAYER_DIR)
-    if config.USE_CLI:
-        log.info("  Mode: CLI (%s via %s)", config.CLI_MODEL, config.CLAUDE_CLI.name)
-    else:
-        log.info("  Mode: API (%s)", config.MODEL)
+    log.info("  Mode: OAuth / Max Plan (%s)", config.OAUTH_MODEL)
     log.info("")
 
     # Preflight: NAS mount (auto-mount if needed), Immich health, config
@@ -262,8 +234,7 @@ def main():
     log.info("")
 
     # Step 2 & 3: Analyze and write manifests
-    mode_label = "CLI" if config.USE_CLI else "API"
-    log.info("Step 2: Analyzing with Claude %s...", mode_label)
+    log.info("Step 2: Analyzing with Claude OAuth...")
     succeeded, failed, failures = step_analyze(photos, run_id)
     log.info("")
 

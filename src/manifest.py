@@ -98,7 +98,8 @@ def write_run_meta(
         "succeeded": succeeded,
         "failed": failed,
         "failures": failures,
-        "model": config.MODEL,
+        "model": config.OAUTH_MODEL,
+        "inference_mode": "oauth",
         "prompt_version": config.PROMPT_VERSION,
     }
     if batch_slices:

@@ -34,6 +34,11 @@ EST_SECONDS_PER_PHOTO = 32
 TRIAGE_MODES = ("off", "auto", "require")
 
 
+def _mode_label() -> str:
+    """Human-readable label for the inference dispatch path (dev-log entries)."""
+    return f"OAuth / Max Plan ({config.OAUTH_MODEL})"
+
+
 def _normalize_rel(path_str: str) -> str:
     """Normalize path separators for stable slice comparisons."""
     return path_str.replace("\\", "/").strip("/")
@@ -232,11 +237,6 @@ def process_slice(
     log.info("  %d to analyze (%d already done).", len(unprocessed), len(photos) - len(unprocessed))
 
     # Analyze with per-photo budget checks
-    client = None
-    if not config.USE_CLI:
-        import anthropic
-        client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
-
     succeeded = 0
     failed = 0
     budget_exhausted = False
@@ -254,9 +254,7 @@ def process_slice(
         log.info("  [%d/%d] Analyzing: %s", i + 1, len(unprocessed), name)
 
         try:
-            analysis, inference_meta = analyze_photo(
-                photo["jpeg_path"], slice_path, client=client
-            )
+            analysis, inference_meta = analyze_photo(photo["jpeg_path"], slice_path)
             write_manifest(
                 run_id=run_id,
                 source_file_rel=photo["rel_path"],
@@ -271,8 +269,7 @@ def process_slice(
             failed += 1
             log.error("           -> FAILED: %s", e)
 
-        # Rate limiting for API mode
-        if not config.USE_CLI and i < len(unprocessed) - 1:
+        if i < len(unprocessed) - 1:
             time.sleep(0.5)
 
     # Push to Immich if requested
@@ -345,8 +342,7 @@ def append_run_log(results: list[dict], run_id: str, elapsed: float) -> None:
         f"**Result:** {total_photos}/{total_found} succeeded, {total_failed} failures\n",
         f"**Triage skips:** {total_triage_skipped}\n",
         f"**Elapsed:** {elapsed:,.0f}s (~{hours:.1f} hours)\n",
-        f"**Model:** {'CLI' if config.USE_CLI else 'API'} "
-        f"({'Opus via CLI' if config.USE_CLI else config.MODEL})\n",
+        f"**Model:** {_mode_label()}\n",
         "\n| Slice | Photos | Result | Time |\n",
         "|-------|--------|--------|------|\n",
     ]
