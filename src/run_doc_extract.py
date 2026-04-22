@@ -219,8 +219,8 @@ def auto_extract(
     pacing_delay: float = 0,
 ) -> None:
     """Run automated extraction + analysis on the work list."""
-    from .doc_analyze import analyze_document, merge_chunk_analyses
-    from .doc_extract_text import chunk_for_analysis, extract_text
+    from .doc_analyze import analyze_document
+    from .doc_extract_text import extract_text
 
     full_remaining = len(work)
     if batch_size > 0:
@@ -271,38 +271,15 @@ def auto_extract(
             # 2. Save extracted text immediately (preserves work if analysis fails)
             write_extracted_text(run_id, sha, result.full_text)
 
-            # 3. Chunk if large
-            chunks = chunk_for_analysis(result)
-            log.info("  Chunks: %d", len(chunks))
+            # 3. Analyze the whole document in one call
+            log.info("  Analyzing...")
+            analysis, inference = analyze_document(
+                text=result.full_text,
+                source_file=rel_path,
+                page_count=pages,
+            )
 
-            # 4. Analyze each chunk
-            chunk_results = []
-            for chunk in chunks:
-                if len(chunks) > 1:
-                    log.info(
-                        "  Analyzing chunk %d/%d (pages %d-%d)...",
-                        chunk.chunk_index + 1, chunk.total_chunks,
-                        chunk.page_start, chunk.page_end,
-                    )
-                else:
-                    log.info("  Analyzing...")
-
-                analysis, inference = analyze_document(
-                    text=chunk.text,
-                    source_file=rel_path,
-                    page_count=pages,
-                )
-                chunk_results.append((analysis, inference))
-
-            # 5. Merge if multi-chunk
-            if len(chunk_results) > 1:
-                analysis, inference = merge_chunk_analyses(chunk_results)
-            else:
-                analysis, inference = chunk_results[0]
-
-            # 6. Write manifest
-            inference_dict = inference.model_dump()
-            inference_dict["chunk_count"] = len(chunks)
+            # 4. Write manifest
             write_manifest(
                 run_id=run_id,
                 source_file_rel=rel_path,
@@ -311,7 +288,7 @@ def auto_extract(
                 page_count=pages,
                 extraction={"chars_extracted": result.chars_extracted},
                 analysis=analysis.model_dump(),
-                inference=inference_dict,
+                inference=inference.model_dump(),
             )
 
             elapsed = time.monotonic() - doc_start
