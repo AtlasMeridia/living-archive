@@ -202,12 +202,10 @@ def run_preflight(require_immich: bool = True) -> bool:
     # 7. Catalog (optional — informational only)
     if config.FAMILY_CATALOG_DB.exists():
         try:
-            from .catalog import SCHEMA_VERSION, init_catalog
+            from .catalog import init_catalog
             conn = init_catalog(config.FAMILY_CATALOG_DB)
             conn.close()
-            log.info("  Catalog: %s (schema v%s)", config.FAMILY_CATALOG_DB.name, SCHEMA_VERSION)
-        except RuntimeError as e:
-            log.warning("  Catalog schema issue: %s", e)
+            log.info("  Catalog: %s", config.FAMILY_CATALOG_DB.name)
         except Exception as e:
             log.warning("  Catalog check failed: %s", e)
     else:
