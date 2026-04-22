@@ -36,7 +36,6 @@ def search_assets_by_path(client: httpx.Client, path_prefix: str) -> list[dict]:
         if not items:
             break
         assets.extend(items)
-        # If fewer items than page size, we're done
         if len(items) < 250:
             break
         page += 1
@@ -44,16 +43,8 @@ def search_assets_by_path(client: httpx.Client, path_prefix: str) -> list[dict]:
 
 
 def build_path_lookup(assets: list[dict]) -> dict[str, str]:
-    """Build a mapping from originalPath filename -> assetId.
-
-    Immich stores paths like /external/photos/2009 Scanned Media/1978/file.tiff
-    We key by the filename portion for flexible matching.
-    """
-    lookup = {}
-    for asset in assets:
-        original_path = asset.get("originalPath", "")
-        lookup[original_path] = asset["id"]
-    return lookup
+    """Build a mapping from originalPath -> assetId."""
+    return {asset.get("originalPath", ""): asset["id"] for asset in assets}
 
 
 @retry()
@@ -89,16 +80,6 @@ def create_album(
     return resp.json()
 
 
-def add_assets_to_album(
-    client: httpx.Client, album_id: str, asset_ids: list[str]
-) -> None:
-    """Add assets to an existing album."""
-    if not asset_ids:
-        return
-    resp = client.put(f"/albums/{album_id}/assets", json={"ids": asset_ids})
-    resp.raise_for_status()
-
-
 # --- People / Face APIs ---
 
 
@@ -119,14 +100,6 @@ def list_people(client: httpx.Client, with_hidden: bool = False) -> list[dict]:
             break
         page += 1
     return people
-
-
-@retry()
-def get_person(client: httpx.Client, person_id: str) -> dict:
-    """Get a single person's details."""
-    resp = client.get(f"/people/{person_id}")
-    resp.raise_for_status()
-    return resp.json()
 
 
 @retry()
@@ -151,57 +124,6 @@ def update_person(
     if birth_date is not None:
         body["birthDate"] = birth_date
     resp = client.put(f"/people/{person_id}", json=body)
-    resp.raise_for_status()
-    return resp.json()
-
-
-@retry()
-def merge_people(
-    client: httpx.Client, target_person_id: str, source_person_ids: list[str]
-) -> dict:
-    """Merge source person clusters into target."""
-    resp = client.post(
-        f"/people/{target_person_id}/merge",
-        json={"ids": source_person_ids},
-    )
-    resp.raise_for_status()
-    return resp.json()
-
-
-def get_person_thumbnail(client: httpx.Client, person_id: str) -> bytes:
-    """Get the face crop thumbnail for a person cluster."""
-    resp = client.get(f"/people/{person_id}/thumbnail")
-    resp.raise_for_status()
-    return resp.content
-
-
-@retry()
-def apply_rotation(
-    client: httpx.Client,
-    asset_id: str,
-    angle: int,
-) -> dict:
-    """Apply a rotation edit to an asset via PUT /assets/{id}/edits.
-
-    angle: clockwise degrees (90, 180, 270). 0 clears existing edits.
-    """
-    if angle == 0:
-        # No rotation needed — clear any existing edits
-        resp = client.delete(f"/assets/{asset_id}/edits")
-        resp.raise_for_status()
-        return {"cleared": True}
-
-    resp = client.put(
-        f"/assets/{asset_id}/edits",
-        json={
-            "edits": [
-                {
-                    "action": "rotate",
-                    "parameters": {"angle": angle},
-                }
-            ]
-        },
-    )
     resp.raise_for_status()
     return resp.json()
 

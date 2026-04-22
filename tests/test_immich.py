@@ -1,8 +1,6 @@
-"""Tests for immich.py: date_estimate_to_iso and apply_rotation."""
+"""Tests for immich.py: date_estimate_to_iso."""
 
-from unittest.mock import MagicMock
-
-from src.immich import apply_rotation, date_estimate_to_iso
+from src.immich import date_estimate_to_iso
 
 
 class TestDateEstimateToIso:
@@ -24,31 +22,3 @@ class TestDateEstimateToIso:
         """Months like '3' should pass through as-is (no zero-padding added)."""
         result = date_estimate_to_iso("1978-3")
         assert result == "1978-3-01T00:00:00.000Z"
-
-
-class TestApplyRotation:
-    def test_rotation_90(self):
-        client = MagicMock()
-        resp = MagicMock()
-        resp.json.return_value = {"assetId": "abc", "edits": []}
-        client.put.return_value = resp
-
-        apply_rotation(client, "abc", 90)
-
-        client.put.assert_called_once_with(
-            "/assets/abc/edits",
-            json={"edits": [{"action": "rotate", "parameters": {"angle": 90}}]},
-        )
-        resp.raise_for_status.assert_called_once()
-
-    def test_rotation_0_clears(self):
-        client = MagicMock()
-        resp = MagicMock()
-        client.delete.return_value = resp
-
-        result = apply_rotation(client, "abc", 0)
-
-        client.delete.assert_called_once_with("/assets/abc/edits")
-        resp.raise_for_status.assert_called_once()
-        assert result == {"cleared": True}
-        client.put.assert_not_called()
