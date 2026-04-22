@@ -19,10 +19,17 @@ from . import config
 from .analyze import analyze_photo
 from .convert import find_photos, needs_conversion, prepare_for_analysis, sha256_file
 from .discover import build_batch_work_list, filter_work_list
-from .manifest import write_manifest, write_run_meta
+from .immich import (
+    _client as immich_client,
+    build_path_lookup,
+    create_album,
+    date_estimate_to_iso,
+    search_assets_by_path,
+    update_asset,
+)
+from .manifest import load_manifest, list_manifests, write_manifest, write_run_meta
 from .cost import estimate_photo_cost, format_cost_summary
 from .preflight import check_immich, ensure_nas_mounted
-from .run_slice import step_push_to_immich
 
 log = config.setup_logging()
 
@@ -33,6 +40,98 @@ EST_SECONDS_PER_PHOTO = 32
 def _mode_label() -> str:
     """Human-readable label for the inference dispatch path (dev-log entries)."""
     return f"OAuth / Max Plan ({config.OAUTH_MODEL})"
+
+
+def _push_to_immich(run_id: str, slice_path: str | None = None) -> dict:
+    """Push manifest data to Immich: update dates/descriptions, create review albums."""
+    slice_path = slice_path or config.SLICE_PATH
+
+    manifests = list_manifests(run_id)
+    if not manifests:
+        log.info("  No manifests to push.")
+        return {"matched": 0, "updated": 0, "skipped": 0}
+
+    client = immich_client()
+
+    log.info("  Searching Immich for assets matching '%s'...", slice_path)
+    assets = search_assets_by_path(client, slice_path)
+    log.info("  Found %d assets in Immich.", len(assets))
+
+    path_lookup = build_path_lookup(assets)
+
+    matched = 0
+    updated = 0
+    skipped = 0
+    needs_review_ids: list[str] = []
+    low_confidence_ids: list[str] = []
+
+    for manifest_path in manifests:
+        m = load_manifest(manifest_path)
+        source_file = m.source_file
+        analysis = m.analysis
+
+        asset_id = None
+        source_name = Path(source_file).name
+        for immich_path, aid in path_lookup.items():
+            if immich_path.endswith(source_name):
+                asset_id = aid
+                break
+
+        if not asset_id:
+            log.info("    No Immich match for: %s", source_name)
+            skipped += 1
+            continue
+
+        matched += 1
+
+        date_est = analysis.date_estimate
+        desc = analysis.description_en
+        desc_zh = analysis.description_zh
+        if desc_zh:
+            desc = f"{desc}\n\n{desc_zh}"
+
+        try:
+            update_asset(
+                client,
+                asset_id,
+                date_time_original=date_estimate_to_iso(date_est) if date_est else None,
+                description=desc if desc else None,
+            )
+            updated += 1
+        except Exception as e:
+            log.error("    Failed to update %s: %s", source_name, e)
+
+        confidence = analysis.date_confidence
+        if confidence < config.CONFIDENCE_LOW:
+            low_confidence_ids.append(asset_id)
+        elif confidence < config.CONFIDENCE_HIGH:
+            needs_review_ids.append(asset_id)
+
+    if needs_review_ids:
+        try:
+            create_album(
+                client,
+                f"Needs Review (run {run_id[:13]})",
+                description=f"Photos with date confidence {config.CONFIDENCE_LOW}-{config.CONFIDENCE_HIGH}",
+                asset_ids=needs_review_ids,
+            )
+            log.info("  Created 'Needs Review' album with %d photos", len(needs_review_ids))
+        except Exception as e:
+            log.error("  Failed to create Needs Review album: %s", e)
+
+    if low_confidence_ids:
+        try:
+            create_album(
+                client,
+                f"Low Confidence (run {run_id[:13]})",
+                description=f"Photos with date confidence below {config.CONFIDENCE_LOW}",
+                asset_ids=low_confidence_ids,
+            )
+            log.info("  Created 'Low Confidence' album with %d photos", len(low_confidence_ids))
+        except Exception as e:
+            log.error("  Failed to create Low Confidence album: %s", e)
+
+    return {"matched": matched, "updated": updated, "skipped": skipped}
 
 
 def process_slice(
@@ -164,7 +263,7 @@ def process_slice(
         else:
             log.info("  Pushing %d manifests to Immich...", succeeded)
             try:
-                step_push_to_immich(run_id, slice_path=slice_path)
+                _push_to_immich(run_id, slice_path=slice_path)
             except Exception as e:
                 log.error("  Immich push failed: %s", e)
 

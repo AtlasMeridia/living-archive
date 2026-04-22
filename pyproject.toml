@@ -16,7 +16,6 @@ dependencies = [
 dev = ["pytest>=8.0"]
 
 [project.scripts]
-run-slice = "src.run_slice:main"
 run-batch = "src.run_batch:main"
 doc-extract = "src.run_doc_extract:main"
 preflight = "src.preflight:main"
