@@ -45,36 +45,30 @@ Four-machine topology: NAS for source data, Mac for pipeline execution, VPS for 
 | Layer | Location | Contents |
 |-------|----------|----------|
 | **Data** | NAS (read-only) | Source TIFFs, PDFs — canonical, never modified |
-| **AI** | Local Mac (regeneratable) | JSON manifests, extracted text, FTS5 index, asset catalog, synthesis DB, people registry — keyed by SHA-256 |
-| **Presentation** | VPS (Immich v2.6.3) | Photos at `living-archive.dev`, dashboard at `dashboard.living-archive.dev` |
+| **AI** | Local Mac (regeneratable) | JSON manifests, extracted text, asset catalog, people registry — keyed by SHA-256 |
+| **Presentation** | VPS (Immich v2.6.3) | Photos at `living-archive.dev` |
 
 ### Photo Pipeline
 
-TIFF/JPEG scans → analysis-ready JPEG normalization → Max Plan-backed Claude (photo pipeline defaults to OAuth SDK mode) → structured JSON manifests → Immich metadata push. Confidence-based routing: high (≥0.8) auto-applies, medium (0.5–0.8) routes to "Needs Review" album, low (<0.5) routes to "Low Confidence" album.
+TIFF/JPEG scans → analysis-ready JPEG normalization → Max Plan OAuth Claude → structured JSON manifests → Immich metadata push. Confidence-based routing: high (≥0.8) auto-applies, medium (0.5–0.8) routes to "Needs Review" album, low (<0.5) routes to "Low Confidence" album.
 
 ### Document Pipeline
 
-PDFs → Claude text extraction and analysis (document type, dates, key people, sensitivity) → manifests + extracted text files → SQLite FTS5 full-text search index.
+PDFs → `pypdf` text extraction → Claude analysis (document type, dates, key people, sensitivity) → manifests + extracted text files.
 
 ### Face Recognition
 
 Immich's ML-based face clustering (buffalo_l model) linked to a people registry in the AI layer, with a sync script to map clusters to named people.
 
-### Synthesis Layer
-
-Reads all manifests to build an entity graph — person deduplication (normalization, fuzzy matching, LLM clustering), timeline chronology with quality controls, and cross-referencing across people, photos, dates, and locations. Promoted from experiment 0002, fully integrated with the dashboard.
-
-### Dashboard
-
-Interactive single-page web UI with six tabs: Overview (stats, coverage), Photos, Documents, Synthesis (entity queries, chronology), People (face cluster naming), and Toolbox (CLI inventory). Runs locally, queries `catalog.db` and `synthesis.db` — fully offline, no NAS required.
-
 ### Infrastructure
 
 - Immich v2.6.3 on Hetzner VPS, public via Cloudflare Tunnel
 - NAS auto-mount via SMB with retry logic
-- Preflight checks (NAS mount, Immich health, config validation)
-- CLI entry points for each pipeline stage (12 commands)
-- Pydantic models, structured logging, 82 tests across 11 files
+- Preflight checks (NAS mount, Immich health, OAuth token validation)
+- Single unified CLI entry point (`python -m src.pipeline photo|doc`)
+- Pydantic models, structured logging, 50 tests
+
+*Scope note (2026-04-21):* The dashboard, synthesis DB, FTS5 search index, and contact-sheet triage were deleted during the aggressive pare-down. The `data/synthesis.db` and `data/chronology.*` snapshots remain on disk as historical artifacts but are no longer rebuilt. Immich is now the sole presentation surface. If a conversational or synthesis layer returns, it will be a thinner rewrite against the unified manifest rather than a revival of the old machinery.
 
 ---
 
@@ -85,12 +79,9 @@ The ongoing work of digitizing and organizing the Liu family history drives deve
 **Completed:**
 - 3,687 photo assets currently indexed in the local AI layer catalog (as of 2026-04-02; recent no-push batches still require downstream Immich metadata push/sync)
 - 121 family documents analyzed (Liu Family Trust — 468 pages, 26 document types)
-- Full-text search index built over extracted document text (FTS5)
 - Face recognition running on VPS Immich, people registry synced
-- Synthesis layer operational — entity graph, timeline chronology, cross-referencing
-- In-browser people naming modal ready for elder knowledge capture
 - Immich live at `living-archive.dev` with invite-based family access
-- Dashboard deployed at `dashboard.living-archive.dev` (stats, synthesis, people, conversational interface)
+- Codebase pared from 10,855 → 3,241 lines (40 → 17 modules) — unified pipeline, OAuth-only inference, single presentation surface (2026-04-21)
 
 **In progress:**
 - 2nd Round Digital Revolution Scans (3,599 photos, 10 albums)
@@ -168,6 +159,7 @@ The ongoing work of digitizing and organizing the Liu family history drives deve
 | 2026-03-19 | Updated to reflect VPS migration, current scale (1,773 photos, 121 docs), synthesis layer, dashboard, and public access |
 | 2026-03-25 | Domain migration: `living-archive.kennyliu.io` → `living-archive.dev`. Dashboard deployment resolved. All URLs updated. |
 | 2026-04-02 | Updated runtime facts: Immich v2.6.3, SMB mount language, OAuth photo inference default, and local AI-layer asset counts. |
+| 2026-04-21 | Aggressive pare-down: 10,855 → 3,241 lines, 40 → 17 modules. Removed dashboard, review tool, synthesis layer, FTS5 index, contact-sheet triage, chunking, one-shot utilities, and all non-OAuth inference paths. Photo + document orchestrators merged into unified `src/pipeline.py` with subcommands. Immich is the sole presentation surface. |
 
 ---
 

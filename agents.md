@@ -28,11 +28,12 @@ Each document captures the thinking behind a decision or exploration — the "wh
 
 ### Code
 
-- Python source in `src/`, one module per concern (35 modules)
-- Target 200-300 lines per file
+- Python source in `src/`, one module per concern (17 modules, ~3,240 lines as of 2026-04-21)
+- Target 200-300 lines per file (one exception: `pipeline.py` at ~900 lines, which consolidates the photo and document orchestrators into a single entry point with subcommands)
 - AI layer outputs in local `data/` directory, keyed by SHA-256
 - Never modify source data (TIFFs, PDFs)
 - Presentation layer served by Immich on VPS (`living-archive.dev`; legacy alias `living-archive.kennyliu.io`)
+- All inference dispatches through the Anthropic SDK using a Max Plan OAuth token (see `src/auth.py`); legacy CLI / Codex / Ollama / direct-API paths were removed on 2026-04-21
 
 ### Content drafting
 

@@ -1,5 +1,7 @@
 # Backlog
 
+> **2026-04-21 note.** The codebase was pared aggressively on this date: 10,855 → 3,241 lines, 40 → 17 modules. The dashboard, review tool, synthesis layer, FTS5 index, contact-sheet triage, one-shot utilities, and all non-OAuth inference paths were removed. The photo and document orchestrators are now a single `src/pipeline.py` with `photo` / `doc` subcommands. Historical `[x]` items below reference modules that no longer exist (`dashboard_api.py`, `synthesis.py`, `contact_triage.py`, `audit_tags.py`, `dedup_report.py`, `tokens.py`, `doc_index.py`, `doc_scan.py`, `run_batch.py`, `run_slice.py`, `run_doc_extract.py`, `catalog_cli.py`, `catalog_refresh.py`, `haptic_api.py`, `review.py`) — they're preserved as context, not as current state. Tag `legacy-2026-04` captures the pre-pare codebase if rollback is ever needed.
+
 ## Burn
 
 Tasks explicitly approved for unattended automated dispatch by the capacity-burn scheduler.
