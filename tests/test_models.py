@@ -7,7 +7,6 @@ from pydantic import ValidationError
 
 from src.models import (
     DocumentAnalysis,
-    DocumentManifest,
     InferenceMetadata,
     PhotoAnalysis,
     PhotoManifest,
@@ -133,9 +132,3 @@ class TestDocumentModels:
             "new_future_field": "should not break",
         })
         assert da.document_type == "legal/trust"
-
-    def test_document_manifest_defaults(self):
-        dm = DocumentManifest()
-        assert dm.source_file == ""
-        assert dm.page_count == 0
-        assert dm.analysis.document_type == ""

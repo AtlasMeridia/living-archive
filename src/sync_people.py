@@ -12,7 +12,7 @@ import sys
 
 from . import config
 from .immich import (
-    _client as immich_client,
+    create_client as immich_client,
     get_person_statistics,
     list_people,
     update_person,
@@ -52,8 +52,8 @@ def cmd_status():
         log.warning("Immich not configured: %s", immich_errors)
         return
 
-    client = immich_client()
-    people = list_people(client)
+    with immich_client() as client:
+        people = list_people(client)
     immich_named = [p for p in people if p.get("name")]
     log.info("Immich:")
     log.info("  Face clusters: %d", len(people))
@@ -72,39 +72,39 @@ def cmd_pull():
     log.info("People Sync — Pull from Immich")
     log.info("")
 
-    client = immich_client()
     registry = load_registry()
-
-    people = list_people(client)
-    log.info("  Immich clusters: %d", len(people))
 
     imported = 0
     skipped_small = 0
     skipped_linked = 0
 
-    for p in people:
-        pid = p["id"]
+    with immich_client() as client:
+        people = list_people(client)
+        log.info("  Immich clusters: %d", len(people))
 
-        if find_person_by_immich_id(registry, pid):
-            skipped_linked += 1
-            continue
+        for p in people:
+            pid = p["id"]
 
-        stats = get_person_statistics(client, pid)
-        asset_count = stats.get("assets", 0)
-        if asset_count < MIN_ASSETS_FOR_IMPORT:
-            skipped_small += 1
-            continue
+            if find_person_by_immich_id(registry, pid):
+                skipped_linked += 1
+                continue
 
-        name = p.get("name", "")
-        person = add_person(
-            registry,
-            name_en=name,
-            immich_person_ids=[pid],
-            notes=f"Auto-imported from Immich ({asset_count} assets)",
-        )
-        imported += 1
-        label = name if name else "(unnamed)"
-        log.info("  Imported: %s — %d assets [%s]", label, asset_count, person.person_id[:8])
+            stats = get_person_statistics(client, pid)
+            asset_count = stats.get("assets", 0)
+            if asset_count < MIN_ASSETS_FOR_IMPORT:
+                skipped_small += 1
+                continue
+
+            name = p.get("name", "")
+            person = add_person(
+                registry,
+                name_en=name,
+                immich_person_ids=[pid],
+                notes=f"Auto-imported from Immich ({asset_count} assets)",
+            )
+            imported += 1
+            label = name if name else "(unnamed)"
+            log.info("  Imported: %s — %d assets [%s]", label, asset_count, person.person_id[:8])
 
     save_registry(registry)
     log.info("")
@@ -124,23 +124,23 @@ def cmd_push():
     log.info("People Sync — Push to Immich")
     log.info("")
 
-    client = immich_client()
     registry = load_registry()
 
     pushed = 0
     skipped = 0
 
-    for person in registry.people:
-        if not person.name_en:
-            continue
-        for immich_id in person.immich_person_ids:
-            try:
-                update_person(client, immich_id, name=person.name_en)
-                pushed += 1
-                log.info("  Pushed: %s -> %s", person.name_en, immich_id[:8])
-            except Exception as e:
-                skipped += 1
-                log.warning("  Failed: %s -> %s: %s", person.name_en, immich_id[:8], e)
+    with immich_client() as client:
+        for person in registry.people:
+            if not person.name_en:
+                continue
+            for immich_id in person.immich_person_ids:
+                try:
+                    update_person(client, immich_id, name=person.name_en)
+                    pushed += 1
+                    log.info("  Pushed: %s -> %s", person.name_en, immich_id[:8])
+                except Exception as e:
+                    skipped += 1
+                    log.warning("  Failed: %s -> %s: %s", person.name_en, immich_id[:8], e)
 
     log.info("")
     log.info("  Pushed: %d", pushed)

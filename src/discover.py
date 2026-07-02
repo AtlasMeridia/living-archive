@@ -8,15 +8,16 @@ from . import config
 from .catalog import PHOTO_EXTENSIONS, get_catalog_db, init_catalog
 from .convert import find_photos
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("living_archive")
 
 EXCLUDE_PATTERNS = ["Unsorted Archival", "_ai-layer", "/TIFF/", "/TiIF/"]
 
 
-def find_photo_dirs(root: Path) -> list[Path]:
+def find_photo_dirs(root: Path) -> list[tuple[Path, list[Path]]]:
     """Walk root for leaf directories containing TIFF/JPEG files.
 
-    Skips directories matching EXCLUDE_PATTERNS.
+    Skips directories matching EXCLUDE_PATTERNS. Returns (dir, photos)
+    pairs so callers don't have to re-glob each directory.
     """
     dirs = []
     for dirpath in sorted(root.rglob("*")):
@@ -26,7 +27,7 @@ def find_photo_dirs(root: Path) -> list[Path]:
             continue
         photos = find_photos(dirpath)
         if photos:
-            dirs.append(dirpath)
+            dirs.append((dirpath, photos))
     return dirs
 
 
@@ -53,8 +54,7 @@ def build_batch_work_list(root: Path) -> list[dict]:
     log.info("  Found %d photo directories under %s", len(photo_dirs), root)
 
     work_list = []
-    for d in photo_dirs:
-        photos = find_photos(d)
+    for d, photos in photo_dirs:
         rel_prefix = str(d.relative_to(root))
 
         # Count photos by checking path against catalog (no hashing)

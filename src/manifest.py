@@ -2,14 +2,14 @@
 
 import json
 import logging
-import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
 from . import config
 from .models import InferenceMetadata, PhotoAnalysis, PhotoManifest
+from .util import atomic_write_text
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("living_archive")
 
 
 def run_dir(run_id: str) -> Path:
@@ -38,40 +38,21 @@ def write_manifest(
         },
     }
 
-    out_dir = run_dir(run_id)
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    filename = f"{source_sha256[:12]}.json"
-    out_path = out_dir / filename
-
-    # Atomic write: temp file + rename
-    fd, tmp = tempfile.mkstemp(dir=out_dir, suffix=".tmp")
-    try:
-        with open(fd, "w") as f:
-            json.dump(manifest, f, indent=2, ensure_ascii=False)
-        Path(tmp).rename(out_path)
-    except BaseException:
-        Path(tmp).unlink(missing_ok=True)
-        raise
+    out_path = run_dir(run_id) / f"{source_sha256[:12]}.json"
+    atomic_write_text(out_path, json.dumps(manifest, indent=2, ensure_ascii=False))
 
     # Update catalog (non-fatal — catalog is optional)
     try:
-        from .catalog import get_catalog_db, init_catalog, upsert_asset
-        db_path = get_catalog_db("family")
-        if db_path.parent.exists():
-            conn = init_catalog(db_path)
-            upsert_asset(
-                conn,
-                sha256=source_sha256,
-                path=source_file_rel,
-                content_type="photo",
-                manifest_path=str(out_path.relative_to(config.AI_LAYER_DIR)),
-                run_id=run_id,
-                status="indexed",
-            )
-            conn.close()
+        from .catalog import record_indexed_asset
+        record_indexed_asset(
+            sha256=source_sha256,
+            path=source_file_rel,
+            content_type="photo",
+            manifest_path=str(out_path.relative_to(config.AI_LAYER_DIR)),
+            run_id=run_id,
+        )
     except Exception:
-        log.debug("Catalog update skipped (non-fatal)", exc_info=True)
+        log.warning("Catalog update failed for %s (non-fatal)", out_path.name, exc_info=True)
 
     return out_path
 
@@ -106,33 +87,13 @@ def write_run_meta(
         meta["batch_mode"] = True
         meta["slices"] = batch_slices
 
-    out_dir = config.AI_LAYER_DIR / "runs" / run_id
-    out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / "run_meta.json"
-    out_path.write_text(json.dumps(meta, indent=2, ensure_ascii=False))
-    return out_path
+    out_path = config.AI_LAYER_DIR / "runs" / run_id / "run_meta.json"
+    return atomic_write_text(out_path, json.dumps(meta, indent=2, ensure_ascii=False))
 
 
 def load_manifest(path: Path) -> PhotoManifest:
-    """Load a manifest JSON file as a PhotoManifest model.
-
-    Falls back to raw dict parsing with a warning for incompatible manifests.
-    """
-    data = json.loads(path.read_text())
-    try:
-        return PhotoManifest.model_validate(data)
-    except Exception:
-        log.warning("Failed to validate manifest %s, loading with defaults", path.name)
-        return PhotoManifest.model_validate(data)
-
-
-def update_manifest(run_id: str, sha: str, updates: dict) -> Path:
-    """Merge updates into an existing manifest JSON file."""
-    path = run_dir(run_id) / f"{sha}.json"
-    data = json.loads(path.read_text())
-    data.update(updates)
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
-    return path
+    """Load a manifest JSON file as a PhotoManifest model."""
+    return PhotoManifest.model_validate(json.loads(path.read_text()))
 
 
 def list_manifests(run_id: str) -> list[Path]:

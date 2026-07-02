@@ -30,9 +30,7 @@ def _resolve_volume_alias(path_str: str) -> Path:
     return preferred
 
 # --- API keys ---
-# ANTHROPIC_API_KEY is used by contact_triage.py for direct Haiku calls.
-# The main photo/document pipelines use Max Plan OAuth via src/auth.py.
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+# The photo/document pipelines resolve Anthropic credentials via src/auth.py.
 IMMICH_API_KEY = os.environ.get("IMMICH_API_KEY", "")
 IMMICH_URL = os.environ.get("IMMICH_URL", "http://mneme.local:2283")
 
@@ -62,10 +60,7 @@ AI_LAYER_DIR = DATA_DIR / "photos"
 DOC_AI_LAYER_DIR = DATA_DIR / "documents"
 FAMILY_CATALOG_DB = DATA_DIR / "catalog.db"
 
-# --- Style guide tokens ---
-STYLE_GUIDE_ROOT = Path(os.environ.get(
-    "STYLE_GUIDE_ROOT", os.path.expanduser("~/Projects/atlas-style-guide")
-))
+# --- Paths: conversion workspace (transient, regeneratable) ---
 WORKSPACE_DIR = Path(os.environ.get(
     "WORKSPACE_DIR", str(REPO_ROOT / "private" / "slice_workspace")
 ))
@@ -85,7 +80,6 @@ DOC_SLICE_DIR = _dsp if _dsp.is_absolute() else DOCUMENTS_ROOT / DOC_SLICE_PATH
 # Both pipelines dispatch through the Anthropic SDK using a Max Plan OAuth
 # token (see src/auth.py). Legacy Claude CLI, Codex CLI, Ollama, and direct
 # API paths were removed on 2026-04-21 during the aggressive pare-down.
-MODEL = "claude-sonnet-4-20250514"
 OAUTH_MODEL = os.environ.get("OAUTH_MODEL", "claude-sonnet-4-20250514")
 PROMPT_VERSION = "photo_analysis_v1"
 PROMPT_FILE = REPO_ROOT / "prompts" / f"{PROMPT_VERSION}.txt"
@@ -135,21 +129,6 @@ def setup_logging() -> logging.Logger:
         pass  # Read-only filesystem (e.g. Docker container)
 
     return logger
-
-
-def validate_photo_config() -> list[str]:
-    """Check that photo pipeline config is valid. Returns list of error messages."""
-    errors = []
-    try:
-        from .auth import resolve_token
-        resolve_token()
-    except ValueError as e:
-        errors.append(str(e))
-    if not MEDIA_ROOT.exists():
-        errors.append(f"MEDIA_ROOT not found: {MEDIA_ROOT} (is the NAS mounted?)")
-    if not PROMPT_FILE.exists():
-        errors.append(f"Prompt file not found: {PROMPT_FILE}")
-    return errors
 
 
 def validate_doc_config() -> list[str]:

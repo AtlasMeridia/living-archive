@@ -40,9 +40,8 @@ from .doc_manifest import (
     write_run_meta as write_doc_run_meta,
 )
 from .immich import (
-    _client as immich_client,
-    build_path_lookup,
     create_album,
+    create_client as immich_client,
     date_estimate_to_iso,
     search_assets_by_path,
     update_asset,
@@ -83,6 +82,19 @@ def _cleanup_workspace(workspace: Path) -> None:
     """Remove the workspace directory between slices."""
     if workspace.exists():
         shutil.rmtree(workspace)
+    # Drop the run-scoped parent too once its last slice is gone.
+    try:
+        workspace.parent.rmdir()
+    except OSError:
+        pass
+
+
+def _processed_manifest_stems() -> set[str]:
+    """Return manifest filename stems (sha256[:12]) across all photo runs."""
+    runs_dir = config.AI_LAYER_DIR / "runs"
+    if not runs_dir.exists():
+        return set()
+    return {p.stem for p in runs_dir.glob("*/manifests/*.json")}
 
 
 def _cleanup_workspace_safe(workspace: Path) -> None:
@@ -102,85 +114,84 @@ def _push_to_immich(run_id: str, slice_path: str | None = None) -> dict:
         log.info("  No manifests to push.")
         return {"matched": 0, "updated": 0, "skipped": 0}
 
-    client = immich_client()
+    with immich_client() as client:
+        log.info("  Searching Immich for assets matching '%s'...", slice_path)
+        assets = search_assets_by_path(client, slice_path)
+        log.info("  Found %d assets in Immich.", len(assets))
 
-    log.info("  Searching Immich for assets matching '%s'...", slice_path)
-    assets = search_assets_by_path(client, slice_path)
-    log.info("  Found %d assets in Immich.", len(assets))
+        # Match manifests to assets by exact basename (first occurrence wins).
+        name_lookup: dict[str, str] = {}
+        for asset in assets:
+            name = Path(asset.get("originalPath", "")).name
+            if name and name not in name_lookup:
+                name_lookup[name] = asset["id"]
 
-    path_lookup = build_path_lookup(assets)
+        matched = 0
+        updated = 0
+        skipped = 0
+        needs_review_ids: list[str] = []
+        low_confidence_ids: list[str] = []
 
-    matched = 0
-    updated = 0
-    skipped = 0
-    needs_review_ids: list[str] = []
-    low_confidence_ids: list[str] = []
+        for manifest_path in manifests:
+            m = load_manifest(manifest_path)
+            analysis = m.analysis
 
-    for manifest_path in manifests:
-        m = load_manifest(manifest_path)
-        source_file = m.source_file
-        analysis = m.analysis
+            source_name = Path(m.source_file).name
+            asset_id = name_lookup.get(source_name)
 
-        asset_id = None
-        source_name = Path(source_file).name
-        for immich_path, aid in path_lookup.items():
-            if immich_path.endswith(source_name):
-                asset_id = aid
-                break
+            if not asset_id:
+                log.info("    No Immich match for: %s", source_name)
+                skipped += 1
+                continue
 
-        if not asset_id:
-            log.info("    No Immich match for: %s", source_name)
-            skipped += 1
-            continue
+            matched += 1
 
-        matched += 1
+            date_est = analysis.date_estimate
+            desc = analysis.description_en
+            desc_zh = analysis.description_zh
+            if desc_zh:
+                desc = f"{desc}\n\n{desc_zh}"
 
-        date_est = analysis.date_estimate
-        desc = analysis.description_en
-        desc_zh = analysis.description_zh
-        if desc_zh:
-            desc = f"{desc}\n\n{desc_zh}"
+            try:
+                update_asset(
+                    client,
+                    asset_id,
+                    date_time_original=date_estimate_to_iso(date_est) if date_est else None,
+                    description=desc if desc else None,
+                )
+                updated += 1
+            except Exception as e:
+                log.error("    Failed to update %s: %s", source_name, e)
 
-        try:
-            update_asset(
-                client,
-                asset_id,
-                date_time_original=date_estimate_to_iso(date_est) if date_est else None,
-                description=desc if desc else None,
-            )
-            updated += 1
-        except Exception as e:
-            log.error("    Failed to update %s: %s", source_name, e)
+            confidence = analysis.date_confidence
+            if confidence < config.CONFIDENCE_LOW:
+                low_confidence_ids.append(asset_id)
+            elif confidence < config.CONFIDENCE_HIGH:
+                needs_review_ids.append(asset_id)
 
-        confidence = analysis.date_confidence
-        if confidence < config.CONFIDENCE_LOW:
-            low_confidence_ids.append(asset_id)
-        elif confidence < config.CONFIDENCE_HIGH:
-            needs_review_ids.append(asset_id)
+        if needs_review_ids:
+            try:
+                create_album(
+                    client,
+                    f"Needs Review (run {run_id[:13]})",
+                    description=f"Photos with date confidence {config.CONFIDENCE_LOW}-{config.CONFIDENCE_HIGH}",
+                    asset_ids=needs_review_ids,
+                )
+                log.info("  Created 'Needs Review' album with %d photos", len(needs_review_ids))
+            except Exception as e:
+                log.error("  Failed to create Needs Review album: %s", e)
 
-    if needs_review_ids:
-        try:
-            create_album(
-                client,
-                f"Needs Review (run {run_id[:13]})",
-                description=f"Photos with date confidence {config.CONFIDENCE_LOW}-{config.CONFIDENCE_HIGH}",
-                asset_ids=needs_review_ids,
-            )
-            log.info("  Created 'Needs Review' album with %d photos", len(needs_review_ids))
-        except Exception as e:
-            log.error("  Failed to create Needs Review album: %s", e)
-
-    if low_confidence_ids:
-        try:
-            create_album(
-                client,
-                f"Low Confidence (run {run_id[:13]})",
-                description=f"Photos with date confidence below {config.CONFIDENCE_LOW}",
-                asset_ids=low_confidence_ids,
-            )
-            log.info("  Created 'Low Confidence' album with %d photos", len(low_confidence_ids))
-        except Exception as e:
-            log.error("  Failed to create Low Confidence album: %s", e)
+        if low_confidence_ids:
+            try:
+                create_album(
+                    client,
+                    f"Low Confidence (run {run_id[:13]})",
+                    description=f"Photos with date confidence below {config.CONFIDENCE_LOW}",
+                    asset_ids=low_confidence_ids,
+                )
+                log.info("  Created 'Low Confidence' album with %d photos", len(low_confidence_ids))
+            except Exception as e:
+                log.error("  Failed to create Low Confidence album: %s", e)
 
     return {"matched": matched, "updated": updated, "skipped": skipped}
 
@@ -210,68 +221,57 @@ def process_slice(
             "photos_considered": 0,
             "succeeded": 0,
             "failed": 0,
+            "failures": [],
             "elapsed": 0,
             "budget_exhausted": False,
         }
 
     log.info("  Found %d photos. Preparing...", len(sources))
 
-    workspace = _workspace_for_slice(run_id, slice_path)
-    workspace.mkdir(parents=True, exist_ok=True)
-
-    photos = []
+    # Hash and skip already-processed photos BEFORE any conversion work.
+    processed_stems = _processed_manifest_stems()
+    unprocessed = []
     for src in sources:
-        rel = src.relative_to(config.MEDIA_ROOT)
-        jpeg_name = src.stem + ".jpg"
-        jpeg_path = workspace / jpeg_name
         sha = sha256_file(src)
-
-        if needs_conversion(src):
-            prepare_for_analysis(src, jpeg_path)
-        else:
-            jpeg_path.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(src, jpeg_path)
-
-        photos.append({
+        if sha[:12] in processed_stems:
+            log.info("  Skipping (already processed): %s", src.name)
+            continue
+        unprocessed.append({
             "source_path": src,
-            "jpeg_path": jpeg_path,
             "sha256": sha,
-            "rel_path": str(rel),
+            "rel_path": str(src.relative_to(config.MEDIA_ROOT)),
         })
 
-    # Check for already-processed photos (skip them)
-    unprocessed = []
-    for photo in photos:
-        manifest_name = f"{photo['sha256'][:12]}.json"
-        ai_runs = config.AI_LAYER_DIR / "runs"
-        already_done = False
-        if ai_runs.exists():
-            for run_dir in ai_runs.iterdir():
-                if (run_dir / "manifests" / manifest_name).exists():
-                    already_done = True
-                    break
-        if already_done:
-            log.info("  Skipping (already processed): %s", Path(photo["rel_path"]).name)
-        else:
-            unprocessed.append(photo)
-
     if not unprocessed:
-        log.info("  All %d photos already processed, skipping slice.", len(photos))
-        _cleanup_workspace_safe(workspace)
+        log.info("  All %d photos already processed, skipping slice.", len(sources))
         return {
             "slice_path": slice_path,
             "photos_found": len(sources),
-            "photos_considered": len(photos),
+            "photos_considered": len(sources),
             "succeeded": 0,
             "failed": 0,
+            "failures": [],
             "elapsed": time.time() - start,
             "budget_exhausted": False,
         }
 
-    log.info("  %d to analyze (%d already done).", len(unprocessed), len(photos) - len(unprocessed))
+    log.info("  %d to analyze (%d already done).", len(unprocessed), len(sources) - len(unprocessed))
+
+    workspace = _workspace_for_slice(run_id, slice_path)
+    workspace.mkdir(parents=True, exist_ok=True)
+
+    for photo in unprocessed:
+        src = photo["source_path"]
+        jpeg_path = workspace / (src.stem + ".jpg")
+        if needs_conversion(src):
+            prepare_for_analysis(src, jpeg_path)
+        else:
+            shutil.copy2(src, jpeg_path)
+        photo["jpeg_path"] = jpeg_path
 
     succeeded = 0
     failed = 0
+    failures: list[dict] = []
     budget_exhausted = False
 
     for i, photo in enumerate(unprocessed):
@@ -299,6 +299,11 @@ def process_slice(
                      analysis.date_estimate or "?", analysis.date_confidence)
         except Exception as e:
             failed += 1
+            failures.append({
+                "source_file": photo["rel_path"],
+                "sha256": photo["sha256"],
+                "error": f"{type(e).__name__}: {e}",
+            })
             log.error("           -> FAILED: %s", e)
 
         if i < len(unprocessed) - 1:
@@ -324,9 +329,10 @@ def process_slice(
     return {
         "slice_path": slice_path,
         "photos_found": len(sources),
-        "photos_considered": len(photos),
+        "photos_considered": len(sources),
         "succeeded": succeeded,
         "failed": failed,
+        "failures": failures,
         "elapsed": round(elapsed, 1),
         "budget_exhausted": budget_exhausted,
     }
@@ -476,7 +482,7 @@ def run_photo(args: argparse.Namespace) -> int:
         total=total_succeeded + total_failed,
         succeeded=total_succeeded,
         failed=total_failed,
-        failures=[],
+        failures=[f for r in results for f in r.get("failures", [])],
         elapsed_seconds=total_elapsed,
         slice_path="batch",
         batch_slices=[{

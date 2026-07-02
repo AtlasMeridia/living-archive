@@ -49,38 +49,41 @@ class TestResolveToken:
         hermes_env = tmp_path / ".env"
         hermes_env.write_text("# nothing useful\n")
 
-        with patch("src.auth._HERMES_ENV", hermes_env):
+        # Patch _HERMES_HOME too so the real ~/.hermes/profiles/*/.env
+        # files on a dev machine can't satisfy the lookup.
+        with patch("src.auth._HERMES_HOME", tmp_path), \
+             patch("src.auth._HERMES_ENV", hermes_env):
             with pytest.raises(ValueError, match="No Anthropic credential"):
                 resolve_token()
 
 
 class TestReadHermesEnv:
-    """Low-level .env parser."""
+    """Low-level .env parser. Returns (value, source_path) tuples."""
 
     def test_reads_key(self, tmp_path):
         env_file = tmp_path / ".env"
         env_file.write_text('FOO=bar\nCLAUDE_CODE_OAUTH_TOKEN=mytoken\nBAZ=qux\n')
         with patch("src.auth._HERMES_ENV", env_file):
-            assert _read_hermes_env("CLAUDE_CODE_OAUTH_TOKEN") == "mytoken"
-            assert _read_hermes_env("FOO") == "bar"
-            assert _read_hermes_env("MISSING") == ""
+            assert _read_hermes_env("CLAUDE_CODE_OAUTH_TOKEN") == ("mytoken", str(env_file))
+            assert _read_hermes_env("FOO") == ("bar", str(env_file))
+            assert _read_hermes_env("MISSING") == ("", "")
 
     def test_strips_quotes(self, tmp_path):
         env_file = tmp_path / ".env"
         env_file.write_text('TOKEN="quoted-value"\n')
         with patch("src.auth._HERMES_ENV", env_file):
-            assert _read_hermes_env("TOKEN") == "quoted-value"
+            assert _read_hermes_env("TOKEN") == ("quoted-value", str(env_file))
 
     def test_skips_comments(self, tmp_path):
         env_file = tmp_path / ".env"
         env_file.write_text('# CLAUDE_CODE_OAUTH_TOKEN=fake\nCLAUDE_CODE_OAUTH_TOKEN=real\n')
         with patch("src.auth._HERMES_ENV", env_file):
-            assert _read_hermes_env("CLAUDE_CODE_OAUTH_TOKEN") == "real"
+            assert _read_hermes_env("CLAUDE_CODE_OAUTH_TOKEN") == ("real", str(env_file))
 
     def test_missing_file(self, tmp_path):
         missing = tmp_path / "nonexistent"
         with patch("src.auth._HERMES_ENV", missing):
-            assert _read_hermes_env("ANYTHING") == ""
+            assert _read_hermes_env("ANYTHING") == ("", "")
 
 
 class TestGetClient:
@@ -92,7 +95,6 @@ class TestGetClient:
         # Reset module cache
         import src.auth
         src.auth._client = None
-        src.auth._client_source = ""
 
         client = get_client()
         assert client is not None
@@ -103,7 +105,6 @@ class TestGetClient:
 
         # Clean up
         src.auth._client = None
-        src.auth._client_source = ""
 
     def test_raises_without_credentials(self, monkeypatch, tmp_path):
         """get_client() raises when no credentials are available."""
@@ -112,15 +113,14 @@ class TestGetClient:
 
         import src.auth
         src.auth._client = None
-        src.auth._client_source = ""
 
         hermes_env = tmp_path / ".env"
         hermes_env.write_text("")
 
-        with patch("src.auth._HERMES_ENV", hermes_env):
+        with patch("src.auth._HERMES_HOME", tmp_path), \
+             patch("src.auth._HERMES_ENV", hermes_env):
             with pytest.raises(ValueError):
                 get_client()
 
         # Clean up
         src.auth._client = None
-        src.auth._client_source = ""

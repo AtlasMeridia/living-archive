@@ -6,6 +6,7 @@ import logging
 from datetime import datetime, timezone
 
 from . import config
+from .inference import create_message, strip_json_fences
 from .models import DocumentAnalysis, DocumentInferenceMetadata
 
 log = logging.getLogger("living_archive")
@@ -21,18 +22,6 @@ def _build_prompt(source_file: str, page_count: int, text: str) -> str:
     )
 
 
-def _strip_json_fences(text: str) -> str:
-    """Strip markdown code fences from a JSON response."""
-    text = text.strip()
-    if text.startswith("```"):
-        lines = text.split("\n")
-        lines = lines[1:]
-        if lines and lines[-1].strip() == "```":
-            lines = lines[:-1]
-        text = "\n".join(lines)
-    return text
-
-
 @config.retry()
 def analyze_document(
     text: str,
@@ -40,25 +29,13 @@ def analyze_document(
     page_count: int,
 ) -> tuple[DocumentAnalysis, DocumentInferenceMetadata]:
     """Analyze a document via the Anthropic SDK using Max Plan OAuth credentials."""
-    from .auth import get_client, is_oauth, OAUTH_SYSTEM_PREFIX
-
-    client = get_client()
     prompt = _build_prompt(source_file, page_count, text)
 
-    kwargs = {}
-    if is_oauth():
-        kwargs["system"] = OAUTH_SYSTEM_PREFIX
-
     log.debug("OAuth SDK: analyzing %s (%d pages)", source_file, page_count)
-    response = client.messages.create(
-        model=config.OAUTH_MODEL,
-        max_tokens=4096,
-        messages=[{"role": "user", "content": prompt}],
-        **kwargs,
-    )
+    response = create_message([{"role": "user", "content": prompt}])
 
     raw_text = response.content[0].text
-    analysis = DocumentAnalysis.model_validate_json(_strip_json_fences(raw_text))
+    analysis = DocumentAnalysis.model_validate_json(strip_json_fences(raw_text))
 
     inference = DocumentInferenceMetadata(
         method="auto",

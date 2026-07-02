@@ -169,19 +169,17 @@ OAUTH_SYSTEM_PREFIX = "You are Claude Code, Anthropic's official CLI for Claude.
 
 # Module-level cached client
 _client: Optional[anthropic.Anthropic] = None
-_client_source: str = ""
 _client_is_oauth: bool = False
 
 
 def get_client() -> anthropic.Anthropic:
     """Return a cached Anthropic client using the resolved credential."""
-    global _client, _client_source, _client_is_oauth
+    global _client, _client_is_oauth
     if _client is not None:
         return _client
 
-    token, source = resolve_token()
+    token, _source = resolve_token()
     _client = _build_client(token)
-    _client_source = source
     _client_is_oauth = _is_oauth_token(token)
     return _client
 
@@ -189,8 +187,3 @@ def get_client() -> anthropic.Anthropic:
 def is_oauth() -> bool:
     """Return True if the current client is using OAuth (needs system prefix)."""
     return _client_is_oauth
-
-
-def get_client_source() -> str:
-    """Return the source of the current client's credential."""
-    return _client_source

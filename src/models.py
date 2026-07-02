@@ -83,12 +83,6 @@ class DocumentAnalysis(BaseModel):
     quality: str = ""
 
 
-class DocumentExtraction(BaseModel):
-    model_config = ConfigDict(extra="ignore")
-
-    text_file: str = ""
-
-
 class DocumentInferenceMetadata(BaseModel):
     method: str = ""
     provider: str = ""
@@ -98,17 +92,6 @@ class DocumentInferenceMetadata(BaseModel):
     input_tokens: int = 0
     output_tokens: int = 0
     estimated_input_tokens: int = 0
-    chunk_count: int = 1
-
-
-class DocumentManifest(BaseModel):
-    source_file: str = ""
-    source_sha256: str = ""
-    file_size_bytes: int = 0
-    page_count: int = 0
-    extraction: DocumentExtraction = DocumentExtraction()
-    analysis: DocumentAnalysis = DocumentAnalysis()
-    inference: DocumentInferenceMetadata = DocumentInferenceMetadata()
 
 
 # --- People registry models ---

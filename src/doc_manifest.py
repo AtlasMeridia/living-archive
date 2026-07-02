@@ -2,13 +2,13 @@
 
 import json
 import logging
-import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
 from . import config
+from .util import atomic_write_text
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("living_archive")
 
 
 def run_dir(run_id: str) -> Path:
@@ -37,7 +37,7 @@ def write_manifest(
     If inference is provided, it's used as-is. Otherwise a default is generated.
     """
     default_inference = {
-        "method": "claude-code",
+        "method": "auto",
         "prompt_version": config.DOC_PROMPT_VERSION,
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
@@ -54,41 +54,22 @@ def write_manifest(
         "inference": inference if inference is not None else default_inference,
     }
 
-    out_dir = run_dir(run_id)
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    filename = f"{source_sha256[:12]}.json"
-    out_path = out_dir / filename
-
-    # Atomic write: temp file + rename
-    fd, tmp = tempfile.mkstemp(dir=out_dir, suffix=".tmp")
-    try:
-        with open(fd, "w") as f:
-            json.dump(manifest, f, indent=2, ensure_ascii=False)
-        Path(tmp).rename(out_path)
-    except BaseException:
-        Path(tmp).unlink(missing_ok=True)
-        raise
+    out_path = run_dir(run_id) / f"{source_sha256[:12]}.json"
+    atomic_write_text(out_path, json.dumps(manifest, indent=2, ensure_ascii=False))
 
     # Update catalog (non-fatal — catalog is optional)
     try:
-        from .catalog import get_catalog_db, init_catalog, upsert_asset
-        db_path = get_catalog_db("family")
-        if db_path.parent.exists():
-            conn = init_catalog(db_path)
-            upsert_asset(
-                conn,
-                sha256=source_sha256,
-                path=source_file_rel,
-                content_type="document",
-                file_size=file_size_bytes,
-                manifest_path=str(out_path.relative_to(config.DOC_AI_LAYER_DIR)),
-                run_id=run_id,
-                status="indexed",
-            )
-            conn.close()
+        from .catalog import record_indexed_asset
+        record_indexed_asset(
+            sha256=source_sha256,
+            path=source_file_rel,
+            content_type="document",
+            manifest_path=str(out_path.relative_to(config.DOC_AI_LAYER_DIR)),
+            run_id=run_id,
+            file_size=file_size_bytes,
+        )
     except Exception:
-        log.debug("Catalog update skipped (non-fatal)", exc_info=True)
+        log.warning("Catalog update failed for %s (non-fatal)", out_path.name, exc_info=True)
 
     return out_path
 
@@ -98,23 +79,7 @@ def write_extracted_text(run_id: str, sha256: str, text: str) -> Path:
 
     Returns the path to the written file.
     """
-    out_dir = text_dir(run_id)
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    filename = f"{sha256[:12]}.txt"
-    out_path = out_dir / filename
-
-    # Atomic write
-    fd, tmp = tempfile.mkstemp(dir=out_dir, suffix=".tmp")
-    try:
-        with open(fd, "w") as f:
-            f.write(text)
-        Path(tmp).rename(out_path)
-    except BaseException:
-        Path(tmp).unlink(missing_ok=True)
-        raise
-
-    return out_path
+    return atomic_write_text(text_dir(run_id) / f"{sha256[:12]}.txt", text)
 
 
 def write_run_meta(
@@ -125,7 +90,7 @@ def write_run_meta(
     skipped: int,
     failures: list[dict],
     elapsed_seconds: float,
-    method: str = "claude-code",
+    method: str = "auto",
     provider: str = "",
     usage: dict | None = None,
     batch_size: int = 0,
@@ -152,11 +117,8 @@ def write_run_meta(
     if usage:
         meta["usage"] = usage
 
-    out_dir = config.DOC_AI_LAYER_DIR / "runs" / run_id
-    out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / "run_meta.json"
-    out_path.write_text(json.dumps(meta, indent=2, ensure_ascii=False))
-    return out_path
+    out_path = config.DOC_AI_LAYER_DIR / "runs" / run_id / "run_meta.json"
+    return atomic_write_text(out_path, json.dumps(meta, indent=2, ensure_ascii=False))
 
 
 def load_manifest(path: Path) -> dict:

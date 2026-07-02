@@ -115,6 +115,39 @@ def upsert_asset(
     conn.commit()
 
 
+def record_indexed_asset(
+    *,
+    sha256: str,
+    path: str,
+    content_type: str,
+    manifest_path: str,
+    run_id: str,
+    file_size: int | None = None,
+) -> None:
+    """Upsert a freshly-written manifest into the family catalog.
+
+    No-op if the data directory doesn't exist yet. Callers treat catalog
+    updates as optional — wrap in try/except and keep going on failure.
+    """
+    db_path = get_catalog_db("family")
+    if not db_path.parent.exists():
+        return
+    conn = init_catalog(db_path)
+    try:
+        upsert_asset(
+            conn,
+            sha256=sha256,
+            path=path,
+            content_type=content_type,
+            file_size=file_size,
+            manifest_path=manifest_path,
+            run_id=run_id,
+            status="indexed",
+        )
+    finally:
+        conn.close()
+
+
 def set_meta(conn: sqlite3.Connection, key: str, value: str) -> None:
     """Insert or update a catalog_meta key."""
     conn.execute(

@@ -122,26 +122,16 @@ def check_immich(url: str | None = None, api_key: str | None = None) -> bool:
 
     try:
         resp = httpx.get(
-            f"{url}/api/server/ping",
+            f"{url}/api/server/version",
             headers={"x-api-key": api_key},
             timeout=5.0,
         )
-        if resp.status_code == 200 and resp.json().get("res") == "pong":
-            # Also check auth by hitting a protected endpoint
-            auth_resp = httpx.get(
-                f"{url}/api/server/version",
-                headers={"x-api-key": api_key},
-                timeout=5.0,
-            )
-            if auth_resp.status_code == 200:
-                v = auth_resp.json()
-                log.info("  Immich reachable: %s (v%s.%s.%s)",
-                         url, v.get("major"), v.get("minor"), v.get("patch"))
-                return True
-            log.error("  Immich reachable but API key rejected (HTTP %d)", auth_resp.status_code)
-            return False
-
-        log.error("  Immich unexpected response: HTTP %d", resp.status_code)
+        if resp.status_code == 200:
+            v = resp.json()
+            log.info("  Immich reachable: %s (v%s.%s.%s)",
+                     url, v.get("major"), v.get("minor"), v.get("patch"))
+            return True
+        log.error("  Immich reachable but API key rejected (HTTP %d)", resp.status_code)
         return False
     except httpx.ConnectError:
         log.error("  Immich unreachable: %s (connection refused)", url)

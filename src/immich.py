@@ -8,7 +8,8 @@ from .config import retry
 TIMEOUT = 30.0
 
 
-def _client() -> httpx.Client:
+def create_client() -> httpx.Client:
+    """Create an Immich API client. Use as a context manager so it gets closed."""
     return httpx.Client(
         base_url=config.IMMICH_URL.rstrip("/") + "/api",
         headers={"x-api-key": config.IMMICH_API_KEY},
@@ -40,11 +41,6 @@ def search_assets_by_path(client: httpx.Client, path_prefix: str) -> list[dict]:
             break
         page += 1
     return assets
-
-
-def build_path_lookup(assets: list[dict]) -> dict[str, str]:
-    """Build a mapping from originalPath -> assetId."""
-    return {asset.get("originalPath", ""): asset["id"] for asset in assets}
 
 
 @retry()

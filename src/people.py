@@ -7,6 +7,7 @@ from pathlib import Path
 
 from . import config
 from .models import PeopleRegistry, Person
+from .util import atomic_write_text
 
 PEOPLE_DIR = config.DATA_DIR / "people"
 REGISTRY_PATH = PEOPLE_DIR / "registry.json"
@@ -21,11 +22,9 @@ def load_registry() -> PeopleRegistry:
 
 def save_registry(registry: PeopleRegistry) -> Path:
     """Atomically write the people registry to disk."""
-    PEOPLE_DIR.mkdir(parents=True, exist_ok=True)
-    tmp = REGISTRY_PATH.with_suffix(".tmp")
-    tmp.write_text(json.dumps(registry.model_dump(), indent=2, ensure_ascii=False))
-    tmp.rename(REGISTRY_PATH)
-    return REGISTRY_PATH
+    return atomic_write_text(
+        REGISTRY_PATH, json.dumps(registry.model_dump(), indent=2, ensure_ascii=False)
+    )
 
 
 def add_person(

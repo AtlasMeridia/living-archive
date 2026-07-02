@@ -1,15 +1,16 @@
 """Claude vision analysis via OAuth SDK (Max Plan)."""
 
 import base64
-import json
 import logging
 from pathlib import Path
 
 from . import config
-from .auth import get_client, is_oauth, OAUTH_SYSTEM_PREFIX
+from .inference import create_message, strip_json_fences
 from .models import InferenceMetadata, PhotoAnalysis
 
 log = logging.getLogger("living_archive")
+
+__all__ = ["analyze_photo", "encode_image", "load_prompt", "strip_json_fences"]
 
 
 def load_prompt(folder_hint: str) -> str:
@@ -23,53 +24,31 @@ def encode_image(path: Path) -> str:
     return base64.standard_b64encode(path.read_bytes()).decode("utf-8")
 
 
-def strip_json_fences(text: str) -> str:
-    """Strip markdown code fences from a JSON response."""
-    text = text.strip()
-    if text.startswith("```"):
-        lines = text.split("\n")
-        lines = lines[1:]
-        if lines and lines[-1].strip() == "```":
-            lines = lines[:-1]
-        text = "\n".join(lines)
-    return text
-
-
 @config.retry()
 def analyze_photo(
     jpeg_path: Path,
     folder_hint: str,
 ) -> tuple[PhotoAnalysis, InferenceMetadata]:
     """Analyze a photo via the Anthropic SDK using Max Plan OAuth credentials."""
-    client = get_client()
     prompt = load_prompt(folder_hint)
     image_data = encode_image(jpeg_path)
 
-    kwargs = {}
-    if is_oauth():
-        kwargs["system"] = OAUTH_SYSTEM_PREFIX
-
-    response = client.messages.create(
-        model=config.OAUTH_MODEL,
-        max_tokens=4096,
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "image",
-                        "source": {
-                            "type": "base64",
-                            "media_type": "image/jpeg",
-                            "data": image_data,
-                        },
+    response = create_message([
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "image",
+                    "source": {
+                        "type": "base64",
+                        "media_type": "image/jpeg",
+                        "data": image_data,
                     },
-                    {"type": "text", "text": prompt},
-                ],
-            }
-        ],
-        **kwargs,
-    )
+                },
+                {"type": "text", "text": prompt},
+            ],
+        }
+    ])
 
     raw_text = response.content[0].text
     analysis = PhotoAnalysis.model_validate_json(strip_json_fences(raw_text))
