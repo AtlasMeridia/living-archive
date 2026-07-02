@@ -63,3 +63,7 @@ __pycache__/
 
 # Stray root-level catalog (real one lives in data/)
 /catalog.db
+
+# Experiment 0008 run artifacts (contain family photo analyses)
+experiments/0008-grok-photo-pilot/workspace/
+experiments/0008-grok-photo-pilot/runs/
