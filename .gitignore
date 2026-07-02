@@ -60,3 +60,6 @@ __pycache__/
 # *.png
 # *.tiff
 # *.pdf
+
+# Stray root-level catalog (real one lives in data/)
+/catalog.db

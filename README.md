@@ -32,8 +32,8 @@ AI outputs are versioned per inference run and designed to be regenerated as mod
 # Clone and set up
 git clone https://github.com/AtlasMeridia/living-archive.git
 cd living-archive
-python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
+uv sync --extra dev   # or: python -m venv .venv && pip install -e ".[dev]"
+source .venv/bin/activate
 
 # Configure (copy and fill in API keys, NAS paths)
 cp .env.example .env
