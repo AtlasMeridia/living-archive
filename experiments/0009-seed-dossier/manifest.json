@@ -18,7 +18,7 @@
   "phases": [
     {"id": "p0", "name": "synthetic-contract", "status": "complete"},
     {"id": "p1", "name": "private-pilot-discovery", "status": "complete"},
-    {"id": "p2", "name": "source-regrounding", "status": "blocked"},
+    {"id": "p2", "name": "source-regrounding", "status": "in_progress"},
     {"id": "p3", "name": "human-value-evaluation", "status": "pending"}
   ],
   "data_sources": [
@@ -32,20 +32,29 @@
   "outputs": [
     "brief.md",
     "seed-dossier.schema.json",
+    "source-verification.schema.json",
     "requirements-dev.txt",
     "src/common.py",
     "src/discovery.py",
+    "src/original_inspection.py",
     "src/source_reader.py",
     "src/seed_dossier.py",
+    "src/source_verification.py",
     "src/validation.py",
+    "src/verification_io.py",
+    "src/verification_validation.py",
+    "src/verify_originals.py",
     "tests/test_seed_dossier.py",
+    "tests/test_verify_originals.py",
     "runs/README.md",
-    "runs/p1-private-pilot/summary.md"
+    "runs/p1-private-pilot/summary.md",
+    "runs/p2-source-regrounding/summary.md"
   ],
-  "blocked_reasons": {
+  "open_gates": {
     "p2": [
-      "MNEME source storage is currently unavailable",
-      "Known credential logging exposure must be remediated before source processing resumes"
+      "Curator-select any useful photo region; do not infer one from Phase 1",
+      "Adjudicate anchored page content before proposing a historical observation",
+      "Keep claim candidates and accepted claims empty until that review"
     ]
   }
 }

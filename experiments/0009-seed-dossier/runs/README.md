@@ -7,3 +7,7 @@ directory.
 This directory may contain aggregate, redacted phase reports only. Reports must
 not include source filenames, excerpts, addresses, identifiers, or other private
 family material.
+
+Phase 2 receipts are append-only overlays on the immutable Phase 1 dossier.
+They retain hashes and privacy-safe locator references but never source paths,
+excerpts, page text, crops, subject labels, or accepted claims.

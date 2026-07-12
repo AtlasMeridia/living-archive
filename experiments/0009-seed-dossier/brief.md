@@ -123,6 +123,31 @@ anchors.
 **Gate:** Every displayed material claim resolves to original evidence. Legacy
 synthesis supports no claim.
 
+**Checkpoint (2026-07-12):** Source access is restored through the dedicated
+read-only SMB identity. The first append-only verification receipt matched
+three explicitly selected originals by SHA-256, created two PDF identity
+anchors and one PDF page anchor, and accepted no claim. No photo region was
+inferred: Phase 1 contains no trustworthy region geometry, so the verifier
+requires a curator-supplied pixel region. Phase 2 remains in progress until
+content at the page anchor is adjudicated and any photo region is deliberately
+selected.
+
+The Phase 1 dossier remains immutable. Phase 2 writes a separate private
+receipt:
+
+```text
+python experiments/0009-seed-dossier/src/verify_originals.py \
+  --dossier experiments/0009-seed-dossier/runs/private/DOSSIER.json \
+  --documents-root /read-only/family/Documents \
+  --media-root /read-only/family/Media \
+  --asset-sha256 SHA256
+```
+
+High-sensitivity candidates require an exact, repeated
+`--allow-high-sensitivity SHA256` approval. Photo regions are never fabricated;
+they must be provided as `--image-region SHA256:X:Y:WIDTH:HEIGHT` in the
+EXIF-oriented source-pixel coordinate space.
+
 ### Phase 3 - Human-value evaluation
 
 Present the evidence-backed packet and its generated research queue to the
