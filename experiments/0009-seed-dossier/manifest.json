@@ -1,0 +1,60 @@
+{
+  "experiment_id": "0009",
+  "name": "seed-dossier",
+  "status": "active",
+  "created": "2026-07-11",
+  "question": "Can existing derived data bootstrap an evidence-addressable person-period research packet before asking family members to re-enter basic facts?",
+  "pilot": {
+    "subject": "supplied privately at runtime",
+    "period": "bounded runtime value"
+  },
+  "tags": [
+    "computational-microhistory",
+    "research-workbench",
+    "provenance",
+    "privacy",
+    "human-in-the-loop"
+  ],
+  "phases": [
+    {"id": "p0", "name": "synthetic-contract", "status": "complete"},
+    {"id": "p1", "name": "private-pilot-discovery", "status": "complete"},
+    {"id": "p2", "name": "source-regrounding", "status": "in_progress"},
+    {"id": "p3", "name": "human-value-evaluation", "status": "pending"}
+  ],
+  "data_sources": [
+    "data/catalog.db",
+    "data/synthesis.db",
+    "data/documents/runs/*/manifests/*.json",
+    "data/documents/runs/*/extracted-text/*.txt",
+    "data/photos/runs/*/manifests/*.json",
+    "data/people/registry.json"
+  ],
+  "outputs": [
+    "brief.md",
+    "seed-dossier.schema.json",
+    "source-verification.schema.json",
+    "requirements-dev.txt",
+    "src/common.py",
+    "src/discovery.py",
+    "src/original_inspection.py",
+    "src/source_reader.py",
+    "src/seed_dossier.py",
+    "src/source_verification.py",
+    "src/validation.py",
+    "src/verification_io.py",
+    "src/verification_validation.py",
+    "src/verify_originals.py",
+    "tests/test_seed_dossier.py",
+    "tests/test_verify_originals.py",
+    "runs/README.md",
+    "runs/p1-private-pilot/summary.md",
+    "runs/p2-source-regrounding/summary.md"
+  ],
+  "open_gates": {
+    "p2": [
+      "Curator-select any useful photo region; do not infer one from Phase 1",
+      "Adjudicate anchored page content before proposing a historical observation",
+      "Keep claim candidates and accepted claims empty until that review"
+    ]
+  }
+}
