@@ -1,0 +1,456 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "living-archive/experiments/0009-seed-dossier/source-verification.schema.json",
+  "title": "Living Archive Source Verification Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "verification_id",
+    "generated_at",
+    "read_only",
+    "human_verified",
+    "visibility",
+    "phase1_receipt",
+    "producer",
+    "source_access",
+    "selection",
+    "authority_rules",
+    "summary",
+    "verifications",
+    "accepted_claims",
+    "warnings"
+  ],
+  "properties": {
+    "schema_version": {"const": "source-verification-v0.1"},
+    "verification_id": {"type": "string", "minLength": 1},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "read_only": {"const": true},
+    "human_verified": {"const": false},
+    "visibility": {"const": "curator"},
+    "phase1_receipt": {"$ref": "#/$defs/phase1Receipt"},
+    "producer": {"$ref": "#/$defs/producer"},
+    "source_access": {"$ref": "#/$defs/sourceAccess"},
+    "selection": {"$ref": "#/$defs/selection"},
+    "authority_rules": {"$ref": "#/$defs/authorityRules"},
+    "summary": {"$ref": "#/$defs/summary"},
+    "verifications": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/verification"}
+    },
+    "accepted_claims": {"type": "array", "maxItems": 0},
+    "warnings": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/warningCode"}
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "warningCode": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$"
+    },
+    "phase1Receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dossier_id",
+        "dossier_schema_version",
+        "dossier_sha256",
+        "dossier_byte_count"
+      ],
+      "properties": {
+        "dossier_id": {"type": "string", "minLength": 1},
+        "dossier_schema_version": {"const": "seed-dossier-v0.1"},
+        "dossier_sha256": {"$ref": "#/$defs/sha256"},
+        "dossier_byte_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "experiment_git",
+        "contract_sha256",
+        "python_version",
+        "pypdf_version",
+        "pillow_version"
+      ],
+      "properties": {
+        "experiment_git": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["commit", "dirty", "status_sha256", "dirty_diff_sha256"],
+          "properties": {
+            "commit": {"type": ["string", "null"]},
+            "dirty": {"type": ["boolean", "null"]},
+            "status_sha256": {
+              "oneOf": [
+                {"$ref": "#/$defs/sha256"},
+                {"type": "null"}
+              ]
+            },
+            "dirty_diff_sha256": {
+              "oneOf": [
+                {"$ref": "#/$defs/sha256"},
+                {"type": "null"}
+              ]
+            }
+          }
+        },
+        "contract_sha256": {"$ref": "#/$defs/sha256"},
+        "python_version": {"type": "string", "minLength": 1},
+        "pypdf_version": {"type": "string", "minLength": 1},
+        "pillow_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "sourceAccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol",
+        "user",
+        "host",
+        "share",
+        "identity_verified",
+        "server_acl_verification"
+      ],
+      "properties": {
+        "protocol": {"const": "smb"},
+        "user": {"const": "living_archive_ro"},
+        "host": {"const": "mneme.local"},
+        "share": {"const": "MNEME"},
+        "identity_verified": {"const": true},
+        "server_acl_verification": {"const": "external_prerequisite"}
+      }
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requested_asset_sha256s",
+        "high_sensitivity_approvals"
+      ],
+      "properties": {
+        "requested_asset_sha256s": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        },
+        "high_sensitivity_approvals": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "authorityRules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derived_layers",
+        "hash_verification",
+        "pdf_page_anchor",
+        "image_region_anchor",
+        "accepted_claims"
+      ],
+      "properties": {
+        "derived_layers": {"const": "locator_only"},
+        "hash_verification": {"const": "asset_identity_only"},
+        "pdf_page_anchor": {"const": "locator_only_until_content_review"},
+        "image_region_anchor": {
+          "const": "locator_only_not_subject_identity"
+        },
+        "accepted_claims": {"const": "none"}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_assets",
+        "resolved_originals",
+        "hash_verified_originals",
+        "pdf_document_anchors",
+        "pdf_page_anchors",
+        "image_region_anchors",
+        "claim_ready_assets",
+        "accepted_claims",
+        "mutations_detected",
+        "failed_assets",
+        "high_sensitivity_assets"
+      ],
+      "properties": {
+        "selected_assets": {"type": "integer", "minimum": 0},
+        "resolved_originals": {"type": "integer", "minimum": 0},
+        "hash_verified_originals": {"type": "integer", "minimum": 0},
+        "pdf_document_anchors": {"type": "integer", "minimum": 0},
+        "pdf_page_anchors": {"type": "integer", "minimum": 0},
+        "image_region_anchors": {"type": "integer", "minimum": 0},
+        "claim_ready_assets": {"const": 0},
+        "accepted_claims": {"const": 0},
+        "mutations_detected": {"type": "integer", "minimum": 0},
+        "failed_assets": {"type": "integer", "minimum": 0},
+        "high_sensitivity_assets": {"type": "integer", "minimum": 0}
+      }
+    },
+    "sourceLocatorRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root_role", "relative_path_sha256", "locator_source"],
+      "properties": {
+        "root_role": {"enum": ["documents_root", "media_root"]},
+        "relative_path_sha256": {"$ref": "#/$defs/sha256"},
+        "locator_source": {
+          "const": "base_dossier.candidate_assets.source_files"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_sha256",
+        "media_type",
+        "sensitivity",
+        "source_locator_ref",
+        "status",
+        "hash_verified",
+        "unchanged_after_read",
+        "anchors",
+        "claim_ready",
+        "human_verified",
+        "visibility",
+        "warnings"
+      ],
+      "properties": {
+        "asset_sha256": {"$ref": "#/$defs/sha256"},
+        "media_type": {"enum": ["document", "photo"]},
+        "sensitivity": {"enum": ["high", "review"]},
+        "source_locator_ref": {"$ref": "#/$defs/sourceLocatorRef"},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "source_size_bytes": {"type": "integer", "minimum": 0},
+        "status": {"enum": ["verified", "failed"]},
+        "hash_verified": {"type": "boolean"},
+        "unchanged_after_read": {"type": "boolean"},
+        "anchors": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/anchor"}
+        },
+        "claim_ready": {"const": false},
+        "human_verified": {"const": false},
+        "visibility": {"const": "curator"},
+        "warnings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/warningCode"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "verified"}}},
+          "then": {
+            "required": ["source_sha256", "source_size_bytes", "anchors"],
+            "properties": {
+              "hash_verified": {"const": true},
+              "unchanged_after_read": {"const": true}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "media_type": {"const": "document"}
+            },
+            "required": ["media_type"]
+          },
+          "then": {
+            "properties": {
+              "anchors": {
+                "items": {
+                  "oneOf": [
+                    {"$ref": "#/$defs/pdfDocumentAnchor"},
+                    {"$ref": "#/$defs/pdfPageAnchor"}
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"media_type": {"const": "photo"}},
+            "required": ["media_type"]
+          },
+          "then": {
+            "properties": {
+              "anchors": {
+                "items": {"$ref": "#/$defs/imageRegionAnchor"}
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {"const": "verified"},
+              "media_type": {"const": "document"}
+            },
+            "required": ["status", "media_type"]
+          },
+          "then": {
+            "properties": {
+              "anchors": {
+                "contains": {
+                  "properties": {"kind": {"const": "pdf_document"}},
+                  "required": ["kind"]
+                },
+                "minContains": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {"const": "verified"},
+              "media_type": {"const": "photo"},
+              "anchors": {"maxItems": 0}
+            },
+            "required": ["status", "media_type", "anchors"]
+          },
+          "then": {
+            "properties": {
+              "warnings": {
+                "contains": {"const": "image_region_not_supplied"},
+                "minContains": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"status": {"const": "failed"}}},
+          "then": {
+            "properties": {
+              "hash_verified": {"const": false},
+              "unchanged_after_read": {"const": false},
+              "anchors": {"maxItems": 0}
+            }
+          }
+        }
+      ]
+    },
+    "anchor": {
+      "oneOf": [
+        {"$ref": "#/$defs/pdfDocumentAnchor"},
+        {"$ref": "#/$defs/pdfPageAnchor"},
+        {"$ref": "#/$defs/imageRegionAnchor"}
+      ]
+    },
+    "pdfDocumentAnchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "anchor_id",
+        "kind",
+        "source_sha256",
+        "claim_support",
+        "subject_identity_supported",
+        "page_count"
+      ],
+      "properties": {
+        "anchor_id": {"type": "string", "minLength": 1},
+        "kind": {"const": "pdf_document"},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "claim_support": {"const": "asset_identity_only"},
+        "subject_identity_supported": {"const": false},
+        "page_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "pdfPageAnchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "anchor_id",
+        "kind",
+        "source_sha256",
+        "claim_support",
+        "subject_identity_supported",
+        "page_number",
+        "page_index",
+        "basis_evidence_ids",
+        "content_reverified"
+      ],
+      "properties": {
+        "anchor_id": {"type": "string", "minLength": 1},
+        "kind": {"const": "pdf_page"},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "claim_support": {"const": "locator_only"},
+        "subject_identity_supported": {"const": false},
+        "page_number": {"type": "integer", "minimum": 1},
+        "page_index": {"type": "integer", "minimum": 0},
+        "basis_evidence_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "content_reverified": {"const": false}
+      }
+    },
+    "imageRegionAnchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "anchor_id",
+        "kind",
+        "source_sha256",
+        "claim_support",
+        "subject_identity_supported",
+        "curator_supplied",
+        "frame_index",
+        "coordinate_space",
+        "exif_orientation",
+        "encoded_width_pixels",
+        "encoded_height_pixels",
+        "width_pixels",
+        "height_pixels",
+        "detected_format",
+        "purpose",
+        "pixel_region"
+      ],
+      "properties": {
+        "anchor_id": {"type": "string", "minLength": 1},
+        "kind": {"const": "image_region"},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "claim_support": {"const": "locator_only"},
+        "subject_identity_supported": {"const": false},
+        "curator_supplied": {"const": true},
+        "frame_index": {"const": 0},
+        "coordinate_space": {"const": "exif_oriented_source_pixel_xywh"},
+        "exif_orientation": {"type": "integer", "minimum": 1, "maximum": 8},
+        "encoded_width_pixels": {"type": "integer", "minimum": 1},
+        "encoded_height_pixels": {"type": "integer", "minimum": 1},
+        "width_pixels": {"type": "integer", "minimum": 1},
+        "height_pixels": {"type": "integer", "minimum": 1},
+        "detected_format": {"type": "string", "minLength": 1},
+        "purpose": {"const": "curator_supplied_source_region"},
+        "pixel_region": {"$ref": "#/$defs/pixelRegion"}
+      }
+    },
+    "pixelRegion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "width", "height"],
+      "properties": {
+        "x": {"type": "integer", "minimum": 0},
+        "y": {"type": "integer", "minimum": 0},
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}
