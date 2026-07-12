@@ -58,3 +58,30 @@ def test_rotated_file_handler_creates_owner_only_files(tmp_path):
 
     assert _mode(path) == 0o600
     assert _mode(tmp_path / "application.log.1") == 0o600
+
+
+def test_setup_logging_repairs_permissions_with_existing_handler(tmp_path, monkeypatch):
+    private = tmp_path / "private"
+    private.mkdir(mode=0o755)
+    existing_log = private / "existing.log"
+    existing_log.write_text("existing")
+    os.chmod(private, 0o755)
+    os.chmod(existing_log, 0o644)
+
+    logger = logging.getLogger("living_archive")
+    original_handlers = list(logger.handlers)
+    for handler in original_handlers:
+        logger.removeHandler(handler)
+    sentinel_handler = logging.NullHandler()
+    logger.addHandler(sentinel_handler)
+    monkeypatch.setattr(config, "REPO_ROOT", tmp_path)
+
+    try:
+        assert config.setup_logging() is logger
+        assert logger.handlers == [sentinel_handler]
+        assert _mode(private) == 0o700
+        assert _mode(existing_log) == 0o600
+    finally:
+        logger.removeHandler(sentinel_handler)
+        for handler in original_handlers:
+            logger.addHandler(handler)

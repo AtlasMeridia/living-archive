@@ -2,6 +2,7 @@
 
 import logging
 import os
+import re
 import subprocess
 import sys
 import time
@@ -17,6 +18,23 @@ log = logging.getLogger("living_archive")
 NAS_HOST = os.environ.get("NAS_HOST", "mneme.local")
 NAS_SHARE = os.environ.get("NAS_SHARE", "MNEME")
 NAS_USER = os.environ.get("NAS_USER", "living_archive_ro")
+
+
+def _smb_url() -> str:
+    """Build a non-secret SMB URL from conservative configuration values."""
+    patterns = {
+        "host": r"[A-Za-z0-9.-]+",
+        "share": r"[A-Za-z0-9._ -]+",
+        "user": r"[A-Za-z0-9._-]+",
+    }
+    values = {
+        "host": NAS_HOST,
+        "share": NAS_SHARE,
+        "user": NAS_USER,
+    }
+    if any(not re.fullmatch(patterns[name], value) for name, value in values.items()):
+        raise ValueError("invalid NAS mount configuration")
+    return f"smb://{NAS_USER}@{NAS_HOST}/{NAS_SHARE}"
 
 
 def _mount_path_usable(path: Path, timeout: int = 5) -> bool:
@@ -35,6 +53,59 @@ def _mount_path_usable(path: Path, timeout: int = 5) -> bool:
         return False
 
 
+_VOLUME_CONFIG_PATHS = (
+    "DEFAULT_FAMILY_ROOT",
+    "DEFAULT_PERSONAL_ROOT",
+    "FAMILY_ROOT",
+    "PERSONAL_ROOT",
+    "MEDIA_ROOT",
+    "SLICE_DIR",
+    "DOCUMENTS_ROOT",
+    "DOC_SLICE_DIR",
+)
+
+
+def _rebind_config_volume_paths(old_volume: Path, new_volume: Path) -> None:
+    """Point imported config paths at a Finder-created volume alias."""
+    for name in _VOLUME_CONFIG_PATHS:
+        value = getattr(config, name, None)
+        if not isinstance(value, Path):
+            continue
+        try:
+            relative = value.relative_to(old_volume)
+        except ValueError:
+            continue
+        setattr(config, name, new_volume / relative)
+
+
+def _resolve_usable_mount_path(
+    path: Path,
+    volumes_dir: Path = Path("/Volumes"),
+) -> Path | None:
+    """Resolve a usable path, including Finder's MNEME-1 style aliases."""
+    if _mount_path_usable(path):
+        return path
+    try:
+        relative = path.relative_to(volumes_dir)
+    except ValueError:
+        return None
+    if not relative.parts:
+        return None
+
+    volume_name = relative.parts[0]
+    suffix = Path(*relative.parts[1:])
+    old_volume = volumes_dir / volume_name
+    alias_pattern = re.compile(rf"{re.escape(volume_name)}-\d+")
+    for alternate in sorted(volumes_dir.glob(f"{volume_name}-*")):
+        if not alias_pattern.fullmatch(alternate.name):
+            continue
+        candidate = alternate / suffix
+        if _mount_path_usable(candidate):
+            _rebind_config_volume_paths(old_volume, alternate)
+            return candidate
+    return None
+
+
 def ensure_nas_mounted(
     mount_point: Path | None = None,
     auto_mount: bool = True,
@@ -50,8 +121,9 @@ def ensure_nas_mounted(
     Can be called from anywhere — preflight, mid-pipeline on I/O error, or standalone.
     """
     mount_point = mount_point or config.MEDIA_ROOT
-    if _mount_path_usable(mount_point):
-        log.info("  NAS mounted: %s", mount_point)
+    usable_path = _resolve_usable_mount_path(mount_point)
+    if usable_path is not None:
+        log.info("  NAS mounted: %s", usable_path)
         return True
     if mount_point.exists():
         log.warning("  NAS path exists but is not readable: %s", mount_point)
@@ -60,13 +132,28 @@ def ensure_nas_mounted(
         log.error("  NAS not mounted: %s", mount_point)
         return False
 
-    smb_url = f"smb://{NAS_USER}@{NAS_HOST}/{NAS_SHARE}"
+    try:
+        smb_url = _smb_url()
+    except ValueError:
+        # Do not log values: malformed configuration could itself contain a
+        # credential or injected AppleScript.
+        log.error("  NAS mount configuration contains invalid characters.")
+        return False
 
     for attempt in range(1, mount_attempts + 1):
         log.info("  NAS not mounted. Auto-mount attempt %d/%d...", attempt, mount_attempts)
         try:
             result = subprocess.run(
-                ["osascript", "-e", f'mount volume "{smb_url}"'],
+                [
+                    "osascript",
+                    "-e",
+                    "on run argv",
+                    "-e",
+                    "mount volume (item 1 of argv)",
+                    "-e",
+                    "end run",
+                    smb_url,
+                ],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
                 timeout=30,
@@ -93,8 +180,9 @@ def ensure_nas_mounted(
         # Wait for mount to appear
         for i in range(10):
             time.sleep(2)
-            if _mount_path_usable(mount_point):
-                log.info("  NAS mounted after %ds: %s", (i + 1) * 2, mount_point)
+            usable_path = _resolve_usable_mount_path(mount_point)
+            if usable_path is not None:
+                log.info("  NAS mounted after %ds: %s", (i + 1) * 2, usable_path)
                 return True
             log.info("  Waiting for mount... (%ds)", (i + 1) * 2)
 

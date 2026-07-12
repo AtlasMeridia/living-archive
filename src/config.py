@@ -25,6 +25,15 @@ class PrivateRotatingFileHandler(RotatingFileHandler):
         return stream
 
 
+def _secure_private_logs(log_dir: Path) -> None:
+    """Repair owner-only permissions before any logger early return."""
+    log_dir.mkdir(mode=0o700, parents=True, exist_ok=True)
+    os.chmod(log_dir, 0o700)
+    for old_log in log_dir.glob("*.log*"):
+        if old_log.is_file() and not old_log.is_symlink():
+            os.chmod(old_log, 0o600)
+
+
 def _resolve_volume_alias(path_str: str) -> Path:
     """Resolve /Volumes/MNEME path aliases like MNEME-1, MNEME-2."""
     preferred = Path(path_str)
@@ -116,6 +125,13 @@ def setup_logging() -> logging.Logger:
     File: DEBUG level, timestamped, rotating 5MB/3 backups.
     """
     logger = logging.getLogger("living_archive")
+    log_dir = REPO_ROOT / "private"
+    private_logs_ready = True
+    try:
+        _secure_private_logs(log_dir)
+    except OSError:
+        private_logs_ready = False
+
     if logger.handlers:
         return logger
     logger.setLevel(logging.DEBUG)
@@ -125,13 +141,9 @@ def setup_logging() -> logging.Logger:
     console.setFormatter(logging.Formatter("%(message)s"))
     logger.addHandler(console)
 
-    log_dir = REPO_ROOT / "private"
     try:
-        log_dir.mkdir(mode=0o700, parents=True, exist_ok=True)
-        os.chmod(log_dir, 0o700)
-        for old_log in log_dir.glob("*.log*"):
-            if old_log.is_file() and not old_log.is_symlink():
-                os.chmod(old_log, 0o600)
+        if not private_logs_ready:
+            raise OSError("private logging unavailable")
         file_handler = PrivateRotatingFileHandler(
             log_dir / "living-archive.log",
             maxBytes=5 * 1024 * 1024,
