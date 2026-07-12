@@ -16,8 +16,8 @@
     "human-in-the-loop"
   ],
   "phases": [
-    {"id": "p0", "name": "synthetic-contract", "status": "in_progress"},
-    {"id": "p1", "name": "private-pilot-discovery", "status": "pending"},
+    {"id": "p0", "name": "synthetic-contract", "status": "complete"},
+    {"id": "p1", "name": "private-pilot-discovery", "status": "complete"},
     {"id": "p2", "name": "source-regrounding", "status": "blocked"},
     {"id": "p3", "name": "human-value-evaluation", "status": "pending"}
   ],
@@ -39,7 +39,8 @@
     "src/seed_dossier.py",
     "src/validation.py",
     "tests/test_seed_dossier.py",
-    "runs/README.md"
+    "runs/README.md",
+    "runs/p1-private-pilot/summary.md"
   ],
   "blocked_reasons": {
     "p2": [
