@@ -26,6 +26,18 @@ AGENT_SECRET_BIN = os.environ.get(
     "AGENT_SECRET_BIN",
     str(Path.home() / ".local" / "bin" / "agent-secret"),
 )
+SECRET_TOOL_PATHS = ("/opt/homebrew/bin", "/usr/local/bin")
+
+
+def _secret_command_env() -> dict[str, str]:
+    """Return a launchd-safe environment for the Agent Master helper."""
+    env = os.environ.copy()
+    current_path = env.get("PATH", "")
+    parts = [*SECRET_TOOL_PATHS]
+    if current_path:
+        parts.append(current_path)
+    env["PATH"] = os.pathsep.join(parts)
+    return env
 
 
 def _smb_url() -> str:
@@ -56,6 +68,7 @@ def _get_nas_password() -> str | None:
             stderr=subprocess.DEVNULL,
             text=True,
             timeout=20,
+            env=_secret_command_env(),
         )
     except (subprocess.TimeoutExpired, FileNotFoundError):
         return None

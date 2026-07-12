@@ -40,6 +40,11 @@ def test_mount_uses_secret_stdin_without_putting_password_in_command(tmp_path, m
         "--field",
         "password",
     ]
+    secret_env = calls[0][1]["env"]
+    assert secret_env["PATH"].split(":")[:2] == [
+        "/opt/homebrew/bin",
+        "/usr/local/bin",
+    ]
     command, kwargs = calls[1]
     rendered = " ".join(command)
     assert command == ["/usr/bin/osascript", "-"]
