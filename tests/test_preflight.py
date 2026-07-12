@@ -9,7 +9,7 @@ from src import preflight
 
 
 def _prepare_unmounted(monkeypatch):
-    monkeypatch.setattr(preflight, "_mount_path_usable", lambda *_args, **_kwargs: False)
+    monkeypatch.setattr(preflight, "_expected_mount_usable", lambda *_args, **_kwargs: False)
     monkeypatch.setattr(preflight.time, "sleep", lambda _seconds: None)
 
 
@@ -141,6 +141,67 @@ def test_secret_lookup_failure_details_cannot_leak_to_logs(tmp_path, monkeypatch
     assert "credential unavailable" in caplog.text
 
 
+def test_secret_lookup_preserves_boundary_whitespace(monkeypatch):
+    sentinel = " leading-and-trailing-space "
+    monkeypatch.setattr(
+        preflight.subprocess,
+        "run",
+        lambda _command, **_kwargs: SimpleNamespace(
+            returncode=0,
+            stdout=f"{sentinel}\n",
+        ),
+    )
+
+    assert preflight._get_nas_password() == sentinel
+
+
+def test_mount_identity_requires_expected_user_host_share_and_smb(tmp_path, monkeypatch):
+    volumes = tmp_path / "Volumes"
+    media = volumes / "MNEME-1" / "Family" / "Media"
+    media.mkdir(parents=True)
+
+    def mount_result(source, filesystem="smbfs"):
+        return SimpleNamespace(
+            returncode=0,
+            stdout=f"{source} on {volumes / 'MNEME-1'} ({filesystem}, nodev)\n",
+        )
+
+    monkeypatch.setattr(
+        preflight.subprocess,
+        "run",
+        lambda *_args, **_kwargs: mount_result(
+            "//living_archive_ro@mneme.local/MNEME"
+        ),
+    )
+    assert preflight._mount_identity_matches(media, volumes)
+
+    monkeypatch.setattr(
+        preflight.subprocess,
+        "run",
+        lambda *_args, **_kwargs: mount_result("//mneme_admin@mneme.local/MNEME"),
+    )
+    assert not preflight._mount_identity_matches(media, volumes)
+
+    monkeypatch.setattr(
+        preflight.subprocess,
+        "run",
+        lambda *_args, **_kwargs: mount_result(
+            "//living_archive_ro@other.local/MNEME"
+        ),
+    )
+    assert not preflight._mount_identity_matches(media, volumes)
+
+    monkeypatch.setattr(
+        preflight.subprocess,
+        "run",
+        lambda *_args, **_kwargs: mount_result(
+            "//living_archive_ro@mneme.local/MNEME",
+            filesystem="apfs",
+        ),
+    )
+    assert not preflight._mount_identity_matches(media, volumes)
+
+
 def test_resolves_finder_volume_alias_and_rebinds_config(tmp_path, monkeypatch):
     volumes = tmp_path / "Volumes"
     stale_volume = volumes / "MNEME"
@@ -149,6 +210,11 @@ def test_resolves_finder_volume_alias_and_rebinds_config(tmp_path, monkeypatch):
     aliased_media = mounted_volume / "Family" / "Media"
     stale_volume.mkdir(parents=True)
     aliased_media.mkdir(parents=True)
+    monkeypatch.setattr(
+        preflight,
+        "_mount_identity_matches",
+        lambda *_args, **_kwargs: True,
+    )
 
     monkeypatch.setattr(preflight.config, "FAMILY_ROOT", stale_volume / "Family")
     monkeypatch.setattr(preflight.config, "MEDIA_ROOT", original_media)
@@ -164,3 +230,24 @@ def test_resolves_finder_volume_alias_and_rebinds_config(tmp_path, monkeypatch):
     assert preflight.config.FAMILY_ROOT == mounted_volume / "Family"
     assert preflight.config.MEDIA_ROOT == aliased_media
     assert preflight.config.DOCUMENTS_ROOT == mounted_volume / "Family" / "Documents"
+
+
+def test_resolves_stale_alias_to_a_later_alias(tmp_path, monkeypatch):
+    volumes = tmp_path / "Volumes"
+    stale_volume = volumes / "MNEME-1"
+    mounted_volume = volumes / "MNEME-2"
+    stale_media = stale_volume / "Family" / "Media"
+    mounted_media = mounted_volume / "Family" / "Media"
+    stale_volume.mkdir(parents=True)
+    mounted_media.mkdir(parents=True)
+    monkeypatch.setattr(
+        preflight,
+        "_mount_identity_matches",
+        lambda *_args, **_kwargs: True,
+    )
+    monkeypatch.setattr(preflight.config, "MEDIA_ROOT", stale_media)
+
+    resolved = preflight._resolve_usable_mount_path(stale_media, volumes_dir=volumes)
+
+    assert resolved == mounted_media
+    assert preflight.config.MEDIA_ROOT == mounted_media

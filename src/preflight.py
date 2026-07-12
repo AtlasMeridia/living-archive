@@ -7,6 +7,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from urllib.parse import unquote
 
 import httpx
 
@@ -74,7 +75,11 @@ def _get_nas_password() -> str | None:
         return None
     if result.returncode != 0:
         return None
-    value = result.stdout.strip()
+    value = result.stdout
+    if value.endswith("\r\n"):
+        value = value[:-2]
+    elif value.endswith("\n"):
+        value = value[:-1]
     return value or None
 
 
@@ -110,6 +115,61 @@ def _mount_path_usable(path: Path, timeout: int = 5) -> bool:
         return False
 
 
+def _mount_identity_matches(
+    path: Path,
+    volumes_dir: Path = Path("/Volumes"),
+    timeout: int = 5,
+) -> bool:
+    """Verify that a readable path is on the expected dedicated SMB session."""
+    try:
+        relative = path.relative_to(volumes_dir)
+    except ValueError:
+        return False
+    if not relative.parts:
+        return False
+    volume_root = volumes_dir / relative.parts[0]
+    try:
+        result = subprocess.run(
+            ["/sbin/mount"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=timeout,
+        )
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        return False
+    if result.returncode != 0:
+        return False
+
+    source_pattern = re.compile(
+        r"^//(?P<user>[^@/]+)@(?P<host>[^/]+)/(?P<share>.+)$"
+    )
+    for line in result.stdout.splitlines():
+        source, separator, remainder = line.partition(" on ")
+        if not separator:
+            continue
+        target, options_separator, options = remainder.partition(" (")
+        if target != str(volume_root) or not options_separator:
+            continue
+        if options.rstrip(")").split(",", 1)[0] != "smbfs":
+            return False
+        match = source_pattern.fullmatch(source)
+        if match is None:
+            return False
+        return (
+            unquote(match.group("user")) == NAS_USER
+            and unquote(match.group("host")).casefold().rstrip(".")
+            == NAS_HOST.casefold().rstrip(".")
+            and unquote(match.group("share")) == NAS_SHARE
+        )
+    return False
+
+
+def _expected_mount_usable(path: Path, volumes_dir: Path) -> bool:
+    """Return True only for readable content on the expected SMB identity."""
+    return _mount_path_usable(path) and _mount_identity_matches(path, volumes_dir)
+
+
 _VOLUME_CONFIG_PATHS = (
     "DEFAULT_FAMILY_ROOT",
     "DEFAULT_PERSONAL_ROOT",
@@ -140,8 +200,6 @@ def _resolve_usable_mount_path(
     volumes_dir: Path = Path("/Volumes"),
 ) -> Path | None:
     """Resolve a usable path, including Finder's MNEME-1 style aliases."""
-    if _mount_path_usable(path):
-        return path
     try:
         relative = path.relative_to(volumes_dir)
     except ValueError:
@@ -149,15 +207,21 @@ def _resolve_usable_mount_path(
     if not relative.parts:
         return None
 
-    volume_name = relative.parts[0]
+    current_volume_name = relative.parts[0]
+    volume_name = re.sub(r"-\d+$", "", current_volume_name)
     suffix = Path(*relative.parts[1:])
-    old_volume = volumes_dir / volume_name
-    alias_pattern = re.compile(rf"{re.escape(volume_name)}-\d+")
-    for alternate in sorted(volumes_dir.glob(f"{volume_name}-*")):
-        if not alias_pattern.fullmatch(alternate.name):
+    old_volume = volumes_dir / current_volume_name
+    current_candidate = old_volume / suffix
+    if _expected_mount_usable(current_candidate, volumes_dir):
+        return current_candidate
+
+    alias_pattern = re.compile(rf"{re.escape(volume_name)}(?:-\d+)?")
+    candidates = [volumes_dir / volume_name, *sorted(volumes_dir.glob(f"{volume_name}-*"))]
+    for alternate in candidates:
+        if not alias_pattern.fullmatch(alternate.name) or alternate == old_volume:
             continue
         candidate = alternate / suffix
-        if _mount_path_usable(candidate):
+        if _expected_mount_usable(candidate, volumes_dir):
             _rebind_config_volume_paths(old_volume, alternate)
             return candidate
     return None
