@@ -1,6 +1,7 @@
 """Preflight checks: NAS mount, Immich health, config validation."""
 
 import logging
+import os
 import subprocess
 import sys
 import time
@@ -13,23 +14,9 @@ from . import config
 log = logging.getLogger("living_archive")
 
 
-NAS_HOST = "mneme.local"
-NAS_SHARE = "MNEME"
-NAS_USER = "mneme_admin"
-
-
-def _get_nas_password() -> str | None:
-    """Retrieve NAS password from macOS Keychain."""
-    try:
-        result = subprocess.run(
-            ["security", "find-internet-password", "-a", NAS_USER, "-s", NAS_HOST, "-w"],
-            capture_output=True, text=True, timeout=5,
-        )
-        if result.returncode == 0:
-            return result.stdout.strip()
-    except (subprocess.TimeoutExpired, FileNotFoundError):
-        pass
-    return None
+NAS_HOST = os.environ.get("NAS_HOST", "mneme.local")
+NAS_SHARE = os.environ.get("NAS_SHARE", "MNEME")
+NAS_USER = os.environ.get("NAS_USER", "living_archive_ro")
 
 
 def _mount_path_usable(path: Path, timeout: int = 5) -> bool:
@@ -55,7 +42,9 @@ def ensure_nas_mounted(
 ) -> bool:
     """Ensure the NAS is mounted, retrying if needed.
 
-    Uses osascript to mount SMB share with credentials from macOS Keychain.
+    Uses Finder/NetFS through osascript. The SMB URL contains the dedicated
+    read-only username, but never a password; macOS resolves the credential
+    from Keychain.
     Retries up to `mount_attempts` times to handle NAS wake-up delays.
 
     Can be called from anywhere — preflight, mid-pipeline on I/O error, or standalone.
@@ -71,22 +60,32 @@ def ensure_nas_mounted(
         log.error("  NAS not mounted: %s", mount_point)
         return False
 
-    password = _get_nas_password()
-    if password:
-        smb_url = f"smb://{NAS_USER}:{password}@{NAS_HOST}/{NAS_SHARE}"
-    else:
-        log.warning("  NAS password unavailable via security -w; trying keychain/Finder mount.")
-        smb_url = f"smb://{NAS_HOST}/{NAS_SHARE}"
+    smb_url = f"smb://{NAS_USER}@{NAS_HOST}/{NAS_SHARE}"
 
     for attempt in range(1, mount_attempts + 1):
         log.info("  NAS not mounted. Auto-mount attempt %d/%d...", attempt, mount_attempts)
         try:
-            subprocess.run(
+            result = subprocess.run(
                 ["osascript", "-e", f'mount volume "{smb_url}"'],
-                capture_output=True, timeout=30,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                timeout=30,
             )
-        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError) as e:
-            log.warning("  Mount command failed: %s", e)
+        except subprocess.TimeoutExpired:
+            # Never log the exception object: TimeoutExpired includes argv.
+            log.warning("  Mount command timed out after 30 seconds.")
+            if attempt < mount_attempts:
+                time.sleep(5)
+            continue
+        except FileNotFoundError:
+            log.warning("  Mount command unavailable on this host.")
+            if attempt < mount_attempts:
+                time.sleep(5)
+            continue
+        if result.returncode != 0:
+            # stderr is intentionally discarded because auth tools may echo
+            # credential-bearing URLs in diagnostic output.
+            log.warning("  Mount command failed (exit %d).", result.returncode)
             if attempt < mount_attempts:
                 time.sleep(5)
             continue

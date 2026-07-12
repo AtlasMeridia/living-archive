@@ -12,6 +12,19 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+class PrivateRotatingFileHandler(RotatingFileHandler):
+    """Rotating log handler that keeps every active log owner-only."""
+
+    def _open(self):
+        stream = super()._open()
+        try:
+            os.chmod(self.baseFilename, 0o600)
+        except OSError:
+            stream.close()
+            raise
+        return stream
+
+
 def _resolve_volume_alias(path_str: str) -> Path:
     """Resolve /Volumes/MNEME path aliases like MNEME-1, MNEME-2."""
     preferred = Path(path_str)
@@ -114,8 +127,12 @@ def setup_logging() -> logging.Logger:
 
     log_dir = REPO_ROOT / "private"
     try:
-        log_dir.mkdir(parents=True, exist_ok=True)
-        file_handler = RotatingFileHandler(
+        log_dir.mkdir(mode=0o700, parents=True, exist_ok=True)
+        os.chmod(log_dir, 0o700)
+        for old_log in log_dir.glob("*.log*"):
+            if old_log.is_file() and not old_log.is_symlink():
+                os.chmod(old_log, 0o600)
+        file_handler = PrivateRotatingFileHandler(
             log_dir / "living-archive.log",
             maxBytes=5 * 1024 * 1024,
             backupCount=3,
