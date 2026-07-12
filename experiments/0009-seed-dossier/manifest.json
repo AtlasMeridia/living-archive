@@ -1,0 +1,50 @@
+{
+  "experiment_id": "0009",
+  "name": "seed-dossier",
+  "status": "active",
+  "created": "2026-07-11",
+  "question": "Can existing derived data bootstrap an evidence-addressable person-period research packet before asking family members to re-enter basic facts?",
+  "pilot": {
+    "subject": "supplied privately at runtime",
+    "period": "bounded runtime value"
+  },
+  "tags": [
+    "computational-microhistory",
+    "research-workbench",
+    "provenance",
+    "privacy",
+    "human-in-the-loop"
+  ],
+  "phases": [
+    {"id": "p0", "name": "synthetic-contract", "status": "in_progress"},
+    {"id": "p1", "name": "private-pilot-discovery", "status": "pending"},
+    {"id": "p2", "name": "source-regrounding", "status": "blocked"},
+    {"id": "p3", "name": "human-value-evaluation", "status": "pending"}
+  ],
+  "data_sources": [
+    "data/catalog.db",
+    "data/synthesis.db",
+    "data/documents/runs/*/manifests/*.json",
+    "data/documents/runs/*/extracted-text/*.txt",
+    "data/photos/runs/*/manifests/*.json",
+    "data/people/registry.json"
+  ],
+  "outputs": [
+    "brief.md",
+    "seed-dossier.schema.json",
+    "requirements-dev.txt",
+    "src/common.py",
+    "src/discovery.py",
+    "src/source_reader.py",
+    "src/seed_dossier.py",
+    "src/validation.py",
+    "tests/test_seed_dossier.py",
+    "runs/README.md"
+  ],
+  "blocked_reasons": {
+    "p2": [
+      "MNEME source storage is currently unavailable",
+      "Known credential logging exposure must be remediated before source processing resumes"
+    ]
+  }
+}
