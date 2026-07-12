@@ -2,8 +2,8 @@
 
 import logging
 import subprocess
-from types import SimpleNamespace
 from pathlib import Path
+from types import SimpleNamespace
 
 from src import preflight
 
@@ -13,12 +13,15 @@ def _prepare_unmounted(monkeypatch):
     monkeypatch.setattr(preflight.time, "sleep", lambda _seconds: None)
 
 
-def test_mount_uses_keychain_without_putting_password_in_command(tmp_path, monkeypatch):
+def test_mount_uses_secret_stdin_without_putting_password_in_command(tmp_path, monkeypatch):
     _prepare_unmounted(monkeypatch)
     calls = []
+    sentinel = "DO-NOT-PUT-THIS-SECRET-IN-ARGV"
 
     def fake_run(command, **kwargs):
         calls.append((command, kwargs))
+        if command[0] == preflight.AGENT_SECRET_BIN:
+            return SimpleNamespace(returncode=0, stdout=sentinel)
         return SimpleNamespace(returncode=1)
 
     monkeypatch.setattr(preflight.subprocess, "run", fake_run)
@@ -28,13 +31,23 @@ def test_mount_uses_keychain_without_putting_password_in_command(tmp_path, monke
         mount_attempts=1,
     )
 
-    assert len(calls) == 1
-    command, kwargs = calls[0]
+    assert len(calls) == 2
+    secret_command, _ = calls[0]
+    assert secret_command == [
+        preflight.AGENT_SECRET_BIN,
+        "get",
+        "MNEME Living Archive Read-Only",
+        "--field",
+        "password",
+    ]
+    command, kwargs = calls[1]
     rendered = " ".join(command)
-    assert command[0] == "osascript"
+    assert command == ["/usr/bin/osascript", "-"]
     assert "security" not in rendered
-    assert "smb://living_archive_ro@mneme.local/MNEME" in rendered
-    assert "smb://living_archive_ro:" not in rendered
+    assert sentinel not in rendered
+    assert sentinel in kwargs["input"]
+    assert 'as user name "living_archive_ro"' in kwargs["input"]
+    assert 'mount volume "smb://mneme.local/MNEME"' in kwargs["input"]
     assert kwargs["stdout"] is subprocess.DEVNULL
     assert kwargs["stderr"] is subprocess.DEVNULL
 
@@ -66,7 +79,9 @@ def test_timeout_details_cannot_leak_to_logs(tmp_path, monkeypatch, caplog):
     sentinel = "DO-NOT-LOG-THIS-SECRET"
 
     def fake_run(command, **_kwargs):
-        raise subprocess.TimeoutExpired(command + [sentinel], 30, stderr=sentinel)
+        if command[0] == preflight.AGENT_SECRET_BIN:
+            return SimpleNamespace(returncode=0, stdout=sentinel)
+        raise subprocess.TimeoutExpired(command, 30, stderr=sentinel)
 
     monkeypatch.setattr(preflight.subprocess, "run", fake_run)
     caplog.set_level(logging.WARNING, logger="living_archive")
@@ -84,7 +99,9 @@ def test_failed_command_stderr_cannot_leak_to_logs(tmp_path, monkeypatch, caplog
     _prepare_unmounted(monkeypatch)
     sentinel = "DO-NOT-LOG-THIS-SECRET"
 
-    def fake_run(_command, **_kwargs):
+    def fake_run(command, **_kwargs):
+        if command[0] == preflight.AGENT_SECRET_BIN:
+            return SimpleNamespace(returncode=0, stdout=sentinel)
         return SimpleNamespace(returncode=77, stderr=sentinel)
 
     monkeypatch.setattr(preflight.subprocess, "run", fake_run)
@@ -97,6 +114,26 @@ def test_failed_command_stderr_cannot_leak_to_logs(tmp_path, monkeypatch, caplog
 
     assert sentinel not in caplog.text
     assert "failed (exit 77)" in caplog.text
+
+
+def test_secret_lookup_failure_details_cannot_leak_to_logs(tmp_path, monkeypatch, caplog):
+    _prepare_unmounted(monkeypatch)
+    sentinel = "DO-NOT-LOG-SECRET-STORE-OUTPUT"
+
+    monkeypatch.setattr(
+        preflight.subprocess,
+        "run",
+        lambda _command, **_kwargs: SimpleNamespace(returncode=1, stdout=sentinel),
+    )
+    caplog.set_level(logging.WARNING, logger="living_archive")
+
+    assert not preflight.ensure_nas_mounted(
+        tmp_path / "not-mounted",
+        mount_attempts=1,
+    )
+
+    assert sentinel not in caplog.text
+    assert "credential unavailable" in caplog.text
 
 
 def test_resolves_finder_volume_alias_and_rebinds_config(tmp_path, monkeypatch):

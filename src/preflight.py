@@ -18,6 +18,14 @@ log = logging.getLogger("living_archive")
 NAS_HOST = os.environ.get("NAS_HOST", "mneme.local")
 NAS_SHARE = os.environ.get("NAS_SHARE", "MNEME")
 NAS_USER = os.environ.get("NAS_USER", "living_archive_ro")
+NAS_CREDENTIAL_ITEM = os.environ.get(
+    "NAS_CREDENTIAL_ITEM",
+    "MNEME Living Archive Read-Only",
+)
+AGENT_SECRET_BIN = os.environ.get(
+    "AGENT_SECRET_BIN",
+    str(Path.home() / ".local" / "bin" / "agent-secret"),
+)
 
 
 def _smb_url() -> str:
@@ -34,7 +42,43 @@ def _smb_url() -> str:
     }
     if any(not re.fullmatch(patterns[name], value) for name, value in values.items()):
         raise ValueError("invalid NAS mount configuration")
-    return f"smb://{NAS_USER}@{NAS_HOST}/{NAS_SHARE}"
+    return f"smb://{NAS_HOST}/{NAS_SHARE}"
+
+
+def _get_nas_password() -> str | None:
+    """Read the dedicated SMB password from 1Password without logging it."""
+    if not re.fullmatch(r"[A-Za-z0-9 .()_-]+", NAS_CREDENTIAL_ITEM):
+        return None
+    try:
+        result = subprocess.run(
+            [AGENT_SECRET_BIN, "get", NAS_CREDENTIAL_ITEM, "--field", "password"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+            timeout=20,
+        )
+    except (subprocess.TimeoutExpired, FileNotFoundError):
+        return None
+    if result.returncode != 0:
+        return None
+    value = result.stdout.strip()
+    return value or None
+
+
+def _applescript_string(value: str) -> str:
+    """Escape a value for an AppleScript string literal."""
+    if any(ord(char) < 32 or ord(char) == 127 for char in value):
+        raise ValueError("control character in mount credential")
+    return value.replace("\\", "\\\\").replace('"', '\\"')
+
+
+def _mount_script(smb_url: str, password: str) -> str:
+    """Build the in-memory AppleScript supplied to osascript over stdin."""
+    return (
+        f'mount volume "{_applescript_string(smb_url)}" '
+        f'as user name "{_applescript_string(NAS_USER)}" '
+        f'with password "{_applescript_string(password)}"'
+    )
 
 
 def _mount_path_usable(path: Path, timeout: int = 5) -> bool:
@@ -113,9 +157,9 @@ def ensure_nas_mounted(
 ) -> bool:
     """Ensure the NAS is mounted, retrying if needed.
 
-    Uses Finder/NetFS through osascript. The SMB URL contains the dedicated
-    read-only username, but never a password; macOS resolves the credential
-    from Keychain.
+    Uses Finder/NetFS through osascript. The dedicated read-only credential is
+    retrieved from 1Password and supplied only as AppleScript on stdin. It is
+    never placed in argv, a file, or application logs.
     Retries up to `mount_attempts` times to handle NAS wake-up delays.
 
     Can be called from anywhere — preflight, mid-pipeline on I/O error, or standalone.
@@ -140,20 +184,23 @@ def ensure_nas_mounted(
         log.error("  NAS mount configuration contains invalid characters.")
         return False
 
+    password = _get_nas_password()
+    if password is None:
+        log.error("  NAS credential unavailable from the configured secret store.")
+        return False
+    try:
+        mount_script = _mount_script(smb_url, password)
+    except ValueError:
+        log.error("  NAS credential contains unsupported control characters.")
+        return False
+
     for attempt in range(1, mount_attempts + 1):
         log.info("  NAS not mounted. Auto-mount attempt %d/%d...", attempt, mount_attempts)
         try:
             result = subprocess.run(
-                [
-                    "osascript",
-                    "-e",
-                    "on run argv",
-                    "-e",
-                    "mount volume (item 1 of argv)",
-                    "-e",
-                    "end run",
-                    smb_url,
-                ],
+                ["/usr/bin/osascript", "-"],
+                input=mount_script,
+                text=True,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
                 timeout=30,
