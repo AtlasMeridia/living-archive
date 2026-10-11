@@ -103,8 +103,8 @@ Processing the 7,629 FastFoto scans. Pipeline needs adaptation since JPEGs alrea
 - [x] Adapt photo pipeline for JPEG source input — skip TIFF-to-JPEG conversion when source is already JPEG, hash the JPEG source instead — 2026-02-25
 - [x] Run test batch on a small album — `Albumpage/` (33 photos), 31/33 succeeded, 2 timed out — 2026-02-25
 - [x] Process 1st Round albums — 1,656/1,658 photos across 6 albums (2 Albumpage timeouts). All pushed to Immich. — 2026-03-05
-- [ ] Process 2nd Round albums (3,599 photos across 10 albums)
-- [ ] Process 3rd Round albums (2,372 photos across 6 albums)
+- [x] Process 2nd Round albums (3,599 photos across 10 albums) — catalog shows all 10 albums fully indexed via nightly 07:00Z runs through 2026-04-26 — verified 2026-07-02
+- [x] Process 3rd Round albums (2,372 photos across 6 albums) — catalog shows all 6 albums fully indexed via nightly 07:00Z runs through 2026-04-26 — verified 2026-07-02
 
 ## Next — Unsorted Archival Dedup & Processing
 
@@ -169,6 +169,7 @@ See `_dev/research/2026-02-18 presentation-layer.md` for full design session.
 - [ ] Red book (族譜) OCR — traditional Chinese genealogy book processing (April 2026)
 - [ ] Elder interview capture — oral history before Taiwan trip
 - [ ] Quarterly reindex — re-run manifests as models improve
+- [ ] Spike LiteParse v2.1 as Markdown-first document extractor — compare against current `pypdf` plain-text extraction on representative PDFs; see `_dev/research/2026-06-19 liteparse-markdown.md` — 2026-06-19
 
 ## Done
 

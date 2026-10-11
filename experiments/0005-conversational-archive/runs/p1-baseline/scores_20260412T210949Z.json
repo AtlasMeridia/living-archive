@@ -1,0 +1,432 @@
+{
+  "timestamp": "20260412T210949Z",
+  "scores": [
+    {
+      "question_id": "m01",
+      "tier": "medium",
+      "factual_accuracy": 0.667,
+      "source_grounding": 1.0,
+      "completeness": 0.833,
+      "coherence": 0.5,
+      "overall": 0.733,
+      "details": {
+        "factual": {
+          "found": [
+            "born 1943",
+            "died 2010"
+          ],
+          "missing": [
+            "engineer"
+          ]
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "photo",
+            "certificate",
+            "record",
+            "filing",
+            "trust",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 19
+        },
+        "completeness": {
+          "bonus_found": [
+            "Taiwan",
+            "Meichu",
+            "Kenny",
+            "Karen",
+            "photos"
+          ],
+          "bonus_missing": [
+            "Los Altos"
+          ]
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "m02",
+      "tier": "medium",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 0.667,
+      "coherence": 0.5,
+      "overall": 0.833,
+      "details": {
+        "factual": {
+          "found": [
+            "Feng Kuang Liu died",
+            "June 2010"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "certificate",
+            "record",
+            "trust",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 51
+        },
+        "completeness": {
+          "bonus_found": [
+            "successor trustee",
+            "trust administration"
+          ],
+          "bonus_missing": [
+            "probate"
+          ]
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "m03",
+      "tier": "medium",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 0.0,
+      "coherence": 0.5,
+      "overall": 0.7,
+      "details": {
+        "factual": {
+          "found": [
+            "trust",
+            "court",
+            "probate"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "filing",
+            "trust",
+            "archive"
+          ],
+          "source_count": 20
+        },
+        "completeness": {
+          "bonus_found": [],
+          "bonus_missing": [
+            "death certificate",
+            "medical records",
+            "wire transfer"
+          ]
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "m04",
+      "tier": "medium",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 0.75,
+      "coherence": 0.5,
+      "overall": 0.85,
+      "details": {
+        "factual": {
+          "found": [
+            "medical"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "certificate",
+            "record",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 25
+        },
+        "completeness": {
+          "bonus_found": [
+            "Palo Alto",
+            "2001",
+            "2010"
+          ],
+          "bonus_missing": [
+            "Camino"
+          ]
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "m05",
+      "tier": "medium",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 1.0,
+      "coherence": 0.5,
+      "overall": 0.9,
+      "details": {
+        "factual": {
+          "found": [
+            "1970s"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "photo",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 5
+        },
+        "completeness": {
+          "bonus_found": [
+            "1940s",
+            "1980s",
+            "1990s",
+            "2000s"
+          ],
+          "bonus_missing": []
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "m06",
+      "tier": "medium",
+      "factual_accuracy": 1.0,
+      "source_grounding": 0.2,
+      "completeness": 1.0,
+      "coherence": 0.5,
+      "overall": 0.74,
+      "details": {
+        "factual": {
+          "found": [
+            "Feng Kuang Liu"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "photo",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 0
+        },
+        "completeness": {
+          "bonus_found": [
+            "Meichu Grace Liu",
+            "Kenny Peng Liu",
+            "Karen Peling Liu",
+            "90"
+          ],
+          "bonus_missing": []
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "m07",
+      "tier": "medium",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 0.75,
+      "coherence": 0.5,
+      "overall": 0.85,
+      "details": {
+        "factual": {
+          "found": [
+            "Taiwan"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "certificate",
+            "record",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 15
+        },
+        "completeness": {
+          "bonus_found": [
+            "United States",
+            "California",
+            "Los Altos"
+          ],
+          "bonus_missing": [
+            "Hong Kong"
+          ]
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "m08",
+      "tier": "medium",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 0.667,
+      "coherence": 0.5,
+      "overall": 0.833,
+      "details": {
+        "factual": {
+          "found": [
+            "Taiwan"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "certificate",
+            "record",
+            "trust",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 46
+        },
+        "completeness": {
+          "bonus_found": [
+            "born",
+            "Feng Kuang"
+          ],
+          "bonus_missing": [
+            "photos"
+          ]
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "m09",
+      "tier": "medium",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 1.0,
+      "coherence": 0.5,
+      "overall": 0.9,
+      "details": {
+        "factual": {
+          "found": [
+            "successor trustee",
+            "Karen",
+            "Kenny"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "certificate",
+            "filing",
+            "trust",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 29
+        },
+        "completeness": {
+          "bonus_found": [
+            "Santa Clara County",
+            "probate",
+            "Heggstad"
+          ],
+          "bonus_missing": []
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "m10",
+      "tier": "medium",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 0.0,
+      "coherence": 0.5,
+      "overall": 0.7,
+      "details": {
+        "factual": {
+          "found": [
+            "family"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "photo",
+            "record",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 6
+        },
+        "completeness": {
+          "bonus_found": [],
+          "bonus_missing": [
+            "scanned",
+            "albums",
+            "wedding",
+            "FastFoto",
+            "digital"
+          ]
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    }
+  ],
+  "summary": {
+    "overall_avg": 0.804,
+    "by_tier": {
+      "medium": 0.804
+    },
+    "by_dimension": {
+      "factual_accuracy": 0.967,
+      "source_grounding": 0.92,
+      "completeness": 0.667,
+      "coherence": 0.5
+    }
+  }
+}

@@ -1,0 +1,396 @@
+{
+  "timestamp": "20260412T210742Z",
+  "scores": [
+    {
+      "question_id": "e01",
+      "tier": "easy",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 1.0,
+      "coherence": 0.5,
+      "overall": 0.9,
+      "details": {
+        "factual": {
+          "found": [
+            "January 23, 1943"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "certificate",
+            "record",
+            "filing",
+            "trust",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 18
+        },
+        "completeness": {
+          "bonus_found": [],
+          "bonus_missing": []
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "e02",
+      "tier": "easy",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 1.0,
+      "coherence": 0.5,
+      "overall": 0.9,
+      "details": {
+        "factual": {
+          "found": [
+            "June 6, 2010"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "certificate",
+            "record",
+            "filing",
+            "trust",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 19
+        },
+        "completeness": {
+          "bonus_found": [
+            "age 67",
+            "Lahey Clinic",
+            "Peabody"
+          ],
+          "bonus_missing": []
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "e03",
+      "tier": "easy",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 1.0,
+      "coherence": 0.5,
+      "overall": 0.9,
+      "details": {
+        "factual": {
+          "found": [
+            "engineer"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "photo",
+            "certificate",
+            "record",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 24
+        },
+        "completeness": {
+          "bonus_found": [],
+          "bonus_missing": []
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "e04",
+      "tier": "easy",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 1.0,
+      "coherence": 0.5,
+      "overall": 0.9,
+      "details": {
+        "factual": {
+          "found": [
+            "Kenny Peng Liu",
+            "Karen Peling Liu"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "filing",
+            "trust",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 42
+        },
+        "completeness": {
+          "bonus_found": [],
+          "bonus_missing": []
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "e05",
+      "tier": "easy",
+      "factual_accuracy": 0.0,
+      "source_grounding": 0.2,
+      "completeness": 0.5,
+      "coherence": 0.5,
+      "overall": 0.24,
+      "details": {
+        "factual": {
+          "found": [],
+          "missing": [
+            "2075"
+          ]
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "photo",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 0
+        },
+        "completeness": {
+          "bonus_found": [
+            "121 documents"
+          ],
+          "bonus_missing": [
+            "2196 total assets"
+          ]
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "e06",
+      "tier": "easy",
+      "factual_accuracy": 1.0,
+      "source_grounding": 0.2,
+      "completeness": 1.0,
+      "coherence": 0.5,
+      "overall": 0.74,
+      "details": {
+        "factual": {
+          "found": [
+            "121"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "photo",
+            "record",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 0
+        },
+        "completeness": {
+          "bonus_found": [],
+          "bonus_missing": []
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "e07",
+      "tier": "easy",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 1.0,
+      "coherence": 0.5,
+      "overall": 0.9,
+      "details": {
+        "factual": {
+          "found": [
+            "Meichu Grace Liu"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "photo",
+            "certificate",
+            "record",
+            "filing",
+            "trust",
+            "archive",
+            "catalog"
+          ],
+          "source_count": 24
+        },
+        "completeness": {
+          "bonus_found": [
+            "wife",
+            "Feng Kuang",
+            "Liu family"
+          ],
+          "bonus_missing": []
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "e08",
+      "tier": "easy",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 1.0,
+      "coherence": 0.5,
+      "overall": 0.9,
+      "details": {
+        "factual": {
+          "found": [
+            "trust"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "filing",
+            "trust"
+          ],
+          "source_count": 15
+        },
+        "completeness": {
+          "bonus_found": [
+            "Karen Peling Liu",
+            "Kenny Peng Liu",
+            "successor trustee"
+          ],
+          "bonus_missing": []
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "e09",
+      "tier": "easy",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 0.333,
+      "coherence": 0.5,
+      "overall": 0.767,
+      "details": {
+        "factual": {
+          "found": [
+            "California"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "certificate",
+            "filing",
+            "trust"
+          ],
+          "source_count": 11
+        },
+        "completeness": {
+          "bonus_found": [
+            "Los Altos"
+          ],
+          "bonus_missing": [
+            "Taiwan",
+            "United States"
+          ]
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    },
+    {
+      "question_id": "e10",
+      "tier": "easy",
+      "factual_accuracy": 1.0,
+      "source_grounding": 1.0,
+      "completeness": 1.0,
+      "coherence": 0.5,
+      "overall": 0.9,
+      "details": {
+        "factual": {
+          "found": [
+            "Karen Peling Liu",
+            "Kenny Peng Liu"
+          ],
+          "missing": []
+        },
+        "grounding": {
+          "mentioned": [
+            "source",
+            "document",
+            "filing",
+            "trust",
+            "archive"
+          ],
+          "source_count": 20
+        },
+        "completeness": {
+          "bonus_found": [
+            "Santa Clara County",
+            "2011"
+          ],
+          "bonus_missing": []
+        },
+        "coherence": {
+          "skipped": true
+        }
+      }
+    }
+  ],
+  "summary": {
+    "overall_avg": 0.805,
+    "by_tier": {
+      "easy": 0.805
+    },
+    "by_dimension": {
+      "factual_accuracy": 0.9,
+      "source_grounding": 0.84,
+      "completeness": 0.883,
+      "coherence": 0.5
+    }
+  }
+}

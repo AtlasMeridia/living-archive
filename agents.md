@@ -29,7 +29,9 @@ Each document captures the thinking behind a decision or exploration — the "wh
 ### Code
 
 - Python source in `src/`, one module per concern (17 modules, ~3,240 lines as of 2026-04-21)
-- Target 200-300 lines per file (one exception: `pipeline.py` at ~900 lines, which consolidates the photo and document orchestrators into a single entry point with subcommands)
+- Keep modules single-purpose. Around 500 lines is a review threshold and around
+  800 lines is a shape check; `pipeline.py` at ~900 lines is an approved
+  long-form orchestrator because it consolidates photo and document subcommands.
 - AI layer outputs in local `data/` directory, keyed by SHA-256
 - Never modify source data (TIFFs, PDFs)
 - Presentation layer served by Immich on VPS (`living-archive.dev`; legacy alias `living-archive.kennyliu.io`)
